@@ -1,0 +1,32 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:petbuddy_frontend_flutter/screens/screens.dart';
+
+final rootNavigatorKey = GlobalKey<NavigatorState>();
+// final _shellNavigatorKey = GlobalKey<NavigatorState>();
+
+final goRouterProvider = Provider<GoRouter>((ref) {
+  return router;
+});
+
+final router = GoRouter(
+  navigatorKey: rootNavigatorKey,
+  routes: [
+    GoRoute(
+      parentNavigatorKey: rootNavigatorKey,
+      path: '/',
+      pageBuilder: (BuildContext context, GoRouterState state) {
+        return const NoTransitionPage(child: SplashScreen());
+      },
+    ),
+    GoRoute(
+      parentNavigatorKey: rootNavigatorKey,
+      path: '/login_screen',
+      name: 'login_screen',
+      pageBuilder: (BuildContext context, GoRouterState state) {
+        return const NoTransitionPage(child: LoginScreen());
+      },
+    ),
+  ],
+);
