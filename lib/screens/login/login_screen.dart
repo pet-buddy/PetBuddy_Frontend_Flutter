@@ -55,7 +55,11 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                     text: '카카오로 간편하게 시작하기', 
                     backgroundColor: CustomColor.kakaoYellow,
                     borderColor: CustomColor.kakaoYellow,
-                    onPressed: () {},
+                    onPressed: () {
+                      // TODO : 카카오 로그인 처리
+                      // 임시 경로 처리
+                      context.goNamed('home_screen');
+                    },
                   ),
                   /* description 
                   - 스크롤 가능한 화면일 경우, Spacer 위젯 사용 불가
