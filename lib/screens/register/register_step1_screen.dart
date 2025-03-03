@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 
-class EmailLoginScreen extends ConsumerStatefulWidget {
-  const EmailLoginScreen({super.key});
+class RegisterStep1Screen extends ConsumerStatefulWidget {
+  const RegisterStep1Screen({super.key});
 
   @override
-  ConsumerState<EmailLoginScreen> createState() => EmailLoginScreenState();
+  ConsumerState<RegisterStep1Screen> createState() => RegisterStep1ScreenState();
 }
 
-class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> {
+class RegisterStep1ScreenState extends ConsumerState<RegisterStep1Screen> {
 
   @override
   void initState() {
@@ -22,7 +21,7 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> {
   Widget build(BuildContext context) {
     return DefaultLayout(
       appBar: DefaultAppBar(
-        title: '이메일 로그인',
+        title: '회원가입',
         leadingOnPressed: () {
           if(!context.mounted) return;
           context.pop();
@@ -62,6 +61,29 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> {
                     onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
                   ),
                   const SizedBox(height: 16),
+                  DefaultTextButton(
+                    text: '인증번호 발송', 
+                    onPressed: () {
+
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  OutlinedInput(
+                    // controller: ,
+                    onChanged: (String pwd) {
+                    },
+                    hintText: '인증번호 입력',
+                    keyboardType: TextInputType.number,
+                    onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+                  ),
+                  const SizedBox(height: 16),
+                  DefaultTextButton(
+                    text: '인증하기', 
+                    onPressed: () {
+                  
+                    },
+                  ),
+                  const SizedBox(height: 16),
                   const Text(
                     '비밀번호',
                     style: CustomText.body4,
@@ -77,45 +99,26 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> {
                     onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
                   ),
                   const SizedBox(height: 16),
+                  const Text(
+                    '비밀번호 확인',
+                    style: CustomText.body4,
+                  ),
+                  const SizedBox(height: 5,),
+                  OutlinedInput(
+                    // controller: ,
+                    onChanged: (String pwd) {
+                    },
+                    hintText: '비밀번호를 한 번 더 입력하세요',
+                    keyboardType: TextInputType.visiblePassword,
+                    obscureText: true,
+                    onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+                  ),
+                  const SizedBox(height: 16),
                   DefaultTextButton(
-                    text: '로그인', 
+                    text: '회원가입', 
                     onPressed: () {
 
                     },
-                  ),
-                  const SizedBox(height: 12,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                        },
-                        child: Text(
-                          "비밀번호를 까먹으셨나요?",
-                          style: CustomText.body7.copyWith(
-                            color: CustomColor.extraLightGray,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 16,),
-                      Container( 
-                        height: 12,
-                        width: 1,
-                        color:CustomColor.extraLightGray,
-                      ),
-                      const SizedBox(width: 16,),
-                      InkWell(
-                        onTap: () {
-                          context.pushNamed('register_step1_screen');
-                        },
-                        child: Text(
-                          "회원가입",
-                          style: CustomText.body7.copyWith(
-                            color: CustomColor.extraLightGray,
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
                 ],
               )

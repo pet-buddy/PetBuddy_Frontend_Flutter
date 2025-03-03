@@ -1,87 +1,139 @@
 import 'package:flutter/material.dart';
 
 class CustomText {
-  static const display2 = TextStyle(
+  static const headLine1 = TextStyle(
     fontFamily: 'Pretendard',
-    fontWeight: FontWeight.bold,
-    fontSize: 40,
-  );
-
-  static const title1 = TextStyle(
-    fontFamily: 'Pretendard',
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w700,
     fontSize: 36,
   );
 
-  static const title2 = TextStyle(
+  static const headLine2 = TextStyle(
     fontFamily: 'Pretendard',
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w400,
+    fontSize: 36,
+  );
+
+  static const headLine3 = TextStyle(
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w700,
     fontSize: 28,
   );
 
-  static const title3 = TextStyle(
+  static const headLine4 = TextStyle(
     fontFamily: 'Pretendard',
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w700,
     fontSize: 24,
   );
 
-  static const heading1 = TextStyle(
+  static const headLine5 = TextStyle(
     fontFamily: 'Pretendard',
-    fontWeight: FontWeight.bold,
-    fontSize: 22,
-  );
-
-  static const heading2 = TextStyle(
-    fontFamily: 'Pretendard',
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w600,
     fontSize: 20,
   );
 
-  static const headline1 = TextStyle(
+  static const headLine6 = TextStyle(
     fontFamily: 'Pretendard',
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w500,
+    fontSize: 20,
+  );
+
+  static const headLine7 = TextStyle(
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w700,
+    fontSize: 18,
+  );
+  static const inactive_headLine7 = TextStyle(
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w700,
+    fontSize: 18,
+    color: Colors.grey
+  );
+  static const headLine8 = TextStyle(
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w600,
     fontSize: 18,
   );
 
-  static const headline2 = TextStyle(
+  static const headLine9 = TextStyle(
     fontFamily: 'Pretendard',
-    fontWeight: FontWeight.bold,
-    fontSize: 17,
+    fontWeight: FontWeight.w500,
+    fontSize: 18,
   );
 
+  static const headLine10 = TextStyle(
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w700,
+    fontSize: 30,
+  );
+
+  static const headLine19 = TextStyle(
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w900,
+    fontSize: 50,
+  );
   static const body1 = TextStyle(
     fontFamily: 'Pretendard',
-    fontWeight: FontWeight.normal,
-    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    fontSize: 20,
   );
 
   static const body2 = TextStyle(
     fontFamily: 'Pretendard',
-    fontWeight: FontWeight.normal,
-    fontSize: 15,
+    fontWeight: FontWeight.w700,
+    fontSize: 16,
   );
 
-  static const label1 = TextStyle(
+  static const body3 = TextStyle(
     fontFamily: 'Pretendard',
-    fontWeight: FontWeight.normal,
+    fontWeight: FontWeight.w600,
+    fontSize: 16,
+  );
+
+  static const body4 = TextStyle(
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+  );
+
+  static const body5 = TextStyle(
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w600,
     fontSize: 14,
   );
 
-  static const label2 = TextStyle(
+  static const body6 = TextStyle(
     fontFamily: 'Pretendard',
-    fontWeight: FontWeight.normal,
-    fontSize: 13,
+    fontWeight: FontWeight.w500,
+    fontSize: 14,
   );
 
-  static const caption1 = TextStyle(
+  static const body7 = TextStyle(
     fontFamily: 'Pretendard',
-    fontWeight: FontWeight.normal,
+    fontWeight: FontWeight.w400,
+    fontSize: 14,
+  );
+
+  static const body8 = TextStyle(
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w500,
     fontSize: 12,
   );
 
-  static const caption2 = TextStyle(
+  static const body9 = TextStyle(
     fontFamily: 'Pretendard',
-    fontWeight: FontWeight.normal,
-    fontSize: 11,
+    fontWeight: FontWeight.w400,
+    fontSize: 12,
+  );
+
+  static const body10 = TextStyle(
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w400,
+    fontSize: 10,
+  );
+
+  static const button = TextStyle(
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w500,
+    fontSize: 14,
   );
 }

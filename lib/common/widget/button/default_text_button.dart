@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 
-class TextButton extends StatelessWidget {
-  const TextButton({
+class DefaultTextButton extends StatelessWidget {
+  const DefaultTextButton({
     super.key,
     this.disabled = true,
     this.onPressed,
@@ -23,14 +23,14 @@ class TextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50,
+      height: 48,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor,
+          backgroundColor: disabled ? CustomColor.lightGray : backgroundColor,
           side: BorderSide(
             width: 1,
-            color: borderColor ?? CustomColor.white,
+            color: disabled ? CustomColor.lightGray : borderColor ?? CustomColor.white,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -39,7 +39,7 @@ class TextButton extends StatelessWidget {
         child: Text(
           text,
           style: CustomText.body2.copyWith(
-            color: textColor
+            color: disabled ? CustomColor.extraLightGray : textColor
           )
         ),
       ),
