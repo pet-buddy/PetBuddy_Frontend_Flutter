@@ -27,6 +27,23 @@ final router = GoRouter(
       pageBuilder: (BuildContext context, GoRouterState state) {
         return const NoTransitionPage(child: LoginScreen());
       },
+      routes: [
+        GoRoute(
+          path: 'email_login_screen',
+          name: 'email_login_screen',
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return const NoTransitionPage(child: EmailLoginScreen());
+          },
+        ),
+      ],
+    ),
+    GoRoute(
+      parentNavigatorKey: rootNavigatorKey,
+      path: '/register_step1_screen',
+      name: 'register_step1_screen',
+      pageBuilder: (BuildContext context, GoRouterState state) {
+        return const NoTransitionPage(child: RegisterStep1Screen());
+      },
     ),
     ShellRoute(
       navigatorKey: shellNavigatorKey,
@@ -43,6 +60,7 @@ final router = GoRouter(
           },
         ),
         GoRoute(
+          parentNavigatorKey: shellNavigatorKey,
           path: '/shop_screen',
           name: 'shop_screen',
           pageBuilder: (BuildContext context, GoRouterState state) {

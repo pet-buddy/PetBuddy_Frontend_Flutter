@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
+import 'package:petbuddy_frontend_flutter/screens/login/widget/widget.dart';
+
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -44,11 +46,11 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                   const SizedBox(height: 40,),
                   const Text(
                     '아직 펫버디 회원이 아니세요?',
-                    style: CustomText.label1,
+                    style: CustomText.body4,
                   ),
                   const Text(
                     '카카오로 간편하게 시작하세요!',
-                    style: CustomText.label1,
+                    style: CustomText.body4,
                   ),
                   const SizedBox(height: 20,),
                   LoginButton(
@@ -79,7 +81,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                       const SizedBox(width: 10,),
                       Text(
                         '다른 방법으로 시작',
-                        style: CustomText.label1.copyWith(
+                        style: CustomText.body4.copyWith(
                           color: CustomColor.labelAssistiveBlack
                         ),
                       ),
@@ -111,7 +113,9 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                   LoginButton(
                     text: '이메일 로그인',
                     borderColor: CustomColor.labelAssistiveBlack,
-                    onPressed: () {},
+                    onPressed: () {
+                      context.goNamed('email_login_screen');
+                    },
                   ),
                   const SizedBox(height: 200,),
                 ],

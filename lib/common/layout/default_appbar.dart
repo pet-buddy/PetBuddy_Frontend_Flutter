@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:petbuddy_frontend_flutter/common/common.dart';
+import 'package:petbuddy_frontend_flutter/common/const/const.dart';
+
 
 class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   const DefaultAppBar({
@@ -37,7 +38,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
             : const SizedBox(),
         title: Text(
           title,
-          style: CustomText.heading1.copyWith(
+          style: CustomText.headLine5.copyWith(
             color: CustomColor.black,
           ),
         ),

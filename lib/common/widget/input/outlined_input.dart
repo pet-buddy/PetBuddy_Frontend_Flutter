@@ -68,8 +68,8 @@ class OutlinedInput extends StatelessWidget {
             borderSide: BorderSide(color: enabledBorder ?? CustomColor.labelAssistiveBlack),
           ),
         ),
-        style: CustomText.body1.copyWith(
-          color: CustomColor.labelAssistiveBlack,
+        style: CustomText.body4.copyWith(
+          color: CustomColor.extraLightGray,
           decorationThickness: 0,
         ),
         cursorColor: CustomColor.black,
