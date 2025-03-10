@@ -105,6 +105,7 @@ flutter:
     - assets/icons/
     - assets/icons/outlined/
     - assets/icons/filled/
+    - assets/icons/logo/
 
   fonts:
     - family: Pretendard

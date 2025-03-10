@@ -57,6 +57,12 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                     text: '카카오로 간편하게 시작하기', 
                     backgroundColor: CustomColor.kakaoYellow,
                     borderColor: CustomColor.kakaoYellow,
+                    imgAsset: Image.asset(
+                      'assets/icons/logo/kakao_logo.png',
+                      width: 36,
+                      height: 25,
+                    ),
+                    rightPairBox: const SizedBox(width: 36,),
                     onPressed: () {
                       // TODO : 카카오 로그인 처리
                       // 임시 경로 처리
@@ -99,6 +105,12 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                     backgroundColor: CustomColor.naverGreen,
                     borderColor: CustomColor.naverGreen,
                     textColor: CustomColor.white,
+                    imgAsset: Image.asset(
+                      'assets/icons/logo/naver_logo.png',
+                      width: 35,
+                      height: 29,
+                    ),
+                    rightPairBox: const SizedBox(width: 35,),
                     onPressed: () {},
                   ),
                   const SizedBox(height: 10,),
@@ -107,6 +119,12 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                     backgroundColor: CustomColor.appleBlack,
                     borderColor: CustomColor.appleBlack,
                     textColor: CustomColor.white,
+                    imgAsset: Image.asset(
+                      'assets/icons/logo/apple_logo.png',
+                      width: 28,
+                      height: 28,
+                    ),
+                    rightPairBox: const SizedBox(width: 28,),
                     onPressed: () {},
                   ),
                   const SizedBox(height: 10,),

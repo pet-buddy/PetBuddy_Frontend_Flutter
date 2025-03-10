@@ -29,14 +29,33 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
           }
           // await fnClose(context);
         },
-        child: const SafeArea(
+        child: SafeArea(
           child: SingleChildScrollView(
             physics: const ClampingScrollPhysics(),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
-                  Text('Home'),
+                  const SizedBox(height: 16,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        '등록은 선택이 아닌 필수!',
+                        style: CustomText.headLine5,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          
+                        },
+                        child: SvgPicture.asset(
+                          'assets/icons/filled/profile_filled.svg',
+                          width: 32,
+                          height: 32,
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               )
             ),

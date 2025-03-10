@@ -32,8 +32,21 @@ final router = GoRouter(
           path: 'email_login_screen',
           name: 'email_login_screen',
           pageBuilder: (BuildContext context, GoRouterState state) {
-            return const NoTransitionPage(child: EmailLoginScreen());
+            return CustomTransitionPage(
+              child: const EmailLoginScreen(), 
+              transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) 
+                => SlideTransition(
+                    position: animation.drive(
+                      Tween<Offset>(
+                        begin: const Offset(0.75, 0),
+                        end: Offset.zero,
+                      ).chain(CurveTween(curve: Curves.easeIn)),
+                    ),
+                    child: child,
+                  ),
+              );
           },
+          
         ),
       ],
     ),

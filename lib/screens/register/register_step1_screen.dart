@@ -60,7 +60,7 @@ class RegisterStep1ScreenState extends ConsumerState<RegisterStep1Screen> {
                     keyboardType: TextInputType.emailAddress,
                     onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
                   ),
-                  const SizedBox(height: 16),
+                  /* const SizedBox(height: 16),
                   DefaultTextButton(
                     text: '인증번호 발송', 
                     onPressed: () {
@@ -82,7 +82,7 @@ class RegisterStep1ScreenState extends ConsumerState<RegisterStep1Screen> {
                     onPressed: () {
                   
                     },
-                  ),
+                  ), */
                   const SizedBox(height: 16),
                   const Text(
                     '비밀번호',
