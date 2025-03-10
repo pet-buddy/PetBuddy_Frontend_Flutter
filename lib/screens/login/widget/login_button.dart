@@ -13,6 +13,8 @@ class LoginButton extends StatelessWidget {
     this.borderColor = CustomColor.white,
     this.textColor = CustomColor.black,
     this.svgPicture,
+    this.imgAsset,
+    this.rightPairBox,
   });
 
   final String text;
@@ -22,6 +24,8 @@ class LoginButton extends StatelessWidget {
   final Color? borderColor;
   final Color? textColor;
   final SvgPicture? svgPicture;
+  final Image? imgAsset;
+  final SizedBox? rightPairBox;
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +40,26 @@ class LoginButton extends StatelessWidget {
             color: borderColor ?? CustomColor.white,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(16),
           ),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
-              width: 25,
-              height: 25,
-              child: svgPicture ?? const SizedBox(width: 0,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 36.0 - (svgPicture != null ? svgPicture?.width : imgAsset != null ? imgAsset?.width : 36)!.toDouble(),
+                ),
+                Container(
+                  constraints: const BoxConstraints(
+                    maxWidth: 36,
+                    maxHeight: 29,
+                  ),
+                  child: svgPicture ?? imgAsset ?? const SizedBox(width: 25,)
+                ),
+              ],
             ),
             Text(
               text,
@@ -54,10 +68,7 @@ class LoginButton extends StatelessWidget {
                 color: textColor
               )
             ),
-            const SizedBox(
-              width: 25,
-              height: 25,
-            ),
+            rightPairBox ?? const SizedBox(width: 25,)
           ],
         )
       ),

@@ -27,8 +27,8 @@ class CustomColor {
   static const Color dimmer = Color(0xFF272A2F);
 
   static const Color kakaoYellow = Color(0xFFF7E600);
-  static const Color naverGreen = Color(0xFF2CB24A);
-  static const Color appleBlack = Color(0xFF191B1F);
+  static const Color naverGreen = Color(0xFF70C152);
+  static const Color appleBlack = Color(0xFF000000);
 
   // TODO : 색상 체계 정해지면 수정해야 함
   static const Color primaryYellow0 = Color(0xFFF6D72E);

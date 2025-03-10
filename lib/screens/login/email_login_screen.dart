@@ -94,6 +94,7 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> {
                           "비밀번호를 까먹으셨나요?",
                           style: CustomText.body7.copyWith(
                             color: CustomColor.extraLightGray,
+                            decoration: TextDecoration.underline,
                           ),
                         ),
                       ),
