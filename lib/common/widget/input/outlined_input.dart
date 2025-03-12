@@ -47,17 +47,17 @@ class OutlinedInput extends StatelessWidget {
         autocorrect: false,
         decoration: InputDecoration(
           filled: true,
-          fillColor: enabled ? CustomColor.white : CustomColor.labelAssistiveBlack,
+          fillColor: enabled ? CustomColor.white : CustomColor.gray04,
           hintText: hintText,
           contentPadding: const EdgeInsets.symmetric(
             vertical: 12.0,
             horizontal: 12.0,
           ),
           errorText: errorText,
-          errorStyle: const TextStyle(color: CustomColor.primaryStrongRed, fontSize: 13),
+          errorStyle: const TextStyle(color: CustomColor.negative, fontSize: 13),
           enabledBorder: OutlineInputBorder(
             borderRadius: const BorderRadius.all(Radius.circular(12)),
-            borderSide: BorderSide(color: enabledBorder ?? CustomColor.labelAssistiveBlack),
+            borderSide: BorderSide(color: enabledBorder ?? CustomColor.gray04),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -65,11 +65,11 @@ class OutlinedInput extends StatelessWidget {
           ),
           disabledBorder: OutlineInputBorder(
             borderRadius: const BorderRadius.all(Radius.circular(12)),
-            borderSide: BorderSide(color: enabledBorder ?? CustomColor.labelAssistiveBlack),
+            borderSide: BorderSide(color: enabledBorder ?? CustomColor.gray04),
           ),
         ),
         style: CustomText.body4.copyWith(
-          color: CustomColor.extraLightGray,
+          color: CustomColor.gray03,
           decorationThickness: 0,
         ),
         cursorColor: CustomColor.black,

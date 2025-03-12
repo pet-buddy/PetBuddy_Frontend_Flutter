@@ -82,20 +82,20 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                       Container( 
                         height: 1,
                         width: 100,
-                        color:CustomColor.labelAssistiveBlack,
+                        color:CustomColor.gray04,
                       ),
                       const SizedBox(width: 10,),
                       Text(
                         '다른 방법으로 시작',
                         style: CustomText.body4.copyWith(
-                          color: CustomColor.labelAssistiveBlack
+                          color: CustomColor.gray04
                         ),
                       ),
                       const SizedBox(width: 10,),
                       Container( 
                         height: 1,
                         width: 100,
-                        color:CustomColor.labelAssistiveBlack,
+                        color:CustomColor.gray04,
                       ),
                     ],
                   ),
@@ -130,7 +130,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                   const SizedBox(height: 10,),
                   LoginButton(
                     text: '이메일 로그인',
-                    borderColor: CustomColor.labelAssistiveBlack,
+                    borderColor: CustomColor.gray04,
                     onPressed: () {
                       context.goNamed('email_login_screen');
                     },

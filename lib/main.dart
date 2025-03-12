@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
           contentPadding: EdgeInsets.all(12),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
-            borderSide: BorderSide(color: CustomColor.lightGray),
+            borderSide: BorderSide(color: CustomColor.gray04),
           ),
           hintStyle: TextStyle(color: CustomColor.extraDarkGray),
           focusedBorder: OutlineInputBorder(

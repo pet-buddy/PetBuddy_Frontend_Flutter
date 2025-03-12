@@ -58,11 +58,11 @@ class MyScreenState extends ConsumerState<MyScreen> {
                           Text(
                             'abcd@pet.com',
                             style: CustomText.body4.copyWith(
-                              color: CustomColor.backgroundAlternative
+                              color: CustomColor.gray05
                             ),
                           ),
                         ],
-                        
+
                       )
                     ],
                   )

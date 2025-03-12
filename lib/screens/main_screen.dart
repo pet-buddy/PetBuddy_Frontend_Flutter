@@ -25,7 +25,7 @@ class MainScreen extends ConsumerWidget {
             unselectedLabelStyle: const TextStyle(fontSize: 12),
             type: BottomNavigationBarType.fixed,
             selectedItemColor: CustomColor.black,
-            unselectedItemColor: CustomColor.labelAssistiveBlack,
+            unselectedItemColor: CustomColor.gray04,
             backgroundColor: CustomColor.white,
             elevation: 1.0,
             currentIndex: currentScreenIndex,

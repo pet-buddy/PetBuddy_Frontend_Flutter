@@ -93,7 +93,7 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> {
                         child: Text(
                           "비밀번호를 까먹으셨나요?",
                           style: CustomText.body7.copyWith(
-                            color: CustomColor.extraLightGray,
+                            color: CustomColor.gray03,
                             decoration: TextDecoration.underline,
                           ),
                         ),
@@ -102,7 +102,7 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> {
                       Container( 
                         height: 12,
                         width: 1,
-                        color:CustomColor.extraLightGray,
+                        color:CustomColor.gray03,
                       ),
                       const SizedBox(width: 16,),
                       InkWell(
@@ -112,7 +112,7 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> {
                         child: Text(
                           "회원가입",
                           style: CustomText.body7.copyWith(
-                            color: CustomColor.extraLightGray,
+                            color: CustomColor.gray03,
                           ),
                         ),
                       ),
