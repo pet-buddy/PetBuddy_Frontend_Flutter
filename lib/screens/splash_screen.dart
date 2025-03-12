@@ -39,7 +39,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const CircularProgressIndicator(
-              color: CustomColor.primaryNormalRed,
+              color: CustomColor.negative,
             )
           ],
         ),
