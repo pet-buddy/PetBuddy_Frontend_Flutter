@@ -53,6 +53,9 @@ class MyApp extends StatelessWidget {
             borderSide: BorderSide(width: 1, color: CustomColor.primaryBlue100),
           ),
         ), */
+        textTheme: const TextTheme().apply(
+          bodyColor: CustomColor.black, 
+        ),
       ),
       //폰트 크기 고정
       builder: (context, child) {

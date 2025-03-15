@@ -80,6 +80,24 @@ final router = GoRouter(
             return const NoTransitionPage(child: ShopScreen());
           },
         ),
+        GoRoute(
+          parentNavigatorKey: shellNavigatorKey,
+          path: '/my_screen',
+          name: 'my_screen',
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return const NoTransitionPage(child: MyScreen());
+          },
+          routes: [
+            GoRoute(
+              parentNavigatorKey: shellNavigatorKey,
+              path: 'my_profile_update_screen',
+              name: 'my_profile_update_screen',
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return const NoTransitionPage(child: MyProfileUpdateScreen());
+              },
+            ),
+          ]
+        ),
       ],
     ),
   ],

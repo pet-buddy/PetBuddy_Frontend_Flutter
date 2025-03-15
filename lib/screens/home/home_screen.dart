@@ -44,16 +44,6 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                         '등록은 선택이 아닌 필수!',
                         style: CustomText.heading4,
                       ),
-                      InkWell(
-                        onTap: () {
-                          
-                        },
-                        child: SvgPicture.asset(
-                          'assets/icons/filled/profile_filled.svg',
-                          width: 32,
-                          height: 32,
-                        ),
-                      ),
                     ],
                   )
                 ],

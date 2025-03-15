@@ -63,7 +63,7 @@ class LoginButton extends StatelessWidget {
             ),
             Text(
               text,
-              style: CustomText.body2.copyWith(
+              style: CustomText.caption2.copyWith(
                 fontWeight: FontWeight.bold,
                 color: textColor
               )

@@ -46,11 +46,11 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                   const SizedBox(height: 40,),
                   const Text(
                     '아직 펫버디 회원이 아니세요?',
-                    style: CustomText.body4,
+                    style: CustomText.body10,
                   ),
                   const Text(
                     '카카오로 간편하게 시작하세요!',
-                    style: CustomText.body4,
+                    style: CustomText.body10,
                   ),
                   const SizedBox(height: 20,),
                   LoginButton(
@@ -87,8 +87,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                       const SizedBox(width: 10,),
                       Text(
                         '다른 방법으로 시작',
-                        style: CustomText.body4.copyWith(
-                          color: CustomColor.gray04
+                        style: CustomText.body10.copyWith(
+                          color: CustomColor.gray02
                         ),
                       ),
                       const SizedBox(width: 10,),

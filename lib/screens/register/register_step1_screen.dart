@@ -48,7 +48,7 @@ class RegisterStep1ScreenState extends ConsumerState<RegisterStep1Screen> {
                   const SizedBox(height: 32,),
                   const Text(
                     '이메일',
-                    style: CustomText.body4,
+                    style: CustomText.body10,
                   ),
                   const SizedBox(height: 5,),
                   OutlinedInput(
@@ -86,7 +86,7 @@ class RegisterStep1ScreenState extends ConsumerState<RegisterStep1Screen> {
                   const SizedBox(height: 16),
                   const Text(
                     '비밀번호',
-                    style: CustomText.body4,
+                    style: CustomText.body10,
                   ),
                   const SizedBox(height: 5,),
                   OutlinedInput(
@@ -101,7 +101,7 @@ class RegisterStep1ScreenState extends ConsumerState<RegisterStep1Screen> {
                   const SizedBox(height: 16),
                   const Text(
                     '비밀번호 확인',
-                    style: CustomText.body4,
+                    style: CustomText.body10,
                   ),
                   const SizedBox(height: 5,),
                   OutlinedInput(

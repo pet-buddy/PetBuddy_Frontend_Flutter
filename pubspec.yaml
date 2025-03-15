@@ -108,13 +108,13 @@ flutter:
     - assets/icons/logo/
 
   fonts:
-    - family: Pretendard
+    - family: NanumSquareRoundR
       fonts:
-        - asset: assets/fonts/Pretendard-Regular.otf
-          weight: 400
-        - asset: assets/fonts/Pretendard-Medium.otf
-          weight: 500
-        - asset: assets/fonts/Pretendard-SemiBold.otf
-          weight: 600
-        - asset: assets/fonts/Pretendard-Bold.otf
-          weight: 700
+        - asset: assets/fonts/NanumSquareRoundB.ttf
+        - asset: assets/fonts/NanumSquareRoundEB.ttf
+        - asset: assets/fonts/NanumSquareRoundR.ttf
+        - asset: assets/fonts/NanumSquareRoundL.ttf
+        - asset: assets/fonts/NanumSquareRoundOTFB.otf
+        - asset: assets/fonts/NanumSquareRoundOTFEB.otf
+        - asset: assets/fonts/NanumSquareRoundOTFR.otf
+        - asset: assets/fonts/NanumSquareRoundOTFL.otf

@@ -11,6 +11,8 @@ class DefaultTextButton extends StatelessWidget {
     this.backgroundColor = CustomColor.white,
     this.borderColor = CustomColor.white,
     this.textColor = CustomColor.black,
+    this.width,
+    this.height,
   });
 
   final String text;
@@ -19,11 +21,14 @@ class DefaultTextButton extends StatelessWidget {
   final Color? backgroundColor;
   final Color? borderColor;
   final Color? textColor;
+  final double? width;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 48,
+      width: width,
+      height: height ?? 48,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
@@ -35,10 +40,12 @@ class DefaultTextButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
+          overlayColor: CustomColor.gray04,
         ),
         child: Text(
           text,
-          style: CustomText.body2.copyWith(
+          style: CustomText.caption2.copyWith(
+            fontWeight: FontWeight.bold,
             color: disabled ? CustomColor.gray03 : textColor
           )
         ),
