@@ -38,7 +38,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
             : const SizedBox(),
         title: Text(
           title,
-          style: CustomText.headLine5.copyWith(
+          style: CustomText.heading4.copyWith(
             color: CustomColor.black,
           ),
         ),

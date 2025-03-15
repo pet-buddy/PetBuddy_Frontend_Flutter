@@ -42,7 +42,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                     children: [
                       const Text(
                         '등록은 선택이 아닌 필수!',
-                        style: CustomText.headLine5,
+                        style: CustomText.heading4,
                       ),
                       InkWell(
                         onTap: () {
