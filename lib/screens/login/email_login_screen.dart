@@ -49,7 +49,7 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> {
                   const SizedBox(height: 32,),
                   const Text(
                     '이메일',
-                    style: CustomText.body4,
+                    style: CustomText.body10,
                   ),
                   const SizedBox(height: 5,),
                   OutlinedInput(
@@ -64,7 +64,7 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> {
                   const SizedBox(height: 16),
                   const Text(
                     '비밀번호',
-                    style: CustomText.body4,
+                    style: CustomText.body10,
                   ),
                   const SizedBox(height: 5,),
                   OutlinedInput(
@@ -92,7 +92,7 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> {
                         },
                         child: Text(
                           "비밀번호를 까먹으셨나요?",
-                          style: CustomText.body7.copyWith(
+                          style: CustomText.body11.copyWith(
                             color: CustomColor.gray03,
                             decoration: TextDecoration.underline,
                           ),
@@ -111,7 +111,7 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> {
                         },
                         child: Text(
                           "회원가입",
-                          style: CustomText.body7.copyWith(
+                          style: CustomText.body11.copyWith(
                             color: CustomColor.gray03,
                           ),
                         ),
