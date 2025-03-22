@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
+import 'package:petbuddy_frontend_flutter/controller/login_controller.dart';
+import 'package:petbuddy_frontend_flutter/data/data.dart';
 
 class EmailLoginScreen extends ConsumerStatefulWidget {
   const EmailLoginScreen({super.key});
@@ -11,15 +12,18 @@ class EmailLoginScreen extends ConsumerStatefulWidget {
   ConsumerState<EmailLoginScreen> createState() => EmailLoginScreenState();
 }
 
-class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> {
+class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> with LoginController {
 
   @override
   void initState() {
     super.initState();
+    fnInitLoginController(ref, context);
   }
 
   @override
   Widget build(BuildContext context) {
+    final emailLoginButtonState = ref.watch(emailLoginButtonProvider);
+
     return DefaultLayout(
       appBar: DefaultAppBar(
         title: '이메일 로그인',
@@ -53,9 +57,10 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> {
                   ),
                   const SizedBox(height: 5,),
                   OutlinedInput(
-                    // controller: emailInputController,
+                    controller: emailInputController,
                     onChanged: (String email) {
-
+                      ref.read(emailLoginInputProvider.notifier)
+                         .setEmail(emailInputController.text);
                     },
                     hintText: 'hello@email.com',
                     keyboardType: TextInputType.emailAddress,
@@ -68,8 +73,15 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> {
                   ),
                   const SizedBox(height: 5,),
                   OutlinedInput(
-                    // controller: passwordInputController,
+                    controller: passwordInputController,
                     onChanged: (String pwd) {
+                      ref.read(emailLoginInputProvider.notifier)
+                         .setPwd(passwordInputController.text);
+
+                      ref.read(emailLoginButtonProvider.notifier).activate(
+                        emailInputController.text, 
+                        passwordInputController.text
+                      );
                     },
                     hintText: '비밀번호를 입력하세요',
                     keyboardType: TextInputType.visiblePassword,
@@ -79,9 +91,10 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> {
                   const SizedBox(height: 16),
                   DefaultTextButton(
                     text: '로그인', 
-                    onPressed: () {
-
+                    onPressed: () async {
+                      await fnEmailLoginExec();
                     },
+                    disabled: !emailLoginButtonState,
                   ),
                   const SizedBox(height: 12,),
                   Row(

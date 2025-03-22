@@ -68,6 +68,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                       // 임시 경로 처리
                       context.goNamed('home_screen');
                     },
+                    disabled: false,
                   ),
                   /* description 
                   - 스크롤 가능한 화면일 경우, Spacer 위젯 사용 불가
@@ -112,6 +113,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                     rightPairBox: const SizedBox(width: 35,),
                     onPressed: () {},
+                    disabled: false,
                   ),
                   const SizedBox(height: 10,),
                   LoginButton(
@@ -126,6 +128,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                     rightPairBox: const SizedBox(width: 28,),
                     onPressed: () {},
+                    disabled: false,
                   ),
                   const SizedBox(height: 10,),
                   LoginButton(
@@ -134,6 +137,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                     onPressed: () {
                       context.goNamed('email_login_screen');
                     },
+                    disabled: false,
                   ),
                   const SizedBox(height: 200,),
                 ],
