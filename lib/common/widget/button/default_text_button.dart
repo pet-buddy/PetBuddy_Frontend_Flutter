@@ -8,9 +8,9 @@ class DefaultTextButton extends StatelessWidget {
     this.disabled = true,
     this.onPressed,
     required this.text,
-    this.backgroundColor = CustomColor.white,
-    this.borderColor = CustomColor.white,
-    this.textColor = CustomColor.black,
+    this.backgroundColor,
+    this.borderColor,
+    this.textColor,
     this.width,
     this.height,
   });
@@ -32,10 +32,10 @@ class DefaultTextButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: disabled ? CustomColor.gray04 : backgroundColor,
+          backgroundColor: disabled ? CustomColor.gray04 : backgroundColor ?? CustomColor.yellow03,
           side: BorderSide(
             width: 1,
-            color: disabled ? CustomColor.gray04 : borderColor ?? CustomColor.white,
+            color: disabled ? CustomColor.gray04 : borderColor ?? CustomColor.yellow03,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -46,7 +46,7 @@ class DefaultTextButton extends StatelessWidget {
           text,
           style: CustomText.caption2.copyWith(
             fontWeight: FontWeight.bold,
-            color: disabled ? CustomColor.gray03 : textColor
+            color: disabled ? CustomColor.gray03 : textColor ?? CustomColor.black
           )
         ),
       ),
