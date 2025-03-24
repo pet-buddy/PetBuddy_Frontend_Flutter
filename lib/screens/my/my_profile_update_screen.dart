@@ -60,6 +60,7 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                         text: '여자', 
                         disabled: false,
                         borderColor: CustomColor.gray04,
+                        backgroundColor: CustomColor.white,
                         width: MediaQuery.of(context).size.width * 0.42,
                         onPressed: () {
                       
@@ -70,6 +71,7 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                         text: '남자', 
                         disabled: false,
                         borderColor: CustomColor.gray04,
+                        backgroundColor: CustomColor.white,
                         width: MediaQuery.of(context).size.width * 0.42,
                         onPressed: () {
                       

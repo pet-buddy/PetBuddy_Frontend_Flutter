@@ -113,6 +113,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                         DefaultTextButton(
                           text: '+',
                           borderColor: CustomColor.gray04,
+                          backgroundColor: CustomColor.white,
                           disabled: false,
                           height: 40,
                           onPressed: () {
