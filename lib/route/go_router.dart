@@ -71,6 +71,16 @@ final router = GoRouter(
           pageBuilder: (BuildContext context, GoRouterState state) {
             return const NoTransitionPage(child: HomeScreen());
           },
+          routes: [
+            GoRoute(
+              parentNavigatorKey: shellNavigatorKey,
+              path: 'home_activity_report_screen',
+              name: 'home_activity_report_screen',
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return const NoTransitionPage(child: HomeActivityReportScreen());
+              },
+            ),
+          ]
         ),
         GoRoute(
           parentNavigatorKey: shellNavigatorKey,

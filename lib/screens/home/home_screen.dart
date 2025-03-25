@@ -45,7 +45,10 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                         style: CustomText.heading4,
                       ),
                     ],
-                  )
+                  ),
+                  OutlinedButton(onPressed: () {
+                    context.goNamed("home_activity_report_screen");
+                  }, child: Text('test'))
                 ],
               )
             ),

@@ -49,6 +49,9 @@ class OutlinedInput extends StatelessWidget {
           filled: true,
           fillColor: enabled ? CustomColor.white : CustomColor.gray04,
           hintText: hintText,
+          hintStyle: CustomText.body10.copyWith(
+            color: CustomColor.gray03
+          ),
           contentPadding: const EdgeInsets.symmetric(
             vertical: 12.0,
             horizontal: 12.0,
@@ -68,8 +71,8 @@ class OutlinedInput extends StatelessWidget {
             borderSide: BorderSide(color: enabledBorder ?? CustomColor.gray04),
           ),
         ),
-        style: CustomText.caption2.copyWith(
-          color: CustomColor.gray03,
+        style: CustomText.body10.copyWith(
+          color: CustomColor.black,
           decorationThickness: 0,
         ),
         cursorColor: CustomColor.black,
