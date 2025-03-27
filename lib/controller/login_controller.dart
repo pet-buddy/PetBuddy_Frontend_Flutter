@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
 import 'package:petbuddy_frontend_flutter/common/widget/widget.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
-import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
 import 'package:petbuddy_frontend_flutter/data/repository/auth_repository.dart';
 
 mixin class LoginController {
