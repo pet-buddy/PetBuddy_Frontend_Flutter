@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/home_activity_report_period_select_provider.dart';
+import 'package:petbuddy_frontend_flutter/screens/home/widget/widget.dart';
 
 class HomeActivityReportScreen extends ConsumerStatefulWidget {
   const HomeActivityReportScreen({super.key});
@@ -62,13 +63,13 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: [
-                            wgActivityReportPeriodSelectContent(
-                              MediaQuery.of(context).size.width / 6, 
-                              homeActivityReportPeriodSelectState == periodCode['Day']! 
+                            HomeActivityReportPeriodButton(
+                              width:  (MediaQuery.of(context).size.width - 4) / 6, 
+                              color:  homeActivityReportPeriodSelectState == periodCode['Day']! 
                                 ? CustomColor.white 
                                 : CustomColor.yellow03,
-                              periodCode['Day']!, 
-                              () {
+                              text:  periodCode['Day']!, 
+                              onPressed: () {
                                 ref.watch(homeActivityReportPeriodSelectProvider.notifier)
                                    .set(periodCode['Day']!);
                               }
@@ -80,13 +81,13 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                 color: CustomColor.gray02,
                               ),
                             ),
-                            wgActivityReportPeriodSelectContent(
-                              MediaQuery.of(context).size.width / 6, 
-                              homeActivityReportPeriodSelectState == periodCode['Week']! 
+                            HomeActivityReportPeriodButton(
+                              width: (MediaQuery.of(context).size.width - 4) / 6, 
+                              color: homeActivityReportPeriodSelectState == periodCode['Week']! 
                                 ? CustomColor.white 
                                 : CustomColor.yellow03,
-                              periodCode['Week']!, 
-                              () {
+                              text: periodCode['Week']!, 
+                              onPressed: () {
                                 ref.watch(homeActivityReportPeriodSelectProvider.notifier)
                                    .set(periodCode['Week']!);
                               }
@@ -98,13 +99,13 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                 color: CustomColor.gray02,
                               ),
                             ),
-                            wgActivityReportPeriodSelectContent(
-                              MediaQuery.of(context).size.width / 6, 
-                              homeActivityReportPeriodSelectState == periodCode['Month']! 
+                            HomeActivityReportPeriodButton(
+                              width: (MediaQuery.of(context).size.width - 4) / 6, 
+                              color: homeActivityReportPeriodSelectState == periodCode['Month']! 
                                 ? CustomColor.white 
                                 : CustomColor.yellow03,
-                              periodCode['Month']!, 
-                              () {
+                              text: periodCode['Month']!, 
+                              onPressed: () {
                                 ref.watch(homeActivityReportPeriodSelectProvider.notifier)
                                    .set(periodCode['Month']!);
                               }
@@ -116,13 +117,13 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                 color: CustomColor.gray02,
                               ),
                             ),
-                            wgActivityReportPeriodSelectContent(
-                              MediaQuery.of(context).size.width / 6, 
-                              homeActivityReportPeriodSelectState == periodCode['6Month']! 
+                            HomeActivityReportPeriodButton(
+                              width: (MediaQuery.of(context).size.width - 4) / 6, 
+                              color: homeActivityReportPeriodSelectState == periodCode['6Month']! 
                                 ? CustomColor.white 
                                 : CustomColor.yellow03,
-                              periodCode['6Month']!, 
-                              () {
+                              text: periodCode['6Month']!, 
+                              onPressed: () {
                                 ref.watch(homeActivityReportPeriodSelectProvider.notifier)
                                    .set(periodCode['6Month']!);
                               }
@@ -134,13 +135,13 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                 color: CustomColor.gray02,
                               ),
                             ),
-                            wgActivityReportPeriodSelectContent(
-                              MediaQuery.of(context).size.width / 6,
-                              homeActivityReportPeriodSelectState == periodCode['Year']! 
+                            HomeActivityReportPeriodButton(
+                              width: (MediaQuery.of(context).size.width - 4) / 6,
+                              color: homeActivityReportPeriodSelectState == periodCode['Year']! 
                                 ? CustomColor.white 
                                 : CustomColor.yellow03, 
-                              periodCode['Year']!, 
-                              () {
+                              text: periodCode['Year']!, 
+                              onPressed: () {
                                 ref.watch(homeActivityReportPeriodSelectProvider.notifier)
                                    .set(periodCode['Year']!);
                               }
@@ -150,8 +151,17 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                       ),
                     ),
                   ),
+                  const SizedBox(height: 8,),
+                  // 그래프
+
+                  // 활동량 분석 
+                  HomeActivityReportContainer(
+                    periodCode: homeActivityReportPeriodSelectState, 
+                    assessment: '탄이보다 보호자님이 더 활동적이었군요!\n탄이가 섭섭하지 않도록 활동량을 늘려주세요 :)'
+                  ),
+                  // 종합평가
                 ],
-              )
+              ),
             ),
           ),
         ),
