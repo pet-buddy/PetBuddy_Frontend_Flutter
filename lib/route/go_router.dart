@@ -106,6 +106,14 @@ final router = GoRouter(
                 return const NoTransitionPage(child: MyProfileUpdateScreen());
               },
             ),
+            GoRoute(
+              parentNavigatorKey: shellNavigatorKey,
+              path: 'my_pet_add_screen',
+              name: 'my_pet_add_screen',
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return const NoTransitionPage(child: MyPetAddScreen());
+              },
+            ),
           ]
         ),
       ],

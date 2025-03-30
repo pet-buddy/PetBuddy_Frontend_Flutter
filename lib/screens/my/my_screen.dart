@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
@@ -57,19 +56,22 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 16,),
                   Padding(
                     key: sectionKey1,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: GestureDetector(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: InkWell(
                       onTap: () {
-                        context.pushNamed('my_profile_update_screen');
+                        context.goNamed('my_profile_update_screen');
                       },
+                      customBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                       child: SizedBox(
                         height: 64,
                         child: Row(
                           children: [
                             Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                Text(
@@ -117,6 +119,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                           disabled: false,
                           height: 40,
                           onPressed: () {
+                            context.goNamed('my_pet_add_screen');
                           },
                         ),
                         const SizedBox(height: 16,),

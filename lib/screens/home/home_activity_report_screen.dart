@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
@@ -153,13 +152,41 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                   ),
                   const SizedBox(height: 8,),
                   // 그래프
-
+                  Container(
+                    alignment: Alignment.topLeft,
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '하이라이트',
+                          style: CustomText.heading4.copyWith(
+                            color: CustomColor.blue03,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8,),
+                        const Text(
+                          '혹시 7시에 무슨 일이 있었나요?\n반려동물이 흥분을 감추지 못했어요.',
+                          style: CustomText.body11,
+                        ),
+                      ],
+                    ),
+                  ),
                   // 활동량 분석 
                   HomeActivityReportContainer(
                     periodCode: homeActivityReportPeriodSelectState, 
                     assessment: '탄이보다 보호자님이 더 활동적이었군요!\n탄이가 섭섭하지 않도록 활동량을 늘려주세요 :)'
                   ),
+                  const SizedBox(height: 16,),
                   // 종합평가
+                  HomeActivityReportTotalContainer(
+                    periodCode: homeActivityReportPeriodSelectState, 
+                    evaluation: '평균 노년견 푸들 대비 활동량이 낮습니다.\n보호자님이 많이 걸으신 만큼, 탄이와도 함께 많이 걸어다니세요!',
+                    petName: '탄이',
+                    petActivity: '대형백화점 1바퀴',
+                    petActivityDistance: '0.5',
+                  ),
                 ],
               ),
             ),

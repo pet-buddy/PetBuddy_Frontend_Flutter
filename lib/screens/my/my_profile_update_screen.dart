@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show FilteringTextInputFormatter, LengthLimitingTextInputFormatter;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/my_profile_update_button_provider.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
 
 class MyProfileUpdateScreen extends ConsumerStatefulWidget {
   const MyProfileUpdateScreen({super.key});
@@ -18,10 +19,15 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
   @override
   void initState() {
     super.initState();
+    fnInitMyController(ref, context);
   }
 
   @override
   Widget build(BuildContext context) {
+    final myHealthInfoButtonState = ref.watch(myProfileHealthInfoButtonProvider);
+    final myProfileUpdateButtonState = ref.watch(myProfileUpdateButtonProvider);
+    final myProfileInputState = ref.watch(myProfileInputProvider);
+
     return DefaultLayout(
       appBar: DefaultAppBar(
         title: '계정 정보 수정',
@@ -59,22 +65,42 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                       DefaultTextButton(
                         text: '여자', 
                         disabled: false,
-                        borderColor: CustomColor.gray04,
-                        backgroundColor: CustomColor.white,
-                        width: MediaQuery.of(context).size.width * 0.42,
+                        borderColor: myProfileInputState.gender == femaleCode 
+                          ? CustomColor.yellow03 
+                          : CustomColor.gray04,
+                        backgroundColor: myProfileInputState.gender == femaleCode 
+                          ? CustomColor.yellow03 
+                          : CustomColor.white,
+                        width: MediaQuery.of(context).size.width * 0.43,
                         onPressed: () {
-                      
+                          setState(() {
+                            ref.read(myProfileInputProvider.notifier)
+                               .setGender(femaleCode);
+                          });
+
+                          ref.read(myProfileUpdateButtonProvider.notifier)
+                             .activate(myProfileInputState);
                         },
                       ),
-                      const Spacer(),
+                      // const Spacer(),
                       DefaultTextButton(
                         text: '남자', 
                         disabled: false,
-                        borderColor: CustomColor.gray04,
-                        backgroundColor: CustomColor.white,
-                        width: MediaQuery.of(context).size.width * 0.42,
+                        borderColor: myProfileInputState.gender == maleCode
+                          ? CustomColor.yellow03 
+                          : CustomColor.gray04,
+                        backgroundColor: myProfileInputState.gender == maleCode 
+                          ? CustomColor.yellow03 
+                          : CustomColor.white,
+                        width: MediaQuery.of(context).size.width * 0.43,
                         onPressed: () {
-                      
+                          setState(() {
+                            ref.read(myProfileInputProvider.notifier)
+                               .setGender(maleCode);
+                          });
+
+                          ref.read(myProfileUpdateButtonProvider.notifier)
+                             .activate(myProfileInputState);
                         },
                       ),
                     ],
@@ -86,8 +112,13 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                   ),
                   const SizedBox(height: 8,),
                   OutlinedInput(
-                    // controller: ,
+                    controller: birthInputController,
                     onChanged: (String birth) {
+                      ref.read(myProfileInputProvider.notifier)
+                         .setBirth(birthInputController.text);
+
+                      ref.read(myProfileUpdateButtonProvider.notifier)
+                         .activate(myProfileInputState);
                     },
                     hintText: 'YYYY / MM / DD',
                     keyboardType: TextInputType.number,
@@ -104,7 +135,36 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                     style: CustomText.body10,
                   ),
                   const SizedBox(height: 8,),
-                  // TODO : drop down
+                  Wrap(
+                    direction: Axis.horizontal,
+                    children: [
+                      for(int i=0;i<healthInfos.length;i++)
+                        Container(
+                          height: 40,
+                          margin: const EdgeInsets.only(right: 16, bottom: 8),
+                          child: DefaultTextButton(
+                            text: healthInfos[i]['text'].toString(), 
+                            disabled: false,
+                            borderColor: myHealthInfoButtonState == i 
+                              ? CustomColor.yellow03
+                              : CustomColor.gray04,
+                            backgroundColor: myHealthInfoButtonState == i 
+                              ? CustomColor.yellow03
+                              : CustomColor.white,
+                            width: double.parse(healthInfos[i]['width'].toString()),
+                            onPressed: () {
+                              ref.read(myProfileHealthInfoButtonProvider.notifier).set(i);
+
+                              ref.read(myProfileInputProvider.notifier)
+                                 .setHealthInfo(healthInfos[i]['text'].toString());
+
+                              ref.read(myProfileUpdateButtonProvider.notifier)
+                                 .activate(myProfileInputState);
+                            },
+                          ),
+                        ),
+                    ],
+                  ),
                   const SizedBox(height: 16,),
                   const Text(
                     '휴대전화번호',
@@ -112,8 +172,13 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                   ),
                   const SizedBox(height: 8,),
                   OutlinedInput(
-                    // controller: ,
-                    onChanged: (String tel) {
+                    controller: phoneInputController,
+                    onChanged: (String phone) {
+                      ref.read(myProfileInputProvider.notifier)
+                         .setPhone(phoneInputController.text);
+
+                      ref.read(myProfileUpdateButtonProvider.notifier)
+                         .activate(myProfileInputState);
                     },
                     hintText: '010-1234-5678',
                     keyboardType: TextInputType.number,
@@ -126,13 +191,14 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                   ),
                   const SizedBox(height: 16,),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height - 50 - 100 - 500,
+                    height: MediaQuery.of(context).size.height - 50 - 100 - 596,
                   ),
                   DefaultTextButton(
                     text: '수정하기', 
-                    onPressed: () {
-
+                    onPressed: () async {
+                      await fnMyProfileUpdateExec();
                     },
+                    disabled: !myProfileUpdateButtonState,
                   ),
                   const SizedBox(height: 75,),
                 ],
