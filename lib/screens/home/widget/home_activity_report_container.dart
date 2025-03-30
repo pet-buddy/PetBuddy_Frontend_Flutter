@@ -7,17 +7,17 @@ class HomeActivityReportContainer extends StatelessWidget {
     required this.periodCode,
     required this.assessment,
     this.petName,
-    this.petActivityLevel,
+    this.petActivitySteps,
     this.userName,
-    this.userActivityLevel,
+    this.userActivitySteps,
   });
 
   final String periodCode; // D, W, M, 6M, Y
   final String assessment; // 평가 텍스트
   final String? petName;
-  final String? petActivityLevel; // 반려동물 활동량
+  final String? petActivitySteps; // 반려동물 걸음수
   final String? userName;
-  final String? userActivityLevel; // 보호자 활동량
+  final String? userActivitySteps; // 보호자 걸음수
   
 
   @override
@@ -73,7 +73,7 @@ class HomeActivityReportContainer extends StatelessWidget {
           ),
           const SizedBox(height: 32,),
           Container(
-            width: 120 + double.parse(petActivityLevel ?? '0'),
+            width: 120 + double.parse(petActivitySteps ?? '0'),
             height: 23,
             padding: const EdgeInsets.symmetric(horizontal: 8),
             decoration: const BoxDecoration(
@@ -98,7 +98,7 @@ class HomeActivityReportContainer extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${petActivityLevel ?? '0'} 걸음',
+                  '${petActivitySteps ?? '0'} 걸음',
                   style: CustomText.caption3.copyWith(
                     color: CustomColor.white,
                     fontWeight: FontWeight.bold,
@@ -109,7 +109,7 @@ class HomeActivityReportContainer extends StatelessWidget {
           ),
           const SizedBox(height: 16,),
           Container(
-            width: 120 + double.parse(petActivityLevel ?? '0'),
+            width: 120 + double.parse(userActivitySteps ?? '0'),
             height: 23,
             padding: const EdgeInsets.symmetric(horizontal: 8),
             decoration: const BoxDecoration(
@@ -133,7 +133,7 @@ class HomeActivityReportContainer extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${petActivityLevel ?? '0'} 걸음',
+                  '${userActivitySteps ?? '0'} 걸음',
                   style: CustomText.caption3.copyWith(
                     color: CustomColor.blue01,
                     fontWeight: FontWeight.bold,
