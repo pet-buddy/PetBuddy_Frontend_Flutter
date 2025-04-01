@@ -84,6 +84,14 @@ final router = GoRouter(
         ),
         GoRoute(
           parentNavigatorKey: shellNavigatorKey,
+          path: '/camera_screen',
+          name: 'camera_screen',
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return const NoTransitionPage(child: CameraScreen());
+          },
+        ),
+        GoRoute(
+          parentNavigatorKey: shellNavigatorKey,
           path: '/shop_screen',
           name: 'shop_screen',
           pageBuilder: (BuildContext context, GoRouterState state) {

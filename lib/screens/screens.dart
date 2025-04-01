@@ -5,3 +5,4 @@ export 'shop/shop.dart';
 export 'home/home.dart';
 export 'register/register.dart';
 export 'my/my.dart';
+export 'camera/camera.dart';

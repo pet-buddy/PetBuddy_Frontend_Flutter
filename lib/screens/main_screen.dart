@@ -37,8 +37,8 @@ class MainScreen extends ConsumerWidget {
                 // 화면 이동
                 if (index == 0) {
                   context.goNamed('home_screen');
-                } else if (index == 1) {
-                  // TODO : 카메라 호출
+                } else if (index == 1) {                  
+                  context.pushNamed('camera_screen');
                 } else if (index == 2) {
                   context.goNamed('shop_screen');
                 } else if (index == 3) {

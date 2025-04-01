@@ -49,6 +49,7 @@ dependencies:
     sdk: flutter
   fl_chart: ^0.68.0
   calendar_date_picker2: ^1.1.5
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
