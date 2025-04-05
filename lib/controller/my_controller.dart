@@ -28,8 +28,8 @@ mixin class MyController {
 
   final List<Map<String, dynamic>> healthInfos = [
     {'text' : '변관리', 'width': 100},
-    {'text' : '활동관리', 'width': 120},
-    {'text' : '수면관리', 'width': 120},
+    {'text' : '활동관리', 'width': 110},
+    {'text' : '수면관리', 'width': 110},
     {'text' : '디지털 반려동물 키우기', 'width': 350},
   ];
 
