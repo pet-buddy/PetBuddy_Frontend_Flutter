@@ -45,5 +45,13 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>사진첩 접근 권한</string>
+	<key>NSCameraUsageDescription</key>
+	<string>카메라 접근 권한</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>사진첩 추가 권한</string>
+	<key>NSFileProtectionKey</key>
+	<string>파일 쓰기 권한</string>
 </dict>
 </plist>

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyScreen extends ConsumerStatefulWidget {
   const MyScreen({super.key});
@@ -26,7 +28,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                                 - fnGetSize(sectionKey3).height
                                 - 32 // 중간 공백 등
                                 - 50 // 앱바
-                                - 100; // 네비게이션바
+                                - 50; // 네비게이션바
       });
     });
   }
@@ -69,6 +71,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                       child: SizedBox(
                         height: 64,
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -85,6 +88,11 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                                   style: CustomText.body10
                                 ),
                               ],
+                            ),
+                            SvgPicture.asset(
+                              'assets/icons/outlined/arrow_next.svg',
+                              width: 24,
+                              height: 24,
                             ),
                           ],
                         ),
@@ -174,7 +182,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                
+                                    launchUrl(Uri.parse(ProjectConstant.PUPPYPOO_WEB_URL));
                                   },
                                   child: const Text(
                                     '고객센터',
@@ -189,7 +197,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                
+                                    launchUrl(Uri.parse(ProjectConstant.PUPPYPOO_KAKAO_URL));
                                   },
                                   child: const Text(
                                     '카카오채널',
@@ -204,7 +212,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                
+                                    launchUrl(Uri.parse(ProjectConstant.PUPPYPOO_INSTAGRAM_URL));
                                   },
                                   child: const Text(
                                     '인스타그램',

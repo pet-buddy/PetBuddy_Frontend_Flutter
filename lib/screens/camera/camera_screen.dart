@@ -43,37 +43,68 @@ class CameraScreenState extends ConsumerState<CameraScreen> with CameraControlle
           await fnClose(context);
         },
         child: SafeArea(
-          child: SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  imagePickerState != null ?
-                    SizedBox(
-                      width: 300,
-                      height: 300,
-                      child: Image.file(File(imagePickerState.path)), 
-                    ) :
-                    const SizedBox(
-                      width: 300,
-                      height: 300, 
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+                imagePickerState != null ?
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 300,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(12),),
                     ),
-                  OutlinedButton(
-                    onPressed: () {
-                      fnGetImage(ImageSource.camera);
-                    }, 
-                    child: const Text('사진찍기'),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16.0),
+                      child: Image.file(
+                        File(imagePickerState.path),
+                        fit: BoxFit.cover,
+                      ),
+                    ), 
+                  ) :
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 300, 
+                    decoration: const BoxDecoration(
+                      color: CustomColor.gray05,
+                      borderRadius: BorderRadius.all(Radius.circular(12),),
+                    ),
                   ),
-                  OutlinedButton(
-                    onPressed: () {
-                      fnGetImage(ImageSource.gallery);
-                    }, 
-                    child: const Text('사진가져오기'),
-                  ),
-                ],
-              )
-            ),
+                const SizedBox(height: 8,),
+                DefaultTextButton(
+                  disabled: false,
+                  backgroundColor: CustomColor.yellow05,
+                  borderColor: CustomColor.yellow05,
+                  onPressed: () {
+                    fnGetImage(ImageSource.gallery);
+                  }, 
+                  text: '사진 가져오기',
+                ),
+                const SizedBox(height: 8,),
+                DefaultTextButton(
+                  disabled: false,
+                  backgroundColor: CustomColor.blue05,
+                  borderColor: CustomColor.blue05,
+                  textColor: CustomColor.white,
+                  onPressed: () {
+                    fnGetImage(ImageSource.camera);
+                  }, 
+                  text: '사진 촬영하기',
+                ),
+                const Spacer(),
+                DefaultTextButton(
+                  disabled: false,
+                  backgroundColor: CustomColor.white,
+                  borderColor: CustomColor.black,
+                  textColor: CustomColor.black,
+                  onPressed: () {
+                    
+                  }, 
+                  text: '+ 사진 업로드',
+                ),
+                const SizedBox(height: 32,),
+              ],
+            )
           ),
         ),
       ),
