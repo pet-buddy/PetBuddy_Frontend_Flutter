@@ -18,21 +18,21 @@ showAlertDialog({
           borderRadius: BorderRadius.circular(16),
         ),
         child: SizedBox(
-          width: (MediaQuery.of(context).size.width.toInt() * 0.8).toInt() + 1,
-          height: 161,
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: 261,
           child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: SizedBox(
-                  height: 110,
+                  height: 210,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Flexible(
                         child: Text(
                           middleText,
-                          style: CustomText.body1,
+                          style: CustomText.body8,
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -45,10 +45,14 @@ showAlertDialog({
                 color: CustomColor.gray04,
               ),
               Container(
-                width: MediaQuery.of(context).size.width.toInt() * 0.8 + 1,
+                width: MediaQuery.of(context).size.width * 0.8,
                 height: 50,
                 decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16))
+                  color: CustomColor.blue02,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(16), 
+                    bottomRight: Radius.circular(16)
+                  ),
                 ),
                 child: InkWell(
                   borderRadius: const BorderRadius.only(
@@ -64,8 +68,9 @@ showAlertDialog({
                     children: [
                       Text(
                         "닫기",
-                        style: CustomText.body7.copyWith(
-                          color: CustomColor.gray01,
+                        style: CustomText.body11.copyWith(
+                          color: CustomColor.white,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],

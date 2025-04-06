@@ -30,7 +30,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
             ? IconButton(
                 onPressed: leadingOnPressed,
                 icon: SvgPicture.asset(
-                  'assets/icons/outlined/arrow_back.svg',
+                  'assets/icons/navigation/arrow_back.svg',
                   width: 24,
                   height: 24,
                 ),

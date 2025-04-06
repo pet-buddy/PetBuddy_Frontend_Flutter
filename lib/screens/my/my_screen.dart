@@ -90,7 +90,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                               ],
                             ),
                             SvgPicture.asset(
-                              'assets/icons/outlined/arrow_next.svg',
+                              'assets/icons/navigation/arrow_next.svg',
                               width: 24,
                               height: 24,
                             ),
@@ -239,7 +239,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                         children: [
                           const SizedBox(height: 16,),
                           Text(
-                            '고객지원',
+                            '(주)도터펫',
                             style: CustomText.body10.copyWith(
                               fontWeight: FontWeight.bold,
                             ),

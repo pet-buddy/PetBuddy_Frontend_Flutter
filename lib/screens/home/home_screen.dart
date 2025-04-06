@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -27,7 +28,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
           if (didPop) {
             return;
           }
-          // await fnClose(context);
+          await fnClose(context);
         },
         child: SafeArea(
           child: SingleChildScrollView(
@@ -35,19 +36,35 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 16,),
+                  const Text(
+                    '탄이, 반가워요!',
+                    style: CustomText.heading1,
+                  ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      SvgPicture.asset(
+                        'assets/icons/etc/heart.svg',
+                        width: 16,
+                        height: 16,
+                      ),
+                      const SizedBox(width: 8,),
                       const Text(
-                        '등록은 선택이 아닌 필수!',
-                        style: CustomText.heading4,
+                        '하트코인(준비 중)',
+                        style: CustomText.body10,
+                      ),
+                      const SizedBox(width: 16,),
+                      Text(
+                        NumberFormat('###,###,###,###').format(1350),
+                        style: CustomText.body10,
                       ),
                     ],
                   ),
                   OutlinedButton(onPressed: () {
-                    context.goNamed("home_activity_report_screen");
+                    //context.goNamed("home_activity_report_screen");
+                    showAlertDialog(context: context, middleText: 'teeeee');
                   }, child: Text('test'))
                 ],
               )

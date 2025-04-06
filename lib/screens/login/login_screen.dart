@@ -45,16 +45,16 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                 children: [
                   const SizedBox(height: 40,),
                   const Text(
-                    '아직 펫버디 회원이 아니세요?',
+                    'PawPrint와 함께 발자취를 남겨봐요!',
                     style: CustomText.body10,
                   ),
-                  const Text(
+                  /* const Text(
                     '카카오로 간편하게 시작하세요!',
                     style: CustomText.body10,
-                  ),
+                  ), */
                   const SizedBox(height: 20,),
                   LoginButton(
-                    text: '카카오로 간편하게 시작하기', 
+                    text: '카카오 로그인', 
                     backgroundColor: CustomColor.kakaoYellow,
                     borderColor: CustomColor.kakaoYellow,
                     imgAsset: Image.asset(
@@ -74,7 +74,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                   - 스크롤 가능한 화면일 경우, Spacer 위젯 사용 불가
                   - 위젯 높이를 대략적으로 계산하여 전체 높이에서 빼줌
                   */
-                  SizedBox(
+                  /* SizedBox(
                     height: MediaQuery.of(context).size.height - 600,
                   ),
                   Row(
@@ -99,10 +99,10 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                         color:CustomColor.gray04,
                       ),
                     ],
-                  ),
-                  const SizedBox(height: 20,),
+                  ), */
+                  const SizedBox(height: 10,),
                   LoginButton(
-                    text: '네이버로 로그인', 
+                    text: '네이버 로그인', 
                     backgroundColor: CustomColor.naverGreen,
                     borderColor: CustomColor.naverGreen,
                     textColor: CustomColor.white,
@@ -117,7 +117,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   const SizedBox(height: 10,),
                   LoginButton(
-                    text: 'Apple로 로그인', 
+                    text: 'Apple 로그인', 
                     backgroundColor: CustomColor.appleBlack,
                     borderColor: CustomColor.appleBlack,
                     textColor: CustomColor.white,
