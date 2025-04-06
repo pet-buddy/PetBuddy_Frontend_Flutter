@@ -22,21 +22,21 @@ showConfirmDialog({
           borderRadius: BorderRadius.circular(16),
         ),
         child: SizedBox(
-          width: (MediaQuery.of(context).size.width.toInt() * 0.8).toInt() + 1,
-          height: 161,
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: 261,
           child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: SizedBox(
-                  height: 110,
+                  height: 210,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Flexible(
                         child: Text(
                           middleText,
-                          style: CustomText.body1,
+                          style: CustomText.body8,
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -64,7 +64,7 @@ showConfirmDialog({
                           children: [
                             Text(
                               cancelText ?? "닫기",
-                              style: CustomText.body7.copyWith(
+                              style: CustomText.body10.copyWith(
                                 color: CustomColor.gray01,
                               ),
                             ),
@@ -76,7 +76,8 @@ showConfirmDialog({
                   Expanded(
                     child: Container(
                       decoration: const BoxDecoration(
-                        color: CustomColor.blue04,
+                        color: CustomColor.blue02,
+                        borderRadius: BorderRadius.only(bottomRight: Radius.circular(16)),
                       ),
                       height: 50,
                       child: InkWell(
@@ -90,8 +91,9 @@ showConfirmDialog({
                           children: [
                             Text(
                               confirmText ?? "확인",
-                              style: CustomText.body7.copyWith(
+                              style: CustomText.body10.copyWith(
                                 color: CustomColor.white,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ],
