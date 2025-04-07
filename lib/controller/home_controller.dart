@@ -19,6 +19,8 @@ mixin class HomeController {
     'Year': 'Y'
   };
 
+  final PageController homePageController = PageController(initialPage: 0);
+
   // Widget을 리턴하는 함수의 prefix : wg
   Widget wgActivityReportPeriodSelectContent(double width, Color color, String text, VoidCallback onPressed) {
     return GestureDetector(
