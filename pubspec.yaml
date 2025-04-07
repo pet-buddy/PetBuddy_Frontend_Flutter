@@ -117,6 +117,7 @@ flutter:
     - assets/icons/logo/
     - assets/icons/navigation/
     - assets/icons/etc/
+    - assets/icons/illustration/
 
   fonts:
     - family: NanumSquareRoundR
