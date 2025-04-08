@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/home_controller.dart';
-import 'package:petbuddy_frontend_flutter/screens/home/widget/home_mission_container.dart';
 import 'package:petbuddy_frontend_flutter/screens/home/widget/widget.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -78,22 +77,22 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                       child: Row(
                         children: [
                           // TODO : loop로 데이터 받아 출력
-                          HomeMissionContainer(
+                          HomeCardMissionContainer(
                             imoji: '🐕',
                             title: '산책하기', 
                             text: '4시간 뒤 소멸'
                           ),
-                          HomeMissionContainer(
+                          HomeCardMissionContainer(
                             imoji: '🍖',
                             title: '맘마주기', 
                             text: '1시간 뒤 소멸'
                           ),
-                          HomeMissionContainer(
+                          HomeCardMissionContainer(
                             imoji: '💩',
                             title: '똥 찍기', 
                             text: '2시간 뒤 소멸'
                           ),
-                          HomeMissionContainer(
+                          HomeCardMissionContainer(
                             imoji: '😴',
                             title: '낮잠재우기', 
                             text: '2시간 뒤 소멸'
@@ -109,12 +108,12 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                     child: PageView(
                       controller: homePageController,
                       children: [
-                        HomePetContainer(
+                        HomeCardPetContainer(
                           onPressed: () {
                             debugPrint('test ${homePageController?.page}');
                           },
                         ),
-                        HomePetContainer(
+                        HomeCardPetContainer(
                           svgPicture: SvgPicture.asset(
                             'assets/icons/illustration/puppy_yellow.svg',
                             width: 100,
@@ -124,7 +123,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                             debugPrint('test2 ${homePageController?.page}');
                           },
                         ),
-                        HomePetContainer(
+                        HomeCardPetContainer(
                           svgPicture: SvgPicture.asset(
                             'assets/icons/illustration/puppy_black.svg',
                             width: 100,
@@ -141,14 +140,17 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      HomeHealthContainer(
-                        titleColor: const Color(0xFF0092CA).withValues(alpha: 0.5),
+                      HomeCardManageContainer(
+                        thumbnailColor: const Color(0xFF0092CA).withValues(alpha: 0.5),
                         title: "걸음 수", 
-                        svgPicture: SvgPicture.asset(
+                        thumbnailPicture: SvgPicture.asset(
                           'assets/icons/etc/Dog.svg',
                           width: 20,
                           height: 20,
                         ),
+                        onPressed: () {
+                          context.goNamed("home_activity_report_screen");
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -169,10 +171,10 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                           ],
                         ),
                       ),
-                      HomeHealthContainer(
-                        titleColor: const Color(0xFFCAA384).withValues(alpha: 0.2),
+                      HomeCardManageContainer(
+                        thumbnailColor: const Color(0xFFCAA384).withValues(alpha: 0.2),
                         title: "똥 건강", 
-                        svgPicture: SvgPicture.asset(
+                        thumbnailPicture: SvgPicture.asset(
                           'assets/icons/etc/poop.svg',
                           width: 20,
                           height: 20,
@@ -248,8 +250,8 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      HomeHealthContainer(
-                        titleColor: const Color(0xFFD7EBFF),
+                      HomeCardManageContainer(
+                        thumbnailColor: const Color(0xFFD7EBFF),
                         title: "수면 효율",
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -271,10 +273,10 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                           ],
                         ),
                       ),
-                      HomeHealthContainer(
-                        titleColor: const Color(0xFFDCEEE1),
+                      HomeCardManageContainer(
+                        thumbnailColor: const Color(0xFFDCEEE1),
                         title: "곳간", 
-                        svgPicture: SvgPicture.asset(
+                        thumbnailPicture: SvgPicture.asset(
                           'assets/icons/etc/feed.svg',
                           width: 20,
                           height: 20,
@@ -317,10 +319,16 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                       ),
                     ],
                   ),
-                  OutlinedButton(onPressed: () {
+                  const SizedBox(height: 16,),
+                  HomeCardReportContainer(
+                    subTitle: '탄이는 다음 3가지 관리가 필요해요!',
+                    child: Row(),
+                  ),
+                  /* OutlinedButton(onPressed: () {
                     //context.goNamed("home_activity_report_screen");
                     showAlertDialog(context: context, middleText: 'teeeee');
-                  }, child: Text('test'))
+                  }, child: Text('test')) */
+                  const SizedBox(height: 32,),
                 ],
               )
             ),

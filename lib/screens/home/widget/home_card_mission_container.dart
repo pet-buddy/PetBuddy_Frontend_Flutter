@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:petbuddy_frontend_flutter/common/const/const.dart';
 
-class HomeMissionContainer extends StatelessWidget {
-  const HomeMissionContainer({
+class HomeCardMissionContainer extends StatelessWidget {
+  const HomeCardMissionContainer({
     super.key,
     required this.imoji,
     required this.title,
