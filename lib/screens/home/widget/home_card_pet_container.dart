@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:petbuddy_frontend_flutter/common/const/const.dart';
 
-class HomePetContainer extends StatelessWidget {
-  const HomePetContainer({
+class HomeCardPetContainer extends StatelessWidget {
+  const HomeCardPetContainer({
     super.key,
     this.svgPicture,
     this.onPressed,
