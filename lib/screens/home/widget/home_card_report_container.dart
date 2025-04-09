@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:petbuddy_frontend_flutter/common/const/const.dart';
+import 'package:petbuddy_frontend_flutter/data/model/home_card_report_model.dart';
 
 class HomeCardReportContainer extends StatelessWidget {
   const HomeCardReportContainer({
@@ -8,15 +9,17 @@ class HomeCardReportContainer extends StatelessWidget {
     this.thumbnailColor,
     this.title,
     this.thumbnailPicture,
-    required this.child,
+    this.child,
     required this.subTitle,
+    required this.reportList,
   });
 
   final Color? thumbnailColor;
   final String? title;
   final SvgPicture? thumbnailPicture;
-  final Widget child;
+  final Widget? child;
   final String subTitle;
+  final List<HomeCardReportModel> reportList;
   
 
   @override
@@ -77,103 +80,49 @@ class HomeCardReportContainer extends StatelessWidget {
             height: 258,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Row(
+              child: child ?? Row(
                 children: [
-                  Container(
-                    width: 160,
-                    constraints: const BoxConstraints(
-                      minHeight: 200,
-                      maxHeight: 240,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF0092CA).withValues(alpha: 0.5),
-                      borderRadius: const BorderRadius.all(Radius.circular(12),),
-                    ),
-                    padding: const EdgeInsets.all(8),
-                    margin: const EdgeInsets.only(right: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '#활동량',
-                          style: CustomText.body10.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                  for(int i=0;i<reportList.length;i++) 
+                    GestureDetector(
+                      onTap: () {
+                        reportList[i].onPressed != null ?
+                          reportList[i].onPressed!() :
+                          null;
+                      },
+                      child: Container(
+                        width: 160,
+                        constraints: const BoxConstraints(
+                          minHeight: 200,
+                          maxHeight: 240,
                         ),
-                        const SizedBox(height: 8,),
-                        Flexible(
-                          child: const Text(
-                            '활동량 내용',
-                            style: CustomText.body11,
-                            softWrap: false,
-                            overflow: TextOverflow.clip,
-                          ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF0092CA).withValues(alpha: 0.5),
+                          borderRadius: const BorderRadius.all(Radius.circular(12),),
                         ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    width: 160,
-                    constraints: const BoxConstraints(
-                      minHeight: 200,
-                      maxHeight: 240,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF0092CA).withValues(alpha: 0.5),
-                      borderRadius: const BorderRadius.all(Radius.circular(12),),
-                    ),
-                    padding: const EdgeInsets.all(8),
-                    margin: const EdgeInsets.only(right: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '#활동량',
-                          style: CustomText.body10.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        padding: const EdgeInsets.all(8),
+                        margin: const EdgeInsets.only(right: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              reportList[i].title,
+                              style: CustomText.body10.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8,),
+                            Flexible(
+                              child: Text(
+                                reportList[i].content,
+                                style: CustomText.body11,
+                                softWrap: true,
+                                overflow: TextOverflow.clip,
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 8,),
-                        const Text(
-                          '활동량 내용이에요\n활동량 내용이에요활동량 내용이에요활동량 내용이에요활동량 내용이에요',
-                          style: CustomText.body11,
-                          softWrap: true,
-                          overflow: TextOverflow.clip,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: 160,
-                    constraints: const BoxConstraints(
-                      minHeight: 200,
-                      maxHeight: 240,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF0092CA).withValues(alpha: 0.5),
-                      borderRadius: const BorderRadius.all(Radius.circular(12),),
-                    ),
-                    padding: const EdgeInsets.all(8),
-                    margin: const EdgeInsets.only(right: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '#활동량',
-                          style: CustomText.body10.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8,),
-                        const Text(
-                          '활동량 내용이에요\n활동량 내용이에요활동량 내용이에요활동량 내용이에요활동량 내용이에요',
-                          style: CustomText.body11,
-                          softWrap: true,
-                          overflow: TextOverflow.clip,
-                        ),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),

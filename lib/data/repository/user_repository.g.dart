@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_repository.dart';
+part of 'user_repository.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'auth_repository.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _AuthRepository implements AuthRepository {
-  _AuthRepository(
+class _UserRepository implements UserRepository {
+  _UserRepository(
     this._dio, {
     this.baseUrl,
   });
@@ -19,69 +19,11 @@ class _AuthRepository implements AuthRepository {
   String? baseUrl;
 
   @override
-  Future<CommonResponseListModel> requestKakaoLoginRepository(
-      String code) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'code': code};
-    final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CommonResponseListModel>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/kakao/token',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value = CommonResponseListModel.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Future<CommonResponseListModel> requestNaverLoginRepository(
-      String code) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'code': code};
-    final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CommonResponseListModel>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/naver/token',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value = CommonResponseListModel.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Future<CommonResponseListModel> requestEmailLoginRepository(
-      RequestEmailLoginModel requestEmailLoginModel) async {
+  Future<CommonResponseListModel> requestLogoutRepository() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(requestEmailLoginModel.toJson());
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<CommonResponseListModel>(Options(
       method: 'POST',
@@ -90,7 +32,92 @@ class _AuthRepository implements AuthRepository {
     )
             .compose(
               _dio.options,
-              '/login',
+              '/logout',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = CommonResponseListModel.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<CommonResponseListModel> requestUserinfosRepository(
+      RequestUserinfosModel requestUserinfosModel) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(requestUserinfosModel.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<CommonResponseListModel>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/userinfos',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = CommonResponseListModel.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<CommonResponseListModel> requestUsersRepository(
+      RequestUsersModel requestUsersModel) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(requestUsersModel.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<CommonResponseListModel>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/users',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = CommonResponseListModel.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<CommonResponseListModel> requestMypageRepository() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<CommonResponseListModel>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/mypage',
               queryParameters: queryParameters,
               data: _data,
             )

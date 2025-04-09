@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/home_controller.dart';
+import 'package:petbuddy_frontend_flutter/data/data.dart';
 import 'package:petbuddy_frontend_flutter/screens/home/widget/widget.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -322,7 +323,20 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                   const SizedBox(height: 16,),
                   HomeCardReportContainer(
                     subTitle: '탄이는 다음 3가지 관리가 필요해요!',
-                    child: Row(),
+                    reportList: [
+                      HomeCardReportModel(
+                        title: '#활동량', 
+                        content: '아침, 저녁 산책을 권장드려요!'
+                      ),
+                      HomeCardReportModel(
+                        title: '#수면', 
+                        content: '30분 낮잠이 필요한 것 같아요'
+                      ),
+                      HomeCardReportModel(
+                        title: '#규칙적인 습관', 
+                        content: '간식은 정해진 시간에 챙겨줘야 해요'
+                      ),
+                    ],
                   ),
                   /* OutlinedButton(onPressed: () {
                     //context.goNamed("home_activity_report_screen");

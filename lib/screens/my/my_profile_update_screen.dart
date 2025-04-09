@@ -65,17 +65,17 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                       DefaultTextButton(
                         text: '여자', 
                         disabled: false,
-                        borderColor: myProfileInputState.gender == femaleCode 
+                        borderColor: myProfileInputState.sex == femaleCode 
                           ? CustomColor.yellow03 
                           : CustomColor.gray04,
-                        backgroundColor: myProfileInputState.gender == femaleCode 
+                        backgroundColor: myProfileInputState.sex == femaleCode 
                           ? CustomColor.yellow03 
                           : CustomColor.white,
                         width: MediaQuery.of(context).size.width * 0.43,
                         onPressed: () {
                           setState(() {
                             ref.read(myProfileInputProvider.notifier)
-                               .setGender(femaleCode);
+                               .setSex(femaleCode);
                           });
 
                           ref.read(myProfileUpdateButtonProvider.notifier)
@@ -86,17 +86,17 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                       DefaultTextButton(
                         text: '남자', 
                         disabled: false,
-                        borderColor: myProfileInputState.gender == maleCode
+                        borderColor: myProfileInputState.sex == maleCode
                           ? CustomColor.yellow03 
                           : CustomColor.gray04,
-                        backgroundColor: myProfileInputState.gender == maleCode 
+                        backgroundColor: myProfileInputState.sex == maleCode 
                           ? CustomColor.yellow03 
                           : CustomColor.white,
                         width: MediaQuery.of(context).size.width * 0.43,
                         onPressed: () {
                           setState(() {
                             ref.read(myProfileInputProvider.notifier)
-                               .setGender(maleCode);
+                               .setSex(maleCode);
                           });
 
                           ref.read(myProfileUpdateButtonProvider.notifier)
@@ -156,7 +156,7 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                               ref.read(myProfileHealthInfoButtonProvider.notifier).set(i);
 
                               ref.read(myProfileInputProvider.notifier)
-                                 .setHealthInfo(healthInfos[i]['text'].toString());
+                                 .setInterest(healthInfos[i]['text'].toString());
 
                               ref.read(myProfileUpdateButtonProvider.notifier)
                                  .activate(myProfileInputState);
@@ -175,7 +175,7 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                     controller: phoneInputController,
                     onChanged: (String phone) {
                       ref.read(myProfileInputProvider.notifier)
-                         .setPhone(phoneInputController.text);
+                         .setPhoneNumber(phoneInputController.text);
 
                       ref.read(myProfileUpdateButtonProvider.notifier)
                          .activate(myProfileInputState);
