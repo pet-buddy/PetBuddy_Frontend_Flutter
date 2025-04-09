@@ -22,8 +22,11 @@ abstract class AuthRepository {
   factory AuthRepository(Dio dio, {String baseUrl}) = 
     _AuthRepository;
 
+  @GET('/kakao/token')
+  Future<CommonResponseListModel> requestKakaoLoginRepository(@Query("code") String code);
 
-  // @GET('/kakao/token')
+  @GET('/naver/token')
+  Future<CommonResponseListModel> requestNaverLoginRepository(@Query("code") String code);
 
   @POST('/login')
   Future<CommonResponseListModel> requestEmailLoginRepository(@Body() RequestEmailLoginModel requestEmailLoginModel); 

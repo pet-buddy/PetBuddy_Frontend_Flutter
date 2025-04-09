@@ -1,36 +1,37 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petbuddy_frontend_flutter/data/model/request_my_profile_update_model.dart';
+import 'package:petbuddy_frontend_flutter/data/model/request_users_model.dart';
 
-class MyProfileInputState extends StateNotifier<RequestMyProfileUpdateModel> {
+class MyProfileInputState extends StateNotifier<RequestUsersModel> {
   MyProfileInputState() : super(
-    RequestMyProfileUpdateModel(
-      gender: "", 
+    RequestUsersModel(
+      sex: "", 
       birth: "",
-      healthInfo: "",
-      phone: "",
+      interest: "",
+      phone_number: "",
     ),
   );
 
-  void set(RequestMyProfileUpdateModel model) => state = model;
+  void set(RequestUsersModel model) => state = model;
 
-  void setGender(String gender) => state.gender = gender;
+  void setSex(String sex) => state.sex = sex;
 
   void setBirth(String birth) => state.birth = birth;
 
-  void setHealthInfo(String healthInfo) => state.healthInfo = healthInfo;
+  void setInterest(String interest) => state.interest = interest;
 
-  void setPhone(String phone) => state.phone = phone;
+  void setPhoneNumber(String phone_number) => state.phone_number = phone_number;
 
-  RequestMyProfileUpdateModel get() => state;
+  RequestUsersModel get() => state;
 
-  String getGender() => state.gender;
+  String getSex() => state.sex;
 
   String getBirth() => state.birth;
 
-  String getHealthInfo() => state.healthInfo;
+  String getInterest() => state.interest;
 
-  String getPhone() => state.phone;
+  String getPhoneNumber() => state.phone_number;
 }
 
 final myProfileInputProvider = 
-    StateNotifierProvider<MyProfileInputState, RequestMyProfileUpdateModel>((ref) => MyProfileInputState());
+    StateNotifierProvider<MyProfileInputState, RequestUsersModel>((ref) => MyProfileInputState());

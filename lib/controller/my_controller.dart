@@ -33,10 +33,10 @@ mixin class MyController {
     {'text' : '디지털 반려동물 키우기', 'width': 350},
   ];
 
-  bool fnCheckGender(String gender) {
+  bool fnCheckSex(String sex) {
     bool result = false;
 
-    if(gender == 'F' || gender == 'M') result = true;
+    if(sex == 'F' || sex == 'M') result = true;
 
     return result;
   }
@@ -49,34 +49,34 @@ mixin class MyController {
     return result;
   }
 
-  bool fnCheckHealthInfo(String healthInfo) {
+  bool fnCheckInterest(String interest) {
     bool result = false;
 
-    if(healthInfo != '') result = true;
+    if(interest != '') result = true;
 
     return result;
   }
 
-  bool fnCheckPhone(String phone) {
+  bool fnCheckPhoneNumber(String phone_number) {
     bool result = false;
 
-    if(phone != '' || phone.length >= 13) result = true;
+    if(phone_number != '' || phone_number.length >= 13) result = true;
 
     return result;
   }
 
   Future<void> fnMyProfileUpdateExec() async {
-    final String gender = myRef.read(myProfileInputProvider.notifier).getGender();
+    final String sex = myRef.read(myProfileInputProvider.notifier).getSex();
     final String birth = myRef.read(myProfileInputProvider.notifier).getBirth();
-    final String healthInfo = myRef.read(myProfileInputProvider.notifier).getHealthInfo();
-    final String phone = myRef.read(myProfileInputProvider.notifier).getPhone();
+    final String interest = myRef.read(myProfileInputProvider.notifier).getInterest();
+    final String phone_number = myRef.read(myProfileInputProvider.notifier).getPhoneNumber();
 
-    debugPrint(gender);
+    debugPrint(sex);
     debugPrint(birth);
-    debugPrint(healthInfo);
-    debugPrint(phone);
+    debugPrint(interest);
+    debugPrint(phone_number);
 
-    if(!fnCheckGender(gender)) {
+    if(!fnCheckSex(sex)) {
       // TODO : 오류 알림
       return;
     }
@@ -84,11 +84,11 @@ mixin class MyController {
       // TODO : 오류 알림
       return;
     }
-    if(!fnCheckHealthInfo(healthInfo)) {
+    if(!fnCheckInterest(interest)) {
       // TODO : 오류 알림
       return;
     }
-    if(!fnCheckPhone(phone)) {
+    if(!fnCheckPhoneNumber(phone_number)) {
       // TODO : 오류 알림
       return;
     }
