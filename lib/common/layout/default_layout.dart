@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class DefaultLayout extends StatelessWidget {
@@ -13,15 +14,26 @@ class DefaultLayout extends StatelessWidget {
     this.appBar,
     this.bottomNavigationBar,
     this.floatingActionButton,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
+
+  Widget _webWrap(Widget child) {
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 600),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: child,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor ?? Colors.white,
       appBar: appBar,
-      body: child,
+      body: SizedBox(
+        width: kIsWeb ? 600 : MediaQuery.of(context).size.width,
+        child: child
+      ),
       bottomNavigationBar: bottomNavigationBar ?? const SizedBox(height: 0,),
       floatingActionButton: floatingActionButton,
       resizeToAvoidBottomInset: true,

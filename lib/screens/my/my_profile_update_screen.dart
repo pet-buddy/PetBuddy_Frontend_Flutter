@@ -24,7 +24,8 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
 
   @override
   Widget build(BuildContext context) {
-    final myHealthInfoButtonState = ref.watch(myProfileHealthInfoButtonProvider);
+    final myProfileSexButtonState = ref.watch(myProfileSexButtonProvider);
+    final myProfileInterestButtonState = ref.watch(myProfileInterestButtonProvider);
     final myProfileUpdateButtonState = ref.watch(myProfileUpdateButtonProvider);
     final myProfileInputState = ref.watch(myProfileInputProvider);
 
@@ -32,6 +33,9 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
       appBar: DefaultAppBar(
         title: '계정 정보 수정',
         leadingOnPressed: () {
+          // 해당 화면 벗어날 경우 관련 Provider 초기화
+          fnInitMyProfileUpdateState();
+          // 뒤로가기
           context.pop();
         },
         actionDisable: true,
@@ -65,18 +69,18 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                       DefaultTextButton(
                         text: '여자', 
                         disabled: false,
-                        borderColor: myProfileInputState.sex == femaleCode 
+                        borderColor: myProfileSexButtonState == femaleCode 
                           ? CustomColor.yellow03 
                           : CustomColor.gray04,
-                        backgroundColor: myProfileInputState.sex == femaleCode 
+                        backgroundColor: myProfileSexButtonState == femaleCode 
                           ? CustomColor.yellow03 
                           : CustomColor.white,
                         width: MediaQuery.of(context).size.width * 0.43,
                         onPressed: () {
-                          setState(() {
-                            ref.read(myProfileInputProvider.notifier)
-                               .setSex(femaleCode);
-                          });
+                          ref.read(myProfileSexButtonProvider.notifier).set(femaleCode);
+
+                          ref.read(myProfileInputProvider.notifier)
+                              .setSex(femaleCode);
 
                           ref.read(myProfileUpdateButtonProvider.notifier)
                              .activate(myProfileInputState);
@@ -86,18 +90,18 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                       DefaultTextButton(
                         text: '남자', 
                         disabled: false,
-                        borderColor: myProfileInputState.sex == maleCode
+                        borderColor: myProfileSexButtonState == maleCode
                           ? CustomColor.yellow03 
                           : CustomColor.gray04,
-                        backgroundColor: myProfileInputState.sex == maleCode 
+                        backgroundColor: myProfileSexButtonState == maleCode 
                           ? CustomColor.yellow03 
                           : CustomColor.white,
                         width: MediaQuery.of(context).size.width * 0.43,
                         onPressed: () {
-                          setState(() {
-                            ref.read(myProfileInputProvider.notifier)
-                               .setSex(maleCode);
-                          });
+                          ref.read(myProfileSexButtonProvider.notifier).set(maleCode);
+
+                          ref.read(myProfileInputProvider.notifier)
+                              .setSex(maleCode);
 
                           ref.read(myProfileUpdateButtonProvider.notifier)
                              .activate(myProfileInputState);
@@ -145,15 +149,15 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                           child: DefaultTextButton(
                             text: healthInfos[i]['text'].toString(), 
                             disabled: false,
-                            borderColor: myHealthInfoButtonState == i 
+                            borderColor: myProfileInterestButtonState == i 
                               ? CustomColor.yellow03
                               : CustomColor.gray04,
-                            backgroundColor: myHealthInfoButtonState == i 
+                            backgroundColor: myProfileInterestButtonState == i 
                               ? CustomColor.yellow03
                               : CustomColor.white,
                             width: double.parse(healthInfos[i]['width'].toString()),
                             onPressed: () {
-                              ref.read(myProfileHealthInfoButtonProvider.notifier).set(i);
+                              ref.read(myProfileInterestButtonProvider.notifier).set(i);
 
                               ref.read(myProfileInputProvider.notifier)
                                  .setInterest(healthInfos[i]['text'].toString());
