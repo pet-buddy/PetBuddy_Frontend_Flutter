@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:petbuddy_frontend_flutter/common/const/const.dart';
+import 'package:flutter/foundation.dart';
 
 
 class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -22,7 +23,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return PreferredSize(
-      preferredSize: const Size.fromHeight(50.0),
+      preferredSize: Size(kIsWeb ? 600 : MediaQuery.of(context).size.width, 50.0),
       child: AppBar(
         elevation: 0,
         backgroundColor: CustomColor.white,

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petbuddy_frontend_flutter/common/const/const.dart';
@@ -61,7 +62,19 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
-          child: child!,
+          child: kIsWeb 
+            ? Container(
+              padding: MediaQuery.of(context).size.width >= 1200 ?
+                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.4, right: 100) :
+                const EdgeInsets.all(0),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  
+                ],
+              ),
+              child: child!
+            )
+            : child!,
         );
       },
     );

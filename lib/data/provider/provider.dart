@@ -8,8 +8,10 @@ export 'email_login_input_provider.dart';
 export 'home_activity_report_period_select_provider.dart';
 
 // 마이페이지 관련 Provider
-export 'my_profile_health_info_button_provider.dart';
+export 'my_profile_interest_button_provider.dart';
 export 'my_profile_input_provider.dart';
+export 'my_profile_update_button_provider.dart';
+export 'my_profile_sex_button_provider.dart';
 
 // 카메라 관련 Provider
 export 'image_picker_provider.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:petbuddy_frontend_flutter/data/provider/my_profile_input_provider.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
 
 mixin class MyController {
   late final WidgetRef myRef;
@@ -9,6 +9,13 @@ mixin class MyController {
   void fnInitMyController(WidgetRef ref, BuildContext context) {
     myRef = ref;
     myContext = context;
+  }
+
+  void fnInitMyProfileUpdateState() {
+    myRef.invalidate(myProfileSexButtonProvider);
+    myRef.invalidate(myProfileInterestButtonProvider);
+    myRef.invalidate(myProfileUpdateButtonProvider);
+    myRef.invalidate(myProfileInputProvider);
   }
 
   // 마이페이지 - 회사정보섹션 높이를 구하기 위한 섹션별 키 

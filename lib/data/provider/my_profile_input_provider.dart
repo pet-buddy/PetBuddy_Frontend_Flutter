@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:petbuddy_frontend_flutter/data/model/request_my_profile_update_model.dart';
 import 'package:petbuddy_frontend_flutter/data/model/request_users_model.dart';
 
 class MyProfileInputState extends StateNotifier<RequestUsersModel> {
