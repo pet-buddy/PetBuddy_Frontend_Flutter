@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -24,7 +23,9 @@ class MainScreen extends ConsumerWidget {
         child: Row(
           children: [
             ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: kIsWeb ? 600 : MediaQuery.of(context).size.width),
+              constraints: BoxConstraints(
+                maxWidth: fnGetDeviceWidth(context),
+              ),
               child: BottomNavigationBar( 
                   selectedLabelStyle: const TextStyle(fontSize: 12,),
                   unselectedLabelStyle: const TextStyle(fontSize: 12),

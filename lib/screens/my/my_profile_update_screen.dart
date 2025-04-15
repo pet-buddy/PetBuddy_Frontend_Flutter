@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
-import 'package:petbuddy_frontend_flutter/data/provider/my_profile_update_button_provider.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
 
 class MyProfileUpdateScreen extends ConsumerStatefulWidget {
@@ -75,7 +74,7 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                         backgroundColor: myProfileSexButtonState == femaleCode 
                           ? CustomColor.yellow03 
                           : CustomColor.white,
-                        width: MediaQuery.of(context).size.width * 0.43,
+                        width: fnGetDeviceWidth(context) * 0.43,
                         onPressed: () {
                           ref.read(myProfileSexButtonProvider.notifier).set(femaleCode);
 
@@ -96,7 +95,7 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                         backgroundColor: myProfileSexButtonState == maleCode 
                           ? CustomColor.yellow03 
                           : CustomColor.white,
-                        width: MediaQuery.of(context).size.width * 0.43,
+                        width: fnGetDeviceWidth(context) * 0.43,
                         onPressed: () {
                           ref.read(myProfileSexButtonProvider.notifier).set(maleCode);
 
@@ -142,12 +141,12 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                   Wrap(
                     direction: Axis.horizontal,
                     children: [
-                      for(int i=0;i<healthInfos.length;i++)
+                      for(int i=0;i<interests.length;i++)
                         Container(
                           height: 40,
                           margin: const EdgeInsets.only(right: 16, bottom: 8),
                           child: DefaultTextButton(
-                            text: healthInfos[i]['text'].toString(), 
+                            text: interests[i]['text'].toString(), 
                             disabled: false,
                             borderColor: myProfileInterestButtonState == i 
                               ? CustomColor.yellow03
@@ -155,12 +154,12 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                             backgroundColor: myProfileInterestButtonState == i 
                               ? CustomColor.yellow03
                               : CustomColor.white,
-                            width: double.parse(healthInfos[i]['width'].toString()),
+                            width: double.parse(interests[i]['width'].toString()),
                             onPressed: () {
                               ref.read(myProfileInterestButtonProvider.notifier).set(i);
 
                               ref.read(myProfileInputProvider.notifier)
-                                 .setInterest(healthInfos[i]['text'].toString());
+                                 .setInterest(interests[i]['text'].toString());
 
                               ref.read(myProfileUpdateButtonProvider.notifier)
                                  .activate(myProfileInputState);
@@ -195,7 +194,9 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                   ),
                   const SizedBox(height: 16,),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height - 50 - 100 - 596,
+                    height: MediaQuery.of(context).size.height > 641 ? 
+                      MediaQuery.of(context).size.height - 641 :
+                      0
                   ),
                   DefaultTextButton(
                     text: '수정하기', 
@@ -204,7 +205,7 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                     },
                     disabled: !myProfileUpdateButtonState,
                   ),
-                  const SizedBox(height: 75,),
+                  const SizedBox(height: 32,),
                 ],
               ),
             ),

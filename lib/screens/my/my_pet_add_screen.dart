@@ -80,7 +80,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         disabled: false,
                         borderColor: CustomColor.gray04,
                         backgroundColor: CustomColor.white,
-                        width: MediaQuery.of(context).size.width * 0.3,
+                        width: fnGetDeviceWidth(context) * 0.3,
                         onPressed: () {
                         },
                       ),
@@ -89,7 +89,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         disabled: false,
                         borderColor: CustomColor.gray04,
                         backgroundColor: CustomColor.white,
-                        width: MediaQuery.of(context).size.width * 0.3,
+                        width: fnGetDeviceWidth(context) * 0.3,
                         onPressed: () {
                         },
                       ),
@@ -98,7 +98,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         disabled: false,
                         borderColor: CustomColor.gray04,
                         backgroundColor: CustomColor.white,
-                        width: MediaQuery.of(context).size.width * 0.3,
+                        width: fnGetDeviceWidth(context) * 0.3,
                         onPressed: () {
                         },
                       ),
@@ -125,7 +125,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         disabled: false,
                         borderColor: CustomColor.gray04,
                         backgroundColor: CustomColor.white,
-                        width: MediaQuery.of(context).size.width * 0.43,
+                        width: fnGetDeviceWidth(context) * 0.43,
                         onPressed: () {
                         },
                       ),
@@ -134,7 +134,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         disabled: false,
                         borderColor: CustomColor.gray04,
                         backgroundColor: CustomColor.white,
-                        width: MediaQuery.of(context).size.width * 0.43,
+                        width: fnGetDeviceWidth(context) * 0.43,
                         onPressed: () {
                         },
                       ),
@@ -154,7 +154,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         disabled: false,
                         borderColor: CustomColor.gray04,
                         backgroundColor: CustomColor.white,
-                        width: MediaQuery.of(context).size.width * 0.43,
+                        width: fnGetDeviceWidth(context) * 0.43,
                         onPressed: () {
                         },
                       ),
@@ -163,7 +163,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         disabled: false,
                         borderColor: CustomColor.gray04,
                         backgroundColor: CustomColor.white,
-                        width: MediaQuery.of(context).size.width * 0.43,
+                        width: fnGetDeviceWidth(context) * 0.43,
                         onPressed: () {
                         },
                       ),

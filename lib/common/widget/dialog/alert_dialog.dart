@@ -1,6 +1,7 @@
 import 'package:petbuddy_frontend_flutter/common/const/const.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:petbuddy_frontend_flutter/common/utils/fn_get_device_width.dart';
 
 showAlertDialog({
   required BuildContext context,
@@ -17,9 +18,13 @@ showAlertDialog({
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.8,
+        backgroundColor: CustomColor.white,
+        child: Container(
+          // width: (kIsWeb ? ProjectConstant.WEB_MAX_WIDTH : MediaQuery.of(context).size.width) * 0.8,
           height: 261,
+          constraints: BoxConstraints(
+            maxHeight: fnGetDeviceWidth(context),
+          ),
           child: Column(
             children: [
               Padding(
@@ -45,8 +50,11 @@ showAlertDialog({
                 color: CustomColor.gray04,
               ),
               Container(
-                width: MediaQuery.of(context).size.width * 0.8,
+                // width: (kIsWeb ? ProjectConstant.WEB_MAX_WIDTH : MediaQuery.of(context).size.width) * 0.8,
                 height: 50,
+                constraints: BoxConstraints(
+                  maxWidth: fnGetDeviceWidth(context),
+                ),
                 decoration: const BoxDecoration(
                   color: CustomColor.blue02,
                   borderRadius: BorderRadius.only(

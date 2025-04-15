@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:petbuddy_frontend_flutter/common/const/const.dart';
+import 'package:petbuddy_frontend_flutter/common/utils/fn_get_device_width.dart';
 
 class HomeCardManageContainer extends StatelessWidget {
   const HomeCardManageContainer({
@@ -26,7 +28,7 @@ class HomeCardManageContainer extends StatelessWidget {
         onPressed != null ? onPressed!() : null;
       },
       child: Container(
-        width: (MediaQuery.of(context).size.width - 32) / 2 - 8,
+        width: (fnGetDeviceWidth(context) - 32) / 2 - 8,
         padding: const EdgeInsets.all(8),
         constraints: const BoxConstraints(
           minHeight: 116,
