@@ -1,6 +1,7 @@
 import 'package:petbuddy_frontend_flutter/common/const/const.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:petbuddy_frontend_flutter/common/utils/fn_get_device_width.dart';
 
 showConfirmDialog({
   required BuildContext context,
@@ -21,9 +22,13 @@ showConfirmDialog({
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.8,
+        backgroundColor: CustomColor.white,
+        child: Container(
+          // width: (kIsWeb ? ProjectConstant.WEB_MAX_WIDTH : MediaQuery.of(context).size.width) * 0.8,
           height: 261,
+          constraints: BoxConstraints(
+            maxWidth: fnGetDeviceWidth(context),
+          ),
           child: Column(
             children: [
               Padding(

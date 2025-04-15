@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:petbuddy_frontend_flutter/common/common.dart';
 
 class DefaultLayout extends StatelessWidget {
   final Color? backgroundColor;
@@ -17,21 +17,16 @@ class DefaultLayout extends StatelessWidget {
     super.key,
   });
 
-  Widget _webWrap(Widget child) {
-    return Container(
-      constraints: const BoxConstraints(maxWidth: 600),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: child,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor ?? Colors.white,
       appBar: appBar,
-      body: SizedBox(
-        width: kIsWeb ? 600 : MediaQuery.of(context).size.width,
+      body: Container(
+        // width: kIsWeb ? ProjectConstant.WEB_MAX_WIDTH : MediaQuery.of(context).size.width,
+        constraints: BoxConstraints(
+          maxWidth: fnGetDeviceWidth(context),
+        ),
         child: child
       ),
       bottomNavigationBar: bottomNavigationBar ?? const SizedBox(height: 0,),

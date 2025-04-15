@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,6 +15,11 @@ class MyScreen extends ConsumerStatefulWidget {
 }
 
 class MyScreenState extends ConsumerState<MyScreen> with MyController {
+
+  // 마이페이지 - 회사정보섹션 높이를 구하기 위한 섹션별 키 
+  GlobalKey sectionKey1 = GlobalKey();
+  GlobalKey sectionKey2 = GlobalKey();
+  GlobalKey sectionKey3 = GlobalKey();
 
   @override
   void initState() {
@@ -228,6 +234,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                     ),
                   ),
                   Container(
+                    width: kIsWeb ? ProjectConstant.WEB_MAX_WIDTH : MediaQuery.of(context).size.width,
                     height: companySectionHeight > 245 ? companySectionHeight : 245,
                     decoration: const BoxDecoration(
                       color: CustomColor.gray05

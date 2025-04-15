@@ -18,10 +18,6 @@ mixin class MyController {
     myRef.invalidate(myProfileInputProvider);
   }
 
-  // 마이페이지 - 회사정보섹션 높이를 구하기 위한 섹션별 키 
-  GlobalKey sectionKey1 = GlobalKey();
-  GlobalKey sectionKey2 = GlobalKey();
-  GlobalKey sectionKey3 = GlobalKey();
   // 마이페이지 - 회사정보섹션 높이 변수
   double companySectionHeight = 0.0;
 
@@ -33,7 +29,7 @@ mixin class MyController {
   TextEditingController birthInputController = TextEditingController();
   TextEditingController phoneInputController = TextEditingController();
 
-  final List<Map<String, dynamic>> healthInfos = [
+  final List<Map<String, dynamic>> interests = [
     {'text' : '변관리', 'width': 100},
     {'text' : '활동관리', 'width': 110},
     {'text' : '수면관리', 'width': 110},

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
@@ -34,6 +35,11 @@ class CameraScreenState extends ConsumerState<CameraScreen> with CameraControlle
     final imagePickerState = ref.watch(imagePickerProvider);
 
     return DefaultLayout(
+      appBar: const DefaultAppBar(
+        title: '카메라',
+        leadingDisable: true,
+        actionDisable: true,
+      ),
       child: PopScope(
         canPop: false,
         onPopInvokedWithResult: (didPop, result) async {
@@ -47,6 +53,7 @@ class CameraScreenState extends ConsumerState<CameraScreen> with CameraControlle
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
+                const SizedBox(height: 16),
                 imagePickerState != null ?
                   Container(
                     width: MediaQuery.of(context).size.width,
@@ -54,33 +61,81 @@ class CameraScreenState extends ConsumerState<CameraScreen> with CameraControlle
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(12),),
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16.0),
-                      child: Image.file(
-                        File(imagePickerState.path),
-                        fit: BoxFit.cover,
-                      ),
+                    child: Stack(
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 300,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16.0),
+                            child: Image.file(
+                              File(imagePickerState.path),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Container(
+                              width: 24,
+                              height: 24,
+                              margin: const EdgeInsets.all(8),
+                              decoration: const BoxDecoration(
+                                color: CustomColor.white,
+                                borderRadius: BorderRadius.all(Radius.circular(24),),
+                              ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  ref.read(imagePickerProvider.notifier).set(null);
+                                },
+                                child: SvgPicture.asset(
+                                  'assets/icons/action/delete_circle.svg',
+                                  width: 24,
+                                  height: 24,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ), 
                   ) :
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 300, 
-                    decoration: const BoxDecoration(
-                      color: CustomColor.gray05,
-                      borderRadius: BorderRadius.all(Radius.circular(12),),
+                  GestureDetector(
+                    onTap: () {
+                      fnGetImage(ImageSource.gallery);
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 300, 
+                      decoration: BoxDecoration(
+                        color: CustomColor.white,
+                        borderRadius: const BorderRadius.all(Radius.circular(12),),
+                        border: Border.all(
+                            width: 1,
+                            color: CustomColor.gray04,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/icons/photo/add_media_image.svg',
+                            width: 24,
+                            height: 24,
+                          ),
+                          const SizedBox(width: 4,),
+                          Text(
+                            '사진 가져오기',
+                            style: CustomText.caption2.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                const SizedBox(height: 8,),
-                DefaultTextButton(
-                  disabled: false,
-                  backgroundColor: CustomColor.yellow05,
-                  borderColor: CustomColor.yellow05,
-                  onPressed: () {
-                    fnGetImage(ImageSource.gallery);
-                  }, 
-                  text: '사진 가져오기',
-                ),
-                const SizedBox(height: 8,),
+                const SizedBox(height: 16,),
                 DefaultTextButton(
                   disabled: false,
                   backgroundColor: CustomColor.blue05,

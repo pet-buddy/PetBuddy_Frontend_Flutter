@@ -23,7 +23,13 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return PreferredSize(
-      preferredSize: Size(kIsWeb ? 600 : MediaQuery.of(context).size.width, 50.0),
+      /* preferredSize: Size(
+        kIsWeb ? 
+          ProjectConstant.WEB_MAX_WIDTH : 
+          MediaQuery.of(context).size.width
+        , 50.0
+      ), */
+      preferredSize: const Size.fromHeight(50.0),
       child: AppBar(
         elevation: 0,
         backgroundColor: CustomColor.white,

@@ -111,7 +111,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                       children: [
                         HomeCardPetContainer(
                           onPressed: () {
-                            debugPrint('test ${homePageController?.page}');
+                            
                           },
                         ),
                         HomeCardPetContainer(
@@ -121,7 +121,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                             height: 146,
                           ),
                           onPressed: () {
-                            debugPrint('test2 ${homePageController?.page}');
+                            
                           },
                         ),
                         HomeCardPetContainer(
@@ -131,7 +131,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                             height: 146,
                           ),
                           onPressed: () {
-                            debugPrint('test3 ${homePageController?.page}');
+                            
                           },
                         ),
                       ],
@@ -338,10 +338,11 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                       ),
                     ],
                   ),
-                  /* OutlinedButton(onPressed: () {
+                  OutlinedButton(onPressed: () {
                     //context.goNamed("home_activity_report_screen");
-                    showAlertDialog(context: context, middleText: 'teeeee');
-                  }, child: Text('test')) */
+                    // showAlertDialog(context: context, middleText: 'teeeee');
+                    showConfirmDialog(context: context, middleText: 'teeeee', onConfirm: () {});
+                  }, child: Text('test')),
                   const SizedBox(height: 32,),
                 ],
               )
