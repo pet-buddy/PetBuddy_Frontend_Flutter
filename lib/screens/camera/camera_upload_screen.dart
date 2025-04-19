@@ -9,14 +9,14 @@ import 'package:petbuddy_frontend_flutter/controller/controller.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
 
 
-class CameraScreen extends ConsumerStatefulWidget {
-  const CameraScreen({super.key});
+class CameraUploadScreen extends ConsumerStatefulWidget {
+  const CameraUploadScreen({super.key});
 
   @override
-  ConsumerState<CameraScreen> createState() => CameraScreenState();
+  ConsumerState<CameraUploadScreen> createState() => CameraUploadScreenState();
 }
 
-class CameraScreenState extends ConsumerState<CameraScreen> with CameraController {
+class CameraUploadScreenState extends ConsumerState<CameraUploadScreen> with CameraController {
 
   @override
   void initState() {
@@ -36,7 +36,7 @@ class CameraScreenState extends ConsumerState<CameraScreen> with CameraControlle
 
     return DefaultLayout(
       appBar: const DefaultAppBar(
-        title: '카메라',
+        title: '사진 업로드',
         leadingDisable: true,
         actionDisable: true,
       ),
@@ -136,17 +136,6 @@ class CameraScreenState extends ConsumerState<CameraScreen> with CameraControlle
                     ),
                   ),
                 const SizedBox(height: 16,),
-                DefaultTextButton(
-                  disabled: false,
-                  backgroundColor: CustomColor.blue05,
-                  borderColor: CustomColor.blue05,
-                  textColor: CustomColor.white,
-                  onPressed: () {
-                    fnGetImage(ImageSource.camera);
-                  }, 
-                  text: '사진 촬영하기',
-                ),
-                const Spacer(),
                 DefaultTextButton(
                   disabled: false,
                   backgroundColor: CustomColor.white,

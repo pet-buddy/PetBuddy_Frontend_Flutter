@@ -55,7 +55,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
                 IconButton(
                   onPressed: actionOnPressed,
                   icon: SvgPicture.asset(
-                    'assets/icons/outlined/close.svg',
+                    'assets/icons/action/close.svg',
                     width: 24,
                     height: 24,
                   ),
