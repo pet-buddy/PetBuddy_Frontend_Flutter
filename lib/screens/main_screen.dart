@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -41,10 +42,13 @@ class MainScreen extends ConsumerWidget {
                     // 화면 이동
                     if (index == 0) {
                       context.goNamed('home_screen');
-                    } else if (index == 1) {                  
-                      context.pushNamed('camera_screen');
+                    } else if (index == 1) {
+                      kIsWeb ?                  
+                        context.pushNamed('camera_upload_screen') :
+                        null;
                     } else if (index == 2) {
-                      context.goNamed('shop_screen');
+                      // context.goNamed('shop_screen');
+                      context.goNamed('preorder_screen');
                     } else if (index == 3) {
                       context.goNamed('my_screen');
                     }
@@ -53,12 +57,12 @@ class MainScreen extends ConsumerWidget {
                     BottomNavigationBarItem(
                       label: 'Home',
                       icon: SvgPicture.asset(
-                        'assets/icons/outlined/home_icon_outlined.svg',
+                        'assets/icons/navigation/home_icon_outlined.svg',
                         width: 24,
                         height: 24,
                       ),
                       activeIcon: SvgPicture.asset(
-                        'assets/icons/filled/home_icon_filled.svg',
+                        'assets/icons/navigation/home_icon_filled.svg',
                         width: 24,
                         height: 24,
                       ),
@@ -66,12 +70,12 @@ class MainScreen extends ConsumerWidget {
                     BottomNavigationBarItem(
                       label: 'Camera',
                       icon: SvgPicture.asset(
-                        'assets/icons/outlined/camera_icon_outlined.svg',
+                        'assets/icons/navigation/camera_icon_outlined.svg',
                         width: 24,
                         height: 24,
                       ),
                       activeIcon: SvgPicture.asset(
-                        'assets/icons/filled/camera_icon_filled.svg',
+                        'assets/icons/navigation/camera_icon_filled.svg',
                         width: 24,
                         height: 24,
                       ),
@@ -79,12 +83,12 @@ class MainScreen extends ConsumerWidget {
                     BottomNavigationBarItem(
                       label: 'Shop',
                       icon: SvgPicture.asset(
-                        'assets/icons/outlined/shopping_icon_outlined.svg',
+                        'assets/icons/navigation/shopping_icon_outlined.svg',
                         width: 24,
                         height: 24,
                       ),
                       activeIcon: SvgPicture.asset(
-                        'assets/icons/filled/shopping_icon_filled.svg',
+                        'assets/icons/navigation/shopping_icon_filled.svg',
                         width: 24,
                         height: 24,
                       ),
@@ -92,12 +96,12 @@ class MainScreen extends ConsumerWidget {
                     BottomNavigationBarItem(
                       label: 'Profile',
                       icon: SvgPicture.asset(
-                        'assets/icons/outlined/profile_icon_outlined.svg',
+                        'assets/icons/navigation/profile_icon_outlined.svg',
                         width: 24,
                         height: 24,
                       ),
                       activeIcon: SvgPicture.asset(
-                        'assets/icons/filled/profile_icon_filled.svg',
+                        'assets/icons/navigation/profile_icon_filled.svg',
                         width: 24,
                         height: 24,
                       ),
