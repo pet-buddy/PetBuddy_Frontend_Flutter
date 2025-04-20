@@ -235,7 +235,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                   ),
                   Container(
                     width: kIsWeb ? ProjectConstant.WEB_MAX_WIDTH : MediaQuery.of(context).size.width,
-                    height: companySectionHeight > 245 ? companySectionHeight : 245,
+                    height: companySectionHeight > 300 ? companySectionHeight : 300,
                     decoration: const BoxDecoration(
                       color: CustomColor.gray05
                     ),
@@ -276,7 +276,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                             '운영시간 : 평일 오전 9시~오후 5시 (점심시간 오후 1시~2시)',
                             style: CustomText.body10
                           ),
-                          const SizedBox(height: 16,),
+                          const SizedBox(height: 32,),
                         ],
                       ),
                     ),

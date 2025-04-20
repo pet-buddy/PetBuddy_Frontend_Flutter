@@ -44,11 +44,11 @@ class MainScreen extends ConsumerWidget {
                       context.goNamed('home_screen');
                     } else if (index == 1) {
                       kIsWeb ?                  
-                        context.pushNamed('camera_upload_screen') :
-                        null;
+                        context.goNamed('camera_upload_screen') :
+                        null; // 앱일 경우 카메라 호출
                     } else if (index == 2) {
                       // context.goNamed('shop_screen');
-                      context.goNamed('preorder_screen');
+                      context.pushNamed('preorder_screen');
                     } else if (index == 3) {
                       context.goNamed('my_screen');
                     }

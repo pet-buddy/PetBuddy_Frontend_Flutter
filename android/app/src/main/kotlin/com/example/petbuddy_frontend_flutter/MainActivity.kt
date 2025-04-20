@@ -1,4 +1,4 @@
-package com.example.petbuddy_frontend_flutter
+package com.daughterpet.pawprint
 
 import io.flutter.embedding.android.FlutterActivity
 

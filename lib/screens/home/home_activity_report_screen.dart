@@ -50,7 +50,7 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                 children: [
                   // const SizedBox(height: 16,),
                   Container(
-                    width: MediaQuery.of(context).size.width,
+                    width: fnGetDeviceWidth(context),
                     height: 32,
                     decoration: const BoxDecoration(
                       color: CustomColor.yellow03,
@@ -63,7 +63,7 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                         child: Row(
                           children: [
                             HomeActivityReportPeriodButton(
-                              width:  (MediaQuery.of(context).size.width - 4) / 6, 
+                              width:  (fnGetDeviceWidth(context) - 4) / 6, 
                               color:  homeActivityReportPeriodSelectState == periodCode['Day']! 
                                 ? CustomColor.white 
                                 : CustomColor.yellow03,
@@ -81,7 +81,7 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                               ),
                             ),
                             HomeActivityReportPeriodButton(
-                              width: (MediaQuery.of(context).size.width - 4) / 6, 
+                              width: (fnGetDeviceWidth(context) - 4) / 6, 
                               color: homeActivityReportPeriodSelectState == periodCode['Week']! 
                                 ? CustomColor.white 
                                 : CustomColor.yellow03,
@@ -99,7 +99,7 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                               ),
                             ),
                             HomeActivityReportPeriodButton(
-                              width: (MediaQuery.of(context).size.width - 4) / 6, 
+                              width: (fnGetDeviceWidth(context) - 4) / 6, 
                               color: homeActivityReportPeriodSelectState == periodCode['Month']! 
                                 ? CustomColor.white 
                                 : CustomColor.yellow03,
@@ -117,7 +117,7 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                               ),
                             ),
                             HomeActivityReportPeriodButton(
-                              width: (MediaQuery.of(context).size.width - 4) / 6, 
+                              width: (fnGetDeviceWidth(context) - 4) / 6, 
                               color: homeActivityReportPeriodSelectState == periodCode['6Month']! 
                                 ? CustomColor.white 
                                 : CustomColor.yellow03,
@@ -135,7 +135,7 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                               ),
                             ),
                             HomeActivityReportPeriodButton(
-                              width: (MediaQuery.of(context).size.width - 4) / 6,
+                              width: (fnGetDeviceWidth(context) - 4) / 6,
                               color: homeActivityReportPeriodSelectState == periodCode['Year']! 
                                 ? CustomColor.white 
                                 : CustomColor.yellow03, 

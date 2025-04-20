@@ -42,9 +42,11 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 16,),
-                  const Text(
+                  Text(
                     '탄이, 반가워요!',
-                    style: CustomText.heading1,
+                    style: CustomText.heading1.copyWith(
+                      color: CustomColor.blue03,
+                    ),
                   ),
                   Row(
                     children: [
@@ -57,6 +59,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                       Text(
                         '하트코인(준비 중)',
                         style: CustomText.body10.copyWith(
+                          color: CustomColor.gray03,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

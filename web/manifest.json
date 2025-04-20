@@ -1,6 +1,6 @@
 {
-    "name": "petbuddy_frontend_flutter",
-    "short_name": "petbuddy_frontend_flutter",
+    "name": "PawPrint",
+    "short_name": "PawPrint",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
