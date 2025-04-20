@@ -41,7 +41,7 @@ showConfirmDialog({
                       Flexible(
                         child: Text(
                           middleText,
-                          style: CustomText.body8,
+                          style: CustomText.body11,
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -81,7 +81,7 @@ showConfirmDialog({
                   Expanded(
                     child: Container(
                       decoration: const BoxDecoration(
-                        color: CustomColor.blue02,
+                        color: CustomColor.blue04,
                         borderRadius: BorderRadius.only(bottomRight: Radius.circular(16)),
                       ),
                       height: 50,

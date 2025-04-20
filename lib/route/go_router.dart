@@ -93,7 +93,7 @@ final router = GoRouter(
         GoRoute(
           parentNavigatorKey: shellNavigatorKey,
           path: '/camera_upload_screen',
-          name: 'camera__upload_screen',
+          name: 'camera_upload_screen',
           pageBuilder: (BuildContext context, GoRouterState state) {
             return const NoTransitionPage(child: CameraUploadScreen());
           },

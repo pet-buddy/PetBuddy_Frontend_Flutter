@@ -37,7 +37,7 @@ showAlertDialog({
                       Flexible(
                         child: Text(
                           middleText,
-                          style: CustomText.body8,
+                          style: CustomText.body11,
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -56,7 +56,7 @@ showAlertDialog({
                   maxWidth: fnGetDeviceWidth(context),
                 ),
                 decoration: const BoxDecoration(
-                  color: CustomColor.blue02,
+                  color: CustomColor.blue04,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(16), 
                     bottomRight: Radius.circular(16)

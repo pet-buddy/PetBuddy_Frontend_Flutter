@@ -25,9 +25,13 @@ class HomeCardMissionContainer extends StatelessWidget {
         minHeight: 100,
         maxHeight: 120
       ),
-      decoration: const BoxDecoration(
-        color: Color(0xFFD9D9D9),
-        borderRadius: BorderRadius.all(Radius.circular(8),),
+      decoration: BoxDecoration(
+        color: CustomColor.white,
+        border: Border.all(
+          width: 1,
+          color: CustomColor.yellow03,
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(32),),
       ),
       margin: const EdgeInsets.only(right: 8),
       child: Row(
