@@ -8,6 +8,7 @@ showAlertDialog({
   required String middleText,
   VoidCallback? onConfirm,
   bool barrierDismissible = true,
+  double? height,
 }) {
   showDialog(
     // useRootNavigator: false,
@@ -21,7 +22,7 @@ showAlertDialog({
         backgroundColor: CustomColor.white,
         child: Container(
           // width: (kIsWeb ? ProjectConstant.WEB_MAX_WIDTH : MediaQuery.of(context).size.width) * 0.8,
-          height: 261,
+          height: height ?? 211,
           constraints: BoxConstraints(
             maxHeight: fnGetDeviceWidth(context),
           ),
@@ -30,7 +31,7 @@ showAlertDialog({
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: SizedBox(
-                  height: 210,
+                  height: height != null ? height - 51 : 160,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

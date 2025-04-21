@@ -42,10 +42,13 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      appBar: const DefaultAppBar(
+      appBar: DefaultAppBar(
         title: '마이페이지',
         leadingDisable: true,
-        actionDisable: true,
+        actionIcon: 'assets/icons/system/settings.svg',
+        actionOnPressed: () {
+
+        },
       ),
       child: PopScope(
         canPop: false,
@@ -235,7 +238,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                   ),
                   Container(
                     width: kIsWeb ? ProjectConstant.WEB_MAX_WIDTH : MediaQuery.of(context).size.width,
-                    height: companySectionHeight > 300 ? companySectionHeight : 300,
+                    height: companySectionHeight > 400 ? companySectionHeight : 400,
                     decoration: const BoxDecoration(
                       color: CustomColor.gray05
                     ),
