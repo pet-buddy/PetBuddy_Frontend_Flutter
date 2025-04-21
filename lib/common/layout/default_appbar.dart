@@ -12,6 +12,8 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.leadingOnPressed,
     this.actionDisable = false,
     this.actionOnPressed,
+    this.leadingIcon,
+    this.actionIcon,
   });
 
   final String title;
@@ -19,6 +21,8 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? leadingOnPressed;
   final bool actionDisable;
   final VoidCallback? actionOnPressed;
+  final String? leadingIcon;
+  final String? actionIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
             ? IconButton(
                 onPressed: leadingOnPressed,
                 icon: SvgPicture.asset(
-                  'assets/icons/navigation/arrow_back.svg',
+                  leadingIcon ?? 'assets/icons/navigation/arrow_back.svg',
                   width: 24,
                   height: 24,
                 ),
@@ -55,7 +59,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
                 IconButton(
                   onPressed: actionOnPressed,
                   icon: SvgPicture.asset(
-                    'assets/icons/action/close.svg',
+                    actionIcon ?? 'assets/icons/action/close.svg',
                     width: 24,
                     height: 24,
                   ),

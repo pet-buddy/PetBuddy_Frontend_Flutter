@@ -161,7 +161,6 @@
 				D0457D72A5B89F7A1F087D12 /* Pods-RunnerTests.release.xcconfig */,
 				58AA68387ACD736F88802E3E /* Pods-RunnerTests.profile.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -702,7 +701,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.petbuddyFrontendFlutter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.daughterpet.pawprint;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

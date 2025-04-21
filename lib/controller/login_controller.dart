@@ -27,14 +27,14 @@ mixin class LoginController {
     if(email.isEmpty) {
       showAlertDialog(
         context: loginContext, 
-        middleText: "이메일을 입력해주세요."
+        middleText: "이메일을 입력해주세요.",
       );
       return;
     }
     if(password.isEmpty) {
       showAlertDialog(
         context: loginContext, 
-        middleText: "비밀번호를 입력해주세요."
+        middleText: "비밀번호를 입력해주세요.",
       );
       return;
     }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
+import 'package:petbuddy_frontend_flutter/screens/shop/widget/preorder/0001/0001.dart';
 
 class PreorderScreen extends ConsumerStatefulWidget {
   const PreorderScreen({super.key});
@@ -87,90 +87,30 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                 Container(
                   width: fnGetDeviceWidth(context),
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
+                  child: const Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 32,),
-                      const Text(
+                      SizedBox(height: 32,),
+                      Text(
                         '이런 분들께 추천드려요',
                         style: CustomText.body7,
                       ),
-                      const SizedBox(height: 32,),
+                      SizedBox(height: 32,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            children: [
-                              Container(
-                                width: fnGetDeviceWidth(context) / 4,
-                                height: fnGetDeviceWidth(context) / 4,
-                                decoration: BoxDecoration(
-                                  color: CustomColor.white,
-                                  border: Border.all(
-                                    width: 4,
-                                    color: CustomColor.blue04,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(100)),
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    '소화질환 경험이 있는\n반려동물을 키우는 사람',
-                                    style: CustomText.caption3,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
-                            ],
+                          PreorderRecommandContainer(
+                            text: '소화질환 경험이 있는\n반려동물을 키우는 사람'
                           ),
-                          Column(
-                            children: [
-                              Container(
-                                width: fnGetDeviceWidth(context) / 4,
-                                height: fnGetDeviceWidth(context) / 4,
-                                decoration: BoxDecoration(
-                                  color: CustomColor.white,
-                                  border: Border.all(
-                                    width: 4,
-                                    color: CustomColor.blue04,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(100)),
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    '하루 4시간 이상\n집을 비우는 사람',
-                                    style: CustomText.caption3,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
-                            ],
+                          PreorderRecommandContainer(
+                            text: '하루 4시간 이상\n집을 비우는 사람'
                           ),
-                          Column(
-                            children: [
-                              Container(
-                                width: fnGetDeviceWidth(context) / 4,
-                                height: fnGetDeviceWidth(context) / 4,
-                                decoration: BoxDecoration(
-                                  color: CustomColor.white,
-                                  border: Border.all(
-                                    width: 4,
-                                    color: CustomColor.blue04,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(100)),
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    '밥을 가려 먹는\n반려동물을 키우는 사람',
-                                    style: CustomText.caption3,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
-                            ],
+                          PreorderRecommandContainer(
+                            text: '밥을 가려 먹는\n반려동물을 키우는 사람'
                           ),
                         ],
                       ),
-                      const SizedBox(height: 32,),
+                      SizedBox(height: 32,),
                     ],
                   ),
                 ),
@@ -196,7 +136,7 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              SizedBox(height: fnGetDeviceWidth(context) >= 500 ? 32 : 16,),
+                              const SizedBox(height: 32,),
                               Text(
                                 '감으로만 건강관리를 했던 나,',
                                 style: CustomText.body7.copyWith(
@@ -204,7 +144,7 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: fnGetDeviceWidth(context) >= 500 ? 4 : 2,),
+                              const SizedBox(height: 4),
                               Text(
                                 '이제 포프린트로 케어해보세요.',
                                 style: CustomText.body7.copyWith(
@@ -212,7 +152,7 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: fnGetDeviceWidth(context) >= 500 ? 16 : 8,),
+                              const SizedBox(height: 8,),
                               Text(
                                 '예약 마감까지',
                                 style: CustomText.body9.copyWith(
@@ -220,7 +160,7 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: fnGetDeviceWidth(context) >= 500 ? 16 : 8,),
+                              const SizedBox(height: 16),
                               SizedBox(
                                 height: fnGetDeviceWidth(context) >= 500 ? 100 : 80,
                                 child: Row(
@@ -378,68 +318,24 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                         ),
                       ),
                       const SizedBox(height: 32,),
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Column(
-                            children: [
-                              Image.asset(
-                                'assets/icons/preorder/0001/sleep.png',
-                                width: 80,
-                                height: 80,
-                              ),
-                              const SizedBox(height: 8,),
-                              const Text(
-                                '수면 분석',
-                                style: CustomText.caption3,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                          PreorderAppFeatureContainer(
+                            img: '0001/sleep.png', 
+                            text: '수면 분석'
                           ),
-                          Column(
-                            children: [
-                              Image.asset(
-                                'assets/icons/preorder/0001/activity.png',
-                                width: 80,
-                                height: 80,
-                              ),
-                              const SizedBox(height: 8,),
-                              const Text(
-                                '활동량 분석',
-                                style: CustomText.caption3,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                          PreorderAppFeatureContainer(
+                            img: '0001/activity.png', 
+                            text: '활동량 분석'
                           ),
-                          Column(
-                            children: [
-                              Image.asset(
-                                'assets/icons/preorder/0001/clock.png',
-                                width: 80,
-                                height: 80,
-                              ),
-                              const SizedBox(height: 8,),
-                              const Text(
-                                '24시간 추적',
-                                style: CustomText.caption3,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                          PreorderAppFeatureContainer(
+                            img: '0001/clock.png', 
+                            text: '24시간 추적'
                           ),
-                          Column(
-                            children: [
-                              Image.asset(
-                                'assets/icons/preorder/0001/report.png',
-                                width: 80,
-                                height: 80,
-                              ),
-                              const SizedBox(height: 8,),
-                              const Text(
-                                '월간 보고서',
-                                style: CustomText.caption3,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                          PreorderAppFeatureContainer(
+                            img: '0001/report.png', 
+                            text: '월간 보고서'
                           ),
                         ],
                       ),
@@ -451,53 +347,20 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                         ),
                       ),
                       const SizedBox(height: 32,),
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Column(
-                            children: [
-                              Image.asset(
-                                'assets/icons/preorder/0001/pattern.png',
-                                width: 80,
-                                height: 80,
-                              ),
-                              const SizedBox(height: 8,),
-                              const Text(
-                                '활동 패턴 분석',
-                                style: CustomText.caption3,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                          PreorderAppFeatureContainer(
+                            img: '0001/pattern.png', 
+                            text: '활동 패턴 분석'
                           ),
-                          Column(
-                            children: [
-                              Image.asset(
-                                'assets/icons/preorder/0001/poop.png',
-                                width: 80,
-                                height: 80,
-                              ),
-                              const SizedBox(height: 8,),
-                              const Text(
-                                '변 건강 고려',
-                                style: CustomText.caption3,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                          PreorderAppFeatureContainer(
+                            img: '0001/poop.png', 
+                            text: '변 건강 고려'
                           ),
-                          Column(
-                            children: [
-                              Image.asset(
-                                'assets/icons/preorder/0001/feed.png',
-                                width: 80,
-                                height: 80,
-                              ),
-                              const SizedBox(height: 8,),
-                              const Text(
-                                '영양 사료 추천',
-                                style: CustomText.caption3,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                          PreorderAppFeatureContainer(
+                            img: '0001/feed.png', 
+                            text: '영양 사료 추천'
                           ),
                         ],
                       ),
@@ -509,68 +372,24 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                         ),
                       ),
                       const SizedBox(height: 32,),
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Column(
-                            children: [
-                              Image.asset(
-                                'assets/icons/preorder/0001/digital_twin.png',
-                                width: 80,
-                                height: 80,
-                              ),
-                              const SizedBox(height: 8,),
-                              const Text(
-                                '우리 아이\n디지털쌍둥이',
-                                style: CustomText.caption3,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                          PreorderAppFeatureContainer(
+                            img: '0001/digital_twin.png', 
+                            text: '우리 아이\n디지털쌍둥이'
                           ),
-                          Column(
-                            children: [
-                              Image.asset(
-                                'assets/icons/preorder/0001/health.png',
-                                width: 80,
-                                height: 80,
-                              ),
-                              const SizedBox(height: 8,),
-                              const Text(
-                                '움직임이\n건강이 돼요',
-                                style: CustomText.caption3,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                          PreorderAppFeatureContainer(
+                            img: '0001/health.png', 
+                            text: '움직임이\n건강이 돼요'
                           ),
-                          Column(
-                            children: [
-                              Image.asset(
-                                'assets/icons/preorder/0001/data.png',
-                                width: 80,
-                                height: 80,
-                              ),
-                              const SizedBox(height: 8,),
-                              const Text(
-                                '데이터로\n돌봄이 쉬워요',
-                                style: CustomText.caption3,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                          PreorderAppFeatureContainer(
+                            img: '0001/data.png', 
+                            text: '데이터로\n돌봄이 쉬워요'
                           ),
-                          Column(
-                            children: [
-                              Image.asset(
-                                'assets/icons/preorder/0001/mission.png',
-                                width: 80,
-                                height: 80,
-                              ),
-                              const SizedBox(height: 8,),
-                              const Text(
-                                '하루 미션으로\n건강 UP',
-                                style: CustomText.caption3,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                          PreorderAppFeatureContainer(
+                            img: '0001/mission.png', 
+                            text: '하루 미션으로\n건강 UP'
                           ),
                         ],
                       ),
@@ -581,14 +400,14 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                 Stack(
                   children: [
                     AspectRatio(
-                      aspectRatio: 1/1.2,
+                      aspectRatio: 1/1.5,
                       child: Image.asset(
                         'assets/icons/preorder/0001/banner03.png',
                         fit: BoxFit.cover,
                       ),
                     ),
                     AspectRatio(
-                      aspectRatio: 1/1.2,
+                      aspectRatio: 1/1.5,
                       child: Container(
                         width: fnGetDeviceWidth(context),
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -607,159 +426,24 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                             const SizedBox(height: 32,),
                             SizedBox(
                               width: fnGetDeviceWidth(context),
-                              child: SingleChildScrollView(
+                              child: const SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                   children: [
-                                    Container(
-                                      width: fnGetDeviceWidth(context) / 2.5 + 32,
-                                      height: fnGetDeviceWidth(context) / 2.5,
-                                      decoration: const BoxDecoration(
-                                        color: CustomColor.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                                      ),
-                                      margin: const EdgeInsets.only(right: 16),
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            width: fnGetDeviceWidth(context) / 2.5 + 32,
-                                            height: fnGetDeviceWidth(context) / 5,
-                                            padding: const EdgeInsets.only(top: 4, left: 4, right: 4),
-                                            child: Image.asset(
-                                              'assets/icons/preorder/0001/certificate.png',
-                                            ),
-                                          ),
-                                          Container(
-                                            width: fnGetDeviceWidth(context) / 2.5 + 32,
-                                            height: fnGetDeviceWidth(context) / 5,
-                                            decoration: const BoxDecoration(
-                                              color: Color(0xFF9F6F53),
-                                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-                                            ),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  '사회유기예방증 증정',
-                                                  style: CustomText.body10.copyWith(
-                                                    color: CustomColor.white,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 4,),
-                                                Text(
-                                                  '유기율을 절감시켜주는 사회적\n움직임의 첫 걸음을 기념하는 증서',
-                                                  style: CustomText.caption3.copyWith(
-                                                    color: CustomColor.white,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                  textAlign: TextAlign.center,
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                    PreorderBenefitContainer(
+                                      img: '0001/certificate.png', 
+                                      title: '사회유기예방증 증정', 
+                                      text: '유기율을 절감시켜주는 사회적\n움직임의 첫 걸음을 기념하는 증서'
                                     ),
-                                    Container(
-                                      width: fnGetDeviceWidth(context) / 2.5 + 32,
-                                      height: fnGetDeviceWidth(context) / 2.5,
-                                      decoration: const BoxDecoration(
-                                        color: CustomColor.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                                      ),
-                                      margin: const EdgeInsets.only(right: 16),
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            width: fnGetDeviceWidth(context) / 2.5 + 32,
-                                            height: fnGetDeviceWidth(context) / 5,
-                                            padding: const EdgeInsets.only(top: 4, left: 4, right: 4),
-                                            /* child: Image.asset(
-                                              'assets/icons/preorder/0001/certificate.png',
-                                            ), */
-                                          ),
-                                          Container(
-                                            width: fnGetDeviceWidth(context) / 2.5 + 32,
-                                            height: fnGetDeviceWidth(context) / 5,
-                                            decoration: const BoxDecoration(
-                                              color: Color(0xFF9F6F53),
-                                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-                                            ),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  '하트 코인 충전',
-                                                  style: CustomText.body10.copyWith(
-                                                    color: CustomColor.white,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 4,),
-                                                Text(
-                                                  '영양사료 할인쿠폰 또는 디지털트윈이용\n옷, 침대, 장신구 등으로 교환할 수 있어요!',
-                                                  style: CustomText.caption3.copyWith(
-                                                    color: CustomColor.white,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                  textAlign: TextAlign.center,
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                    PreorderBenefitContainer(
+                                      // img: '0001/certificate.png', 
+                                      title: '하트 코인 충전', 
+                                      text: '영양사료 할인쿠폰 또는 디지털트윈이용\n옷, 침대, 장신구 등으로 교환할 수 있어요!'
                                     ),
-                                    Container(
-                                      width: fnGetDeviceWidth(context) / 2.5 + 32,
-                                      height: fnGetDeviceWidth(context) / 2.5,
-                                      decoration: const BoxDecoration(
-                                        color: CustomColor.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                                      ),
-                                      margin: const EdgeInsets.only(right: 16),
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            width: fnGetDeviceWidth(context) / 2.5 + 32,
-                                            height: fnGetDeviceWidth(context) / 5,
-                                            padding: const EdgeInsets.only(top: 4, left: 4, right: 4),
-                                            /* child: Image.asset(
-                                              'assets/icons/preorder/0001/certificate.png',
-                                            ), */
-                                          ),
-                                          Container(
-                                            width: fnGetDeviceWidth(context) / 2.5 + 32,
-                                            height: fnGetDeviceWidth(context) / 5,
-                                            decoration: const BoxDecoration(
-                                              color: Color(0xFF9F6F53),
-                                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-                                            ),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  '영양 사료 할인 쿠폰',
-                                                  style: CustomText.body10.copyWith(
-                                                    color: CustomColor.white,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 4,),
-                                                Text(
-                                                  '건강 상태를 분석해\n기존 사료에 영양제를 배합해드려요 :)',
-                                                  style: CustomText.caption3.copyWith(
-                                                    color: CustomColor.white,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                  textAlign: TextAlign.center,
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                    PreorderBenefitContainer(
+                                      // img: '0001/certificate.png', 
+                                      title: '영양 사료 할인 쿠폰', 
+                                      text: '건강 상태를 분석해\n기존 사료에 영양제를 배합해드려요 :)'
                                     ),
                                   ],
                                 ),
@@ -768,159 +452,24 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                             const SizedBox(height: 32,),
                             SizedBox(
                               width: fnGetDeviceWidth(context),
-                              child: SingleChildScrollView(
+                              child: const SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                   children: [
-                                    Container(
-                                      width: fnGetDeviceWidth(context) / 2.5 + 32,
-                                      height: fnGetDeviceWidth(context) / 2.5,
-                                      decoration: const BoxDecoration(
-                                        color: CustomColor.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                                      ),
-                                      margin: const EdgeInsets.only(right: 16),
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            width: fnGetDeviceWidth(context) / 2.5 + 32,
-                                            height: fnGetDeviceWidth(context) / 5,
-                                            padding: const EdgeInsets.only(top: 4, left: 4, right: 4),
-                                            /* child: Image.asset(
-                                              'assets/icons/preorder/0001/certificate.png',
-                                            ), */
-                                          ),
-                                          Container(
-                                            width: fnGetDeviceWidth(context) / 2.5 + 32,
-                                            height: fnGetDeviceWidth(context) / 5,
-                                            decoration: const BoxDecoration(
-                                              color: Color(0xFF9F6F53),
-                                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-                                            ),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  '얼리어답터 토큰',
-                                                  style: CustomText.body10.copyWith(
-                                                    color: CustomColor.white,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 4,),
-                                                Text(
-                                                  '포프린트의 역사적인 첫 시작을 함께하는\n여러분들께만 드리는 리미티드 토큰',
-                                                  style: CustomText.caption3.copyWith(
-                                                    color: CustomColor.white,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                  textAlign: TextAlign.center,
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                    PreorderBenefitContainer(
+                                      // img: '0001/certificate.png', 
+                                      title: '얼리어답터 토큰', 
+                                      text: '포프린트의 역사적인 첫 시작을 함께하는\n여러분들께만 드리는 리미티드 토큰'
                                     ),
-                                    Container(
-                                      width: fnGetDeviceWidth(context) / 2.5 + 32,
-                                      height: fnGetDeviceWidth(context) / 2.5,
-                                      decoration: const BoxDecoration(
-                                        color: CustomColor.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                                      ),
-                                      margin: const EdgeInsets.only(right: 16),
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            width: fnGetDeviceWidth(context) / 2.5 + 32,
-                                            height: fnGetDeviceWidth(context) / 5,
-                                            padding: const EdgeInsets.only(top: 4, left: 4, right: 4),
-                                            /* child: Image.asset(
-                                              'assets/icons/preorder/0001/certificate.png',
-                                            ), */
-                                          ),
-                                          Container(
-                                            width: fnGetDeviceWidth(context) / 2.5 + 32,
-                                            height: fnGetDeviceWidth(context) / 5,
-                                            decoration: const BoxDecoration(
-                                              color: Color(0xFF9F6F53),
-                                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-                                            ),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  '영양 사료 정기 구독 혜택',
-                                                  style: CustomText.body10.copyWith(
-                                                    color: CustomColor.white,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 4,),
-                                                Text(
-                                                  '같은 사료 가격, 다른 맞춤 사료 케어 서비스\n영양 사료 첫 달 70% 할인',
-                                                  style: CustomText.caption3.copyWith(
-                                                    color: CustomColor.white,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                  textAlign: TextAlign.center,
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                    PreorderBenefitContainer(
+                                      // img: '0001/certificate.png', 
+                                      title: '영양 사료 정기 구독 혜택', 
+                                      text: '같은 사료 가격, 다른 맞춤 사료 케어 서비스\n영양 사료 첫 달 70% 할인'
                                     ),
-                                    Container(
-                                      width: fnGetDeviceWidth(context) / 2.5 + 32,
-                                      height: fnGetDeviceWidth(context) / 2.5,
-                                      decoration: const BoxDecoration(
-                                        color: CustomColor.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                                      ),
-                                      margin: const EdgeInsets.only(right: 16),
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            width: fnGetDeviceWidth(context) / 2.5 + 32,
-                                            height: fnGetDeviceWidth(context) / 5,
-                                            padding: const EdgeInsets.only(top: 4, left: 4, right: 4),
-                                            /* child: Image.asset(
-                                              'assets/icons/preorder/0001/certificate.png',
-                                            ), */
-                                          ),
-                                          Container(
-                                            width: fnGetDeviceWidth(context) / 2.5 + 32,
-                                            height: fnGetDeviceWidth(context) / 5,
-                                            decoration: const BoxDecoration(
-                                              color: Color(0xFF9F6F53),
-                                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-                                            ),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  '월간 건강 레포트 전송',
-                                                  style: CustomText.body10.copyWith(
-                                                    color: CustomColor.white,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 4,),
-                                                Text(
-                                                  '활동량 + 수면량 + 변 상태 분석 후,\n다른 반려동물과의 건강 비교 분석 레포트',
-                                                  style: CustomText.caption3.copyWith(
-                                                    color: CustomColor.white,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                  textAlign: TextAlign.center,
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                    PreorderBenefitContainer(
+                                      // img: '0001/certificate.png', 
+                                      title: '월간 건강 레포트 전송', 
+                                      text: '활동량 + 수면량 + 변 상태 분석 후,\n다른 반려동물과의 건강 비교 분석 레포트'
                                     ),
                                   ],
                                 ),

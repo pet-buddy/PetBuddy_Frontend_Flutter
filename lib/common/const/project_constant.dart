@@ -6,7 +6,7 @@ class ProjectConstant {
 
   // 채널 링크 (퍼피푸)
   static const PUPPYPOO_WEB_URL = "https://puppypoo.framer.ai/";
-  static const PUPPYPOO_INSTAGRAM_URL = "https://www.instagram.com/puppypoo_official/";
+  static const PUPPYPOO_INSTAGRAM_URL = "https://www.instagram.com/pawprint.ai/";
   static const PUPPYPOO_KAKAO_URL = "http://pf.kakao.com/_FLYxexj";
 
   static const double WEB_MAX_WIDTH = 500.0;

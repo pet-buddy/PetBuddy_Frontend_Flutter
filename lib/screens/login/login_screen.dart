@@ -48,19 +48,15 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                     'PawPrint와 함께 발자취를 남겨봐요!',
                     style: CustomText.body10,
                   ),
-                  /* const Text(
-                    '카카오로 간편하게 시작하세요!',
-                    style: CustomText.body10,
-                  ), */
                   const SizedBox(height: 20,),
                   LoginButton(
                     text: '카카오 로그인', 
                     backgroundColor: CustomColor.kakaoYellow,
                     borderColor: CustomColor.kakaoYellow,
-                    imgAsset: Image.asset(
-                      'assets/icons/logo/kakao_logo.png',
-                      width: 36,
-                      height: 25,
+                    svgPicture: SvgPicture.asset(
+                      'assets/icons/logo/kakao_logo.svg',
+                      width: 24,
+                      height: 24,
                     ),
                     rightPairBox: const SizedBox(width: 36,),
                     onPressed: () {
@@ -76,8 +72,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                   */
                   /* SizedBox(
                     height: MediaQuery.of(context).size.height - 600,
-                  ),
-                  Row(
+                  ), */
+                  /* Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container( 
@@ -106,30 +102,30 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                     backgroundColor: CustomColor.naverGreen,
                     borderColor: CustomColor.naverGreen,
                     textColor: CustomColor.white,
-                    imgAsset: Image.asset(
-                      'assets/icons/logo/naver_logo.png',
-                      width: 35,
-                      height: 29,
+                    svgPicture: SvgPicture.asset(
+                      'assets/icons/logo/naver_logo.svg',
+                      width: 24,
+                      height: 24,
                     ),
                     rightPairBox: const SizedBox(width: 35,),
                     onPressed: () {},
                     disabled: false,
                   ),
-                  const SizedBox(height: 10,),
-                  LoginButton(
+                  /* const SizedBox(height: 10,), */
+                  /* LoginButton(
                     text: 'Apple 로그인', 
                     backgroundColor: CustomColor.appleBlack,
                     borderColor: CustomColor.appleBlack,
                     textColor: CustomColor.white,
-                    imgAsset: Image.asset(
-                      'assets/icons/logo/apple_logo.png',
-                      width: 28,
-                      height: 28,
+                    svgPicture: SvgPicture.asset(
+                      'assets/icons/logo/apple_logo.svg',
+                      width: 24,
+                      height: 24,
                     ),
                     rightPairBox: const SizedBox(width: 28,),
                     onPressed: () {},
                     disabled: false,
-                  ),
+                  ), */
                   const SizedBox(height: 10,),
                   LoginButton(
                     text: '이메일 로그인',
@@ -139,7 +135,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                     },
                     disabled: false,
                   ),
-                  const SizedBox(height: 200,),
+                  const SizedBox(height: 32,),
                 ],
               )
             ),

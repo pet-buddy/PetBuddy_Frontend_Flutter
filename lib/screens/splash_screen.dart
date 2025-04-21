@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   ConsumerState<SplashScreen> createState() => _SplashScreenState();
@@ -38,6 +38,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SvgPicture.asset(
+              'assets/icons/logo/app_logo_1.svg',
+              width: 174.88,
+              height: 100,
+            ),
+            const SizedBox(height: 16,),
             const CircularProgressIndicator(
               color: CustomColor.blue03,
             )
