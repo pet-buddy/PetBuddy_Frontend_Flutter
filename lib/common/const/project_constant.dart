@@ -10,4 +10,11 @@ class ProjectConstant {
   static const PUPPYPOO_KAKAO_URL = "http://pf.kakao.com/_FLYxexj";
 
   static const double WEB_MAX_WIDTH = 500.0;
+
+  static const String INPUT_INIT = 'input_init';
+  static const String INPUT_ERR_EMPTY = 'input_error_empty';
+  static const String INPUT_ERR_FORMAT = 'input_error_format';
+  static const String INPUT_ERR_LENGTH = 'input_error_length';
+  static const String INPUT_ERR_NOT_MATCHED = 'input_error_not_matched';
+  static const String INPUT_SUCCESS = 'input_success';
 }

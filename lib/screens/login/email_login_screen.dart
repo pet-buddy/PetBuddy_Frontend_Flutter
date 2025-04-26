@@ -23,12 +23,15 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> with LoginCo
   @override
   Widget build(BuildContext context) {
     final emailLoginButtonState = ref.watch(emailLoginButtonProvider);
+    final emailLoginEmailInputStatusCodeState = ref.watch(emailLoginEmailInputStatusCodeProvider);
+    final emailLoginPwdInputStatusCodeState = ref.watch(emailLoginPwdInputStatusCodeProvider);
 
     return DefaultLayout(
       appBar: DefaultAppBar(
         title: '이메일 로그인',
         leadingOnPressed: () {
           if(!context.mounted) return;
+          fnInitEmailLoginState();
           context.pop();
         },
         actionDisable: true,
@@ -40,6 +43,7 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> with LoginCo
             return;
           }
           if(!context.mounted) return;
+          fnInitEmailLoginState();
           context.pop();
         },
         child: SafeArea(
@@ -65,6 +69,33 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> with LoginCo
                     hintText: 'hello@email.com',
                     keyboardType: TextInputType.emailAddress,
                     onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+                    enabledBorder: emailLoginEmailInputStatusCodeState != ProjectConstant.INPUT_INIT && 
+                      emailLoginEmailInputStatusCodeState != ProjectConstant.INPUT_SUCCESS  ? 
+                      CustomColor.negative :
+                      CustomColor.gray04,
+                    focusedBorder: emailLoginEmailInputStatusCodeState != ProjectConstant.INPUT_INIT && 
+                      emailLoginEmailInputStatusCodeState != ProjectConstant.INPUT_SUCCESS  ? 
+                      CustomColor.negative :
+                      CustomColor.gray04,
+                  ),
+                  Visibility(
+                    visible: emailLoginEmailInputStatusCodeState != ProjectConstant.INPUT_INIT && 
+                             emailLoginEmailInputStatusCodeState != ProjectConstant.INPUT_SUCCESS,
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 4,),
+                        Text(
+                          emailLoginEmailInputStatusCodeState == ProjectConstant.INPUT_ERR_EMPTY ?
+                            Sentence.EMAIL_ERR_EMPTY :
+                              emailLoginEmailInputStatusCodeState == ProjectConstant.INPUT_ERR_FORMAT ?
+                                Sentence.EMAIL_ERR_FORMAT :
+                                  "",
+                          style: CustomText.caption3.copyWith(
+                            color: CustomColor.negative,
+                          ),
+                        ),
+                      ],
+                    )
                   ),
                   const SizedBox(height: 16),
                   const Text(
@@ -87,6 +118,31 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> with LoginCo
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
                     onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+                    enabledBorder: emailLoginPwdInputStatusCodeState != ProjectConstant.INPUT_INIT && 
+                      emailLoginPwdInputStatusCodeState != ProjectConstant.INPUT_SUCCESS  ? 
+                      CustomColor.negative :
+                      CustomColor.gray04,
+                    focusedBorder: emailLoginPwdInputStatusCodeState != ProjectConstant.INPUT_INIT && 
+                      emailLoginPwdInputStatusCodeState != ProjectConstant.INPUT_SUCCESS  ? 
+                      CustomColor.negative :
+                      CustomColor.gray04,
+                  ),
+                  Visibility(
+                    visible: emailLoginPwdInputStatusCodeState != ProjectConstant.INPUT_INIT && 
+                             emailLoginPwdInputStatusCodeState != ProjectConstant.INPUT_SUCCESS,
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 4,),
+                        Text(
+                          emailLoginPwdInputStatusCodeState == ProjectConstant.INPUT_ERR_EMPTY ?
+                            Sentence.PWD_ERR_EMPTY :
+                            "",
+                          style: CustomText.caption3.copyWith(
+                            color: CustomColor.negative,
+                          ),
+                        ),
+                      ],
+                    )
                   ),
                   const SizedBox(height: 16),
                   DefaultTextButton(
