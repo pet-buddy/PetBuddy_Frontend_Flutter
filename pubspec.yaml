@@ -120,6 +120,7 @@ flutter:
     - assets/icons/action/
     - assets/icons/preorder/0001/
     - assets/icons/system/
+    - assets/icons/organization/
 
   fonts:
     - family: NanumSquareRoundR

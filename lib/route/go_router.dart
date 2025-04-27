@@ -130,6 +130,26 @@ final router = GoRouter(
                 return const NoTransitionPage(child: MyPetAddScreen());
               },
             ),
+            GoRoute(
+              parentNavigatorKey: shellNavigatorKey,
+              path: 'my_setting_screen',
+              name: 'my_setting_screen',
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return CustomTransitionPage(
+                  child: const MySettingScreen(), 
+                  transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) 
+                    => SlideTransition(
+                        position: animation.drive(
+                          Tween<Offset>(
+                            begin: const Offset(0.75, 0),
+                            end: Offset.zero,
+                          ).chain(CurveTween(curve: Curves.easeIn)),
+                        ),
+                        child: child,
+                      ),
+                  );
+              },
+            ),
           ]
         ),
       ],

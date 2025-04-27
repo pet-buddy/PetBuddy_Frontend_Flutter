@@ -47,7 +47,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
         leadingDisable: true,
         actionIcon: 'assets/icons/system/settings.svg',
         actionOnPressed: () {
-
+          context.goNamed('my_setting_screen');
         },
       ),
       child: PopScope(

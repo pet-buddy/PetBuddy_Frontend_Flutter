@@ -2,9 +2,12 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/my_pet_add_type_dropdown_provider.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/my_pet_add_type_filter_provider.dart';
 
 class MyPetAddScreen extends ConsumerStatefulWidget {
   const MyPetAddScreen({super.key});
@@ -18,6 +21,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
   @override
   void initState() {
     super.initState();
+    fnInitMyController(ref, context);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       
@@ -25,12 +29,23 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    petTypeInputController.dispose();
+    petTypeScrollController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final myPetAddTypeFilterState = ref.watch(myPetAddTypeFilterProvider);
+    final myPetAddTypeDropdownState = ref.watch(myPetAddTypeDropdownProvider);
+
     return DefaultLayout(
       appBar: DefaultAppBar(
         title: '반려동물 추가하기',
         leadingOnPressed: () {
           if(!context.mounted) return;
+          fnInitMyPetAddState();
           context.pop();
         },
         actionDisable: true,
@@ -42,6 +57,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
             return;
           }
           if(!context.mounted) return;
+          fnInitMyPetAddState();
           context.pop();
         },
         child: SafeArea(
@@ -110,7 +126,52 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                     style: CustomText.body10,
                   ),
                   const SizedBox(height: 5,),
+                  OutlinedInput(
+                    controller: petTypeInputController,
+                    onChanged: (String petName) {
+                      fnGetFilteredPetTypeItems(petName);
+                    },
+                    keyboardType: TextInputType.text,
+                    onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        fnGetAllPetTypeItems();
+                      }, 
+                      icon: SvgPicture.asset(
+                        'assets/icons/organization/search.svg',
+                      ),
+                    ),
+                  ),
                   // TODO : 품종검색
+                  if (myPetAddTypeDropdownState && myPetAddTypeFilterState.isNotEmpty)
+                    Container(
+                      width: fnGetDeviceWidth(context),
+                      padding: const EdgeInsets.all(8),
+                      constraints: const BoxConstraints(
+                        minHeight: 64,
+                        maxHeight: 300,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: CustomColor.gray04),
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.white,
+                      ),
+                      child: Scrollbar(
+                        controller: petTypeScrollController,
+                        thumbVisibility: true,
+                        child: SingleChildScrollView(
+                          controller: petTypeScrollController,
+                          child: Column(
+                            children: myPetAddTypeFilterState.map((item) {
+                              return ListTile(
+                                title: Text(item),
+                                onTap: () => fnSelectPetTypeItems(item),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ),
                   const SizedBox(height: 16),
                   const Text(
                     '성별',
