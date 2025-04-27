@@ -5,10 +5,13 @@ import 'package:petbuddy_frontend_flutter/common/utils/fn_get_device_width.dart'
 
 showConfirmDialog({
   required BuildContext context,
+  String? titleText,
   required String middleText,
   required VoidCallback onConfirm,
+  Color? cancelBackgroundColor,
   Color? cancelTextColor,
   String? cancelText,
+  Color? confirmBackgroundColor,
   Color? confirmTextColor,
   String? confirmText,
   bool barrierDismissible = true,
@@ -36,13 +39,27 @@ showConfirmDialog({
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: SizedBox(
                   height: height != null ? height - 51 : 160, // 210,
-                  child: Row(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      titleText != null ? Flexible(
+                        child: Text(
+                          titleText,
+                          style: CustomText.body9,
+                          textAlign: TextAlign.center,
+                        ),
+                      ) : const SizedBox(),
+                      titleText != null ? 
+                        const SizedBox(height: 8,) :
+                        const SizedBox(),
                       Flexible(
                         child: Text(
                           middleText,
-                          style: CustomText.body11,
+                          style: CustomText.body10.copyWith(
+                            color: titleText != null ? 
+                              CustomColor.gray03 :
+                              CustomColor.black,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -58,7 +75,11 @@ showConfirmDialog({
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: SizedBox(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: cancelBackgroundColor ?? CustomColor.white,
+                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(16)),
+                      ),
                       height: 50,
                       child: InkWell(
                         borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(16)),
@@ -71,7 +92,7 @@ showConfirmDialog({
                             Text(
                               cancelText ?? "닫기",
                               style: CustomText.body10.copyWith(
-                                color: CustomColor.gray01,
+                                color: cancelTextColor ?? CustomColor.gray01,
                               ),
                             ),
                           ],
@@ -81,9 +102,9 @@ showConfirmDialog({
                   ),
                   Expanded(
                     child: Container(
-                      decoration: const BoxDecoration(
-                        color: CustomColor.blue04,
-                        borderRadius: BorderRadius.only(bottomRight: Radius.circular(16)),
+                      decoration: BoxDecoration(
+                        color: confirmBackgroundColor ?? CustomColor.blue04,
+                        borderRadius: const BorderRadius.only(bottomRight: Radius.circular(16)),
                       ),
                       height: 50,
                       child: InkWell(
@@ -98,7 +119,7 @@ showConfirmDialog({
                             Text(
                               confirmText ?? "확인",
                               style: CustomText.body10.copyWith(
-                                color: CustomColor.white,
+                                color: confirmTextColor ?? CustomColor.white,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

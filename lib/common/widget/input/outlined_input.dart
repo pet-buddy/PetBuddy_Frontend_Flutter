@@ -17,6 +17,8 @@ class OutlinedInput extends StatelessWidget {
     this.enabledBorder,
     this.focusedBorder,
     this.onTapOutside,
+    this.suffixIcon,
+    this.suffixIconConstraints,
   });
 
   final TextEditingController? controller;
@@ -31,6 +33,8 @@ class OutlinedInput extends StatelessWidget {
   final Color? enabledBorder;
   final Color? focusedBorder;
   final void Function(PointerDownEvent)? onTapOutside;
+  final Widget? suffixIcon;
+  final BoxConstraints? suffixIconConstraints;
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +74,8 @@ class OutlinedInput extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(12)),
             borderSide: BorderSide(color: enabledBorder ?? CustomColor.gray04),
           ),
+          suffixIcon: suffixIcon,
+          suffixIconConstraints: suffixIconConstraints,
         ),
         style: CustomText.body10.copyWith(
           color: CustomColor.black,
