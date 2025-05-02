@@ -28,6 +28,6 @@ abstract class AuthRepository {
   @GET('/naver/token')
   Future<CommonResponseListModel> requestNaverLoginRepository(@Query("code") String code);
 
-  @POST('/login')
-  Future<CommonResponseListModel> requestEmailLoginRepository(@Body() RequestEmailLoginModel requestEmailLoginModel); 
+  @POST('/email')
+  Future<CommonResponseListModel> requestEmailRegisterRepository(@Body() RequestEmailRegisterModel requestEmailRegisterModel); 
 } 

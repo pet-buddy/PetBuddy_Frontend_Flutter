@@ -1,4 +1,4 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
+// import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,8 +6,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
-import 'package:petbuddy_frontend_flutter/data/provider/my_pet_add_type_dropdown_provider.dart';
-import 'package:petbuddy_frontend_flutter/data/provider/my_pet_add_type_filter_provider.dart';
+import 'package:petbuddy_frontend_flutter/data/data.dart';
+import 'package:petbuddy_frontend_flutter/screens/my/widget/custom_time_picker_dialog.dart';
 
 class MyPetAddScreen extends ConsumerStatefulWidget {
   const MyPetAddScreen({super.key});
@@ -31,14 +31,21 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
   @override
   void dispose() {
     super.dispose();
+    petNameInputController.dispose();
     petTypeInputController.dispose();
     petTypeScrollController.dispose();
+    petFeedInputController.dispose();
+    petFeedScrollController.dispose();
   }
+
+  TimeOfDay initialTime = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
     final myPetAddTypeFilterState = ref.watch(myPetAddTypeFilterProvider);
     final myPetAddTypeDropdownState = ref.watch(myPetAddTypeDropdownProvider);
+    final myPetAddFeedFilterState = ref.watch(myPetAddFeedFilterProvider);
+    final myPetAddFeedDropdownState = ref.watch(myPetAddFeedDropdownProvider);
 
     return DefaultLayout(
       appBar: DefaultAppBar(
@@ -75,7 +82,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                   ),
                   const SizedBox(height: 5,),
                   OutlinedInput(
-                    // controller: ,
+                    controller: petNameInputController,
                     onChanged: (String petName) {
 
                     },
@@ -133,16 +140,18 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                     },
                     keyboardType: TextInputType.text,
                     onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+                    hintText: '품종 검색',
                     suffixIcon: IconButton(
                       onPressed: () {
-                        fnGetAllPetTypeItems();
+                        !myPetAddTypeDropdownState ?
+                          fnGetAllPetTypeItems() :
+                          ref.read(myPetAddTypeDropdownProvider.notifier).set(!myPetAddTypeDropdownState);
                       }, 
                       icon: SvgPicture.asset(
                         'assets/icons/organization/search.svg',
                       ),
                     ),
                   ),
-                  // TODO : 품종검색
                   if (myPetAddTypeDropdownState && myPetAddTypeFilterState.isNotEmpty)
                     Container(
                       width: fnGetDeviceWidth(context),
@@ -236,24 +245,121 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                     style: CustomText.body10,
                   ),
                   const SizedBox(height: 5,),
-                  // TODO : 사료검색
+                  OutlinedInput(
+                    controller: petFeedInputController,
+                    onChanged: (String feedName) {
+                      fnGetFilteredPetFeedItems(feedName);
+                    },
+                    keyboardType: TextInputType.text,
+                    onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+                    hintText: '사료 검색',
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        !myPetAddFeedDropdownState ?
+                          fnGetAllPetFeedItems() :
+                          ref.read(myPetAddFeedDropdownProvider.notifier).set(!myPetAddFeedDropdownState);
+                      }, 
+                      icon: SvgPicture.asset(
+                        'assets/icons/organization/search.svg',
+                      ),
+                    ),
+                  ),
+                  if (myPetAddFeedDropdownState && myPetAddFeedFilterState.isNotEmpty)
+                    Container(
+                      width: fnGetDeviceWidth(context),
+                      padding: const EdgeInsets.all(8),
+                      constraints: const BoxConstraints(
+                        minHeight: 64,
+                        maxHeight: 300,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: CustomColor.gray04),
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.white,
+                      ),
+                      child: Scrollbar(
+                        controller: petFeedScrollController,
+                        thumbVisibility: true,
+                        child: SingleChildScrollView(
+                          controller: petFeedScrollController,
+                          child: Column(
+                            children: myPetAddFeedFilterState.map((item) {
+                              return ListTile(
+                                title: Text(item),
+                                onTap: () => fnSelectPetFeedItems(item),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ),
 
                   const SizedBox(height: 16),
-                  const Text(
-                    '사료 급여 시간',
-                    style: CustomText.body10,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        '사료 급여 시간',
+                        style: CustomText.body10,
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+// final TimeOfDay? timeOfDay = await showTimePicker(
+//                   context: context,
+//                   initialTime: initialTime,
+//                 );
+                          await showDialog<void>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return const CustomTimePickerDialog();
+                            },
+                          );
+                        },
+                        child: Text(
+                          '추가+',
+                          style: CustomText.body10.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                   const SizedBox(height: 5,),
-                  // TODO : 사료검색
-
+                  // TODO : 시간 리스트 개수가 없을 때 -> initialTime / 시간 리스트가 있을 때 -> 해당 시간 입력
+                  DefaultTextButton(
+                    text: '${initialTime.hour < 12 ? '오전' : '오후'} ${initialTime.hour < 12 ? initialTime.hour : initialTime.hour - 12} : ${initialTime.minute}', 
+                    disabled: false,
+                    borderColor: CustomColor.gray04,
+                    backgroundColor: CustomColor.white,
+                    width: fnGetDeviceWidth(context),
+                    onPressed: () async {
+                      await showDialog<void>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const CustomTimePickerDialog();
+                        },
+                      );
+                    },
+                  ),
                   const SizedBox(height: 16),
                   const Text(
                     '현재 사료 급여 정보',
                     style: CustomText.body10,
                   ),
                   const SizedBox(height: 5,),
-                  // TODO : % 입력
-
+                  for(int i=0; i<leftoverFeed.length;i++)
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 8),
+                      child: DefaultTextButton(
+                        text: '현재 ${leftoverFeed[i]} 남았어요', 
+                        disabled: false,
+                        borderColor: CustomColor.gray04,
+                        backgroundColor: CustomColor.white,
+                        width: fnGetDeviceWidth(context),
+                        onPressed: () {
+                        },
+                      ),
+                    ),
                   const SizedBox(height: 16,),
                   const Text(
                     '반려동물 생년월일',
@@ -261,7 +367,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                   ),
                   const SizedBox(height: 8,),
                   OutlinedInput(
-                    // controller: ,
+                    controller: petBirthInputController,
                     onChanged: (String birth) {
                     },
                     hintText: 'YYYY / MM / DD',

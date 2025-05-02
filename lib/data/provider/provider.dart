@@ -16,6 +16,8 @@ export 'my_profile_update_button_provider.dart';
 export 'my_profile_sex_button_provider.dart';
 export 'my_pet_add_type_filter_provider.dart';
 export 'my_pet_add_type_dropdown_provider.dart';
+export 'my_pet_add_feed_filter_provider.dart';
+export 'my_pet_add_feed_dropdown_provider.dart';
 
 // 카메라 관련 Provider
 export 'image_picker_provider.dart';
