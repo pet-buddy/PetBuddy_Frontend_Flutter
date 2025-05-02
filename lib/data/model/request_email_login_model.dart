@@ -5,12 +5,10 @@ part 'request_email_login_model.g.dart';
 
 @JsonSerializable()
 class RequestEmailLoginModel {
-  String name;
   String email;
   String password;
 
   RequestEmailLoginModel({
-    this.name = '',
     required this.email,
     required this.password,
   });

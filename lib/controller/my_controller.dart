@@ -24,6 +24,8 @@ mixin class MyController {
   void fnInitMyPetAddState() {
     myRef.invalidate(myPetAddTypeFilterProvider);
     myRef.invalidate(myPetAddTypeDropdownProvider);
+    myRef.invalidate(myPetAddFeedFilterProvider);
+    myRef.invalidate(myPetAddFeedDropdownProvider);
   }
 
   // 마이페이지 - 회사정보섹션 높이 변수
@@ -106,14 +108,20 @@ mixin class MyController {
   }
 
   // 반려동물 추가하기 관련 변수
-  List<String> totalPetTypes = ['불독', '포메라니안', '기타 등등', '테스트1', '테스트2', '테스트3', '테스트4', '테스트5'];
+  List<String> totalPetTypes = ['푸들', '포메라니안', '말티즈', '시추', '요크셔테리어', '골든리트리버', '래브라도리트리버', '비글', '보더콜리', '불독',
+                                '치와와', '코커스패니얼', '닥스훈트'];
   // List<String> filteredPetTypes = [];
+  List<String> totalPetFeeds = ['사료1', '사료2', '사료3', '사료4', '사료5', '사료6', '사료7', '사료8', '잘 모르겠어요'];
+
+  List<String> leftoverFeed = ['50% 이상', '11~50%', '10% 이하'];
 
   TextEditingController petNameInputController = TextEditingController();
   TextEditingController petTypeInputController = TextEditingController();
   TextEditingController petFeedInputController = TextEditingController();
+  TextEditingController petBirthInputController = TextEditingController();
 
   ScrollController petTypeScrollController = ScrollController();
+  ScrollController petFeedScrollController = ScrollController();
 
   void fnGetFilteredPetTypeItems(String input) {
     myRef.read(myPetAddTypeFilterProvider.notifier).set(
@@ -137,6 +145,30 @@ mixin class MyController {
     petTypeInputController.text = selected;
 
     myRef.read(myPetAddTypeDropdownProvider.notifier).set(false);
+  }
+
+  void fnGetFilteredPetFeedItems(String input) {
+    myRef.read(myPetAddFeedFilterProvider.notifier).set(
+      totalPetFeeds
+        .where((item) => item.contains(input))
+        .toList()
+    );
+
+    myRef.read(myPetAddFeedDropdownProvider.notifier).set(true);
+  }
+
+  void fnGetAllPetFeedItems() {
+    myRef.read(myPetAddFeedFilterProvider.notifier).set(
+      List.from(totalPetFeeds)
+    );
+
+    myRef.read(myPetAddFeedDropdownProvider.notifier).set(true);
+  }
+
+  void fnSelectPetFeedItems(String selected) {
+    petFeedInputController.text = selected;
+
+    myRef.read(myPetAddFeedDropdownProvider.notifier).set(false);
   }
 
 

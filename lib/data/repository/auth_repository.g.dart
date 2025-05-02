@@ -75,13 +75,13 @@ class _AuthRepository implements AuthRepository {
   }
 
   @override
-  Future<CommonResponseListModel> requestEmailLoginRepository(
-      RequestEmailLoginModel requestEmailLoginModel) async {
+  Future<CommonResponseListModel> requestEmailRegisterRepository(
+      RequestEmailRegisterModel requestEmailRegisterModel) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(requestEmailLoginModel.toJson());
+    _data.addAll(requestEmailRegisterModel.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<CommonResponseListModel>(Options(
       method: 'POST',
@@ -90,7 +90,7 @@ class _AuthRepository implements AuthRepository {
     )
             .compose(
               _dio.options,
-              '/login',
+              '/email',
               queryParameters: queryParameters,
               data: _data,
             )

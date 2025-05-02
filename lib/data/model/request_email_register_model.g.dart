@@ -1,21 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'request_email_login_model.dart';
+part of 'request_email_register_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-RequestEmailLoginModel _$RequestEmailLoginModelFromJson(
+RequestEmailRegisterModel _$RequestEmailRegisterModelFromJson(
         Map<String, dynamic> json) =>
-    RequestEmailLoginModel(
+    RequestEmailRegisterModel(
+      name: json['name'] as String? ?? '',
       email: json['email'] as String,
       password: json['password'] as String,
     );
 
-Map<String, dynamic> _$RequestEmailLoginModelToJson(
-        RequestEmailLoginModel instance) =>
+Map<String, dynamic> _$RequestEmailRegisterModelToJson(
+        RequestEmailRegisterModel instance) =>
     <String, dynamic>{
+      'name': instance.name,
       'email': instance.email,
       'password': instance.password,
     };

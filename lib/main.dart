@@ -59,6 +59,9 @@ class MyApp extends StatelessWidget {
             borderSide: BorderSide(width: 1, color: CustomColor.primaryBlue100),
           ),
         ), */
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: CustomColor.black,
+        ),
         textTheme: const TextTheme().apply(
           bodyColor: CustomColor.black, 
         ),
