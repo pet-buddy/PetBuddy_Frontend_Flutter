@@ -29,14 +29,14 @@ class HomeCardManageContainer extends StatelessWidget {
       },
       child: Container(
         width: (fnGetDeviceWidth(context) - 32) / 2 - 8,
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         constraints: const BoxConstraints(
-          minHeight: 116,
-          maxHeight: 150
+          minHeight: 99,
+          maxHeight: 120
         ),
         decoration: BoxDecoration(
           color: CustomColor.white,
-          borderRadius: const BorderRadius.all(Radius.circular(12),),
+          borderRadius: const BorderRadius.all(Radius.circular(24),),
           boxShadow: [
             BoxShadow(
               color: CustomColor.gray04..withValues(alpha: 0.0),
@@ -65,16 +65,10 @@ class HomeCardManageContainer extends StatelessWidget {
                 const SizedBox(width: 8,),
                 Text(
                   title,
-                  style: CustomText.body9,
+                  style: CustomText.body7,
                 )
               ],
             ),
-            const SizedBox(height: 8,),
-            Container(
-              height: 1,
-              color: CustomColor.gray05,
-            ),
-            const SizedBox(height: 8,),
             const Spacer(),
             child,
             const Spacer(),

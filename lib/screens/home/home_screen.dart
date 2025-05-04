@@ -145,12 +145,11 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       HomeCardManageContainer(
-                        thumbnailColor: const Color(0xFF0092CA).withValues(alpha: 0.5),
                         title: "걸음 수", 
                         thumbnailPicture: SvgPicture.asset(
-                          'assets/icons/etc/Dog.svg',
-                          width: 20,
-                          height: 20,
+                          'assets/icons/etc/paw.svg',
+                          width: 24,
+                          height: 24,
                         ),
                         onPressed: () {
                           context.goNamed("home_activity_report_screen");
@@ -163,6 +162,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                               NumberFormat('###,###,###,###').format(23245),
                               style: CustomText.body4.copyWith(
                                 fontWeight: FontWeight.bold,
+                                color: CustomColor.blue03,
                               ),
                             ),
                             const SizedBox(width: 8,),
@@ -176,18 +176,17 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                         ),
                       ),
                       HomeCardManageContainer(
-                        thumbnailColor: const Color(0xFFCAA384).withValues(alpha: 0.2),
                         title: "똥 건강", 
                         thumbnailPicture: SvgPicture.asset(
                           'assets/icons/etc/poop.svg',
-                          width: 20,
-                          height: 20,
+                          width: 24,
+                          height: 24,
                         ),
                         child: Container(
                           height: 45,
                           decoration: const BoxDecoration(
                             color: Color(0xFFF5F5F5),
-                            borderRadius: BorderRadius.all(Radius.circular(12),),
+                            borderRadius: BorderRadius.all(Radius.circular(32),),
                           ),
                           child: LayoutBuilder(builder: (context, contraints) {
                             return Row(
@@ -196,14 +195,13 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                                   width: contraints.maxWidth / 3,
                                   height: contraints.maxHeight,
                                   decoration: const BoxDecoration(
-                                    color:  Color(0xFFF1EBE5),
-                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12),),
+                                    color:  CustomColor.yellow03,
+                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(32), bottomLeft: Radius.circular(32),),
                                   ),
                                   child: Center(
                                     child: Text(
                                       '양호',
-                                      style: CustomText.caption2.copyWith(
-                                        color: CustomColor.gray02,
+                                      style: CustomText.caption3.copyWith(
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -214,13 +212,11 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                                   height: contraints.maxHeight,
                                   decoration: const BoxDecoration(
                                     color:  Color(0xFFF5F5F5),
-                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12),),
                                   ),
                                   child: Center(
                                     child: Text(
                                       '주의',
-                                      style: CustomText.caption2.copyWith(
-                                        color: CustomColor.gray02,
+                                      style: CustomText.caption3.copyWith(
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -231,13 +227,12 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                                   height: contraints.maxHeight,
                                   decoration: const BoxDecoration(
                                     color:  Color(0xFFF5F5F5),
-                                    borderRadius: BorderRadius.only(topRight: Radius.circular(12), bottomRight: Radius.circular(12),),
+                                    borderRadius: BorderRadius.only(topRight: Radius.circular(32), bottomRight: Radius.circular(32),),
                                   ),
                                   child: Center(
                                     child: Text(
                                       '위험',
-                                      style: CustomText.caption2.copyWith(
-                                        color: CustomColor.gray02,
+                                      style: CustomText.caption3.copyWith(
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -255,7 +250,11 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       HomeCardManageContainer(
-                        thumbnailColor: const Color(0xFFD7EBFF),
+                        thumbnailPicture: SvgPicture.asset(
+                          'assets/icons/etc/sleep.svg',
+                          width: 24,
+                          height: 24,
+                        ),
                         title: "수면 효율",
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -265,6 +264,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                               '55',
                               style: CustomText.body4.copyWith(
                                 fontWeight: FontWeight.bold,
+                                color: CustomColor.blue03,
                               ),
                             ),
                             const SizedBox(width: 8,),
@@ -278,12 +278,11 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                         ),
                       ),
                       HomeCardManageContainer(
-                        thumbnailColor: const Color(0xFFDCEEE1),
                         title: "곳간", 
                         thumbnailPicture: SvgPicture.asset(
                           'assets/icons/etc/feed.svg',
-                          width: 20,
-                          height: 20,
+                          width: 24,
+                          height: 24,
                         ),
                         child: LayoutBuilder(builder: (context, constraints) {
                           return Stack(
@@ -293,15 +292,15 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                                 height: 45,
                                 decoration: const BoxDecoration(
                                   color: Color(0xFFF5F5F5),
-                                  borderRadius: BorderRadius.all(Radius.circular(12),),
+                                  borderRadius: BorderRadius.all(Radius.circular(32),),
                                 ),
                               ),
                               Container(
                                 width: constraints.maxWidth * 0.6,
                                 height: 45,
                                 decoration: const BoxDecoration(
-                                  color: Color(0xFFDCEEE1),
-                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)),
+                                  color: CustomColor.yellow03,
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(32), bottomLeft: Radius.circular(32)),
                                 ),
                               ),
                               SizedBox(
