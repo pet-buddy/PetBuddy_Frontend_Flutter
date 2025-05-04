@@ -1,8 +1,15 @@
 export 'bottom_nav_provider.dart';
 
+// 회원가입 관련 Provider
+export 'register_email_input_status_code_provider.dart';
+export 'register_pwd_input_status_code_provider.dart';
+export 'register_pwd_confirm_input_status_code_provider.dart';
+export 'register_button_provider.dart';
+export 'request_email_register_provider.dart';
+
 // 이메일 로그인 관련 Provider
 export 'email_login_button_provider.dart';
-export 'email_login_input_provider.dart';
+export 'request_email_login_provider.dart';
 export 'email_login_email_input_status_code_provider.dart';
 export 'email_login_pwd_input_status_code_provider.dart';
 

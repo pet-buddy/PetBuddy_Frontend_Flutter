@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petbuddy_frontend_flutter/data/model/request_email_login_model.dart';
 
-class EmailLoginInputState extends StateNotifier<RequestEmailLoginModel> {
-  EmailLoginInputState() : super(
+class RequestEmailLoginState extends StateNotifier<RequestEmailLoginModel> {
+  RequestEmailLoginState() : super(
     RequestEmailLoginModel(
       email: "", 
       password: ""
@@ -22,5 +22,5 @@ class EmailLoginInputState extends StateNotifier<RequestEmailLoginModel> {
   String getPwd() => state.password;
 }
 
-final emailLoginInputProvider = 
-    StateNotifierProvider<EmailLoginInputState, RequestEmailLoginModel>((ref) => EmailLoginInputState());
+final requestEmailLoginProvider = 
+    StateNotifierProvider<RequestEmailLoginState, RequestEmailLoginModel>((ref) => RequestEmailLoginState());

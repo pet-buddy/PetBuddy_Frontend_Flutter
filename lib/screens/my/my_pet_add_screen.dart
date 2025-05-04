@@ -52,7 +52,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
         title: '반려동물 추가하기',
         leadingOnPressed: () {
           if(!context.mounted) return;
-          fnInitMyPetAddState();
+          fnInvalidateMyPetAddState();
           context.pop();
         },
         actionDisable: true,
@@ -64,7 +64,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
             return;
           }
           if(!context.mounted) return;
-          fnInitMyPetAddState();
+          fnInvalidateMyPetAddState();
           context.pop();
         },
         child: SafeArea(
@@ -327,7 +327,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                   const SizedBox(height: 5,),
                   // TODO : 시간 리스트 개수가 없을 때 -> initialTime / 시간 리스트가 있을 때 -> 해당 시간 입력
                   DefaultTextButton(
-                    text: '${initialTime.hour < 12 ? '오전' : '오후'} ${initialTime.hour < 12 ? initialTime.hour : initialTime.hour - 12} : ${initialTime.minute}', 
+                    text: '${initialTime.hour < 12 ? '오전' : '오후'} ${initialTime.hour <= 12 ? initialTime.hour : initialTime.hour - 12} : ${initialTime.minute}', 
                     disabled: false,
                     borderColor: CustomColor.gray04,
                     backgroundColor: CustomColor.white,

@@ -14,14 +14,14 @@ mixin class MyController {
     myContext = context;
   }
 
-  void fnInitMyProfileUpdateState() {
+  void fnInvalidateMyProfileUpdateState() {
     myRef.invalidate(myProfileSexButtonProvider);
     myRef.invalidate(myProfileInterestButtonProvider);
     myRef.invalidate(myProfileUpdateButtonProvider);
     myRef.invalidate(myProfileInputProvider);
   }
 
-  void fnInitMyPetAddState() {
+  void fnInvalidateMyPetAddState() {
     myRef.invalidate(myPetAddTypeFilterProvider);
     myRef.invalidate(myPetAddTypeDropdownProvider);
     myRef.invalidate(myPetAddFeedFilterProvider);

@@ -63,8 +63,10 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> with LoginCo
                   OutlinedInput(
                     controller: emailInputController,
                     onChanged: (String email) {
-                      ref.read(emailLoginInputProvider.notifier)
+                      ref.read(requestEmailLoginProvider.notifier)
                          .setEmail(emailInputController.text);
+
+                      fnCheckEmail(email);
                     },
                     hintText: 'hello@email.com',
                     keyboardType: TextInputType.emailAddress,
@@ -106,8 +108,10 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> with LoginCo
                   OutlinedInput(
                     controller: passwordInputController,
                     onChanged: (String pwd) {
-                      ref.read(emailLoginInputProvider.notifier)
+                      ref.read(requestEmailLoginProvider.notifier)
                          .setPwd(passwordInputController.text);
+
+                      fnCheckPassword(pwd);
 
                       ref.read(emailLoginButtonProvider.notifier).activate(
                         emailInputController.text, 
@@ -176,7 +180,7 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> with LoginCo
                       const SizedBox(width: 16,),
                       InkWell(
                         onTap: () {
-                          context.pushNamed('register_step1_screen');
+                          context.pushNamed('register_screen');
                         },
                         child: Text(
                           "회원가입",

@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
-import 'package:petbuddy_frontend_flutter/data/repository/auth_repository.dart';
+import 'package:petbuddy_frontend_flutter/data/repository/repository.dart';
 
 mixin class LoginController {
   late final WidgetRef loginRef;
@@ -26,9 +26,38 @@ mixin class LoginController {
   TextEditingController emailInputController = TextEditingController();
   TextEditingController passwordInputController = TextEditingController();
 
+  void fnCheckEmail(String email) {
+    if(email.isEmpty) {
+      loginRef
+        .read(emailLoginEmailInputStatusCodeProvider.notifier)
+        .set(ProjectConstant.INPUT_ERR_EMPTY);
+      return;
+    }
+    if(!fnCheckEmailFormat(email)) {
+      loginRef
+        .read(emailLoginEmailInputStatusCodeProvider.notifier)
+        .set(ProjectConstant.INPUT_ERR_FORMAT);
+      return;
+    }
+
+    loginRef.read(emailLoginEmailInputStatusCodeProvider.notifier)
+            .set(ProjectConstant.INPUT_SUCCESS);
+  }
+
+  void fnCheckPassword(String password) {
+    if(password.isEmpty) {
+      loginRef.read(emailLoginPwdInputStatusCodeProvider.notifier)
+              .set(ProjectConstant.INPUT_ERR_EMPTY);
+      return;
+    }
+
+    loginRef.read(emailLoginPwdInputStatusCodeProvider.notifier)
+            .set(ProjectConstant.INPUT_SUCCESS);
+  }
+
   Future<void> fnEmailLoginExec() async {
-    String email = loginRef.read(emailLoginInputProvider.notifier).getEmail();
-    String password = loginRef.read(emailLoginInputProvider.notifier).getPwd();
+    String email = loginRef.read(requestEmailLoginProvider.notifier).getEmail();
+    String password = loginRef.read(requestEmailLoginProvider.notifier).getPwd();
 
     if(email.isEmpty) {
       loginRef
@@ -62,7 +91,7 @@ mixin class LoginController {
 
       showAlertDialog(
         context: loginContext, 
-        middleText: "비밀번호를 입력해주세요.",
+        middleText: Sentence.PWD_ERR_EMPTY,
       );
       return;
     }
@@ -76,12 +105,15 @@ mixin class LoginController {
     final storage = loginRef.watch(secureStorageProvider);
 
     try {
-      final response = await loginRef.read(authRepositoryProvider).requestEmailLoginRepository(
+      final response = await loginRef.read(userRepositoryProvider).requestEmailLoginRepository(
           RequestEmailLoginModel(
             email: email, 
             password: password
           ),
       );
+
+      debugPrint("========== Email Login Response =========");
+      debugPrint(response.toString());
 
       if(response.response_code == 200) {
         // TODO : 토큰 저장
@@ -104,7 +136,7 @@ mixin class LoginController {
       }
     } on DioException catch(e) {
       debugPrint("========== Email Login Dio Exception ==========");
-      
+      print(e);
       int? errorCode = e.response?.statusCode;
 
       // TODO : storage에 저장된 값 초기화
@@ -113,12 +145,12 @@ mixin class LoginController {
       hideLoadingDialog(loginContext);
 
       // 임시 - 페이지 이동
-      loginContext.goNamed('home_screen');
+      // loginContext.goNamed('home_screen');
 
       // 에러 알림창
       showAlertDialog(
         context: loginContext, 
-        middleText: "서버와 통신 중 오류가 발생했습니다."
+        middleText: Sentence.SERVER_ERR,
       );
     }
   }

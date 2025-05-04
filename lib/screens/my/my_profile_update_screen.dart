@@ -33,7 +33,7 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
         title: '계정 정보 수정',
         leadingOnPressed: () {
           // 해당 화면 벗어날 경우 관련 Provider 초기화
-          fnInitMyProfileUpdateState();
+          fnInvalidateMyProfileUpdateState();
           // 뒤로가기
           context.pop();
         },
@@ -46,6 +46,7 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
             return;
           }
           if(!context.mounted) return;
+          fnInvalidateMyProfileUpdateState();
           context.pop();
         },
         child: SafeArea(
