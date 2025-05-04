@@ -52,10 +52,10 @@ final router = GoRouter(
     ),
     GoRoute(
       parentNavigatorKey: rootNavigatorKey,
-      path: '/register_step1_screen',
-      name: 'register_step1_screen',
+      path: '/register_screen',
+      name: 'register_screen',
       pageBuilder: (BuildContext context, GoRouterState state) {
-        return const NoTransitionPage(child: RegisterStep1Screen());
+        return const NoTransitionPage(child: RegisterScreen());
       },
     ),
     GoRoute(

@@ -73,16 +73,23 @@ class MyApp extends StatelessWidget {
           child: kIsWeb 
             ? Stack(
                 children: [
-                  // TODO : 배경이미지 삽입
                   Container(
-                    decoration: const BoxDecoration(
-                      color: CustomColor.white,
+                    decoration: BoxDecoration(
+                      color: CustomColor.blue03,
+                      image: MediaQuery.of(context).size.width >= ProjectConstant.WEB_RESPONSIVE_WIDTH ? 
+                        const DecorationImage(
+                          fit: BoxFit.fitHeight,
+                          image: AssetImage(
+                            'assets/icons/etc/web_banner.png'
+                          ), 
+                        ) :
+                        null,
                     ),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Row(
-                      mainAxisAlignment: MediaQuery.of(context).size.width >= 1000 ? 
+                      mainAxisAlignment: MediaQuery.of(context).size.width >= ProjectConstant.WEB_RESPONSIVE_WIDTH ? 
                         MainAxisAlignment.end :
                         MainAxisAlignment.center,
                       children: [
@@ -90,7 +97,7 @@ class MyApp extends StatelessWidget {
                           constraints: BoxConstraints(
                             maxWidth: (MediaQuery.of(context).size.width >= ProjectConstant.WEB_MAX_WIDTH ? ProjectConstant.WEB_MAX_WIDTH : MediaQuery.of(context).size.width),
                           ),
-                          margin: MediaQuery.of(context).size.width >= 1000 ? 
+                          margin: MediaQuery.of(context).size.width >= ProjectConstant.WEB_RESPONSIVE_WIDTH ? 
                             const EdgeInsets.only(right: 200) :
                             const EdgeInsets.only(right: 0),
                           decoration: BoxDecoration(

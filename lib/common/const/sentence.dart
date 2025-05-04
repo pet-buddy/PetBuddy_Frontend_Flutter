@@ -4,6 +4,7 @@ class Sentence {
 
   static const String PWD_ERR_EMPTY = '비밀번호를 입력해주세요.';
   static const String PWD_CONFIRM_ERR_EMPTY = '비밀번호를 한 번 더 입력해 주세요.';
+  static const String PWD_ERR_NOT_MATCHED = '비밀번호가 일치하지 않습니다.';
 
   static const String SEX_ERR_EMPTY = '성별을 선택해주세요.';
   static const String BIRTH_ERR_EMPTY = '생년월일을 입력해주세요.';
@@ -16,4 +17,9 @@ class Sentence {
   static const String PET_SEX_ERR_EMPTY = '반려동물 성별을 선택해주세요.';
 
   static const String PET_BIRTH_ERR_EMPTY = '반려동물 생년월일을 입력해주세요.';
+
+  static const String SERVER_ERR = "서버와의 통신 중 오류가 발생했습니다.";
+
+  static const String REGISTER_FAILED = "회원가입에 실패했습니다.";
+  static const String REGISTER_SUCCESS = "회원가입이 완료되었습니다.";
 }
