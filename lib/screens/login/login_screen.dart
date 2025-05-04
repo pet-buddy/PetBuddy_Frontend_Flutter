@@ -127,9 +127,11 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                     disabled: false,
                   ), */
                   const SizedBox(height: 10,),
-                  LoginButton(
+                  DefaultTextButton(
                     text: '이메일 로그인',
                     borderColor: CustomColor.gray04,
+                    textColor: CustomColor.black,
+                    backgroundColor: CustomColor.white,
                     onPressed: () {
                       context.goNamed('email_login_screen');
                     },

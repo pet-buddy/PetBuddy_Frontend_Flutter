@@ -194,11 +194,12 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                     ],
                   ),
                   const SizedBox(height: 16,),
-                  SizedBox(
+                  /* SizedBox(
                     height: MediaQuery.of(context).size.height > 641 ? 
                       MediaQuery.of(context).size.height - 641 :
                       0
-                  ),
+                  ), */
+                  const SizedBox(height: 16,),
                   DefaultTextButton(
                     text: '수정하기', 
                     onPressed: () async {

@@ -34,10 +34,10 @@ class LoginButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor,
+          backgroundColor: disabled ? CustomColor.gray04 : backgroundColor ?? CustomColor.yellow03,
           side: BorderSide(
             width: 1,
-            color: borderColor ?? CustomColor.white,
+            color: disabled ? CustomColor.gray04 : borderColor ?? CustomColor.yellow03,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -65,7 +65,7 @@ class LoginButton extends StatelessWidget {
               text,
               style: CustomText.caption2.copyWith(
                 fontWeight: FontWeight.bold,
-                color: textColor
+                color: disabled ? CustomColor.gray03 : textColor ?? CustomColor.black
               )
             ),
             rightPairBox ?? const SizedBox(width: 25,)

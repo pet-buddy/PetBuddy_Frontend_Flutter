@@ -22,4 +22,6 @@ class Sentence {
 
   static const String REGISTER_FAILED = "회원가입에 실패했습니다.";
   static const String REGISTER_SUCCESS = "회원가입이 완료되었습니다.";
+
+  static const String UPLOAD_ERR_EMPTY = "업로드할 사진이 없습니다.";
 }

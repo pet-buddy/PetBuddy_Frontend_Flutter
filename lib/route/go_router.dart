@@ -66,6 +66,14 @@ final router = GoRouter(
         return const NoTransitionPage(child: PreorderScreen());
       },
     ),
+    GoRoute(
+      parentNavigatorKey: rootNavigatorKey,
+      path: '/camera_screen',
+      name: 'camera_screen',
+      pageBuilder: (BuildContext context, GoRouterState state) {
+        return const NoTransitionPage(child: CameraScreen());
+      },
+    ),
     ShellRoute(
       navigatorKey: shellNavigatorKey,
       pageBuilder: (context, state, child) => NoTransitionPage(
@@ -97,6 +105,7 @@ final router = GoRouter(
           pageBuilder: (BuildContext context, GoRouterState state) {
             return const NoTransitionPage(child: CameraUploadScreen());
           },
+          routes: []
         ),
         GoRoute(
           parentNavigatorKey: shellNavigatorKey,

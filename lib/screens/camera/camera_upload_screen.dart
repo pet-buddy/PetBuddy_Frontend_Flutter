@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
@@ -16,7 +18,7 @@ class CameraUploadScreen extends ConsumerStatefulWidget {
   ConsumerState<CameraUploadScreen> createState() => CameraUploadScreenState();
 }
 
-class CameraUploadScreenState extends ConsumerState<CameraUploadScreen> with CameraController {
+class CameraUploadScreenState extends ConsumerState<CameraUploadScreen> with CustomCameraController {
 
   @override
   void initState() {
@@ -24,15 +26,23 @@ class CameraUploadScreenState extends ConsumerState<CameraUploadScreen> with Cam
     fnInitCameraController(ref, context);
     
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      setState(() {
-        
-      });
+      // 화면 상태 초기화
+      fnInitCameraUploadScreen();  
+
+      if(!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+        // 카메라 호출
+        // fnGetImage(ImageSource.camera);
+
+        // 카메라 화면 이동
+        context.pushNamed('camera_screen');
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final imagePickerState = ref.watch(imagePickerProvider);
+    final cameraImagePickerState = ref.watch(cameraImagePickerProvider);
+    final cameraUploadButtonState = ref.watch(cameraUploadButtonProvider);
 
     return DefaultLayout(
       appBar: const DefaultAppBar(
@@ -46,6 +56,7 @@ class CameraUploadScreenState extends ConsumerState<CameraUploadScreen> with Cam
           if (didPop) {
             return;
           }
+          fnInvalidateCameraState();
           await fnClose(context);
         },
         child: SafeArea(
@@ -54,7 +65,7 @@ class CameraUploadScreenState extends ConsumerState<CameraUploadScreen> with Cam
             child: Column(
               children: [
                 const SizedBox(height: 16),
-                imagePickerState != null ?
+                cameraImagePickerState != null ?
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: 300,
@@ -68,10 +79,15 @@ class CameraUploadScreenState extends ConsumerState<CameraUploadScreen> with Cam
                           height: 300,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(16.0),
-                            child: Image.file(
-                              File(imagePickerState.path),
-                              fit: BoxFit.cover,
-                            ),
+                            child: kIsWeb ?
+                              Image.network(
+                                cameraImagePickerState.path,
+                                fit: BoxFit.cover,
+                              ) :
+                              Image.file(
+                                File(cameraImagePickerState.path),
+                                fit: BoxFit.cover,
+                              ),
                           ),
                         ),
                         Row(
@@ -87,7 +103,8 @@ class CameraUploadScreenState extends ConsumerState<CameraUploadScreen> with Cam
                               ),
                               child: GestureDetector(
                                 onTap: () {
-                                  ref.read(imagePickerProvider.notifier).set(null);
+                                  ref.read(cameraImagePickerProvider.notifier).set(null);
+                                  ref.read(cameraUploadButtonProvider.notifier).set(false);
                                 },
                                 child: SvgPicture.asset(
                                   'assets/icons/action/delete_circle.svg',
@@ -137,14 +154,11 @@ class CameraUploadScreenState extends ConsumerState<CameraUploadScreen> with Cam
                   ),
                 const SizedBox(height: 16,),
                 DefaultTextButton(
-                  disabled: false,
-                  backgroundColor: CustomColor.white,
-                  borderColor: CustomColor.black,
-                  textColor: CustomColor.black,
+                  disabled: !cameraUploadButtonState,
                   onPressed: () {
-                    
+                    fnUploadExec();
                   }, 
-                  text: '+ 사진 업로드',
+                  text: '사진 업로드',
                 ),
                 const SizedBox(height: 32,),
               ],

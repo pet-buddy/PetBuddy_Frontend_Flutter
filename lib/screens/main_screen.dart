@@ -31,10 +31,10 @@ class MainScreen extends ConsumerWidget {
                   selectedLabelStyle: const TextStyle(fontSize: 12,),
                   unselectedLabelStyle: const TextStyle(fontSize: 12),
                   type: BottomNavigationBarType.fixed,
-                  selectedItemColor: CustomColor.black,
-                  unselectedItemColor: CustomColor.gray04,
+                  selectedItemColor: CustomColor.yellow03,
+                  unselectedItemColor: CustomColor.gray03,
                   backgroundColor: CustomColor.white,
-                  elevation: 1.0,
+                  elevation: 5.0,
                   currentIndex: currentScreenIndex,
                   onTap: (index) {
                     // 인덱스 상태 갱신
@@ -43,9 +43,7 @@ class MainScreen extends ConsumerWidget {
                     if (index == 0) {
                       context.goNamed('home_screen');
                     } else if (index == 1) {
-                      kIsWeb ?                  
-                        context.goNamed('camera_upload_screen') :
-                        null; // 앱일 경우 카메라 호출
+                      context.goNamed('camera_upload_screen');
                     } else if (index == 2) {
                       // context.goNamed('shop_screen');
                       context.pushNamed('preorder_screen');
@@ -57,53 +55,61 @@ class MainScreen extends ConsumerWidget {
                     BottomNavigationBarItem(
                       label: 'Home',
                       icon: SvgPicture.asset(
-                        'assets/icons/navigation/home_icon_outlined.svg',
+                        'assets/icons/navigation/home.svg',
                         width: 24,
                         height: 24,
+                        colorFilter: const ColorFilter.mode(CustomColor.gray03, BlendMode.srcIn),
                       ),
                       activeIcon: SvgPicture.asset(
-                        'assets/icons/navigation/home_icon_filled.svg',
+                        'assets/icons/navigation/home.svg',
                         width: 24,
                         height: 24,
+                        colorFilter: const ColorFilter.mode(CustomColor.yellow03, BlendMode.srcIn),
                       ),
                     ),
                     BottomNavigationBarItem(
                       label: 'Camera',
                       icon: SvgPicture.asset(
-                        'assets/icons/navigation/camera_icon_outlined.svg',
+                        'assets/icons/navigation/camera.svg',
                         width: 24,
                         height: 24,
+                        colorFilter: const ColorFilter.mode(CustomColor.gray03, BlendMode.srcIn),
                       ),
                       activeIcon: SvgPicture.asset(
-                        'assets/icons/navigation/camera_icon_filled.svg',
+                        'assets/icons/navigation/camera.svg',
                         width: 24,
                         height: 24,
+                        colorFilter: const ColorFilter.mode(CustomColor.yellow03, BlendMode.srcIn),
                       ),
                     ),
                     BottomNavigationBarItem(
                       label: 'Shop',
                       icon: SvgPicture.asset(
-                        'assets/icons/navigation/shopping_icon_outlined.svg',
+                        'assets/icons/navigation/shopping.svg',
                         width: 24,
                         height: 24,
+                        colorFilter: const ColorFilter.mode(CustomColor.gray03, BlendMode.srcIn),
                       ),
                       activeIcon: SvgPicture.asset(
-                        'assets/icons/navigation/shopping_icon_filled.svg',
+                        'assets/icons/navigation/shopping.svg',
                         width: 24,
                         height: 24,
+                        colorFilter: const ColorFilter.mode(CustomColor.yellow03, BlendMode.srcIn),
                       ),
                     ),
                     BottomNavigationBarItem(
                       label: 'Profile',
                       icon: SvgPicture.asset(
-                        'assets/icons/navigation/profile_icon_outlined.svg',
+                        'assets/icons/navigation/user.svg',
                         width: 24,
                         height: 24,
+                        colorFilter: const ColorFilter.mode(CustomColor.gray03, BlendMode.srcIn),
                       ),
                       activeIcon: SvgPicture.asset(
-                        'assets/icons/navigation/profile_icon_filled.svg',
+                        'assets/icons/navigation/user.svg',
                         width: 24,
                         height: 24,
+                        colorFilter: const ColorFilter.mode(CustomColor.yellow03, BlendMode.srcIn),
                       ),
                     ),
                   ]),
