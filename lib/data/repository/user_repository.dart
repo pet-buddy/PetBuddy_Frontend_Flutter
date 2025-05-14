@@ -32,8 +32,8 @@ abstract class UserRepository {
   Future<CommonResponseListModel> requestUsersRepository(@Body() RequestUsersModel requestUsersModel); 
 
   @GET('/mypage')
-  Future<CommonResponseListModel> requestMypageRepository(); 
+  Future<CommonResponseMapModel> requestUserMypageRepository(); 
 
   @POST('/email-login')
-  Future<CommonResponseListModel> requestEmailLoginRepository(@Body() RequestEmailLoginModel requestEmailLoginModel); 
+  Future<CommonResponseMapModel> requestEmailLoginRepository(@Body() RequestEmailLoginModel requestEmailLoginModel); 
 } 

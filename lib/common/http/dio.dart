@@ -28,6 +28,7 @@ class CustomInterceptor extends Interceptor {
 
     // 헤더 설정
     options.headers['Content-Type'] = 'application/json';
+    options.connectTimeout = const Duration(seconds: 20);
 
     // 요청 시 토큰 처리
     final accessToken = await storage.read(key: ProjectConstant.ACCESS_TOKEN);
@@ -55,6 +56,7 @@ class CustomInterceptor extends Interceptor {
       return handler.reject(err);
     }
 
+    final statusMessage = err.response?.statusMessage;
     final statusCode = err.response?.statusCode;
     final requestPath = err.requestOptions.path;
 
@@ -64,18 +66,16 @@ class CustomInterceptor extends Interceptor {
     }
 
     // TODO : 요청 URL 합의 필요, ACCESS, REFRESH TOKEN 재발급 요청
-    if(statusCode == 401 && requestPath != '/refresh') {
+    if(statusMessage == "Token is not found" || (statusCode == 401 && requestPath != '/user/refresh')) {
       final dio = Dio();
 
       try {
         final resp = await dio.post(
-          '${ProjectConstant.BASE_URL}/refresh',
+          '${ProjectConstant.BASE_URL}/user/refresh',
           options: Options(
             headers: {},
           ),
-          data: {
-            'refresh_token' : await storage.read(key: ProjectConstant.REFRESH_TOKEN),
-          }
+          data: {}
         );
 
         // TODO : 응답으로 받은 토큰 변수에 할당

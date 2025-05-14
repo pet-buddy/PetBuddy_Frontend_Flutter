@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/response_user_mypage_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MyScreen extends ConsumerStatefulWidget {
@@ -41,6 +42,8 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
 
   @override
   Widget build(BuildContext context) {
+    final responseUserMypageState = ref.watch(responseUserMypageProvider);
+
     return DefaultLayout(
       appBar: DefaultAppBar(
         title: '마이페이지',
@@ -92,8 +95,10 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const Text(
-                                  'abcd@pet.com',
+                                Text(
+                                  responseUserMypageState.email != "" ? 
+                                    responseUserMypageState.email :
+                                    "example@pawprint.ai.kr",
                                   style: CustomText.body10
                                 ),
                               ],

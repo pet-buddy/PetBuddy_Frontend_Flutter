@@ -178,6 +178,8 @@ mixin class MyController {
     await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: null);
     await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: null);
 
+    ref.invalidate(responseUserMypageProvider);
+
     if(!context.mounted) return;
     context.goNamed('login_screen');
   }

@@ -104,13 +104,13 @@ class _UserRepository implements UserRepository {
   }
 
   @override
-  Future<CommonResponseListModel> requestMypageRepository() async {
+  Future<CommonResponseMapModel> requestUserMypageRepository() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CommonResponseListModel>(Options(
+        _setStreamType<CommonResponseMapModel>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -126,12 +126,12 @@ class _UserRepository implements UserRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = CommonResponseListModel.fromJson(_result.data!);
+    final value = CommonResponseMapModel.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<CommonResponseListModel> requestEmailLoginRepository(
+  Future<CommonResponseMapModel> requestEmailLoginRepository(
       RequestEmailLoginModel requestEmailLoginModel) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -139,7 +139,7 @@ class _UserRepository implements UserRepository {
     final _data = <String, dynamic>{};
     _data.addAll(requestEmailLoginModel.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CommonResponseListModel>(Options(
+        _setStreamType<CommonResponseMapModel>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -155,7 +155,7 @@ class _UserRepository implements UserRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = CommonResponseListModel.fromJson(_result.data!);
+    final value = CommonResponseMapModel.fromJson(_result.data!);
     return value;
   }
 

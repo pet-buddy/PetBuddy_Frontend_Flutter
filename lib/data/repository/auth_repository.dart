@@ -29,5 +29,5 @@ abstract class AuthRepository {
   Future<CommonResponseListModel> requestNaverLoginRepository(@Query("code") String code);
 
   @POST('/email')
-  Future<CommonResponseListModel> requestEmailRegisterRepository(@Body() RequestEmailRegisterModel requestEmailRegisterModel); 
+  Future<CommonResponseMapModel> requestEmailRegisterRepository(@Body() RequestEmailRegisterModel requestEmailRegisterModel); 
 } 

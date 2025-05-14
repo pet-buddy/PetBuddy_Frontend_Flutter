@@ -1,6 +1,6 @@
 class ProjectConstant {
-  static const ACCESS_TOKEN = 'access_token';
-  static const REFRESH_TOKEN = 'refresh_token';
+  static const ACCESS_TOKEN = 'accessToken';
+  static const REFRESH_TOKEN = 'refreshToken';
 
   static const BASE_URL = 'http://backend.pawprint.ai.kr:3000/';
 
