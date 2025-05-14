@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
+import 'package:petbuddy_frontend_flutter/data/model/response_user_mypage_model.dart';
 import 'package:petbuddy_frontend_flutter/data/repository/repository.dart';
 
 mixin class LoginController {
@@ -116,8 +117,13 @@ mixin class LoginController {
       debugPrint(response.toString());
 
       if(response.response_code == 200) {
-        // TODO : 토큰 저장
+        ResponseEmailLoginModel responseEmailLoginModel = ResponseEmailLoginModel.fromJson(response.data);
+        // 토큰 저장
+        await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: responseEmailLoginModel.accessToken);
+        await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: responseEmailLoginModel.refreshToken);
 
+        await fnGetUserMypage();
+        
         if(!loginContext.mounted) return;
         // 로딩 끝
         hideLoadingDialog(loginContext);
@@ -136,16 +142,17 @@ mixin class LoginController {
       }
     } on DioException catch(e) {
       debugPrint("========== Email Login Dio Exception ==========");
-      print(e);
+      
       int? errorCode = e.response?.statusCode;
+      debugPrint(errorCode.toString());
 
-      // TODO : storage에 저장된 값 초기화
+      // storage에 저장된 값 초기화
+      await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: null);
+      await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: null);
 
       // 로딩 끝
+      if(!loginContext.mounted) return;
       hideLoadingDialog(loginContext);
-
-      // 임시 - 페이지 이동
-      // loginContext.goNamed('home_screen');
 
       // 에러 알림창
       showAlertDialog(
@@ -153,5 +160,22 @@ mixin class LoginController {
         middleText: Sentence.SERVER_ERR,
       );
     }
+  }
+
+  Future<void> fnGetUserMypage() async {
+    final response = await loginRef.read(userRepositoryProvider).requestUserMypageRepository();
+
+    debugPrint("========== Get User Mypage Response =========");
+    debugPrint(response.toString());
+
+    if(response.response_code == 200) {
+      ResponseUserMypageModel responseUserMypageModel = ResponseUserMypageModel.fromJson(response.data);
+      // 사용자 정보 세팅
+      loginRef.refresh(responseUserMypageProvider.notifier).set(responseUserMypageModel);
+    } 
+    // TODO : 반려동물 정보 세팅
+
+    // TODO : 홈 화면 정보 세팅
+
   }
 }

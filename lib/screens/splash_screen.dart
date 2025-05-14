@@ -4,6 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
+import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
+import 'package:petbuddy_frontend_flutter/data/model/response_user_mypage_model.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/response_user_mypage_provider.dart';
+import 'package:petbuddy_frontend_flutter/data/repository/user_repository.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -20,8 +24,33 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       // 이동할 화면 변수
       String entryPoint = 'login_screen'; 
+      // 기기 임시저장소 Provider 불러오기
+      final storage = ref.watch(secureStorageProvider);
+      // accessToken 
+      final accessToken = await storage.read(key: ProjectConstant.ACCESS_TOKEN);
 
-      // TODO : 자동로그인
+      try {
+        if(accessToken != null) {
+          final response = await ref.read(userRepositoryProvider).requestUserMypageRepository();
+          if(response.response_code == 200) {
+            ResponseUserMypageModel responseUserMypageModel = ResponseUserMypageModel.fromJson(response.data);
+            // 사용자 정보 세팅
+            ref.refresh(responseUserMypageProvider.notifier).set(responseUserMypageModel);
+          }
+
+          // TODO : 반려동물 정보 세팅
+
+          // TODO : 홈 화면 정보 세팅
+
+          entryPoint = 'home_screen'; 
+        }
+      } catch (e) {
+        if(!context.mounted) return;
+        showAlertDialog(
+          context: context, 
+          middleText: Sentence.SERVER_ERR,
+        );
+      }
 
       // 2초 후 화면 이동
       await Future.delayed(const Duration(milliseconds: 2000), () {

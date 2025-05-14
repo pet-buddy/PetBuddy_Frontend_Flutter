@@ -7,6 +7,7 @@ export 'request_email_register_model.dart';
 
 // 로그인 관련 모델
 export 'request_email_login_model.dart';
+export 'response_email_login_model.dart';
 
 // 마이페이지 관련 모델
 export 'request_my_profile_update_model.dart';

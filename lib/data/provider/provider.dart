@@ -25,6 +25,7 @@ export 'my_pet_add_type_filter_provider.dart';
 export 'my_pet_add_type_dropdown_provider.dart';
 export 'my_pet_add_feed_filter_provider.dart';
 export 'my_pet_add_feed_dropdown_provider.dart';
+export 'response_user_mypage_provider.dart';
 
 // 카메라 관련 Provider
 export 'camera_image_picker_provider.dart';
