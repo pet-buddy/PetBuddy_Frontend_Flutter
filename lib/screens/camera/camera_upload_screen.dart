@@ -69,8 +69,12 @@ class CameraUploadScreenState extends ConsumerState<CameraUploadScreen> with Cus
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: 300,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(12),),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(13.0),),
+                      border: Border.all(
+                            width: 1,
+                            color: CustomColor.gray05,
+                        ),
                     ),
                     child: Stack(
                       children: [
@@ -78,7 +82,7 @@ class CameraUploadScreenState extends ConsumerState<CameraUploadScreen> with Cus
                           width: MediaQuery.of(context).size.width,
                           height: 300,
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(16.0),
+                            borderRadius: BorderRadius.circular(12.0),
                             child: kIsWeb ?
                               Image.network(
                                 cameraImagePickerState.path,
