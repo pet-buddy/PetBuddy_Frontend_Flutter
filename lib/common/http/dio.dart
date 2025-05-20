@@ -60,7 +60,7 @@ class CustomInterceptor extends Interceptor {
     final statusCode = err.response?.statusCode;
     final requestPath = err.requestOptions.path;
 
-    // TODO : 요청 URL 합의 필요, 로그인일 경우 TOKEN 재발급 요청없이 return
+    // TODO : 요청 URL 합의 필요, 로그인일 경우 TOKEN 재발급 요청없이 return - 401, 402, 403, 500
     if(statusCode == 401 && requestPath == '/login') {
       return handler.resolve(err.response!);
     }

@@ -2,7 +2,8 @@ class ProjectConstant {
   static const ACCESS_TOKEN = 'accessToken';
   static const REFRESH_TOKEN = 'refreshToken';
 
-  static const BASE_URL = 'http://backend.pawprint.ai.kr:3000/';
+  // static const BASE_URL = 'http://backend.pawprint.ai.kr:3000/';
+  static const BASE_URL = 'https://backend.pawprint.ai.kr/';
 
   // 채널 링크 (퍼피푸)
   static const PUPPYPOO_WEB_URL = "https://puppypoo.framer.ai/";
