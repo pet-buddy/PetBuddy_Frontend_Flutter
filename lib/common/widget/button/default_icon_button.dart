@@ -1,9 +1,10 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 
-class DefaultTextButton extends StatelessWidget {
-  const DefaultTextButton({
+class DefaultIconButton extends StatelessWidget {
+  const DefaultIconButton({
     super.key,
     this.disabled = true,
     this.onPressed,
@@ -18,6 +19,7 @@ class DefaultTextButton extends StatelessWidget {
     this.height,
     this.elevation,
     this.borderRadius,
+    this.svgPicture,
   });
 
   final String text;
@@ -33,6 +35,7 @@ class DefaultTextButton extends StatelessWidget {
   final double? height;
   final double? elevation;
   final double? borderRadius;
+  final SvgPicture? svgPicture;
 
   @override
   Widget build(BuildContext context) {
@@ -57,14 +60,23 @@ class DefaultTextButton extends StatelessWidget {
           ),
           overlayColor: CustomColor.gray04,
         ),
-        child: Text(
-          text,
-          style: CustomText.caption2.copyWith(
-            fontWeight: FontWeight.bold,
-            color: disabled ? 
-              (disalbedTextColor ?? CustomColor.gray03) : 
-              (textColor ?? CustomColor.black),
-          )
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            svgPicture ?? const SizedBox(),
+            svgPicture != null ? 
+              const SizedBox(width: 16,) :
+              const SizedBox(),
+            Text(
+              text,
+              style: CustomText.caption2.copyWith(
+                fontWeight: FontWeight.bold,
+                color: disabled ? 
+                  (disalbedTextColor ?? CustomColor.gray03) : 
+                  (textColor ?? CustomColor.black),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -8,10 +9,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:universal_html/html.dart' as html;
 
 mixin class CustomCameraController {
   late final WidgetRef cameraRef;
   late final BuildContext cameraContext;
+
+  final double uploadContainerHeight = 400;
+  final double uploadContainerRadius = 24;
 
   void fnInitCameraController(WidgetRef ref, BuildContext context) {
     cameraRef = ref;
@@ -107,6 +112,54 @@ mixin class CustomCameraController {
     }
   }
   
+  Future<void> fnTakePictureWeb() async {
+    final uploadInput = html.FileUploadInputElement();
+    uploadInput.accept = 'image/*';
+    uploadInput.setAttribute('capture', 'environment');
+    uploadInput.click();
+
+    uploadInput.onChange.listen((event) {
+      final files = uploadInput.files;
+      if (files != null && files.isNotEmpty) {
+        final file = files.first;
+        final reader = html.FileReader();
+
+        reader.readAsDataUrl(file);
+        reader.onLoadEnd.listen((event) async {
+          final imageUrl = reader.result as String;
+          
+          debugPrint(imageUrl);
+        });
+      }
+    });
+  }
+
+  void fnCallCameraScreen(BuildContext context, {String mode = "init"}) {
+    if(!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+        // 카메라 호출
+        // fnGetImage(ImageSource.camera);
+
+        // 카메라 화면 이동
+        context.pushNamed('camera_screen');
+      } else {
+        final userAgent = html.window.navigator.userAgent;
+        // 모바일 기기의 웹 브라우저 앱에서 호출 시
+        if (userAgent.contains("Android") || 
+            userAgent.contains('iPhone') || 
+            userAgent.contains('iPad')) {
+          context.pushNamed('camera_web_screen');
+          // fnTakePictureWeb();
+        } else {
+          if(mode == 'init') {return;}
+          else {
+            showAlertDialog(
+              context: context, 
+              middleText: "웹 브라우저에서는 ${Sentence.CAMERA_ERR_CALL}",
+            );
+          }
+        }
+      }
+  }
 }
 
 

@@ -24,4 +24,5 @@ class Sentence {
   static const String REGISTER_SUCCESS = "회원가입이 완료되었습니다.";
 
   static const String UPLOAD_ERR_EMPTY = "업로드할 사진이 없습니다.";
+  static const String CAMERA_ERR_CALL = "카메라를 실행할 수 없습니다.";
 }

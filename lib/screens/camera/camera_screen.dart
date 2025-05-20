@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:petbuddy_frontend_flutter/common/const/custom_color.dart';
 import 'package:petbuddy_frontend_flutter/common/const/custom_text.dart';
-import 'package:petbuddy_frontend_flutter/common/layout/default_appbar.dart';
 import 'package:petbuddy_frontend_flutter/common/layout/default_layout.dart';
 import 'package:petbuddy_frontend_flutter/controller/custom_camera_controller.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
@@ -85,7 +84,7 @@ class CameraScreenState extends ConsumerState<CameraScreen> with CustomCameraCon
                                 style: CustomText.heading5.copyWith(
                                   fontWeight: FontWeight.bold,
                                   // color: const Color(0xFFFFF3D9).withValues(alpha: 0.6),
-                                  color: const Color.fromARGB(255, 249, 231, 196),
+                                  color: const Color(0xFFFBEFAB).withValues(alpha: 0.6),
                                 ),
                               ),
                             ),
