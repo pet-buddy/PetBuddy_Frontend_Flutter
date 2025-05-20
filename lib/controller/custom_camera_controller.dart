@@ -154,7 +154,7 @@ mixin class CustomCameraController {
           else {
             showAlertDialog(
               context: context, 
-              middleText: "웹 브라우저에서는 ${Sentence.CAMERA_ERR_CALL}",
+              middleText: Sentence.WEB_CAMERA_ERR_CALL,
             );
           }
         }

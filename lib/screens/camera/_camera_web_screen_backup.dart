@@ -1,13 +1,14 @@
-import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/custom_camera_controller.dart';
-import 'package:petbuddy_frontend_flutter/data/provider/camera_image_picker_provider.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/camera_controller_provider.dart';
+import 'package:petbuddy_frontend_flutter/route/go_router.dart';
 import 'package:universal_html/html.dart' as html;
 // import 'dart:html' as html;
-import 'dart:ui_web' as ui_web;
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 class CameraWebScreen extends ConsumerStatefulWidget {
@@ -17,32 +18,74 @@ class CameraWebScreen extends ConsumerStatefulWidget {
   ConsumerState<CameraWebScreen> createState() => CameraWebScreenState();
 }
 
-class CameraWebScreenState extends ConsumerState<CameraWebScreen> with CustomCameraController {
+class CameraWebScreenState extends ConsumerState<CameraWebScreen> with CustomCameraController, RouteAware {
   String _viewType = '';
   late html.VideoElement _videoElement;
   late Widget _htmlWidget;
+  String? _capturedImage;
 
   @override
   void initState() {
     super.initState();
     fnInitCameraController(ref, context);
 
+    _capturedImage = null;
     // 유니크한 viewType 키 생성
     _viewType = 'camera-html-${DateTime.now().microsecondsSinceEpoch}';
 
-    initializeCameraWeb();
+    setupHtmlView();
+    initializeWebCamera();
+
+    // 카메라 요청
+    html.window.navigator.mediaDevices
+        ?.getUserMedia({'video': {'facingMode': 'environment'}})
+        .then((stream) {
+      _videoElement.srcObject = stream;
+    }).catchError((e) {
+      if(context.mounted) return;
+      showAlertDialog(
+        context: context, 
+        middleText: '카메라 접근 실패: $e'
+      );
+    });
   }
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+
+  //   final route = ModalRoute.of(context);
+  //   if (route is PageRoute) {
+  //     routeObserver.subscribe(this, route);
+  //   }
+  // }
 
   @override
   void dispose() {
+    // 구독 해지
+    // routeObserver.unsubscribe(this);
     // 카메라 스트림 해제
     _videoElement.srcObject?.getTracks().forEach((track) => track.stop());
     _videoElement.srcObject = null;
+    _capturedImage = null;
 
     super.dispose();
   }
 
-  Future<void> initializeCameraWeb() async {
+  // @override
+  // void didPopNext() {
+  //   // 기존 스트림 종료
+  //   _videoElement.srcObject?.getTracks().forEach((track) => track.stop());
+  //   _videoElement.srcObject = null;
+  //   setState(() => _capturedImage = null);
+
+  //   // 새로운 viewType 다시 생성
+  //   _viewType = 'camera-html-${DateTime.now().microsecondsSinceEpoch}';
+  //   setupHtmlView();
+  //   initializeWebCamera();
+  // }
+
+  void setupHtmlView() {
     _videoElement = html.VideoElement()
       ..autoplay = true
       ..muted = true
@@ -53,31 +96,43 @@ class CameraWebScreenState extends ConsumerState<CameraWebScreen> with CustomCam
 
     // 플랫폼 뷰 등록
     // ignore: undefined_prefixed_name
-    ui_web.platformViewRegistry.registerViewFactory(
-      _viewType, // 동적으로 설정된 viewType 사용
+    ui.platformViewRegistry.registerViewFactory(
+      _viewType, // ✅ 동적으로 설정된 viewType 사용
       (int viewId) => _videoElement,
     );
 
     setState(() {
       _htmlWidget = HtmlElementView(viewType: _viewType);
     });
-
-    html.window.navigator.mediaDevices?.
-      getUserMedia({
-        'video': {'facingMode': 'environment'}, 
-        'audio': false
-      }).then((stream) {
-      _videoElement.srcObject = stream;
-    }).catchError((e) {
-      if(!context.mounted) return;
-      showAlertDialog(
-        context: context, 
-        middleText: '카메라 접근 실패: $e'
-      );
-    });
   }
 
-  Future<void> captureFromVideo() async {
+  Future<void> initializeWebCamera() async {
+    final isIOS = html.window.navigator.userAgent.toLowerCase().contains('iphone') ||
+                  html.window.navigator.userAgent.toLowerCase().contains('ipad');
+
+    try {
+      final Map<String, dynamic> constraints = {
+        'video': {
+          'facingMode': isIOS ? {'ideal': 'environment'} : {'exact': 'environment'},
+          'width': {'ideal': 1280},
+          'height': {'ideal': 720},
+        },
+        'audio': false
+      };
+
+      final stream = await html.window.navigator.mediaDevices!.getUserMedia(constraints);
+      _videoElement.srcObject = stream;
+      _videoElement.play();
+    } catch (e) {
+      if(context.mounted) return;
+      showAlertDialog(
+        context: context, 
+        middleText: 'ios 카메라 접근 실패: $e'
+      );
+    }
+  }
+
+  void captureFromVideo() {
     final canvas = html.CanvasElement(
       width: _videoElement.videoWidth,
       height: _videoElement.videoHeight,
@@ -86,22 +141,12 @@ class CameraWebScreenState extends ConsumerState<CameraWebScreen> with CustomCam
     ctx.drawImage(_videoElement, 0, 0);
 
     final dataUrl = canvas.toDataUrl('image/png');
-    
-    // base64 → Uint8List
-    final base64String = dataUrl.split(',').last;
-    final bytes = base64Decode(base64String);
+    setState(() {
+      _capturedImage = dataUrl;
+    });
 
-    // 메모리에서 만든 XFile
-    final xfile = XFile.fromData(
-      bytes,
-      mimeType: 'image/png',
-      name: 'captured_image.png',
-    );
-
-    // provider에 저장
-    ref.read(cameraImagePickerProvider.notifier).set(xfile);
-    // 뒤로가기
-    await goBack();
+    debugPrint('📸 캡처된 base64 이미지: $dataUrl');
+    // TODO: 업로드 처리 (예: HTTP post)
   }
 
   Future<void> goBack() async {
@@ -172,8 +217,6 @@ class CameraWebScreenState extends ConsumerState<CameraWebScreen> with CustomCam
                   },
                 ),
               ),
-
-              // 사진 버튼 영역
               Positioned(
                 bottom: 0,
                 child: Container(
@@ -189,7 +232,7 @@ class CameraWebScreenState extends ConsumerState<CameraWebScreen> with CustomCam
                         ),
                         onPressed: () {
                           // 갤러리에서 불러오기
-                          fnGetImage(ImageSource.gallery, from: 'camera_web_screen');
+                          fnGetImage(ImageSource.gallery, from: 'camera_screen');
                         },
                       ),
                       const SizedBox(width: 40),

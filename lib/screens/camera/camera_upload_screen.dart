@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
@@ -25,26 +26,12 @@ class CameraUploadScreenState extends ConsumerState<CameraUploadScreen> with Cus
     
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       // 화면 상태 초기화
-      fnInitCameraUploadScreen();  
+      fnInitCameraUploadScreen();
 
-      // if(!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
-      //   // 카메라 호출
-      //   // fnGetImage(ImageSource.camera);
-
-      //   // 카메라 화면 이동
-      //   context.pushNamed('camera_screen');
-      // } else {
-      //   final userAgent = html.window.navigator.userAgent;
-      //   // 모바일 기기의 웹 브라우저 앱에서 호출 시
-      //   if (userAgent.contains("Android") || 
-      //       userAgent.contains('iPhone') || 
-      //       userAgent.contains('iPad')) {
-      //     context.pushNamed('camera_web_screen');
-      //     // fnTakePictureWeb();
-      //   } 
-      // }
-
-      fnCallCameraScreen(context);
+      // 카메라 호출 분기 처리 함수 - 웹 브라우저, 앱 내 브라우저
+      // fnCallCameraScreen(context);
+      // 웹 테스트용
+      context.pushNamed('camera_web_screen');
     });
   }
 
@@ -80,10 +67,10 @@ class CameraUploadScreenState extends ConsumerState<CameraUploadScreen> with Cus
                       width: MediaQuery.of(context).size.width,
                       height: uploadContainerHeight,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(uploadContainerRadius + 1),),
+                        borderRadius: BorderRadius.all(Radius.circular(uploadContainerRadius + 2),),
                         border: Border.all(
-                              width: 1,
-                              color: CustomColor.gray02,
+                              width: 2,
+                              color: CustomColor.yellow03,
                           ),
                       ),
                       child: Stack(
@@ -110,15 +97,21 @@ class CameraUploadScreenState extends ConsumerState<CameraUploadScreen> with Cus
                               Container(
                                 width: 24,
                                 height: 24,
-                                margin: const EdgeInsets.all(8),
+                                margin: const EdgeInsets.all(12),
                                 decoration: const BoxDecoration(
                                   color: CustomColor.white,
                                   borderRadius: BorderRadius.all(Radius.circular(24),),
                                 ),
                                 child: GestureDetector(
                                   onTap: () {
-                                    ref.read(cameraImagePickerProvider.notifier).set(null);
-                                    ref.read(cameraUploadButtonProvider.notifier).set(false);
+                                    showConfirmDialog(
+                                      context: context, 
+                                      middleText: "사진을 삭제하시겠습니까?", 
+                                      onConfirm: () {
+                                        ref.read(cameraImagePickerProvider.notifier).set(null);
+                                        ref.read(cameraUploadButtonProvider.notifier).set(false);
+                                      }
+                                    );
                                   },
                                   child: SvgPicture.asset(
                                     'assets/icons/action/delete_circle.svg',
@@ -174,29 +167,38 @@ class CameraUploadScreenState extends ConsumerState<CameraUploadScreen> with Cus
                         ),
                       ),
                     ),
-                  const SizedBox(height: 16,),
+                  const SizedBox(height: 32,),
                   DefaultTextButton(
                     disabled: !cameraUploadButtonState,
                     onPressed: () {
                       fnUploadExec();
                     }, 
                     text: '사진 업로드',
+                    height: 42,
                     disalbedTextColor: const Color(0xFF5C5B5E),
                     borderRadius: 20,
                     elevation: 4,
                   ),
                   const SizedBox(height: 16,),
-                  DefaultTextButton(
+                  DefaultIconButton(
                     disabled: false,
                     onPressed: () {
-                      fnCallCameraScreen(context, mode: "method_call");
+                      // fnCallCameraScreen(context, mode: "method_call");
+                      // 웹 테스트용
+                      context.pushNamed('camera_web_screen');
                     }, 
                     text: '사진 촬영하기',
+                    height: 42,
                     borderRadius: 20,
-                    backgroundColor: CustomColor.blue04,
-                    borderColor: CustomColor.blue04,
-                    textColor: CustomColor.white,
+                    backgroundColor: CustomColor.white,
+                    borderColor: CustomColor.yellow03,
+                    textColor: CustomColor.yellow03,
                     elevation: 4,
+                    svgPicture: SvgPicture.asset(
+                      'assets/icons/etc/camera_icon.svg',
+                      width: 24,
+                      height: 24,
+                    ),
                   ),
                   const SizedBox(height: 32,),
                 ],
