@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
 
+
 class MainScreen extends ConsumerWidget {
   final Widget child;
 
@@ -38,6 +39,7 @@ class MainScreen extends ConsumerWidget {
                   onTap: (index) {
                     // 인덱스 상태 갱신
                     ref.read(bottomNavProvider.notifier).set(index);
+
                     // 화면 이동
                     if (index == 0) {
                       context.goNamed('home_screen');

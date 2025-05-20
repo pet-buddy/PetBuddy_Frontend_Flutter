@@ -20,6 +20,7 @@ class DefaultIconButton extends StatelessWidget {
     this.elevation,
     this.borderRadius,
     this.svgPicture,
+    this.svgPosition = 'left',
   });
 
   final String text;
@@ -36,6 +37,7 @@ class DefaultIconButton extends StatelessWidget {
   final double? elevation;
   final double? borderRadius;
   final SvgPicture? svgPicture;
+  final String svgPosition;
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +65,8 @@ class DefaultIconButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            svgPicture ?? const SizedBox(),
-            svgPicture != null ? 
+            svgPosition == 'left' ? (svgPicture ?? const SizedBox()) : const SizedBox(),
+            svgPosition == 'left' && svgPicture != null ? 
               const SizedBox(width: 16,) :
               const SizedBox(),
             Text(
@@ -76,6 +78,10 @@ class DefaultIconButton extends StatelessWidget {
                   (textColor ?? CustomColor.black),
               ),
             ),
+            svgPosition == 'right' && svgPicture != null ? 
+              const SizedBox(width: 16,) :
+              const SizedBox(),
+            svgPosition == 'right' ? (svgPicture ?? const SizedBox()) : const SizedBox(),
           ],
         ),
       ),
