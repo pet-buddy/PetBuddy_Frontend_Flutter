@@ -6,4 +6,5 @@ export 'home_activity_report_total_container.dart';
 export 'home_card_mission_container.dart';
 export 'home_card_pet_container.dart';
 export 'home_card_manage_container.dart';
-export 'home_card_report_container.dart';
+export 'home_card_report_layout_container.dart';
+export 'home_card_report_flip_container.dart';

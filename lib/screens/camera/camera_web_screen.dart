@@ -52,7 +52,6 @@ class CameraWebScreenState extends ConsumerState<CameraWebScreen> with CustomCam
       ..style.height = '100%';
 
     // 플랫폼 뷰 등록
-    // ignore: undefined_prefixed_name
     ui_web.platformViewRegistry.registerViewFactory(
       _viewType, // 동적으로 설정된 viewType 사용
       (int viewId) => _videoElement,
@@ -62,19 +61,56 @@ class CameraWebScreenState extends ConsumerState<CameraWebScreen> with CustomCam
       _htmlWidget = HtmlElementView(viewType: _viewType);
     });
 
-    html.window.navigator.mediaDevices?.
-      getUserMedia({
-        'video': {'facingMode': 'environment'}, 
-        'audio': false
-      }).then((stream) {
+    final isIOS = html.window.navigator.userAgent.toLowerCase().contains('iphone') ||
+                  html.window.navigator.userAgent.toLowerCase().contains('ipad');
+
+    final Map<String, dynamic> constraints = isIOS ? {
+      'video': {
+        'facingMode': {'ideal': 'environment'},
+        'width': {'ideal': 1280},
+        'height': {'ideal': 720},
+      },
+      'audio': false
+    } : {
+      'video': {'facingMode': 'environment'}, 
+      'audio': false
+    };             
+
+    try {
+      // 카메라 권한 상태 확인
+      final permission = await html.window.navigator.permissions?.query({'name': 'camera'});
+
+      final state = permission?.state;
+
+      if (state == 'denied') {
+        if (!context.mounted) return;
+        showAlertDialog(
+          context: context,
+          middleText: '카메라 권한이 거부되었습니다.\n브라우저 설정에서 권한을 허용해주세요.',
+        );
+        return;
+      }
+
+      final stream = await html.window.navigator.mediaDevices?.getUserMedia(constraints);
       _videoElement.srcObject = stream;
-    }).catchError((e) {
+    } catch(e) {
       if(!context.mounted) return;
       showAlertDialog(
         context: context, 
-        middleText: '카메라 접근 실패: $e'
+        middleText: '카메라 접근 실패: $e',
       );
-    });
+    }
+
+    // html.window.navigator.mediaDevices?.
+    //   getUserMedia(constraints).then((stream) {
+    //   _videoElement.srcObject = stream;
+    // }).catchError((e) {
+    //   if(!context.mounted) return;
+    //   showAlertDialog(
+    //     context: context, 
+    //     middleText: '카메라 접근 실패: $e'
+    //   );
+    // });
   }
 
   Future<void> captureFromVideo() async {
@@ -95,7 +131,7 @@ class CameraWebScreenState extends ConsumerState<CameraWebScreen> with CustomCam
     final xfile = XFile.fromData(
       bytes,
       mimeType: 'image/png',
-      name: 'captured_image.png',
+      name: 'poop_image_${DateTime.now().microsecondsSinceEpoch}.png',
     );
 
     // provider에 저장
@@ -156,7 +192,7 @@ class CameraWebScreenState extends ConsumerState<CameraWebScreen> with CustomCam
                 ),
               ),
 
-              // 카메라 실행 취소
+              // 카메라 실행 취소 버튼
               Positioned(
                 top: 0,
                 left: 0,

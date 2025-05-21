@@ -36,318 +36,349 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
         child: SafeArea(
           child: SingleChildScrollView(
             physics: const ClampingScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 16,),
-                  Text(
-                    '탄이, 반가워요!',
-                    style: CustomText.heading1.copyWith(
-                      color: CustomColor.blue03,
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    const SizedBox(height: 300,),
+                    AspectRatio(
+                      aspectRatio: 1/2.5,
+                      child: Image.asset(
+                        'assets/icons/etc/home_background.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-                  Row(
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SvgPicture.asset(
-                        'assets/icons/etc/heart.svg',
-                        width: 16,
-                        height: 16,
-                      ),
-                      const SizedBox(width: 8,),
+                      const SizedBox(height: 16,),
                       Text(
-                        '하트코인(준비 중)',
-                        style: CustomText.body10.copyWith(
-                          color: CustomColor.gray03,
-                          fontWeight: FontWeight.bold,
+                        '탄이, 반가워요!',
+                        style: CustomText.heading1.copyWith(
+                          color: CustomColor.blue03,
                         ),
                       ),
-                      const SizedBox(width: 16,),
-                      Text(
-                        NumberFormat('###,###,###,###').format(1350),
-                        style: CustomText.body10.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16,),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 52,
-                    child: const SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
+                      Row(
                         children: [
-                          // TODO : loop로 데이터 받아 출력
-                          HomeCardMissionContainer(
-                            imoji: '🐕',
-                            title: '산책하기', 
-                            text: '4시간 뒤 소멸'
+                          SvgPicture.asset(
+                            'assets/icons/etc/heart.svg',
+                            width: 16,
+                            height: 16,
                           ),
-                          HomeCardMissionContainer(
-                            imoji: '🍖',
-                            title: '맘마주기', 
-                            text: '1시간 뒤 소멸'
+                          const SizedBox(width: 8,),
+                          Text(
+                            '하트코인(준비 중)',
+                            style: CustomText.body10.copyWith(
+                              color: CustomColor.gray03,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          HomeCardMissionContainer(
-                            imoji: '💩',
-                            title: '똥 찍기', 
-                            text: '2시간 뒤 소멸'
-                          ),
-                          HomeCardMissionContainer(
-                            imoji: '😴',
-                            title: '낮잠재우기', 
-                            text: '2시간 뒤 소멸'
+                          const SizedBox(width: 16,),
+                          Text(
+                            NumberFormat('###,###,###,###').format(1350),
+                            style: CustomText.body10.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 16,),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 200,
-                    child: PageView(
-                      controller: homePageController,
-                      children: [
-                        HomeCardPetContainer(
-                          onPressed: () {
-                            
-                          },
-                        ),
-                        HomeCardPetContainer(
-                          svgPicture: SvgPicture.asset(
-                            'assets/icons/illustration/puppy_yellow.svg',
-                            width: 100,
-                            height: 146,
+                      const SizedBox(height: 16,),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: 52,
+                        child: const SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              // TODO : loop로 데이터 받아 출력
+                              HomeCardMissionContainer(
+                                imoji: '🐕',
+                                title: '산책하기', 
+                                text: '4시간 뒤 소멸'
+                              ),
+                              HomeCardMissionContainer(
+                                imoji: '🍖',
+                                title: '맘마주기', 
+                                text: '1시간 뒤 소멸'
+                              ),
+                              HomeCardMissionContainer(
+                                imoji: '💩',
+                                title: '똥 찍기', 
+                                text: '2시간 뒤 소멸'
+                              ),
+                              HomeCardMissionContainer(
+                                imoji: '😴',
+                                title: '낮잠재우기', 
+                                text: '2시간 뒤 소멸'
+                              ),
+                            ],
                           ),
-                          onPressed: () {
-                            
-                          },
                         ),
-                        HomeCardPetContainer(
-                          svgPicture: SvgPicture.asset(
-                            'assets/icons/illustration/puppy_black.svg',
-                            width: 100,
-                            height: 146,
-                          ),
-                          onPressed: () {
-                            
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 16,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      HomeCardManageContainer(
-                        title: "걸음 수", 
-                        thumbnailPicture: SvgPicture.asset(
-                          'assets/icons/etc/paw.svg',
-                          width: 24,
-                          height: 24,
-                        ),
-                        onPressed: () {
-                          context.goNamed("home_activity_report_screen");
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                      ),
+                      const SizedBox(height: 16,),
+                      SizedBox(
+                        width: fnGetDeviceWidth(context),
+                        height: 200,
+                        child: PageView(
+                          controller: homePageController,
                           children: [
-                            Text(
-                              NumberFormat('###,###,###,###').format(23245),
-                              style: CustomText.body4.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: CustomColor.blue03,
-                              ),
+                            HomeCardPetContainer(
+                              onPressed: () {
+                                
+                              },
                             ),
-                            const SizedBox(width: 8,),
-                            Text(
-                              '걸음',
-                              style: CustomText.caption2.copyWith(
-                                color: CustomColor.gray02,
+                            HomeCardPetContainer(
+                              svgPicture: SvgPicture.asset(
+                                'assets/icons/illustration/puppy_yellow.svg',
+                                width: 100,
+                                height: 146,
                               ),
-                            )
+                              onPressed: () {
+                                
+                              },
+                            ),
+                            HomeCardPetContainer(
+                              svgPicture: SvgPicture.asset(
+                                'assets/icons/illustration/puppy_black.svg',
+                                width: 100,
+                                height: 146,
+                              ),
+                              onPressed: () {
+                                
+                              },
+                            ),
                           ],
                         ),
                       ),
-                      HomeCardManageContainer(
-                        title: "똥 건강", 
-                        thumbnailPicture: SvgPicture.asset(
-                          'assets/icons/etc/poop.svg',
-                          width: 24,
-                          height: 24,
-                        ),
-                        child: Container(
-                          height: 45,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFF5F5F5),
-                            borderRadius: BorderRadius.all(Radius.circular(32),),
-                          ),
-                          child: LayoutBuilder(builder: (context, contraints) {
-                            return Row(
+                      const SizedBox(height: 16,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          HomeCardManageContainer(
+                            title: "걸음 수", 
+                            thumbnailPicture: SvgPicture.asset(
+                              'assets/icons/etc/paw.svg',
+                              width: 24,
+                              height: 24,
+                            ),
+                            onPressed: () {
+                              context.goNamed("home_activity_report_screen");
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Container(
-                                  width: contraints.maxWidth / 3,
-                                  height: contraints.maxHeight,
-                                  decoration: const BoxDecoration(
-                                    color:  CustomColor.yellow03,
-                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(32), bottomLeft: Radius.circular(32),),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '양호',
-                                      style: CustomText.caption3.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                                Text(
+                                  NumberFormat('###,###,###,###').format(23245),
+                                  style: CustomText.body4.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: CustomColor.blue03,
                                   ),
                                 ),
-                                Container(
-                                  width: contraints.maxWidth / 3,
-                                  height: contraints.maxHeight,
-                                  decoration: const BoxDecoration(
-                                    color:  Color(0xFFF5F5F5),
+                                const SizedBox(width: 8,),
+                                Text(
+                                  '걸음',
+                                  style: CustomText.caption2.copyWith(
+                                    color: CustomColor.gray02,
                                   ),
-                                  child: Center(
-                                    child: Text(
-                                      '주의',
-                                      style: CustomText.caption3.copyWith(
-                                        fontWeight: FontWeight.bold,
+                                )
+                              ],
+                            ),
+                          ),
+                          HomeCardManageContainer(
+                            title: "똥 건강", 
+                            thumbnailPicture: SvgPicture.asset(
+                              'assets/icons/etc/poop.svg',
+                              width: 24,
+                              height: 24,
+                            ),
+                            child: Container(
+                              height: 45,
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFF5F5F5),
+                                borderRadius: BorderRadius.all(Radius.circular(32),),
+                              ),
+                              child: LayoutBuilder(builder: (context, contraints) {
+                                return Row(
+                                  children: [
+                                    Container(
+                                      width: contraints.maxWidth / 3,
+                                      height: contraints.maxHeight,
+                                      decoration: const BoxDecoration(
+                                        color:  CustomColor.yellow03,
+                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(32), bottomLeft: Radius.circular(32),),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '양호',
+                                          style: CustomText.caption3.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ),
                                     ),
+                                    Container(
+                                      width: contraints.maxWidth / 3,
+                                      height: contraints.maxHeight,
+                                      decoration: const BoxDecoration(
+                                        color:  Color(0xFFF5F5F5),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '주의',
+                                          style: CustomText.caption3.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: contraints.maxWidth / 3,
+                                      height: contraints.maxHeight,
+                                      decoration: const BoxDecoration(
+                                        color:  Color(0xFFF5F5F5),
+                                        borderRadius: BorderRadius.only(topRight: Radius.circular(32), bottomRight: Radius.circular(32),),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '위험',
+                                          style: CustomText.caption3.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          HomeCardManageContainer(
+                            thumbnailPicture: SvgPicture.asset(
+                              'assets/icons/etc/sleep.svg',
+                              width: 24,
+                              height: 24,
+                            ),
+                            title: "수면 효율",
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '55',
+                                  style: CustomText.body4.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: CustomColor.blue03,
                                   ),
                                 ),
-                                Container(
-                                  width: contraints.maxWidth / 3,
-                                  height: contraints.maxHeight,
-                                  decoration: const BoxDecoration(
-                                    color:  Color(0xFFF5F5F5),
-                                    borderRadius: BorderRadius.only(topRight: Radius.circular(32), bottomRight: Radius.circular(32),),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '위험',
-                                      style: CustomText.caption3.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                                const SizedBox(width: 8,),
+                                Text(
+                                  '%',
+                                  style: CustomText.caption2.copyWith(
+                                    color: CustomColor.gray02,
                                   ),
                                 ),
                               ],
-                            );
-                          }),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      HomeCardManageContainer(
-                        thumbnailPicture: SvgPicture.asset(
-                          'assets/icons/etc/sleep.svg',
-                          width: 24,
-                          height: 24,
-                        ),
-                        title: "수면 효율",
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              '55',
-                              style: CustomText.body4.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: CustomColor.blue03,
-                              ),
                             ),
-                            const SizedBox(width: 8,),
-                            Text(
-                              '%',
-                              style: CustomText.caption2.copyWith(
-                                color: CustomColor.gray02,
-                              ),
+                          ),
+                          HomeCardManageContainer(
+                            title: "곳간", 
+                            thumbnailPicture: SvgPicture.asset(
+                              'assets/icons/etc/feed.svg',
+                              width: 24,
+                              height: 24,
                             ),
-                          ],
-                        ),
-                      ),
-                      HomeCardManageContainer(
-                        title: "곳간", 
-                        thumbnailPicture: SvgPicture.asset(
-                          'assets/icons/etc/feed.svg',
-                          width: 24,
-                          height: 24,
-                        ),
-                        child: LayoutBuilder(builder: (context, constraints) {
-                          return Stack(
-                            children: [
-                              Container(
-                                width: constraints.maxWidth,
-                                height: 45,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFFF5F5F5),
-                                  borderRadius: BorderRadius.all(Radius.circular(32),),
-                                ),
-                              ),
-                              Container(
-                                width: constraints.maxWidth * 0.6,
-                                height: 45,
-                                decoration: const BoxDecoration(
-                                  color: CustomColor.yellow03,
-                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(32), bottomLeft: Radius.circular(32)),
-                                ),
-                              ),
-                              SizedBox(
-                                width: constraints.maxWidth,
-                                height: 45,
-                                child: Center(
-                                  child: Text(
-                                    '20일 정도 먹을 수 있어요!',
-                                    style: CustomText.caption3.copyWith(
-                                      color: CustomColor.gray02,
-                                      fontWeight: FontWeight.bold,
+                            child: LayoutBuilder(builder: (context, constraints) {
+                              return Stack(
+                                children: [
+                                  Container(
+                                    width: constraints.maxWidth,
+                                    height: 45,
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xFFF5F5F5),
+                                      borderRadius: BorderRadius.all(Radius.circular(32),),
                                     ),
                                   ),
-                                ),
-                              ),
-                            ],
-                          );
-                        }),
+                                  Container(
+                                    width: constraints.maxWidth * 0.6,
+                                    height: 45,
+                                    decoration: const BoxDecoration(
+                                      color: CustomColor.yellow03,
+                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(32), bottomLeft: Radius.circular(32)),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: constraints.maxWidth,
+                                    height: 45,
+                                    child: Center(
+                                      child: Text(
+                                        '20일 정도 먹을 수 있어요!',
+                                        style: CustomText.caption3.copyWith(
+                                          color: CustomColor.gray02,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }),
+                          ),
+                        ],
                       ),
+                      const SizedBox(height: 16,),
+                      HomeCardReportLayoutContainer(
+                        thumbnailPicture: SvgPicture.asset(
+                          'assets/icons/etc/today_report.svg',
+                          width: 20,
+                          height: 20,
+                        ),
+                        subTitle: '탄이는 다음 3가지 관리가 필요해요!',
+                        reportList: [
+                          HomeCardReportModel(
+                            title: '#활동량', 
+                            content: '아침, 저녁 산책을 권장드려요!',
+                            svgPicture: SvgPicture.asset(
+                              'assets/icons/etc/paw.svg',
+                              width: 64,
+                              height: 64,
+                            ),
+                          ),
+                          HomeCardReportModel(
+                            title: '#수면', 
+                            content: '30분 낮잠이 필요한 것 같아요',
+                            svgPicture: SvgPicture.asset(
+                              'assets/icons/etc/sleep.svg',
+                              width: 64,
+                              height: 64,
+                            ),
+                          ),
+                          HomeCardReportModel(
+                            title: '#규칙적인 습관', 
+                            content: '간식은 정해진 시간에 챙겨줘야 해요',
+                            svgPicture: SvgPicture.asset(
+                              'assets/icons/etc/feed.svg',
+                              width: 64,
+                              height: 64,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 32,),
                     ],
                   ),
-                  const SizedBox(height: 16,),
-                  HomeCardReportContainer(
-                    subTitle: '탄이는 다음 3가지 관리가 필요해요!',
-                    reportList: [
-                      HomeCardReportModel(
-                        title: '#활동량', 
-                        content: '아침, 저녁 산책을 권장드려요!'
-                      ),
-                      HomeCardReportModel(
-                        title: '#수면', 
-                        content: '30분 낮잠이 필요한 것 같아요'
-                      ),
-                      HomeCardReportModel(
-                        title: '#규칙적인 습관', 
-                        content: '간식은 정해진 시간에 챙겨줘야 해요'
-                      ),
-                    ],
-                  ),
-                  OutlinedButton(onPressed: () {
-                    //context.goNamed("home_activity_report_screen");
-                    // showAlertDialog(context: context, middleText: 'teeeee');
-                    showConfirmDialog(context: context, middleText: 'teeeee', onConfirm: () {});
-                  }, child: Text('test')),
-                  const SizedBox(height: 32,),
-                ],
-              )
+                ),
+              ],
             ),
           ),
         ),

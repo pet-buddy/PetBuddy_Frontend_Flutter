@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
+import 'package:petbuddy_frontend_flutter/controller/controller_utils.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
 import 'package:petbuddy_frontend_flutter/data/repository/auth_repository.dart';
 
@@ -164,7 +165,12 @@ mixin class RegisterController {
       debugPrint(response.toString());
 
       if(response.response_code == 200) {
-        // TODO : 토큰 저장
+        ResponseEmailLoginModel responseEmailLoginModel = ResponseEmailLoginModel.fromJson(response.data);
+        // 토큰 저장
+        await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: responseEmailLoginModel.accessToken);
+        await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: responseEmailLoginModel.refreshToken);
+        // 사용자 정보 불러오기
+        await ControllerUtils.fnGetUserMypage(registerRef);
 
         if(!registerContext.mounted) return;
         // 로딩 끝
@@ -185,11 +191,16 @@ mixin class RegisterController {
     } on DioException catch(e) {
       debugPrint("========== Email Register Dio Exception ==========");
       debugPrint(e.toString());
-      int? errorCode = e.response?.statusCode;
 
-      // TODO : storage에 저장된 값 초기화
+      // int? errorCode = e.response?.statusCode;
+      // debugPrint(errorCode.toString());
+      
+      // storage에 저장된 값 초기화
+      await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: null);
+      await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: null);
 
       // 로딩 끝
+      if(!registerContext.mounted) return;
       hideLoadingDialog(registerContext);
 
       // 에러 알림창
