@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 
 class ShopScreen extends ConsumerStatefulWidget {
@@ -31,9 +29,9 @@ class ShopScreenState extends ConsumerState<ShopScreen> {
         },
         child: const SafeArea(
           child: SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
+            physics: ClampingScrollPhysics(),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
                   Text('Shop'),

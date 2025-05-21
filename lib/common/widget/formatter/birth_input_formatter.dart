@@ -16,9 +16,9 @@ class BirthInputFormatter extends TextInputFormatter {
     value = _cleanBirthStr(value);
 
     if(value.length > 4 && value.length < 7) {
-      value = "${value.substring(0, 4)}/${value.substring(4)}";
+      value = "${value.substring(0, 4)}-${value.substring(4)}";
     } else if(value.length >= 7 && value.length < 11) {
-      value = "${value.substring(0, 4)}/${value.substring(4, 6)}/${value.substring(6)}";
+      value = "${value.substring(0, 4)}-${value.substring(4, 6)}-${value.substring(6)}";
     }
 
     return value;

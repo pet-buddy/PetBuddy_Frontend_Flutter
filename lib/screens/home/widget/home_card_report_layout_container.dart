@@ -92,15 +92,13 @@ class HomeCardReportLayoutContainer extends StatelessWidget {
               child: child ?? Row(
                 children: [
                   for(int i=0;i<reportList.length;i++) 
-                    Row(
-                      children: [
-                        HomeCardReportFlipContainer(
-                          title: reportList[i].title, 
-                          backText: reportList[i].content, 
-                          frontIcon: reportList[i].svgPicture,
-                        ),
-                        const SizedBox(width: 8,),
-                      ],
+                    Container(
+                      margin: const EdgeInsets.only(right: 8),
+                      child: HomeCardReportFlipContainer(
+                        title: reportList[i].title, 
+                        backText: reportList[i].content, 
+                        frontIcon: reportList[i].svgPicture,
+                      ),
                     ),
                 ],
               ),

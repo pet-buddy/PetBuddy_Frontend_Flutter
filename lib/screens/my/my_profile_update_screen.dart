@@ -19,6 +19,10 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
   void initState() {
     super.initState();
     fnInitMyController(ref, context);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      fnInitMyProfileUpdateState();
+    });
   }
 
   @override
@@ -80,7 +84,7 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                           ref.read(myProfileSexButtonProvider.notifier).set(femaleCode);
 
                           ref.read(myProfileInputProvider.notifier)
-                              .setSex(femaleCode);
+                              .setGender(femaleCode);
 
                           ref.read(myProfileUpdateButtonProvider.notifier)
                              .activate(myProfileInputState);
@@ -101,7 +105,7 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                           ref.read(myProfileSexButtonProvider.notifier).set(maleCode);
 
                           ref.read(myProfileInputProvider.notifier)
-                              .setSex(maleCode);
+                              .setGender(maleCode);
 
                           ref.read(myProfileUpdateButtonProvider.notifier)
                              .activate(myProfileInputState);
@@ -124,7 +128,7 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                       ref.read(myProfileUpdateButtonProvider.notifier)
                          .activate(myProfileInputState);
                     },
-                    hintText: 'YYYY / MM / DD',
+                    hintText: 'YYYY-MM-DD',
                     keyboardType: TextInputType.number,
                     onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
                     inputFormatter: [
@@ -160,7 +164,7 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                               ref.read(myProfileInterestButtonProvider.notifier).set(i);
 
                               ref.read(myProfileInputProvider.notifier)
-                                 .setInterest(interests[i]['text'].toString());
+                                 .setInterest(interestCode[i]);
 
                               ref.read(myProfileUpdateButtonProvider.notifier)
                                  .activate(myProfileInputState);

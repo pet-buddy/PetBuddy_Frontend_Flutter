@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:petbuddy_frontend_flutter/common/const/const.dart';
@@ -39,10 +38,10 @@ class HomeCardManageContainer extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(24),),
           boxShadow: [
             BoxShadow(
-              color: CustomColor.gray04..withValues(alpha: 0.0),
-              spreadRadius: 2,
-              blurRadius: 10,
-              offset: const Offset(0, 0),
+              color: CustomColor.black.withValues(alpha: 0.1),
+              spreadRadius: 1,
+              blurRadius: 2,
+              offset: const Offset(0, 1),
             )
           ],
         ),

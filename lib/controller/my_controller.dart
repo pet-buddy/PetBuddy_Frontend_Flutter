@@ -1,9 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:petbuddy_frontend_flutter/common/const/project_constant.dart';
+import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
+import 'package:petbuddy_frontend_flutter/controller/controller_utils.dart';
+import 'package:petbuddy_frontend_flutter/data/model/model.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
+import 'package:petbuddy_frontend_flutter/data/repository/user_repository.dart';
 
 mixin class MyController {
   late final WidgetRef myRef;
@@ -12,6 +16,21 @@ mixin class MyController {
   void fnInitMyController(WidgetRef ref, BuildContext context) {
     myRef = ref;
     myContext = context;
+  }
+
+  void fnInitMyProfileUpdateState() {
+    final responseUserMypageState = myRef.read(responseUserMypageProvider.notifier).get();
+    myRef.read(myProfileSexButtonProvider.notifier).set(responseUserMypageState.gender ?? "");
+    myRef.read(myProfileInterestButtonProvider.notifier).set(interestCode.indexOf(responseUserMypageState.interest ?? ""));
+    birthInputController.text = responseUserMypageState.birth ?? "";
+    phoneInputController.text = responseUserMypageState.phone_number ?? "";
+    myRef.read(myProfileInputProvider.notifier).setGender(responseUserMypageState.gender ?? "");
+    myRef.read(myProfileInputProvider.notifier).setBirth(responseUserMypageState.birth ?? "");
+    myRef.read(myProfileInputProvider.notifier).setInterest(responseUserMypageState.interest ?? "");
+    myRef.read(myProfileInputProvider.notifier).setPhoneNumber(responseUserMypageState.phone_number ?? "");
+
+    myRef.read(myProfileUpdateButtonProvider.notifier)
+         .activate(myRef.read(myProfileInputProvider.notifier).get());
   }
 
   void fnInvalidateMyProfileUpdateState() {
@@ -32,8 +51,8 @@ mixin class MyController {
   double companySectionHeight = 0.0;
 
   // 계정정보수정 화면에서 사용하는 변수들
-  final String maleCode = 'M';
-  final String femaleCode = 'F';
+  final String maleCode = 'MALE';
+  final String femaleCode = 'FEMALE';
 
   // 계정정보수정 화면에서 사용할 입력 컨트롤러
   TextEditingController birthInputController = TextEditingController();
@@ -46,16 +65,37 @@ mixin class MyController {
     {'text' : '디지털 반려동물 키우기', 'width': 350},
   ];
 
-  bool fnCheckSex(String sex) {
+  final List<String> interestCode = ['POO', 'ACTIVITY', 'SLEEP', 'DIGITALPET'];
+
+  bool fnCheckGender(String gender) {
     bool result = false;
 
-    if(sex == 'F' || sex == 'M') result = true;
+    if(gender == femaleCode || gender == maleCode) result = true;
+
+    if(!result) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.GENDER_ERR_EMPTY,
+      );
+    }
 
     return result;
   }
 
   bool fnCheckBirth(String birth) {
     bool result = false;
+
+    if(birth.isEmpty) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.BIRTH_ERR_EMPTY,
+      );
+    } else if(birth.length != 10) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.BIRTH_ERR_LEN,
+      );
+    }
 
     if(birth != '' && birth.length == 10) result = true;
 
@@ -67,43 +107,114 @@ mixin class MyController {
 
     if(interest != '') result = true;
 
+    if(!result) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.INTEREST_ERR_EMPTY,
+      );
+    }
+
     return result;
   }
 
   bool fnCheckPhoneNumber(String phone_number) {
     bool result = false;
 
-    if(phone_number != '' || phone_number.length >= 13) result = true;
+    if(phone_number.isEmpty) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.PHONE_ERR_EMPTY,
+      );
+    } else if(phone_number.length < 13) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.PHONE_ERR_LEN,
+      );
+    }
+
+    if(phone_number != '' && phone_number.length >= 13) result = true;
 
     return result;
   }
 
   Future<void> fnMyProfileUpdateExec() async {
-    final String sex = myRef.read(myProfileInputProvider.notifier).getSex();
+    final String gender = myRef.read(myProfileInputProvider.notifier).getGender();
     final String birth = myRef.read(myProfileInputProvider.notifier).getBirth();
     final String interest = myRef.read(myProfileInputProvider.notifier).getInterest();
     final String phone_number = myRef.read(myProfileInputProvider.notifier).getPhoneNumber();
 
-    debugPrint(sex);
+    debugPrint(gender);
     debugPrint(birth);
     debugPrint(interest);
     debugPrint(phone_number);
 
-    if(!fnCheckSex(sex)) {
-      // TODO : 오류 알림
+    if(!fnCheckGender(gender)) {
       return;
     }
     if(!fnCheckBirth(birth)) {
-      // TODO : 오류 알림
       return;
     }
     if(!fnCheckInterest(interest)) {
-      // TODO : 오류 알림
       return;
     }
     if(!fnCheckPhoneNumber(phone_number)) {
-      // TODO : 오류 알림
       return;
+    }
+    // 로딩 시작
+    showLoadingDialog(context: myContext);
+
+    try {
+      final response = await myRef.read(userRepositoryProvider).requestUsersRepository(
+        RequestUsersModel(
+          gender: gender, 
+          interest: interest, 
+          phone_number: phone_number, 
+          birth: birth
+        ),
+      );
+
+      if(response.response_code == 200) {
+        ResponseUsersModel responseUsersModel = ResponseUsersModel.fromJson(response.data);
+
+        await ControllerUtils.fnGetUserMypage(myRef);
+        
+        if(!myContext.mounted) return;
+        // 로딩 끝
+        hideLoadingDialog(myContext);
+        // 성공 알림창
+        showAlertDialog(
+          context: myContext, 
+          middleText: "계정 정보 변경이 완료되었습니다.",
+          barrierDismissible: false,
+          onConfirm: () {
+            // 페이지 이동
+            myContext.pop();
+          }
+        );
+      } else {
+        if(!myContext.mounted) return;
+        // 로딩 끝
+        hideLoadingDialog(myContext);
+        // 에러 알림창
+        showAlertDialog(
+          context: myContext, 
+          middleText: "계정 정보 수정에 실패했습니다."
+        );
+        return;
+      }
+    } on DioException catch(e) {
+      debugPrint("========== Request Users Dio Exception ==========");
+      debugPrint(e.toString());
+
+      // 로딩 끝
+      if(!myContext.mounted) return;
+      hideLoadingDialog(myContext);
+
+      // 에러 알림창
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.SERVER_ERR,
+      );
     }
   }
 

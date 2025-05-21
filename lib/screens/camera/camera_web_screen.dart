@@ -155,10 +155,11 @@ class CameraWebScreenState extends ConsumerState<CameraWebScreen> with CustomCam
       child: PopScope(
         canPop: true,
         onPopInvokedWithResult: (didPop, result) async {
-          if (!didPop) {
-            fnInvalidateCameraState();
-            goBack();
+          if (didPop) {
+            return;
           }
+          fnInvalidateCameraState();
+          goBack();
         },
         child: SafeArea(
           child: Stack(

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/common/const/custom_color.dart';
 import 'package:petbuddy_frontend_flutter/common/const/custom_text.dart';
 
@@ -53,7 +54,7 @@ class HomeCardReportFlipContainerState extends ConsumerState<HomeCardReportFlipC
   Widget buildFrontCard() {
     return flipContainer(
       SizedBox(
-        height: 160,
+        height: fnGetDeviceWidth(context) >= 400 ? 160 : 140,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -90,10 +91,10 @@ class HomeCardReportFlipContainerState extends ConsumerState<HomeCardReportFlipC
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), // 블러 효과
         child: Container(
-          width: 160,
-          constraints: const BoxConstraints(
-            minHeight: 200,
-            maxHeight: 240,
+          width: fnGetDeviceWidth(context) >= 400 ? 160 : 140,
+          constraints: BoxConstraints(
+            minHeight: fnGetDeviceWidth(context) >= 400 ? 200 : 180,
+            maxHeight: fnGetDeviceWidth(context) >= 400 ? 240 : 220,
           ),
           decoration: BoxDecoration(
             color: CustomColor.blue06.withValues(alpha: 0.7),
