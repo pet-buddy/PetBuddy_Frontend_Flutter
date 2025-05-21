@@ -100,7 +100,7 @@ mixin class CustomCameraController {
       final savedPath = p.join(directory.path, fileName);
 
       // 복사해서 저장
-      final savedFile = await File(image.path).copy(savedPath);
+      // final savedFile = await File(image.path).copy(savedPath);
 
       cameraRef.read(cameraImagePickerProvider.notifier).set(XFile(savedPath));
       cameraRef.read(cameraUploadButtonProvider.notifier).set(true);
