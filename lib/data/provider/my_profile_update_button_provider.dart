@@ -5,7 +5,7 @@ class MyProfileUpdateButtonState extends StateNotifier<bool> {
   MyProfileUpdateButtonState() : super(false);
 
   void activate(RequestUsersModel requestUsersModel) {
-    final sex = requestUsersModel.sex; 
+    final sex = requestUsersModel.gender; 
     final birth = requestUsersModel.birth;
     final interest = requestUsersModel.interest;
     final phone_number = requestUsersModel.phone_number;

@@ -29,7 +29,7 @@ abstract class UserRepository {
   Future<CommonResponseListModel> requestUserinfosRepository(@Body() RequestUserinfosModel requestUserinfosModel); 
 
   @PATCH('/users')
-  Future<CommonResponseListModel> requestUsersRepository(@Body() RequestUsersModel requestUsersModel); 
+  Future<CommonResponseMapModel> requestUsersRepository(@Body() RequestUsersModel requestUsersModel); 
 
   @GET('/mypage')
   Future<CommonResponseMapModel> requestUserMypageRepository(); 

@@ -15,7 +15,7 @@ class ControllerUtils {
     if(response.response_code == 200) {
       ResponseUserMypageModel responseUserMypageModel = ResponseUserMypageModel.fromJson(response.data);
       // 사용자 정보 세팅
-      ref.refresh(responseUserMypageProvider.notifier).set(responseUserMypageModel);
+      ref.read(responseUserMypageProvider.notifier).set(responseUserMypageModel);
     } 
   }
 

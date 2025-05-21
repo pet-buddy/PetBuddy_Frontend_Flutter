@@ -4,7 +4,7 @@ import 'package:petbuddy_frontend_flutter/data/model/request_users_model.dart';
 class MyProfileInputState extends StateNotifier<RequestUsersModel> {
   MyProfileInputState() : super(
     RequestUsersModel(
-      sex: "", 
+      gender: "", 
       birth: "",
       interest: "",
       phone_number: "",
@@ -13,7 +13,7 @@ class MyProfileInputState extends StateNotifier<RequestUsersModel> {
 
   void set(RequestUsersModel model) => state = model;
 
-  void setSex(String sex) => state.sex = sex;
+  void setGender(String gender) => state.gender = gender;
 
   void setBirth(String birth) => state.birth = birth;
 
@@ -23,7 +23,7 @@ class MyProfileInputState extends StateNotifier<RequestUsersModel> {
 
   RequestUsersModel get() => state;
 
-  String getSex() => state.sex;
+  String getGender() => state.gender;
 
   String getBirth() => state.birth;
 

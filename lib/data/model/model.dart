@@ -13,6 +13,7 @@ export 'response_email_login_model.dart';
 export 'request_my_profile_update_model.dart';
 export 'request_userinfos_model.dart';
 export 'request_users_model.dart';
+export 'response_users_model.dart';
 
 // 기타
 export 'home_card_report_model.dart';

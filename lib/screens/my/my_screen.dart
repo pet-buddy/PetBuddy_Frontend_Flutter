@@ -25,6 +25,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
   @override
   void initState() {
     super.initState();
+    fnInitMyController(ref, context);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       // TODO : ref로 상태관리

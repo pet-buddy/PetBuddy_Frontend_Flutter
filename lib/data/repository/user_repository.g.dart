@@ -75,7 +75,7 @@ class _UserRepository implements UserRepository {
   }
 
   @override
-  Future<CommonResponseListModel> requestUsersRepository(
+  Future<CommonResponseMapModel> requestUsersRepository(
       RequestUsersModel requestUsersModel) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -83,7 +83,7 @@ class _UserRepository implements UserRepository {
     final _data = <String, dynamic>{};
     _data.addAll(requestUsersModel.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CommonResponseListModel>(Options(
+        _setStreamType<CommonResponseMapModel>(Options(
       method: 'PATCH',
       headers: _headers,
       extra: _extra,
@@ -99,7 +99,7 @@ class _UserRepository implements UserRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = CommonResponseListModel.fromJson(_result.data!);
+    final value = CommonResponseMapModel.fromJson(_result.data!);
     return value;
   }
 
