@@ -17,10 +17,16 @@ mixin class LoginController {
     loginContext = context;
   }
 
-  void fnInitEmailLoginState() {
+  void fnInvalidateEmailLoginState() {
     loginRef.invalidate(emailLoginEmailInputStatusCodeProvider);
     loginRef.invalidate(emailLoginPwdInputStatusCodeProvider);
     loginRef.invalidate(emailLoginButtonProvider);
+  }
+
+  void fnInitEmailLoginState() {
+    loginRef.read(emailLoginEmailInputStatusCodeProvider.notifier).set(ProjectConstant.INPUT_INIT);
+    loginRef.read(emailLoginPwdInputStatusCodeProvider.notifier).set(ProjectConstant.INPUT_INIT);
+    loginRef.read(emailLoginButtonProvider.notifier).set(false);
   }
 
   // 이메일 로그인에서 사용할 입력 컨트롤러
@@ -127,6 +133,8 @@ mixin class LoginController {
         if(!loginContext.mounted) return;
         // 로딩 끝
         hideLoadingDialog(loginContext);
+        // Provider 해제(무효화)
+        fnInvalidateEmailLoginState();
         // 페이지 이동
         loginContext.goNamed('home_screen');
       } else {

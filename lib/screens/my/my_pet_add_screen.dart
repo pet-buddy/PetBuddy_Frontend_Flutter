@@ -47,6 +47,12 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
     final myPetAddFeedFilterState = ref.watch(myPetAddFeedFilterProvider);
     final myPetAddFeedDropdownState = ref.watch(myPetAddFeedDropdownProvider);
 
+    final myPetAddSizeButtonState = ref.watch(myPetAddSizeButtonProvider);
+    final myPetAddGenderButtonState = ref.watch(myPetAddGenderButtonProvider);
+    final myPetAddNeuterButtonState = ref.watch(myPetAddNeuterButtonProvider);
+    final myPetAddFeedAmountButtonState = ref.watch(myPetAddFeedAmountButtonProvider);
+    
+
     return DefaultLayout(
       appBar: DefaultAppBar(
         title: '반려동물 추가하기',
@@ -101,28 +107,43 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                       DefaultTextButton(
                         text: '소형', 
                         disabled: false,
-                        borderColor: CustomColor.gray04,
-                        backgroundColor: CustomColor.white,
+                        borderColor: myPetAddSizeButtonState == smallSize 
+                          ? CustomColor.yellow03 
+                          : CustomColor.gray04,
+                        backgroundColor: myPetAddSizeButtonState == smallSize 
+                          ? CustomColor.yellow03 
+                          : CustomColor.white,
                         width: fnGetDeviceWidth(context) * 0.3,
                         onPressed: () {
+                          ref.read(myPetAddSizeButtonProvider.notifier).set(smallSize);
                         },
                       ),
                       DefaultTextButton(
                         text: '중형', 
                         disabled: false,
-                        borderColor: CustomColor.gray04,
-                        backgroundColor: CustomColor.white,
+                        borderColor: myPetAddSizeButtonState == mediumSize 
+                          ? CustomColor.yellow03 
+                          : CustomColor.gray04,
+                        backgroundColor: myPetAddSizeButtonState == mediumSize 
+                          ? CustomColor.yellow03 
+                          : CustomColor.white,
                         width: fnGetDeviceWidth(context) * 0.3,
                         onPressed: () {
+                          ref.read(myPetAddSizeButtonProvider.notifier).set(mediumSize);
                         },
                       ),
                       DefaultTextButton(
                         text: '대형', 
                         disabled: false,
-                        borderColor: CustomColor.gray04,
-                        backgroundColor: CustomColor.white,
+                        borderColor: myPetAddSizeButtonState == largeSize 
+                          ? CustomColor.yellow03 
+                          : CustomColor.gray04,
+                        backgroundColor: myPetAddSizeButtonState == largeSize 
+                          ? CustomColor.yellow03 
+                          : CustomColor.white,
                         width: fnGetDeviceWidth(context) * 0.3,
                         onPressed: () {
+                          ref.read(myPetAddSizeButtonProvider.notifier).set(largeSize);
                         },
                       ),
                     ],
@@ -193,19 +214,29 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                       DefaultTextButton(
                         text: '여아', 
                         disabled: false,
-                        borderColor: CustomColor.gray04,
-                        backgroundColor: CustomColor.white,
+                        borderColor: myPetAddGenderButtonState == femaleCode 
+                          ? CustomColor.yellow03 
+                          : CustomColor.gray04,
+                        backgroundColor: myPetAddGenderButtonState == femaleCode 
+                          ? CustomColor.yellow03 
+                          : CustomColor.white,
                         width: fnGetDeviceWidth(context) * 0.43,
                         onPressed: () {
+                          ref.read(myPetAddGenderButtonProvider.notifier).set(femaleCode);
                         },
                       ),
                       DefaultTextButton(
                         text: '남아', 
                         disabled: false,
-                        borderColor: CustomColor.gray04,
-                        backgroundColor: CustomColor.white,
+                        borderColor: myPetAddGenderButtonState == maleCode 
+                          ? CustomColor.yellow03 
+                          : CustomColor.gray04,
+                        backgroundColor: myPetAddGenderButtonState == maleCode 
+                          ? CustomColor.yellow03 
+                          : CustomColor.white,
                         width: fnGetDeviceWidth(context) * 0.43,
                         onPressed: () {
+                          ref.read(myPetAddGenderButtonProvider.notifier).set(maleCode);
                         },
                       ),
                     ],
@@ -222,19 +253,29 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                       DefaultTextButton(
                         text: '중성화 전', 
                         disabled: false,
-                        borderColor: CustomColor.gray04,
-                        backgroundColor: CustomColor.white,
+                        borderColor: myPetAddNeuterButtonState == neuterN 
+                          ? CustomColor.yellow03 
+                          : CustomColor.gray04,
+                        backgroundColor: myPetAddNeuterButtonState == neuterN 
+                          ? CustomColor.yellow03 
+                          : CustomColor.white,
                         width: fnGetDeviceWidth(context) * 0.43,
                         onPressed: () {
+                          ref.read(myPetAddNeuterButtonProvider.notifier).set(neuterN);
                         },
                       ),
                       DefaultTextButton(
                         text: '중성화 완료', 
                         disabled: false,
-                        borderColor: CustomColor.gray04,
-                        backgroundColor: CustomColor.white,
+                        borderColor: myPetAddNeuterButtonState == neuterY
+                          ? CustomColor.yellow03 
+                          : CustomColor.gray04,
+                        backgroundColor: myPetAddNeuterButtonState == neuterY 
+                          ? CustomColor.yellow03 
+                          : CustomColor.white,
                         width: fnGetDeviceWidth(context) * 0.43,
                         onPressed: () {
+                          ref.read(myPetAddNeuterButtonProvider.notifier).set(neuterY);
                         },
                       ),
                     ],
@@ -304,10 +345,6 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                       ),
                       GestureDetector(
                         onTap: () async {
-// final TimeOfDay? timeOfDay = await showTimePicker(
-//                   context: context,
-//                   initialTime: initialTime,
-//                 );
                           await showDialog<void>(
                             context: context,
                             builder: (BuildContext context) {
@@ -316,7 +353,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                           );
                         },
                         child: Text(
-                          '추가+',
+                          '추가 +',
                           style: CustomText.body10.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -353,10 +390,15 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                       child: DefaultTextButton(
                         text: '현재 ${leftoverFeed[i]} 남았어요', 
                         disabled: false,
-                        borderColor: CustomColor.gray04,
-                        backgroundColor: CustomColor.white,
+                        borderColor: myPetAddFeedAmountButtonState == feedAmount[i] 
+                          ? CustomColor.yellow03 
+                          : CustomColor.gray04,
+                        backgroundColor: myPetAddFeedAmountButtonState == feedAmount[i]
+                          ? CustomColor.yellow03 
+                          : CustomColor.white,
                         width: fnGetDeviceWidth(context),
                         onPressed: () {
+                          ref.read(myPetAddFeedAmountButtonProvider.notifier).set(feedAmount[i]);
                         },
                       ),
                     ),
@@ -370,7 +412,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                     controller: petBirthInputController,
                     onChanged: (String birth) {
                     },
-                    hintText: 'YYYY / MM / DD',
+                    hintText: 'YYYY-MM-DD',
                     keyboardType: TextInputType.number,
                     onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
                     inputFormatter: [

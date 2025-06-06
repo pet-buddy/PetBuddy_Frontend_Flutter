@@ -145,7 +145,9 @@ class CameraScreenState extends ConsumerState<CameraScreen> with CustomCameraCon
                               IconButton(
                                 // icon: Icon(cameraFlashState == FlashMode.torch ? Icons.flash_on : Icons.flash_off),
                                 icon: SvgPicture.asset(
-                                  'assets/icons/etc/camera_flash_off.svg',
+                                  cameraFlashState == FlashMode.torch ? 
+                                    'assets/icons/etc/camera_flash_off.svg' :
+                                    'assets/icons/etc/camera_flash_on.svg',
                                   width: 36,
                                   height: 36,
                                 ),

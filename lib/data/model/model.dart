@@ -17,3 +17,4 @@ export 'response_users_model.dart';
 
 // 기타
 export 'home_card_report_model.dart';
+export 'my_breed_model.dart';

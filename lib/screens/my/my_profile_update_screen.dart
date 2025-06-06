@@ -27,7 +27,7 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
 
   @override
   Widget build(BuildContext context) {
-    final myProfileSexButtonState = ref.watch(myProfileSexButtonProvider);
+    final myProfileGenderButtonState = ref.watch(myProfileGenderButtonProvider);
     final myProfileInterestButtonState = ref.watch(myProfileInterestButtonProvider);
     final myProfileUpdateButtonState = ref.watch(myProfileUpdateButtonProvider);
     final myProfileInputState = ref.watch(myProfileInputProvider);
@@ -73,15 +73,15 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                       DefaultTextButton(
                         text: '여자', 
                         disabled: false,
-                        borderColor: myProfileSexButtonState == femaleCode 
+                        borderColor: myProfileGenderButtonState == femaleCode 
                           ? CustomColor.yellow03 
                           : CustomColor.gray04,
-                        backgroundColor: myProfileSexButtonState == femaleCode 
+                        backgroundColor: myProfileGenderButtonState == femaleCode 
                           ? CustomColor.yellow03 
                           : CustomColor.white,
                         width: fnGetDeviceWidth(context) * 0.43,
                         onPressed: () {
-                          ref.read(myProfileSexButtonProvider.notifier).set(femaleCode);
+                          ref.read(myProfileGenderButtonProvider.notifier).set(femaleCode);
 
                           ref.read(myProfileInputProvider.notifier)
                               .setGender(femaleCode);
@@ -94,15 +94,15 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                       DefaultTextButton(
                         text: '남자', 
                         disabled: false,
-                        borderColor: myProfileSexButtonState == maleCode
+                        borderColor: myProfileGenderButtonState == maleCode
                           ? CustomColor.yellow03 
                           : CustomColor.gray04,
-                        backgroundColor: myProfileSexButtonState == maleCode 
+                        backgroundColor: myProfileGenderButtonState == maleCode 
                           ? CustomColor.yellow03 
                           : CustomColor.white,
                         width: fnGetDeviceWidth(context) * 0.43,
                         onPressed: () {
-                          ref.read(myProfileSexButtonProvider.notifier).set(maleCode);
+                          ref.read(myProfileGenderButtonProvider.notifier).set(maleCode);
 
                           ref.read(myProfileInputProvider.notifier)
                               .setGender(maleCode);

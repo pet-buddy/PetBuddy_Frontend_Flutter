@@ -140,6 +140,7 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                               Text(
                                 '감으로만 건강관리를 했던 나,',
                                 style: CustomText.body7.copyWith(
+                                  fontSize: fnGetDeviceWidth(context) > 400 ? 20 : 18,
                                   color: CustomColor.white,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -148,6 +149,7 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                               Text(
                                 '이제 포프린트로 케어해보세요.',
                                 style: CustomText.body7.copyWith(
+                                  fontSize: fnGetDeviceWidth(context) > 400 ? 20 : 18,
                                   color: CustomColor.white,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -156,6 +158,7 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                               Text(
                                 '예약 마감까지',
                                 style: CustomText.body9.copyWith(
+                                  fontSize: fnGetDeviceWidth(context) > 400 ? 16 : 14,
                                   color: CustomColor.white,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -172,6 +175,7 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                                         Text(
                                           '24',
                                           style: CustomText.heading1.copyWith(
+                                            fontSize: fnGetDeviceWidth(context) > 400 ? 32 : 20,
                                             color: CustomColor.white,
                                           ),
                                         ),
@@ -179,6 +183,7 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                                         Text(
                                           '일',
                                           style: CustomText.body7.copyWith(
+                                            fontSize: fnGetDeviceWidth(context) > 400 ? 20 : 18,
                                             color: CustomColor.white,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -198,6 +203,7 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                                         Text(
                                           '07',
                                           style: CustomText.heading1.copyWith(
+                                            fontSize: fnGetDeviceWidth(context) > 400 ? 32 : 20,
                                             color: CustomColor.white,
                                           ),
                                         ),
@@ -205,6 +211,7 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                                         Text(
                                           '시',
                                           style: CustomText.body7.copyWith(
+                                            fontSize: fnGetDeviceWidth(context) > 400 ? 20 : 18,
                                             color: CustomColor.white,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -224,6 +231,7 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                                         Text(
                                           '46',
                                           style: CustomText.heading1.copyWith(
+                                            fontSize: fnGetDeviceWidth(context) > 400 ? 32 : 20,
                                             color: CustomColor.white,
                                           ),
                                         ),
@@ -231,6 +239,7 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                                         Text(
                                           '분',
                                           style: CustomText.body7.copyWith(
+                                            fontSize: fnGetDeviceWidth(context) > 400 ? 20 : 18,
                                             color: CustomColor.white,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -250,6 +259,7 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                                         Text(
                                           '03',
                                           style: CustomText.heading1.copyWith(
+                                            fontSize: fnGetDeviceWidth(context) > 400 ? 32 : 20,
                                             color: CustomColor.white,
                                           ),
                                         ),
@@ -257,6 +267,7 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                                         Text(
                                           '초',
                                           style: CustomText.body7.copyWith(
+                                            fontSize: fnGetDeviceWidth(context) > 400 ? 20 : 18,
                                             color: CustomColor.white,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -290,9 +301,11 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                         width: fnGetDeviceWidth(context) / 2.5,
                         height: fnGetDeviceWidth(context) / 2.5,
                       ),
-                      const Text(
+                      Text(
                         '반려동물 유기율을 줄이고자 하는게 PawPrint의 목표',
-                        style: CustomText.body7,
+                        style: CustomText.body7.copyWith(
+                          fontSize: fnGetDeviceWidth(context) > 400 ? 20 : 18,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 16,),
@@ -306,9 +319,11 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 64,),
-                      const Text(
+                      Text(
                         '포프린트 디바이스로 무엇을 할 수 있을까?',
-                        style: CustomText.body7,
+                        style: CustomText.body7.copyWith(
+                          fontSize: fnGetDeviceWidth(context) > 400 ? 20 : 18,
+                        ),
                       ),
                       const SizedBox(height: 32,),
                       Text(
@@ -431,17 +446,17 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                                 child: Row(
                                   children: [
                                     PreorderBenefitContainer(
-                                      img: '0001/certificate.png', 
+                                      img: '0001/card1.png', 
                                       title: '사회유기예방증 증정', 
                                       text: '유기율을 절감시켜주는 사회적\n움직임의 첫 걸음을 기념하는 증서'
                                     ),
                                     PreorderBenefitContainer(
-                                      // img: '0001/certificate.png', 
+                                      img: '0001/card2.png', 
                                       title: '하트 코인 충전', 
                                       text: '영양사료 할인쿠폰 또는 디지털트윈이용\n옷, 침대, 장신구 등으로 교환할 수 있어요!'
                                     ),
                                     PreorderBenefitContainer(
-                                      // img: '0001/certificate.png', 
+                                      img: '0001/card3.png', 
                                       title: '영양 사료 할인 쿠폰', 
                                       text: '건강 상태를 분석해\n기존 사료에 영양제를 배합해드려요 :)'
                                     ),
@@ -457,17 +472,17 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                                 child: Row(
                                   children: [
                                     PreorderBenefitContainer(
-                                      // img: '0001/certificate.png', 
+                                      img: '0001/card4.png', 
                                       title: '얼리어답터 토큰', 
                                       text: '포프린트의 역사적인 첫 시작을 함께하는\n여러분들께만 드리는 리미티드 토큰'
                                     ),
                                     PreorderBenefitContainer(
-                                      // img: '0001/certificate.png', 
+                                      img: '0001/card5.png', 
                                       title: '영양 사료 정기 구독 혜택', 
                                       text: '같은 사료 가격, 다른 맞춤 사료 케어 서비스\n영양 사료 첫 달 70% 할인'
                                     ),
                                     PreorderBenefitContainer(
-                                      // img: '0001/certificate.png', 
+                                      img: '0001/card6.png', 
                                       title: '월간 건강 레포트 전송', 
                                       text: '활동량 + 수면량 + 변 상태 분석 후,\n다른 반려동물과의 건강 비교 분석 레포트'
                                     ),

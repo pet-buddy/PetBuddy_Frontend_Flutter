@@ -26,7 +26,9 @@ class PreorderRecommandContainer extends StatelessWidget {
       child: Center(
         child: Text(
           text,
-          style: CustomText.caption3,
+          style: CustomText.caption3.copyWith(
+            fontSize: fnGetDeviceWidth(context) > 400 ? 12 : 10,
+          ),
           textAlign: TextAlign.center,
         ),
       ),

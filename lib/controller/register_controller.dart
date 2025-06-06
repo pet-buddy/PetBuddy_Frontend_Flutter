@@ -25,6 +25,14 @@ mixin class RegisterController {
     registerRef.invalidate(registerButtonProvider);
   }
 
+  void fnInitRegisterState() {
+    registerRef.read(registerEmailInputStatusCodeProvider.notifier).set(ProjectConstant.INPUT_INIT);
+    registerRef.read(registerPwdInputStatusCodeProvider.notifier).set(ProjectConstant.INPUT_INIT);
+    registerRef.read(registerPwdConfirmInputStatusCodeProvider.notifier).set(ProjectConstant.INPUT_INIT);
+    registerRef.read(requestEmailRegisterProvider.notifier).set(RequestEmailRegisterModel(name: "", email: "", password: "",),);
+    registerRef.read(registerButtonProvider.notifier).set(false);
+  }
+
   TextEditingController registerEmailInputController = TextEditingController();
   TextEditingController registerPasswordInputController = TextEditingController();
   TextEditingController registerPasswordConfirmInputController = TextEditingController();
@@ -175,6 +183,8 @@ mixin class RegisterController {
         if(!registerContext.mounted) return;
         // 로딩 끝
         hideLoadingDialog(registerContext);
+        // Provider 해제(무효화)
+        fnInvalidateRegisterState();
         // 페이지 이동
         registerContext.goNamed('home_screen');
       } else {

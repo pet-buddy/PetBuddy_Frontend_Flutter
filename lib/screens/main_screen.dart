@@ -37,9 +37,6 @@ class MainScreen extends ConsumerWidget {
                   elevation: 5.0,
                   currentIndex: currentScreenIndex,
                   onTap: (index) {
-                    // 인덱스 상태 갱신
-                    ref.read(bottomNavProvider.notifier).set(index);
-
                     // 화면 이동
                     if (index == 0) {
                       context.goNamed('home_screen');
@@ -48,9 +45,12 @@ class MainScreen extends ConsumerWidget {
                     } else if (index == 2) {
                       // context.goNamed('shop_screen');
                       context.pushNamed('preorder_screen');
+                      return; // 임시 : 사전예약 페이지 클릭할 때만 인덱스 상태 갱신 비활성화, shop_screen 이동 시 삭제 예정
                     } else if (index == 3) {
                       context.goNamed('my_screen');
                     }
+                    
+                    ref.read(bottomNavProvider.notifier).set(index); // 인덱스 상태 갱신
                   },
                   items: [
                     BottomNavigationBarItem(

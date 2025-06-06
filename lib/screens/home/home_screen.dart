@@ -196,6 +196,9 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                               width: 24,
                               height: 24,
                             ),
+                            onPressed: () {
+                              context.goNamed("home_poop_report_screen");
+                            },
                             child: Container(
                               height: 45,
                               decoration: const BoxDecoration(

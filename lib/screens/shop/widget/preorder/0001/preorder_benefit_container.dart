@@ -51,15 +51,21 @@ class PreorderBenefitContainer extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: CustomText.body10.copyWith(
-                    color: CustomColor.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: fnGetDeviceWidth(context) > 400 ? 
+                    CustomText.body10.copyWith(
+                      color: CustomColor.white,
+                      fontWeight: FontWeight.bold,
+                    ) :
+                    CustomText.body11.copyWith(
+                      color: CustomColor.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                 ),
                 const SizedBox(height: 4,),
                 Text(
                   text,
                   style: CustomText.caption3.copyWith(
+                    fontSize: fnGetDeviceWidth(context) > 400 ? 12 : 10,
                     color: CustomColor.white,
                     fontWeight: FontWeight.w400,
                   ),

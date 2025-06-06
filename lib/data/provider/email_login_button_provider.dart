@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class EmailLoginButtonState extends StateNotifier<bool> {
   EmailLoginButtonState() : super(false);
 
+  void set(bool btnState) => state = btnState;
+
   void activate(String email, String pwd) {
     if(email.isNotEmpty && pwd.isNotEmpty) {
       state = true;
