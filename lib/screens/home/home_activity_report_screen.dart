@@ -187,6 +187,7 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                     petActivity: '대형백화점 1바퀴',
                     petActivityDistance: '0.5',
                   ),
+                  const SizedBox(height: 16,),
                 ],
               ),
             ),

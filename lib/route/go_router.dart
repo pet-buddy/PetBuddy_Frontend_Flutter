@@ -104,6 +104,14 @@ final router = GoRouter(
                 return const NoTransitionPage(child: HomeActivityReportScreen());
               },
             ),
+            GoRoute(
+              parentNavigatorKey: shellNavigatorKey,
+              path: 'home_poop_report_screen',
+              name: 'home_poop_report_screen',
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return const NoTransitionPage(child: HomePoopReportScreen());
+              },
+            ),
           ]
         ),
         GoRoute(

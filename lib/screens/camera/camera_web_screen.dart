@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/custom_camera_controller.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/camera_image_picker_provider.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/camera_upload_button_provider.dart';
 import 'package:universal_html/html.dart' as html;
 // import 'dart:html' as html;
 import 'dart:ui_web' as ui_web;
@@ -136,6 +137,7 @@ class CameraWebScreenState extends ConsumerState<CameraWebScreen> with CustomCam
 
     // provider에 저장
     ref.read(cameraImagePickerProvider.notifier).set(xfile);
+    ref.read(cameraUploadButtonProvider.notifier).set(true);
     // 뒤로가기
     await goBack();
   }

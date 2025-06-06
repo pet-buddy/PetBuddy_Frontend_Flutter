@@ -29,9 +29,9 @@ class CameraUploadScreenState extends ConsumerState<CameraUploadScreen> with Cus
       fnInitCameraUploadScreen();
 
       // 카메라 호출 분기 처리 함수 - 웹 브라우저, 앱 내 브라우저
-      // fnCallCameraScreen(context);
+      fnCallCameraScreen(context);
       // 웹 테스트용
-      context.pushNamed('camera_web_screen');
+      // context.pushNamed('camera_web_screen');
     });
   }
 
@@ -183,9 +183,9 @@ class CameraUploadScreenState extends ConsumerState<CameraUploadScreen> with Cus
                   DefaultIconButton(
                     disabled: false,
                     onPressed: () {
-                      // fnCallCameraScreen(context, mode: "method_call");
+                      fnCallCameraScreen(context, mode: "method_call");
                       // 웹 테스트용
-                      context.pushNamed('camera_web_screen');
+                      // context.pushNamed('camera_web_screen');
                     }, 
                     text: '사진 촬영하기',
                     height: 42,
