@@ -45,6 +45,10 @@ mixin class MyController {
     myRef.invalidate(myPetAddTypeDropdownProvider);
     myRef.invalidate(myPetAddFeedFilterProvider);
     myRef.invalidate(myPetAddFeedDropdownProvider);
+    myRef.invalidate(myPetAddSizeButtonProvider);
+    myRef.invalidate(myPetAddGenderButtonProvider);
+    myRef.invalidate(myPetAddNeuterButtonProvider);
+    myRef.invalidate(myPetAddFeedAmountButtonProvider);
   }
 
   // 마이페이지 - 회사정보섹션 높이 변수

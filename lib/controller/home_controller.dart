@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
 
 mixin class HomeController {
   late final WidgetRef homeRef;
@@ -18,5 +19,9 @@ mixin class HomeController {
     'Year': 'Y'
   };
 
-  final PageController homePageController = PageController(initialPage: 0);
+  final PageController homeScreenPetController = PageController(initialPage: 0);
+
+  void fnInvalidateHomePoopReportState() {
+    homeRef.invalidate(homeActivityReportPeriodSelectProvider);
+  }
 }

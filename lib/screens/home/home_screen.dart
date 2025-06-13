@@ -20,10 +20,13 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
   @override
   void initState() {
     super.initState();
+    fnInitHomeController(ref, context);
   }
 
   @override
   Widget build(BuildContext context) {
+    final homeActivatedPetNavState = ref.watch(homeActivatedPetNavProvider);
+
     return DefaultLayout(
       child: PopScope(
         canPop: false,
@@ -122,9 +125,13 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                       const SizedBox(height: 16,),
                       SizedBox(
                         width: fnGetDeviceWidth(context),
-                        height: 200,
+                        height: fnGetDeviceWidth(context),
                         child: PageView(
-                          controller: homePageController,
+                          controller: homeScreenPetController,
+                          padEnds: false,
+                          onPageChanged: (index) {
+                            ref.read(homeActivatedPetNavProvider.notifier).set(index);
+                          },
                           children: [
                             HomeCardPetContainer(
                               onPressed: () {
@@ -132,27 +139,36 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                               },
                             ),
                             HomeCardPetContainer(
-                              svgPicture: SvgPicture.asset(
-                                'assets/icons/illustration/puppy_yellow.svg',
-                                width: 100,
-                                height: 146,
-                              ),
                               onPressed: () {
                                 
                               },
                             ),
                             HomeCardPetContainer(
-                              svgPicture: SvgPicture.asset(
-                                'assets/icons/illustration/puppy_black.svg',
-                                width: 100,
-                                height: 146,
-                              ),
                               onPressed: () {
                                 
                               },
                             ),
                           ],
                         ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        // TODO : 등록된 반려동물 개수 가져오기
+                        children: List.generate(3, (index) {
+                          return AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            margin: const EdgeInsets.symmetric(horizontal: 4),
+                            width: homeActivatedPetNavState == index ? 12 : 6,
+                            height: 6,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: const BorderRadius.all(Radius.circular(6),),
+                              color: homeActivatedPetNavState == index
+                                  ? const Color(0xFFF6D72E)
+                                  : const Color(0xFFE8E8E8),
+                            ),
+                          );
+                        }),
                       ),
                       const SizedBox(height: 16,),
                       Row(
