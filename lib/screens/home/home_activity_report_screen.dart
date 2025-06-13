@@ -18,6 +18,7 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
   @override
   void initState() {
     super.initState();
+    fnInitHomeController(ref, context);
   }
 
   @override

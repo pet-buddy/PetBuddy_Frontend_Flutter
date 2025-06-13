@@ -46,13 +46,11 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
     final myPetAddTypeDropdownState = ref.watch(myPetAddTypeDropdownProvider);
     final myPetAddFeedFilterState = ref.watch(myPetAddFeedFilterProvider);
     final myPetAddFeedDropdownState = ref.watch(myPetAddFeedDropdownProvider);
-
     final myPetAddSizeButtonState = ref.watch(myPetAddSizeButtonProvider);
     final myPetAddGenderButtonState = ref.watch(myPetAddGenderButtonProvider);
     final myPetAddNeuterButtonState = ref.watch(myPetAddNeuterButtonProvider);
     final myPetAddFeedAmountButtonState = ref.watch(myPetAddFeedAmountButtonProvider);
     
-
     return DefaultLayout(
       appBar: DefaultAppBar(
         title: '반려동물 추가하기',
