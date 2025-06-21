@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:petbuddy_frontend_flutter/common/const/const.dart';
@@ -11,6 +13,7 @@ class HomeCardManageContainer extends StatelessWidget {
     this.thumbnailPicture,
     required this.child,
     this.onPressed,
+    this.disabled,
   });
 
   final Color? thumbnailColor;
@@ -18,6 +21,7 @@ class HomeCardManageContainer extends StatelessWidget {
   final SvgPicture? thumbnailPicture;
   final Widget child;
   final VoidCallback? onPressed;
+  final bool? disabled;
   
 
   @override
@@ -28,7 +32,6 @@ class HomeCardManageContainer extends StatelessWidget {
       },
       child: Container(
         width: (fnGetDeviceWidth(context) - 32) / 2 - 8,
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         constraints: const BoxConstraints(
           minHeight: 99,
           maxHeight: 120
@@ -45,32 +48,54 @@ class HomeCardManageContainer extends StatelessWidget {
             )
           ],
         ),
-        child: Column(
+        child: Stack(
           children: [
-            Row(
-              children: [
-                Container(
-                  width: 30,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    color: thumbnailColor ?? CustomColor.white,
-                    borderRadius: const BorderRadius.all(Radius.circular(12),),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          color: thumbnailColor ?? CustomColor.white,
+                          borderRadius: const BorderRadius.all(Radius.circular(24),),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: thumbnailPicture ?? const SizedBox(),
+                        ),
+                      ),
+                      const SizedBox(width: 8,),
+                      Text(
+                        title,
+                        style: CustomText.body7,
+                      )
+                    ],
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: thumbnailPicture ?? const SizedBox(),
-                  ),
-                ),
-                const SizedBox(width: 8,),
-                Text(
-                  title,
-                  style: CustomText.body7,
-                )
-              ],
+                  const Spacer(),
+                  child,
+                  const Spacer(),
+                ],
+              ),
             ),
-            const Spacer(),
-            child,
-            const Spacer(),
+            (disabled ?? false) ? 
+              ClipRRect(
+              borderRadius: BorderRadius.circular(24),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                child: Container(
+                  width: (fnGetDeviceWidth(context) - 32) / 2 - 8,
+                  constraints: const BoxConstraints(
+                    minHeight: 99,
+                    maxHeight: 120
+                  ),
+                  color: CustomColor.white.withValues(alpha: 0.2),
+                ),
+              ),
+            ) : const SizedBox(),
           ],
         ),
       ),

@@ -14,6 +14,17 @@ class MySettingScreen extends ConsumerStatefulWidget {
 }
 
 class MySettingScreenState extends ConsumerState<MySettingScreen> with MyController {
+
+  @override
+  void initState() {
+    super.initState();
+    fnInitMyController(ref, context);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
@@ -46,14 +57,18 @@ class MySettingScreenState extends ConsumerState<MySettingScreen> with MyControl
                     menuName: '문의하기',
                     svgFlag: true,
                     svgPath: 'assets/icons/action/open_new_window.svg',
-                    voidCallback: () {},
+                    voidCallback: () {
+                      launchUrl(Uri.parse(ProjectConstant.INQUIRY_URL));
+                    },
                   ),
                   const DividedLine(),
                   MySubMenuContainer(
                     menuName: '자주 하는 질문 (FAQ)',
                     svgFlag: true,
                     svgPath: 'assets/icons/action/open_new_window.svg',
-                    voidCallback: () {},
+                    voidCallback: () {
+                      launchUrl(Uri.parse(ProjectConstant.FAQ_URL));
+                    },
                   ),
                   const DividedLine(),
                   MySubMenuContainer(
@@ -65,7 +80,7 @@ class MySettingScreenState extends ConsumerState<MySettingScreen> with MyControl
                         context: context, 
                         middleText: "로그아웃 하시겠습니까?", 
                         onConfirm: () async {
-                          await fnLoginOutExec(ref, context);
+                          await fnLoginOutExec();
                         },
                         confirmText: '로그아웃',
                         confirmBackgroundColor: CustomColor.negative,
@@ -81,7 +96,7 @@ class MySettingScreenState extends ConsumerState<MySettingScreen> with MyControl
                           titleText: '정말 탈퇴 하시겠습니까?', 
                           middleText: '탈퇴 시 반려동물 건강기록(걸음 수, 똥 건강, 수면효율, 곳간)이 삭제됩니다.', 
                           onConfirm: () async {
-                            await fnLoginOutExec(ref, context);
+                            await fnSignOutExec();
                           },
                           confirmText: '탈퇴하기',
                           confirmBackgroundColor: CustomColor.negative,

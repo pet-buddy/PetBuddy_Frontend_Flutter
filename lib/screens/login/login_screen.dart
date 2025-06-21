@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
-import 'package:petbuddy_frontend_flutter/screens/login/widget/widget.dart';
 
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -49,23 +47,23 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                     style: CustomText.body10,
                   ),
                   const SizedBox(height: 20,),
-                  LoginButton(
-                    text: '카카오 로그인', 
-                    backgroundColor: CustomColor.kakaoYellow,
-                    borderColor: CustomColor.kakaoYellow,
-                    svgPicture: SvgPicture.asset(
-                      'assets/icons/logo/kakao_logo.svg',
-                      width: 24,
-                      height: 24,
-                    ),
-                    rightPairBox: const SizedBox(width: 36,),
-                    onPressed: () {
-                      // TODO : 카카오 로그인 처리
-                      // 임시 경로 처리
-                      context.goNamed('home_screen');
-                    },
-                    disabled: false,
-                  ),
+                  // LoginButton(
+                  //   text: '카카오 로그인', 
+                  //   backgroundColor: CustomColor.kakaoYellow,
+                  //   borderColor: CustomColor.kakaoYellow,
+                  //   svgPicture: SvgPicture.asset(
+                  //     'assets/icons/logo/kakao_logo.svg',
+                  //     width: 24,
+                  //     height: 24,
+                  //   ),
+                  //   rightPairBox: const SizedBox(width: 36,),
+                  //   onPressed: () {
+                  //     // TODO : 카카오 로그인 처리
+                  //     // 임시 경로 처리
+                  //     context.goNamed('home_screen');
+                  //   },
+                  //   disabled: false,
+                  // ),
                   /* description 
                   - 스크롤 가능한 화면일 경우, Spacer 위젯 사용 불가
                   - 위젯 높이를 대략적으로 계산하여 전체 높이에서 빼줌
@@ -96,21 +94,21 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                     ],
                   ), */
-                  const SizedBox(height: 10,),
-                  LoginButton(
-                    text: '네이버 로그인', 
-                    backgroundColor: CustomColor.naverGreen,
-                    borderColor: CustomColor.naverGreen,
-                    textColor: CustomColor.white,
-                    svgPicture: SvgPicture.asset(
-                      'assets/icons/logo/naver_logo.svg',
-                      width: 24,
-                      height: 24,
-                    ),
-                    rightPairBox: const SizedBox(width: 35,),
-                    onPressed: () {},
-                    disabled: false,
-                  ),
+                  // const SizedBox(height: 10,),
+                  // LoginButton(
+                  //   text: '네이버 로그인', 
+                  //   backgroundColor: CustomColor.naverGreen,
+                  //   borderColor: CustomColor.naverGreen,
+                  //   textColor: CustomColor.white,
+                  //   svgPicture: SvgPicture.asset(
+                  //     'assets/icons/logo/naver_logo.svg',
+                  //     width: 24,
+                  //     height: 24,
+                  //   ),
+                  //   rightPairBox: const SizedBox(width: 35,),
+                  //   onPressed: () {},
+                  //   disabled: false,
+                  // ),
                   /* const SizedBox(height: 10,), */
                   /* LoginButton(
                     text: 'Apple 로그인', 
@@ -126,7 +124,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                     onPressed: () {},
                     disabled: false,
                   ), */
-                  const SizedBox(height: 10,),
+                  // const SizedBox(height: 10,),
                   DefaultTextButton(
                     text: '이메일 로그인',
                     borderColor: CustomColor.gray04,

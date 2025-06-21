@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -175,6 +177,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           HomeCardManageContainer(
+                            disabled: true,
                             title: "걸음 수", 
                             thumbnailPicture: SvgPicture.asset(
                               'assets/icons/etc/paw.svg',
@@ -182,7 +185,12 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                               height: 24,
                             ),
                             onPressed: () {
-                              context.goNamed("home_activity_report_screen");
+                              // context.goNamed("home_activity_report_screen");
+
+                              showAlertDialog(
+                                context: context, 
+                                middleText: Sentence.UPDATE_ALERT,
+                              );
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -283,12 +291,19 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           HomeCardManageContainer(
+                            disabled: true,
                             thumbnailPicture: SvgPicture.asset(
                               'assets/icons/etc/sleep.svg',
                               width: 24,
                               height: 24,
                             ),
                             title: "수면 효율",
+                            onPressed: () {
+                              showAlertDialog(
+                                context: context, 
+                                middleText: Sentence.UPDATE_ALERT,
+                              );
+                            },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -311,12 +326,19 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                             ),
                           ),
                           HomeCardManageContainer(
+                            disabled: true,
                             title: "곳간", 
                             thumbnailPicture: SvgPicture.asset(
                               'assets/icons/etc/feed.svg',
                               width: 24,
                               height: 24,
                             ),
+                            onPressed: () {
+                              showAlertDialog(
+                                context: context, 
+                                middleText: Sentence.UPDATE_ALERT,
+                              );
+                            },
                             child: LayoutBuilder(builder: (context, constraints) {
                               return Stack(
                                 children: [
@@ -366,7 +388,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                         reportList: [
                           HomeCardReportModel(
                             title: '#활동량', 
-                            content: '아침, 저녁 산책을 권장드려요!',
+                            content: Sentence.UPDATE_ALERT, // '아침, 저녁 산책을 권장드려요!',
                             svgPicture: SvgPicture.asset(
                               'assets/icons/etc/paw.svg',
                               width: 64,
@@ -375,7 +397,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                           ),
                           HomeCardReportModel(
                             title: '#수면', 
-                            content: '30분 낮잠이 필요한 것 같아요',
+                            content: Sentence.UPDATE_ALERT, // '30분 낮잠이 필요한 것 같아요',
                             svgPicture: SvgPicture.asset(
                               'assets/icons/etc/sleep.svg',
                               width: 64,
@@ -384,7 +406,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                           ),
                           HomeCardReportModel(
                             title: '#규칙적인 습관', 
-                            content: '간식은 정해진 시간에 챙겨줘야 해요',
+                            content: Sentence.UPDATE_ALERT, // '간식은 정해진 시간에 챙겨줘야 해요',
                             svgPicture: SvgPicture.asset(
                               'assets/icons/etc/feed.svg',
                               width: 64,

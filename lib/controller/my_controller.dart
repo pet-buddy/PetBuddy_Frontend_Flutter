@@ -259,53 +259,188 @@ mixin class MyController {
     }
   }
 
-  // 반려동물 추가하기 관련 변수
-  // List<String> totalPetTypes = ['푸들', '포메라니안', '말티즈', '시추', '요크셔테리어', '골든리트리버', '래브라도리트리버', '비글', '보더콜리', '불독',
-  //                               '치와와', '코커스패니얼', '닥스훈트'];
-  // List<String> filteredPetTypes = [];
-   List<MyBreedModel> totalPetTypes = [
-      MyBreedModel(code: 'A001001푸들', breed: '[강아지] 푸들'),
-      MyBreedModel(code: 'A001002포메라니안', breed: '[강아지] 포메라니안'),
-      MyBreedModel(code: 'A001003말티즈', breed: '[강아지] 말티즈'),
-      MyBreedModel(code: 'A001004시추', breed: '[강아지] 시추'),
-      MyBreedModel(code: 'A001005요크셔테리어', breed: '[강아지] 요크셔테리어'),
-      MyBreedModel(code: 'A001006골든리트리버', breed: '[강아지] 골든리트리버'),
-      MyBreedModel(code: 'A001007래브라도리트리버', breed: '[강아지] 래브라도리트리버'),
-      MyBreedModel(code: 'A001008비글', breed: '[강아지] 비글'),
-      MyBreedModel(code: 'A001009보더콜리', breed: '[강아지] 보더콜리'),
-      MyBreedModel(code: 'A001010불독', breed: '[강아지] 불독'),
-      MyBreedModel(code: 'A001011치와와', breed: '[강아지] 치와와'),
-      MyBreedModel(code: 'A001012코커스패니얼', breed: '[강아지] 코커스패니얼'),
-      MyBreedModel(code: 'A001013닥스훈트', breed: '[강아지] 닥스훈트'),
-      MyBreedModel(code: 'A001014셰퍼드', breed: '[강아지] 셰퍼드'),
-      MyBreedModel(code: 'A001015도베르만', breed: '[강아지] 도베르만'),
-      MyBreedModel(code: 'A001016사모예드', breed: '[강아지] 사모예드'),
-      MyBreedModel(code: 'A001017웰시코기', breed: '[강아지] 웰시코기'),
-      MyBreedModel(code: 'A001018아프간하운드', breed: '[강아지] 아프간하운드'),
-      MyBreedModel(code: 'A001019달마시안', breed: '[강아지] 달마시안'),
-      MyBreedModel(code: 'A001020그레이하운드', breed: '[강아지] 그레이하운드'),
-      MyBreedModel(code: 'A002001코리안숏헤어', breed: '[고양이] 코리안숏헤어'),
-      MyBreedModel(code: 'A002002러시안블루', breed: '[고양이] 러시안블루'),
-      MyBreedModel(code: 'A002003샴', breed: '[고양이] 샴'),
-      MyBreedModel(code: 'A002004스코티시폴드', breed: '[고양이] 스코티시폴드'),
-      MyBreedModel(code: 'A002005브리티시숏헤어', breed: '[고양이] 브리티시숏헤어'),
-      MyBreedModel(code: 'A002006뱅갈', breed: '[고양이] 뱅갈'),
-      MyBreedModel(code: 'A002007메인쿤', breed: '[고양이] 메인쿤'),
-      MyBreedModel(code: 'A002008터키시앙고라', breed: '[고양이] 터키시앙고라'),
-      MyBreedModel(code: 'A002009노르웨이숲', breed: '[고양이] 노르웨이숲'),
-      MyBreedModel(code: 'A002010페르시안', breed: '[고양이] 페르시안'),
-      MyBreedModel(code: 'A002011아메리칸쇼트헤어', breed: '[고양이] 아메리칸쇼트헤어'),
-      MyBreedModel(code: 'A002012랙돌', breed: '[고양이] 랙돌'),
-      MyBreedModel(code: 'A002013버만', breed: '[고양이] 버만'),
-      MyBreedModel(code: 'A002014싱가푸라', breed: '[고양이] 싱가푸라'),
-      MyBreedModel(code: 'A002015소말리', breed: '[고양이] 소말리'),
-      MyBreedModel(code: 'A002016스핑크스', breed: '[고양이] 스핑크스'),
-      MyBreedModel(code: 'A002017아비시니안', breed: '[고양이] 아비시니안'),
-      MyBreedModel(code: 'A002018히말라얀', breed: '[고양이] 히말라얀'),
-      MyBreedModel(code: 'A002019셀커크렉스', breed: '[고양이] 셀커크렉스'),
-      MyBreedModel(code: 'A002020오리엔탈숏헤어', breed: '[고양이] 오리엔탈숏헤어'),
-   ];
-  List<String> totalPetFeeds = ['사료1', '사료2', '사료3', '사료4', '사료5', '사료6', '사료7', '사료8', '잘 모르겠어요'];
+  List<MyBreedModel> totalPetTypes = [
+    MyBreedModel(code: 'A001001푸들', breed: '[강아지] 푸들'),
+    MyBreedModel(code: 'A001002포메라니안', breed: '[강아지] 포메라니안'),
+    MyBreedModel(code: 'A001003말티즈', breed: '[강아지] 말티즈'),
+    MyBreedModel(code: 'A001004시추', breed: '[강아지] 시추'),
+    MyBreedModel(code: 'A001005요크셔테리어', breed: '[강아지] 요크셔테리어'),
+    MyBreedModel(code: 'A001006골든리트리버', breed: '[강아지] 골든리트리버'),
+    MyBreedModel(code: 'A001007래브라도리트리버', breed: '[강아지] 래브라도리트리버'),
+    MyBreedModel(code: 'A001008비글', breed: '[강아지] 비글'),
+    MyBreedModel(code: 'A001009보더콜리', breed: '[강아지] 보더콜리'),
+    MyBreedModel(code: 'A001010불독', breed: '[강아지] 불독'),
+    MyBreedModel(code: 'A001011치와와', breed: '[강아지] 치와와'),
+    MyBreedModel(code: 'A001012코커스패니얼', breed: '[강아지] 코커스패니얼'),
+    MyBreedModel(code: 'A001013닥스훈트', breed: '[강아지] 닥스훈트'),
+    MyBreedModel(code: 'A001014셰퍼드', breed: '[강아지] 셰퍼드'),
+    MyBreedModel(code: 'A001015도베르만', breed: '[강아지] 도베르만'),
+    MyBreedModel(code: 'A001016사모예드', breed: '[강아지] 사모예드'),
+    MyBreedModel(code: 'A001017웰시코기', breed: '[강아지] 웰시코기'),
+    MyBreedModel(code: 'A001018아프간하운드', breed: '[강아지] 아프간하운드'),
+    MyBreedModel(code: 'A001019달마시안', breed: '[강아지] 달마시안'),
+    MyBreedModel(code: 'A001020그레이하운드', breed: '[강아지] 그레이하운드'),
+    MyBreedModel(code: 'A002001코리안숏헤어', breed: '[고양이] 코리안숏헤어'),
+    MyBreedModel(code: 'A002002러시안블루', breed: '[고양이] 러시안블루'),
+    MyBreedModel(code: 'A002003샴', breed: '[고양이] 샴'),
+    MyBreedModel(code: 'A002004스코티시폴드', breed: '[고양이] 스코티시폴드'),
+    MyBreedModel(code: 'A002005브리티시숏헤어', breed: '[고양이] 브리티시숏헤어'),
+    MyBreedModel(code: 'A002006뱅갈', breed: '[고양이] 뱅갈'),
+    MyBreedModel(code: 'A002007메인쿤', breed: '[고양이] 메인쿤'),
+    MyBreedModel(code: 'A002008터키시앙고라', breed: '[고양이] 터키시앙고라'),
+    MyBreedModel(code: 'A002009노르웨이숲', breed: '[고양이] 노르웨이숲'),
+    MyBreedModel(code: 'A002010페르시안', breed: '[고양이] 페르시안'),
+    MyBreedModel(code: 'A002011아메리칸쇼트헤어', breed: '[고양이] 아메리칸쇼트헤어'),
+    MyBreedModel(code: 'A002012랙돌', breed: '[고양이] 랙돌'),
+    MyBreedModel(code: 'A002013버만', breed: '[고양이] 버만'),
+    MyBreedModel(code: 'A002014싱가푸라', breed: '[고양이] 싱가푸라'),
+    MyBreedModel(code: 'A002015소말리', breed: '[고양이] 소말리'),
+    MyBreedModel(code: 'A002016스핑크스', breed: '[고양이] 스핑크스'),
+    MyBreedModel(code: 'A002017아비시니안', breed: '[고양이] 아비시니안'),
+    MyBreedModel(code: 'A002018히말라얀', breed: '[고양이] 히말라얀'),
+    MyBreedModel(code: 'A002019셀커크렉스', breed: '[고양이] 셀커크렉스'),
+    MyBreedModel(code: 'A002020오리엔탈숏헤어', breed: '[고양이] 오리엔탈숏헤어'),
+  ];
+  List<MyFeedModel> totalPetFeeds = [
+    MyFeedModel(food_id:15, food_name: '오리젠 퍼피 340g'),
+    MyFeedModel(food_id:16, food_name: '오리젠 퍼피 1kg'),
+    MyFeedModel(food_id:17, food_name: '오리젠 퍼피 2kg'),
+    MyFeedModel(food_id:18, food_name: '오리젠 퍼피 6kg'),
+    MyFeedModel(food_id:19, food_name: '오리젠 퍼피 11.4kg'),
+    MyFeedModel(food_id:20, food_name: '오리젠 스몰브리드 독 1.8kg'),
+    MyFeedModel(food_id:21, food_name: '오리젠 스몰브리드 독 4.5kg'),
+    MyFeedModel(food_id:22, food_name: '오리젠 시니어 독 340g'),
+    MyFeedModel(food_id:23, food_name: '오리젠 시니어 독 1kg'),
+    MyFeedModel(food_id:24, food_name: '오리젠 시니어 독 2kg'),
+    MyFeedModel(food_id:25, food_name: '오리젠 시니어 독 6kg'),
+    MyFeedModel(food_id:26, food_name: '오리젠 시니어 독 11.4kg'),
+    MyFeedModel(food_id:27, food_name: '오리젠 툰드라 독 2kg'),
+    MyFeedModel(food_id:28, food_name: '오리젠 툰드라 독 6kg'),
+    MyFeedModel(food_id:29, food_name: '오리젠 툰드라 독 11.4kg'),
+    MyFeedModel(food_id:30, food_name: '오리젠 퍼피 라지 6kg'),
+    MyFeedModel(food_id:31, food_name: '오리젠 퍼피 라지 11.4kg'),
+    MyFeedModel(food_id:32, food_name: '오리젠 오리지널 독 340g'),
+    MyFeedModel(food_id:33, food_name: '오리젠 오리지널 독 1kg'),
+    MyFeedModel(food_id:34, food_name: '오리젠 오리지널 독 2kg'),
+    MyFeedModel(food_id:35, food_name: '오리젠 오리지널 독 6kg'),
+    MyFeedModel(food_id:36, food_name: '오리젠 오리지널 독 11.4kg'),
+    MyFeedModel(food_id:37, food_name: '오리젠 6피쉬 독 340g'),
+    MyFeedModel(food_id:38, food_name: '오리젠 6피쉬 독 1kg'),
+    MyFeedModel(food_id:39, food_name: '오리젠 6피쉬 독 2kg'),
+    MyFeedModel(food_id:40, food_name: '오리젠 6피쉬 독 6kg'),
+    MyFeedModel(food_id:41, food_name: '오리젠 6피쉬 독 11.4kg'),
+    MyFeedModel(food_id:42, food_name: '오리젠 이저날 레드 독 2kg'),
+    MyFeedModel(food_id:43, food_name: '오리젠 이저날 레드 독 6kg'),
+    MyFeedModel(food_id:44, food_name: '오리젠 퍼피 340g'),
+    MyFeedModel(food_id:45, food_name: '오리젠 퍼피 1kg'),
+    MyFeedModel(food_id:46, food_name: '오리젠 퍼피 2kg'),
+    MyFeedModel(food_id:47, food_name: '오리젠 퍼피 6kg'),
+    MyFeedModel(food_id:48, food_name: '오리젠 퍼피 11.4kg'),
+    MyFeedModel(food_id:49, food_name: '오리젠 스몰브리드 독 1.8kg'),
+    MyFeedModel(food_id:50, food_name: '오리젠 스몰브리드 독 4.5kg'),
+    MyFeedModel(food_id:51, food_name: '오리젠 시니어 독 340g'),
+    MyFeedModel(food_id:52, food_name: '오리젠 시니어 독 1kg'),
+    MyFeedModel(food_id:53, food_name: '오리젠 시니어 독 2kg'),
+    MyFeedModel(food_id:54, food_name: '오리젠 시니어 독 6kg'),
+    MyFeedModel(food_id:55, food_name: '오리젠 시니어 독 11.4kg'),
+    MyFeedModel(food_id:56, food_name: '오리젠 툰드라 독 2kg'),
+    MyFeedModel(food_id:57, food_name: '오리젠 툰드라 독 6kg'),
+    MyFeedModel(food_id:58, food_name: '오리젠 툰드라 독 11.4kg'),
+    MyFeedModel(food_id:59, food_name: '오리젠 퍼피 라지 6kg'),
+    MyFeedModel(food_id:60, food_name: '오리젠 퍼피 라지 11.4kg'),
+    MyFeedModel(food_id:61, food_name: '오리젠 오리지널 독 340g'),
+    MyFeedModel(food_id:62, food_name: '오리젠 오리지널 독 1kg'),
+    MyFeedModel(food_id:63, food_name: '오리젠 오리지널 독 2kg'),
+    MyFeedModel(food_id:64, food_name: '오리젠 오리지널 독 6kg'),
+    MyFeedModel(food_id:65, food_name: '오리젠 오리지널 독 11.4kg'),
+    MyFeedModel(food_id:66, food_name: '오리젠 6피쉬 독 340g'),
+    MyFeedModel(food_id:67, food_name: '오리젠 6피쉬 독 1kg'),
+    MyFeedModel(food_id:68, food_name: '오리젠 6피쉬 독 2kg'),
+    MyFeedModel(food_id:69, food_name: '오리젠 6피쉬 독 6kg'),
+    MyFeedModel(food_id:70, food_name: '오리젠 6피쉬 독 11.4kg'),
+    MyFeedModel(food_id:71, food_name: '오리젠 이저날 레드 독 2kg'),
+    MyFeedModel(food_id:72, food_name: '오리젠 이저날 레드 독 6kg'),
+    MyFeedModel(food_id:73, food_name: '오리젠 이저날 레드 독 11.4kg'),
+    MyFeedModel(food_id:74, food_name: '오리젠 피트 앤 트림 독 1kg'),
+    MyFeedModel(food_id:75, food_name: '오리젠 피트 앤 트림 독 2kg'),
+    MyFeedModel(food_id:76, food_name: '오리젠 피트 앤 트림 독 6kg'),
+    MyFeedModel(food_id:77, food_name: '오리젠 피트 앤 트림 독 11.4kg'),
+    MyFeedModel(food_id:78, food_name: '아미오 오리진 슬림업 오리 1.4kg'),
+    MyFeedModel(food_id:79, food_name: '아미오 오리진 슬림업 오리 5kg'),
+    MyFeedModel(food_id:80, food_name: '지위픽 독 식품 닭고기 454g'),
+    MyFeedModel(food_id:81, food_name: '지위픽 독 식품 닭고기 1kg'),
+    MyFeedModel(food_id:82, food_name: '지위픽 독 식품 닭고기 2.5kg'),
+    MyFeedModel(food_id:83, food_name: '지위픽 독 식품 닭고기 4kg'),
+    MyFeedModel(food_id:84, food_name: '지위픽 독 캔식품 양고기 170g'),
+    MyFeedModel(food_id:85, food_name: '지위픽 독 캔식품 양고기 390g'),
+    MyFeedModel(food_id:86, food_name: '지위픽 독 캔식품 소고기'),
+    MyFeedModel(food_id:87, food_name: '지위픽 독 캔식품 닭고기'),
+    MyFeedModel(food_id:88, food_name: '지위픽 독 식품 트라이프와 양고기 454g'),
+    MyFeedModel(food_id:89, food_name: '지위픽 독 식품 트라이프와 양고기 1kg'),
+    MyFeedModel(food_id:90, food_name: '지위픽 독 식품 트라이프와 양고기 2.5kg'),
+    MyFeedModel(food_id:91, food_name: '지위픽 독 캔식품 사슴고기'),
+    MyFeedModel(food_id:92, food_name: '지위픽 독 식품 고등어와 양고기 454g'),
+    MyFeedModel(food_id:93, food_name: '지위픽 독 식품 고등어와 양고기 1kg'),
+    MyFeedModel(food_id:94, food_name: '지위픽 독 식품 고등어와 양고기 2.5kg'),
+    MyFeedModel(food_id:95, food_name: '지위픽 독 식품 고등어와 양고기 4kg'),
+    MyFeedModel(food_id:96, food_name: '지위픽 독 식품 사슴고기 454g'),
+    MyFeedModel(food_id:97, food_name: '지위픽 독 식품 사슴고기 1kg'),
+    MyFeedModel(food_id:98, food_name: '지위픽 독 식품 사슴고기 2.5kg'),
+    MyFeedModel(food_id:99, food_name: '지위픽 독 에어드라이 양고기 454g'),
+    MyFeedModel(food_id:100, food_name: '지위픽 독 에어드라이 양고기 1kg'),
+    MyFeedModel(food_id:101, food_name: '지위픽 독 에어드라이 양고기 2.5kg'),
+    MyFeedModel(food_id:102, food_name: '지위픽 독 에어드라이 양고기 4kg'),
+    MyFeedModel(food_id:103, food_name: '지위픽 독 식품 소고기 454g'),
+    MyFeedModel(food_id:104, food_name: '지위픽 독 식품 소고기 1kg'),
+    MyFeedModel(food_id:105, food_name: '지위픽 독 식품 소고기 2.5kg'),
+    MyFeedModel(food_id:106, food_name: '지위픽 독 식품 소고기 4kg'),
+    MyFeedModel(food_id:107, food_name: '지위픽 독 캔식품 트라이프와 양고기'),
+    MyFeedModel(food_id:108, food_name: '지위픽 독 캔식품 고등어와 양고기'),
+    MyFeedModel(food_id:109, food_name: '지위픽 독 프로비넌스 오타고 벨리 140g'),
+    MyFeedModel(food_id:110, food_name: '지위픽 독 프로비넌스 오타고 벨리 900g'),
+    MyFeedModel(food_id:111, food_name: '지위픽 독 프로비넌스 오타고 벨리 1.8kg'),
+    MyFeedModel(food_id:112, food_name: '지위픽 프로비넌스 이스트 케이프 독 캔 140g'),
+    MyFeedModel(food_id:113, food_name: '지위픽 프로비넌스 이스트 케이프 독 캔 900g'),
+    MyFeedModel(food_id:114, food_name: '지위픽 프로비넌스 이스트 케이프 독 캔 1.8kg'),
+    MyFeedModel(food_id:115, food_name: '지위픽 프로비넌스 하우라키 케이프 독 캔'),
+    MyFeedModel(food_id:116, food_name: '지위픽 프로비넌스 오타고 밸리 독 캔 170g'),
+    MyFeedModel(food_id:117, food_name: '지위픽 독 식품 프로비넌스 하우라키 플레인즈 140g'),
+    MyFeedModel(food_id:118, food_name: '지위픽 독 식품 프로비넌스 하우라키 플레인즈 900g'),
+    MyFeedModel(food_id:119, food_name: '지위픽 독 식품 프로비넌스 하우라키 플레인즈 1.8kg'),
+    MyFeedModel(food_id:120, food_name: '파미나 Vet Life Dog 카디약 2kg'),
+    MyFeedModel(food_id:121, food_name: '파미나 Vet Life Dog 조인트 2kg'),
+    MyFeedModel(food_id:122, food_name: '파미나 Vet Life Dog 오베시티 2kg'),
+    MyFeedModel(food_id:123, food_name: '파미나 Vet Life Dog 가스트로인테스티널 2kg'),
+    MyFeedModel(food_id:124, food_name: '파미나 Vet Life Dog 울트라하이포 2kg'),
+    MyFeedModel(food_id:125, food_name: '파미나 Vet Life Dog 울트라하이포 12kg'),
+    MyFeedModel(food_id:126, food_name: '파미나 Vet Life Dog 레날 2kg'),
+    MyFeedModel(food_id:127, food_name: '파미나 Vet Life Dog 헤파틱 2kg'),
+    MyFeedModel(food_id:128, food_name: '파미나 Vet Life Dog 옥살레이트 2kg'),
+    MyFeedModel(food_id:129, food_name: '파미나 Vet Life Dog 스트루바이트 매니지먼트 2kg'),
+    MyFeedModel(food_id:130, food_name: '파미나 Vet Life Dog 하이포엘러제닉 생선&감자 2kg'),
+    MyFeedModel(food_id:131, food_name: '파미나 Vet Life Dog 하이포엘러제닉 달걀&쌀 2kg'),
+    MyFeedModel(food_id:132, food_name: '파미나 Vet Life Dog Derma Management 피쉬 습식캔'),
+    MyFeedModel(food_id:133, food_name: '파미나 N&D Dog 그레인프리 청어&오렌지 미니 800g'),
+    MyFeedModel(food_id:134, food_name: '파미나 N&D Dog 그레인프리 청어&오렌지 1.5kg'),
+    MyFeedModel(food_id:135, food_name: '파미나 N&D Dog 그레인프리 청어&오렌지 2.5kg'),
+    MyFeedModel(food_id:136, food_name: '파미나 N&D Dog 그레인프리 청어&오렌지 5kg'),
+    MyFeedModel(food_id:137, food_name: '파미나 N&D Dog 그레인프리 청어&오렌지 7kg'),
+    MyFeedModel(food_id:138, food_name: '파미나 Vet Life Dog Derma Management 오리 습식캔'),
+    MyFeedModel(food_id:139, food_name: '파미나 N&D Dog 그레인프리 펌프킨 멧돼지&사과 미디움 20kg'),
+    MyFeedModel(food_id:140, food_name: '파미나 N&D Dog 그레인프리 펌프킨 닭고기&석류 미니 1.5kg'),
+    MyFeedModel(food_id:141, food_name: '파미나 N&D Dog 그레인프리 닭고기&석류 5kg'),
+    MyFeedModel(food_id:142, food_name: '파미나 N&D Dog 로우그레인(귀리) 닭고기&석류 20kg'),
+    MyFeedModel(food_id:143, food_name: '파미나 N&D Dog 로우그레인(귀리) 닭고기&석류 미니 2.5kg'),
+    MyFeedModel(food_id:144, food_name: '파미나 N&D Dog 그레인프리 펌프킨 멧돼지&사과 미니 800g'),
+    MyFeedModel(food_id:145, food_name: '파미나 N&D Dog 그레인프리 펌프킨 멧돼지&사과 미니 2.5kg'),
+    MyFeedModel(food_id:146, food_name: '파미나 N&D Dog 그레인프리 펌프킨 멧돼지&사과 미니 7kg'),
+    MyFeedModel(food_id:147, food_name: '파미나 N&D Dog 그레인프리 펌프킨 멧돼지&사과 미니 12kg'),
+    MyFeedModel(food_id:148, food_name: '파미나 N&D Dog 그레인프리 펌프킨 대구&오렌지 미니 800g'),
+    MyFeedModel(food_id:149, food_name: '파미나 N&D Dog 그레인프리 펌프킨 대구&오렌지 미니 2.5g'),
+    MyFeedModel(food_id:150, food_name: '파미나 N&D Dog 그레인프리 펌프킨 대구&오렌지 미니 7kg'),
+    MyFeedModel(food_id:151, food_name: '파미나 N&D Dog 그레인프리 펌프킨 대구&오렌지 미디움 12kg'),
+    MyFeedModel(food_id:152, food_name: '파미나 N&D Dog 그레인프리 펌프킨 대구&오렌지 미디움 20kg'),
+  ];
 
   List<String> leftoverFeed = ['50% 이상', '11~50%', '10% 이하'];
 
@@ -344,8 +479,8 @@ mixin class MyController {
   void fnGetFilteredPetFeedItems(String input) {
     myRef.read(myPetAddFeedFilterProvider.notifier).set(
       totalPetFeeds
-        .where((item) => item.contains(input))
-        .toList()
+        .where((item) => item.food_name.contains(input))
+        .map((item) => item.food_name).toList()
     );
 
     myRef.read(myPetAddFeedDropdownProvider.notifier).set(true);
@@ -353,7 +488,7 @@ mixin class MyController {
 
   void fnGetAllPetFeedItems() {
     myRef.read(myPetAddFeedFilterProvider.notifier).set(
-      List.from(totalPetFeeds)
+      List.from(totalPetFeeds.map((item) => item.food_name))
     );
 
     myRef.read(myPetAddFeedDropdownProvider.notifier).set(true);
@@ -365,17 +500,61 @@ mixin class MyController {
     myRef.read(myPetAddFeedDropdownProvider.notifier).set(false);
   }
 
-
-  Future<void> fnLoginOutExec(WidgetRef ref, BuildContext context) async {
-    final storage = ref.watch(secureStorageProvider);
+  // 로그아웃
+  Future<void> fnLoginOutExec() async {
+    final storage = myRef.watch(secureStorageProvider);
 
     await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: null);
     await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: null);
 
-    ref.invalidate(responseUserMypageProvider);
+    myRef.invalidate(responseUserMypageProvider);
 
-    if(!context.mounted) return;
-    context.goNamed('login_screen');
+    if(!myContext.mounted) return;
+    myContext.goNamed('login_screen');
+  }
+  // 회원탈퇴
+  Future<void> fnSignOutExec() async {
+    try {
+      final response = await myRef.read(userRepositoryProvider).requestSignoutRepository();
+
+      if(response.response_code == 200) {
+        if(!myContext.mounted) return;
+        // 로딩 끝
+        hideLoadingDialog(myContext);
+        // 화면 이동
+        if(!myContext.mounted) return;
+        myContext.goNamed('login_screen');
+        // 탈퇴 성공 알림창
+        showAlertDialog(
+          context: myContext, 
+          middleText: "탈퇴가 완료되었습니다.",
+          barrierDismissible: false,
+        );
+      } else {
+        if(!myContext.mounted) return;
+        // 로딩 끝
+        hideLoadingDialog(myContext);
+        // 에러 알림창
+        showAlertDialog(
+          context: myContext, 
+          middleText: "탈퇴에 실패했습니다."
+        );
+        return;
+      }
+    } on DioException catch(e) {
+      debugPrint("========== Request Signout Dio Exception ==========");
+      debugPrint(e.toString());
+
+      // 로딩 끝
+      if(!myContext.mounted) return;
+      hideLoadingDialog(myContext);
+
+      // 에러 알림창
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.SERVER_ERR,
+      );
+    }
   }
 }
 
