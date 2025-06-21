@@ -85,13 +85,6 @@ mixin class MyController {
 
     if(gender == femaleCode || gender == maleCode) result = true;
 
-    if(!result) {
-      showAlertDialog(
-        context: myContext, 
-        middleText: Sentence.GENDER_ERR_EMPTY,
-      );
-    }
-
     return result;
   }
 
@@ -99,18 +92,19 @@ mixin class MyController {
     bool result = false;
 
     if(birth.isEmpty) {
-      showAlertDialog(
-        context: myContext, 
-        middleText: Sentence.BIRTH_ERR_EMPTY,
-      );
+      myRef.read(myProfileBirthInputStatusCodeProvider.notifier)
+           .set(ProjectConstant.INPUT_ERR_EMPTY);
     } else if(birth.length != 10) {
-      showAlertDialog(
-        context: myContext, 
-        middleText: Sentence.BIRTH_ERR_LEN,
-      );
+      myRef.read(myProfileBirthInputStatusCodeProvider.notifier)
+           .set(ProjectConstant.INPUT_ERR_LENGTH);
     }
 
-    if(birth != '' && birth.length == 10) result = true;
+    if(birth != '' && birth.length == 10) {
+      myRef.read(myProfileBirthInputStatusCodeProvider.notifier)
+           .set(ProjectConstant.INPUT_SUCCESS);
+
+      result = true;
+    }
 
     return result;
   }
@@ -120,13 +114,6 @@ mixin class MyController {
 
     if(interest != '') result = true;
 
-    if(!result) {
-      showAlertDialog(
-        context: myContext, 
-        middleText: Sentence.INTEREST_ERR_EMPTY,
-      );
-    }
-
     return result;
   }
 
@@ -134,18 +121,19 @@ mixin class MyController {
     bool result = false;
 
     if(phone_number.isEmpty) {
-      showAlertDialog(
-        context: myContext, 
-        middleText: Sentence.PHONE_ERR_EMPTY,
-      );
+      myRef.read(myProfilePhoneNumberInputStatusCodeProvider.notifier)
+           .set(ProjectConstant.INPUT_ERR_EMPTY);
     } else if(phone_number.length < 13) {
-      showAlertDialog(
-        context: myContext, 
-        middleText: Sentence.PHONE_ERR_LEN,
-      );
+      myRef.read(myProfilePhoneNumberInputStatusCodeProvider.notifier)
+           .set(ProjectConstant.INPUT_ERR_LENGTH);
     }
 
-    if(phone_number != '' && phone_number.length >= 13) result = true;
+    if(phone_number != '' && phone_number.length >= 13) {
+      myRef.read(myProfilePhoneNumberInputStatusCodeProvider.notifier)
+           .set(ProjectConstant.INPUT_SUCCESS);
+
+      result = true;
+    }
 
     return result;
   }
@@ -162,17 +150,57 @@ mixin class MyController {
     // debugPrint(phone_number);
 
     if(!fnCheckGender(gender)) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.GENDER_ERR_EMPTY,
+      );
       return;
     }
+
     if(!fnCheckBirth(birth)) {
+      if(birth.isEmpty) {
+        showAlertDialog(
+          context: myContext, 
+          middleText: Sentence.BIRTH_ERR_EMPTY,
+        );
+      } else if(birth.length != 10) {
+        showAlertDialog(
+          context: myContext, 
+          middleText: Sentence.BIRTH_ERR_LEN,
+        );
+      }
       return;
     }
+
+    myRef.read(myProfileBirthInputStatusCodeProvider.notifier)
+           .set(ProjectConstant.INPUT_SUCCESS);
+
     if(!fnCheckInterest(interest)) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.INTEREST_ERR_EMPTY,
+      );
       return;
     }
+
     if(!fnCheckPhoneNumber(phone_number)) {
+      if(phone_number.isEmpty) {
+        showAlertDialog(
+          context: myContext, 
+          middleText: Sentence.PHONE_ERR_EMPTY,
+        );
+      } else if(phone_number.length < 13) {
+        showAlertDialog(
+          context: myContext, 
+          middleText: Sentence.PHONE_ERR_LEN,
+        );
+      }
       return;
     }
+
+    myRef.read(myProfilePhoneNumberInputStatusCodeProvider.notifier)
+           .set(ProjectConstant.INPUT_SUCCESS);
+
     // 로딩 시작
     showLoadingDialog(context: myContext);
 

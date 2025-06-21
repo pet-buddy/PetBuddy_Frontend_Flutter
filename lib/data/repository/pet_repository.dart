@@ -12,7 +12,7 @@ part 'pet_repository.g.dart';
 final petRepositoryProvider = Provider<PetRepository>((ref) {
   final dio = ref.watch(dioProvider);
 
-  final repository = PetRepository(dio, baseUrl: '${ProjectConstant.BASE_URL}/');
+  final repository = PetRepository(dio, baseUrl: '${ProjectConstant.BASE_URL}/dog');
 
   return repository;
 });
@@ -22,6 +22,9 @@ abstract class PetRepository {
   factory PetRepository(Dio dio, {String baseUrl}) = 
     _PetRepository;
 
-  @GET('/dog/dogs')
+  @GET('/dogs')
   Future<CommonResponseListModel> requestDogsRepository(); 
+
+  @POST('/newdog')
+  Future<CommonResponseMapModel> requestNewDogRepository(@Body() RequestNewDogModel requestNewDogModel); 
 } 
