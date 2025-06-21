@@ -31,6 +31,8 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
     final myProfileInterestButtonState = ref.watch(myProfileInterestButtonProvider);
     final myProfileUpdateButtonState = ref.watch(myProfileUpdateButtonProvider);
     final myProfileInputState = ref.watch(myProfileInputProvider);
+    final myProfileBirthInputStatusCodeState = ref.watch(myProfileBirthInputStatusCodeProvider);
+    final myProfilePhoneNumberInputStatusCodeState = ref.watch(myProfilePhoneNumberInputStatusCodeProvider);
 
     return DefaultLayout(
       appBar: DefaultAppBar(
@@ -125,6 +127,8 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                       ref.read(myProfileInputProvider.notifier)
                          .setBirth(birthInputController.text);
 
+                      fnCheckBirth(birth);
+
                       ref.read(myProfileUpdateButtonProvider.notifier)
                          .activate(myProfileInputState);
                     },
@@ -136,6 +140,33 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                       LengthLimitingTextInputFormatter(8),
                       BirthInputFormatter(),
                     ],
+                    enabledBorder: myProfileBirthInputStatusCodeState != ProjectConstant.INPUT_INIT && 
+                      myProfileBirthInputStatusCodeState != ProjectConstant.INPUT_SUCCESS  ? 
+                        CustomColor.negative :
+                        CustomColor.gray04,
+                    focusedBorder: myProfileBirthInputStatusCodeState != ProjectConstant.INPUT_INIT && 
+                      myProfileBirthInputStatusCodeState != ProjectConstant.INPUT_SUCCESS  ? 
+                        CustomColor.negative :
+                        CustomColor.gray04,
+                  ),
+                  Visibility(
+                    visible: myProfileBirthInputStatusCodeState != ProjectConstant.INPUT_INIT && 
+                             myProfileBirthInputStatusCodeState != ProjectConstant.INPUT_SUCCESS,
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 4,),
+                        Text(
+                          myProfileBirthInputStatusCodeState == ProjectConstant.INPUT_ERR_EMPTY ?
+                            Sentence.BIRTH_ERR_EMPTY :
+                              myProfileBirthInputStatusCodeState == ProjectConstant.INPUT_ERR_LENGTH ?
+                                Sentence.BIRTH_ERR_LEN :
+                                  "",
+                          style: CustomText.caption3.copyWith(
+                            color: CustomColor.negative,
+                          ),
+                        ),
+                      ],
+                    )
                   ),
                   const SizedBox(height: 16,),
                   const Text(
@@ -185,6 +216,8 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                       ref.read(myProfileInputProvider.notifier)
                          .setPhoneNumber(phoneInputController.text);
 
+                      fnCheckPhoneNumber(phone);
+
                       ref.read(myProfileUpdateButtonProvider.notifier)
                          .activate(myProfileInputState);
                     },
@@ -196,6 +229,33 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                       LengthLimitingTextInputFormatter(11),
                       TelInputFormatter(),
                     ],
+                    enabledBorder: myProfilePhoneNumberInputStatusCodeState != ProjectConstant.INPUT_INIT && 
+                      myProfilePhoneNumberInputStatusCodeState != ProjectConstant.INPUT_SUCCESS  ? 
+                        CustomColor.negative :
+                        CustomColor.gray04,
+                    focusedBorder: myProfilePhoneNumberInputStatusCodeState != ProjectConstant.INPUT_INIT && 
+                      myProfilePhoneNumberInputStatusCodeState != ProjectConstant.INPUT_SUCCESS  ? 
+                        CustomColor.negative :
+                        CustomColor.gray04,
+                  ),
+                  Visibility(
+                    visible: myProfilePhoneNumberInputStatusCodeState != ProjectConstant.INPUT_INIT && 
+                             myProfilePhoneNumberInputStatusCodeState != ProjectConstant.INPUT_SUCCESS,
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 4,),
+                        Text(
+                          myProfilePhoneNumberInputStatusCodeState == ProjectConstant.INPUT_ERR_EMPTY ?
+                            Sentence.PHONE_ERR_EMPTY :
+                              myProfilePhoneNumberInputStatusCodeState == ProjectConstant.INPUT_ERR_LENGTH ?
+                                Sentence.PHONE_ERR_LEN :
+                                  "",
+                          style: CustomText.caption3.copyWith(
+                            color: CustomColor.negative,
+                          ),
+                        ),
+                      ],
+                    )
                   ),
                   const SizedBox(height: 16,),
                   /* SizedBox(

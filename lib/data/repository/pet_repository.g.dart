@@ -32,7 +32,7 @@ class _PetRepository implements PetRepository {
     )
             .compose(
               _dio.options,
-              '/dog/dogs',
+              '/dogs',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -42,6 +42,35 @@ class _PetRepository implements PetRepository {
               baseUrl,
             ))));
     final value = CommonResponseListModel.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<CommonResponseMapModel> requestNewDogRepository(
+      RequestNewDogModel requestNewDogModel) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(requestNewDogModel.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<CommonResponseMapModel>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/newdog',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = CommonResponseMapModel.fromJson(_result.data!);
     return value;
   }
 

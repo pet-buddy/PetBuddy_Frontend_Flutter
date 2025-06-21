@@ -82,12 +82,12 @@ class RegisterScreenState extends ConsumerState<RegisterScreen> with RegisterCon
                     onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
                     enabledBorder: registerEmailInputStatusCodeState != ProjectConstant.INPUT_INIT && 
                       registerEmailInputStatusCodeState != ProjectConstant.INPUT_SUCCESS  ? 
-                      CustomColor.negative :
-                      CustomColor.gray04,
+                        CustomColor.negative :
+                        CustomColor.gray04,
                     focusedBorder: registerEmailInputStatusCodeState != ProjectConstant.INPUT_INIT && 
                       registerEmailInputStatusCodeState != ProjectConstant.INPUT_SUCCESS  ? 
-                      CustomColor.negative :
-                      CustomColor.gray04,
+                        CustomColor.negative :
+                        CustomColor.gray04,
                   ),
                   Visibility(
                     visible: registerEmailInputStatusCodeState != ProjectConstant.INPUT_INIT && 
