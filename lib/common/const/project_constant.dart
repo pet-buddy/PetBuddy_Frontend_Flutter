@@ -5,6 +5,9 @@ class ProjectConstant {
   // static const BASE_URL = 'http://backend.pawprint.ai.kr:3000/';
   static const BASE_URL = 'https://backend.pawprint.ai.kr/';
 
+  static const INQUIRY_URL = '';
+  static const FAQ_URL = 'https://florentine-behavior-ea1.notion.site/FAQ-2170e6fb3b4380be9a49f9f6834d9943';
+
   // 채널 링크 (퍼피푸)
   static const PUPPYPOO_WEB_URL = "https://puppypoo.framer.ai/";
   static const PUPPYPOO_INSTAGRAM_URL = "https://www.instagram.com/pawprint.ai/";
