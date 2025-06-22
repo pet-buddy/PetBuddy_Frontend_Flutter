@@ -52,7 +52,8 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
     final myPetAddFeedAmountButtonState = ref.watch(myPetAddFeedAmountButtonProvider);
     final myPetAddNameInputStatusCodeState = ref.watch(myPetAddNameInputStatusCodeProvider);
     final myPetAddBirthInputStatusCodeState = ref.watch(myPetAddBirthInputStatusCodeProvider);
-    
+    // final myPetAddButtonState = ref.watch(myPetAddButtonProvider);
+    final requestNewDogState = ref.watch(requestNewDogProvider);
     
     return DefaultLayout(
       appBar: DefaultAppBar(
@@ -94,6 +95,9 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                       ref.read(requestNewDogProvider.notifier).setPetName(petName);
 
                       fnCheckPetName(petName);
+
+                      ref.read(myPetAddButtonProvider.notifier)
+                          .activate(requestNewDogState);
                     },
                     keyboardType: TextInputType.text,
                     onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
@@ -145,6 +149,9 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         onPressed: () {
                           ref.read(myPetAddSizeButtonProvider.notifier).set(smallSize); // 화면 업데이트
                           ref.read(requestNewDogProvider.notifier).setPetSize(smallSize); // 데이터 저장
+
+                          ref.read(myPetAddButtonProvider.notifier)
+                             .activate(requestNewDogState); // 추가하기 버튼 활성화 여부
                         },
                       ),
                       DefaultTextButton(
@@ -160,6 +167,9 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         onPressed: () {
                           ref.read(myPetAddSizeButtonProvider.notifier).set(mediumSize);
                           ref.read(requestNewDogProvider.notifier).setPetSize(mediumSize); // 데이터 저장
+
+                          ref.read(myPetAddButtonProvider.notifier)
+                             .activate(requestNewDogState);
                         },
                       ),
                       DefaultTextButton(
@@ -175,6 +185,9 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         onPressed: () {
                           ref.read(myPetAddSizeButtonProvider.notifier).set(largeSize);
                           ref.read(requestNewDogProvider.notifier).setPetSize(largeSize); // 데이터 저장
+
+                          ref.read(myPetAddButtonProvider.notifier)
+                             .activate(requestNewDogState);
                         },
                       ),
                     ],
@@ -226,7 +239,12 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                             children: myPetAddTypeFilterState.map((item) {
                               return ListTile(
                                 title: Text(item),
-                                onTap: () => fnSelectPetTypeItems(item),
+                                onTap: () { 
+                                  fnSelectPetTypeItems(item);
+
+                                  ref.read(myPetAddButtonProvider.notifier)
+                                     .activate(requestNewDogState);
+                                }
                               );
                             }).toList(),
                           ),
@@ -255,6 +273,9 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         onPressed: () {
                           ref.read(myPetAddGenderButtonProvider.notifier).set(femaleCode);
                           ref.read(requestNewDogProvider.notifier).setPetGender(femaleCode); // 데이터 저장
+
+                          ref.read(myPetAddButtonProvider.notifier)
+                             .activate(requestNewDogState);
                         },
                       ),
                       DefaultTextButton(
@@ -270,6 +291,9 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         onPressed: () {
                           ref.read(myPetAddGenderButtonProvider.notifier).set(maleCode);
                           ref.read(requestNewDogProvider.notifier).setPetGender(maleCode); // 데이터 저장
+
+                          ref.read(myPetAddButtonProvider.notifier)
+                             .activate(requestNewDogState);
                         },
                       ),
                     ],
@@ -296,6 +320,9 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         onPressed: () {
                           ref.read(myPetAddNeuterButtonProvider.notifier).set(neuterN);
                           ref.read(requestNewDogProvider.notifier).setNeuterYn(neuterN); // 데이터 저장
+
+                          ref.read(myPetAddButtonProvider.notifier)
+                             .activate(requestNewDogState);
                         },
                       ),
                       DefaultTextButton(
@@ -311,6 +338,9 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         onPressed: () {
                           ref.read(myPetAddNeuterButtonProvider.notifier).set(neuterY);
                           ref.read(requestNewDogProvider.notifier).setNeuterYn(neuterY); // 데이터 저장
+
+                          ref.read(myPetAddButtonProvider.notifier)
+                             .activate(requestNewDogState);
                         },
                       ),
                     ],
@@ -362,7 +392,12 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                             children: myPetAddFeedFilterState.map((item) {
                               return ListTile(
                                 title: Text(item),
-                                onTap: () => fnSelectPetFeedItems(item),
+                                onTap: () { 
+                                  fnSelectPetFeedItems(item);
+
+                                  ref.read(myPetAddButtonProvider.notifier)
+                                     .activate(requestNewDogState);
+                                }
                               );
                             }).toList(),
                           ),
@@ -435,6 +470,9 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         onPressed: () {
                           ref.read(myPetAddFeedAmountButtonProvider.notifier).set(feedAmount[i]);
                           // TODO : 사료 급여 시간 입력 프로바이더
+
+                          ref.read(myPetAddButtonProvider.notifier)
+                             .activate(requestNewDogState);
                         },
                       ),
                     ),
@@ -450,6 +488,9 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                       ref.read(requestNewDogProvider.notifier).setPetBirth(petBirth);
 
                       fnCheckPetBirth(petBirth);
+
+                      ref.read(myPetAddButtonProvider.notifier)
+                         .activate(requestNewDogState);
                     },
                     hintText: 'YYYY-MM-DD',
                     keyboardType: TextInputType.number,

@@ -32,7 +32,7 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
     final homePoopReportMonthSelectState = ref.watch(homePoopReportMonthSelectProvider);
 
     // 임시 변수
-    final values = [60.0, 75.0, 75.0, 100.0, 58.0, 76.0, 84.0, 80.0];
+    final values = [60.0, 75.0, 75.0, 100.0, 58.0, 76.0, 84.0, 80.0, 100.0, 100.0, 0.0, 10.0];
 
     final config = CalendarDatePicker2WithActionButtonsConfig(
       lastDate: DateTime.now(),
@@ -438,24 +438,8 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
                                         );
 
                                         switch (value.toInt()) {
-                                          case 0:
-                                            return Text('9월', style: style);
-                                          case 1:
-                                            return Text('10월', style: style);
-                                          case 2:
-                                            return Text('11월', style: style);
-                                          case 3:
-                                            return Text('12월', style: style);
-                                          case 4:
-                                            return Text('1월', style: style);
-                                          case 5:
-                                            return Text('2월', style: style);
-                                          case 6:
-                                            return Text('3월', style: style);
-                                          case 7:
-                                            return Text('4월', style: style);
                                           default:
-                                            return const SizedBox.shrink();
+                                            return Text('${value.toInt()+1}월', style: style);
                                         }
                                       },
                                     ),
@@ -497,7 +481,7 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
                                     x: index,
                                     barRods: [
                                       BarChartRodData(
-                                        toY: values[index],
+                                        toY: values[index].toDouble(),
                                         width: 8,
                                         color: Colors.lightBlue,
                                         borderRadius: BorderRadius.circular(8),

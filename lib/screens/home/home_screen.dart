@@ -177,7 +177,6 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           HomeCardManageContainer(
-                            disabled: true,
                             title: "걸음 수", 
                             thumbnailPicture: SvgPicture.asset(
                               'assets/icons/etc/paw.svg',
@@ -185,12 +184,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                               height: 24,
                             ),
                             onPressed: () {
-                              // context.goNamed("home_activity_report_screen");
-
-                              showAlertDialog(
-                                context: context, 
-                                middleText: Sentence.UPDATE_ALERT,
-                              );
+                              context.goNamed("home_activity_report_screen");
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -291,7 +285,6 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           HomeCardManageContainer(
-                            disabled: true,
                             thumbnailPicture: SvgPicture.asset(
                               'assets/icons/etc/sleep.svg',
                               width: 24,
@@ -299,10 +292,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                             ),
                             title: "수면 효율",
                             onPressed: () {
-                              showAlertDialog(
-                                context: context, 
-                                middleText: Sentence.UPDATE_ALERT,
-                              );
+                              // TODO : 수면 효율 페이지 이동
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -326,7 +316,6 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                             ),
                           ),
                           HomeCardManageContainer(
-                            disabled: true,
                             title: "곳간", 
                             thumbnailPicture: SvgPicture.asset(
                               'assets/icons/etc/feed.svg',
@@ -334,10 +323,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                               height: 24,
                             ),
                             onPressed: () {
-                              showAlertDialog(
-                                context: context, 
-                                middleText: Sentence.UPDATE_ALERT,
-                              );
+                              context.goNamed("home_feed_report_screen");
                             },
                             child: LayoutBuilder(builder: (context, constraints) {
                               return Stack(

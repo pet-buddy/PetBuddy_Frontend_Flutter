@@ -264,46 +264,46 @@ mixin class MyController {
   }
 
   List<MyBreedModel> totalPetTypes = [
-    MyBreedModel(code: 'A001001푸들', breed: '[강아지] 푸들'),
-    MyBreedModel(code: 'A001002포메라니안', breed: '[강아지] 포메라니안'),
-    MyBreedModel(code: 'A001003말티즈', breed: '[강아지] 말티즈'),
-    MyBreedModel(code: 'A001004시추', breed: '[강아지] 시추'),
-    MyBreedModel(code: 'A001005요크셔테리어', breed: '[강아지] 요크셔테리어'),
-    MyBreedModel(code: 'A001006골든리트리버', breed: '[강아지] 골든리트리버'),
-    MyBreedModel(code: 'A001007래브라도리트리버', breed: '[강아지] 래브라도리트리버'),
-    MyBreedModel(code: 'A001008비글', breed: '[강아지] 비글'),
-    MyBreedModel(code: 'A001009보더콜리', breed: '[강아지] 보더콜리'),
-    MyBreedModel(code: 'A001010불독', breed: '[강아지] 불독'),
-    MyBreedModel(code: 'A001011치와와', breed: '[강아지] 치와와'),
-    MyBreedModel(code: 'A001012코커스패니얼', breed: '[강아지] 코커스패니얼'),
-    MyBreedModel(code: 'A001013닥스훈트', breed: '[강아지] 닥스훈트'),
-    MyBreedModel(code: 'A001014셰퍼드', breed: '[강아지] 셰퍼드'),
-    MyBreedModel(code: 'A001015도베르만', breed: '[강아지] 도베르만'),
-    MyBreedModel(code: 'A001016사모예드', breed: '[강아지] 사모예드'),
-    MyBreedModel(code: 'A001017웰시코기', breed: '[강아지] 웰시코기'),
-    MyBreedModel(code: 'A001018아프간하운드', breed: '[강아지] 아프간하운드'),
-    MyBreedModel(code: 'A001019달마시안', breed: '[강아지] 달마시안'),
-    MyBreedModel(code: 'A001020그레이하운드', breed: '[강아지] 그레이하운드'),
-    MyBreedModel(code: 'A002001코리안숏헤어', breed: '[고양이] 코리안숏헤어'),
-    MyBreedModel(code: 'A002002러시안블루', breed: '[고양이] 러시안블루'),
-    MyBreedModel(code: 'A002003샴', breed: '[고양이] 샴'),
-    MyBreedModel(code: 'A002004스코티시폴드', breed: '[고양이] 스코티시폴드'),
-    MyBreedModel(code: 'A002005브리티시숏헤어', breed: '[고양이] 브리티시숏헤어'),
-    MyBreedModel(code: 'A002006뱅갈', breed: '[고양이] 뱅갈'),
-    MyBreedModel(code: 'A002007메인쿤', breed: '[고양이] 메인쿤'),
-    MyBreedModel(code: 'A002008터키시앙고라', breed: '[고양이] 터키시앙고라'),
-    MyBreedModel(code: 'A002009노르웨이숲', breed: '[고양이] 노르웨이숲'),
-    MyBreedModel(code: 'A002010페르시안', breed: '[고양이] 페르시안'),
-    MyBreedModel(code: 'A002011아메리칸쇼트헤어', breed: '[고양이] 아메리칸쇼트헤어'),
-    MyBreedModel(code: 'A002012랙돌', breed: '[고양이] 랙돌'),
-    MyBreedModel(code: 'A002013버만', breed: '[고양이] 버만'),
-    MyBreedModel(code: 'A002014싱가푸라', breed: '[고양이] 싱가푸라'),
-    MyBreedModel(code: 'A002015소말리', breed: '[고양이] 소말리'),
-    MyBreedModel(code: 'A002016스핑크스', breed: '[고양이] 스핑크스'),
-    MyBreedModel(code: 'A002017아비시니안', breed: '[고양이] 아비시니안'),
-    MyBreedModel(code: 'A002018히말라얀', breed: '[고양이] 히말라얀'),
-    MyBreedModel(code: 'A002019셀커크렉스', breed: '[고양이] 셀커크렉스'),
-    MyBreedModel(code: 'A002020오리엔탈숏헤어', breed: '[고양이] 오리엔탈숏헤어'),
+    MyBreedModel(code: 'A001001', breed: '[강아지] 푸들'),
+    MyBreedModel(code: 'A001002', breed: '[강아지] 포메라니안'),
+    MyBreedModel(code: 'A001003', breed: '[강아지] 말티즈'),
+    MyBreedModel(code: 'A001004', breed: '[강아지] 시추'),
+    MyBreedModel(code: 'A001005', breed: '[강아지] 요크셔테리어'),
+    MyBreedModel(code: 'A001006', breed: '[강아지] 골든리트리버'),
+    MyBreedModel(code: 'A001007', breed: '[강아지] 래브라도리트리버'),
+    MyBreedModel(code: 'A001008', breed: '[강아지] 비글'),
+    MyBreedModel(code: 'A001009', breed: '[강아지] 보더콜리'),
+    MyBreedModel(code: 'A001010', breed: '[강아지] 불독'),
+    MyBreedModel(code: 'A001011', breed: '[강아지] 치와와'),
+    MyBreedModel(code: 'A001012', breed: '[강아지] 코커스패니얼'),
+    MyBreedModel(code: 'A001013', breed: '[강아지] 닥스훈트'),
+    MyBreedModel(code: 'A001014', breed: '[강아지] 셰퍼드'),
+    MyBreedModel(code: 'A001015', breed: '[강아지] 도베르만'),
+    MyBreedModel(code: 'A001016', breed: '[강아지] 사모예드'),
+    MyBreedModel(code: 'A001017', breed: '[강아지] 웰시코기'),
+    MyBreedModel(code: 'A001018', breed: '[강아지] 아프간하운드'),
+    MyBreedModel(code: 'A001019', breed: '[강아지] 달마시안'),
+    MyBreedModel(code: 'A001020', breed: '[강아지] 그레이하운드'),
+    MyBreedModel(code: 'A002001', breed: '[고양이] 코리안숏헤어'),
+    MyBreedModel(code: 'A002002', breed: '[고양이] 러시안블루'),
+    MyBreedModel(code: 'A002003', breed: '[고양이] 샴'),
+    MyBreedModel(code: 'A002004', breed: '[고양이] 스코티시폴드'),
+    MyBreedModel(code: 'A002005', breed: '[고양이] 브리티시숏헤어'),
+    MyBreedModel(code: 'A002006', breed: '[고양이] 뱅갈'),
+    MyBreedModel(code: 'A002007', breed: '[고양이] 메인쿤'),
+    MyBreedModel(code: 'A002008', breed: '[고양이] 터키시앙고라'),
+    MyBreedModel(code: 'A002009', breed: '[고양이] 노르웨이숲'),
+    MyBreedModel(code: 'A002010', breed: '[고양이] 페르시안'),
+    MyBreedModel(code: 'A002011', breed: '[고양이] 아메리칸쇼트헤어'),
+    MyBreedModel(code: 'A002012', breed: '[고양이] 랙돌'),
+    MyBreedModel(code: 'A002013', breed: '[고양이] 버만'),
+    MyBreedModel(code: 'A002014', breed: '[고양이] 싱가푸라'),
+    MyBreedModel(code: 'A002015', breed: '[고양이] 소말리'),
+    MyBreedModel(code: 'A002016', breed: '[고양이] 스핑크스'),
+    MyBreedModel(code: 'A002017', breed: '[고양이] 아비시니안'),
+    MyBreedModel(code: 'A002018', breed: '[고양이] 히말라얀'),
+    MyBreedModel(code: 'A002019', breed: '[고양이] 셀커크렉스'),
+    MyBreedModel(code: 'A002020', breed: '[고양이] 오리엔탈숏헤어'),
   ];
   List<MyFeedModel> totalPetFeeds = [
     MyFeedModel(food_id:15, food_name: '오리젠 퍼피 340g'),
@@ -508,8 +508,19 @@ mixin class MyController {
     myRef.read(myPetAddFeedDropdownProvider.notifier).set(true);
   }
 
+  int fnGetIdFromFeed(String selectedFeed) {
+    final match = totalPetFeeds.firstWhere(
+      (e) => e.food_name == selectedFeed,
+      orElse: () => MyFeedModel(food_id: -1, food_name: ''),
+    );
+
+    return match.food_id;
+  }
+
   void fnSelectPetFeedItems(String selected) {
     petFeedInputController.text = selected;
+
+    myRef.read(requestNewDogProvider.notifier).setFeedId(fnGetIdFromFeed(selected));
 
     myRef.read(myPetAddFeedDropdownProvider.notifier).set(false);
   }
@@ -522,7 +533,15 @@ mixin class MyController {
   bool fnCheckPetName(String petName) {
     bool result = false;
 
-    if(petName.isNotEmpty) result = true;
+    if(petName.isEmpty) { 
+      myRef.read(myPetAddNameInputStatusCodeProvider.notifier)
+           .set(ProjectConstant.INPUT_ERR_EMPTY);
+      result = false; 
+    } else {
+      myRef.read(myPetAddNameInputStatusCodeProvider.notifier)
+           .set(ProjectConstant.INPUT_SUCCESS);
+      result = true; 
+    }
 
     return result;
   }
@@ -531,6 +550,14 @@ mixin class MyController {
     bool result = false;
 
     if(petSize.isNotEmpty) result = true;
+
+    return result;
+  }
+
+  bool fnCheckPetType(String code) {
+    bool result = false;
+
+    if(code.isNotEmpty) result = true;
 
     return result;
   }
@@ -551,31 +578,47 @@ mixin class MyController {
     return result;
   }
 
-  bool fnCheckPetBirth(String birth) {
+  bool fnCheckPetFeed(int feedId) {
     bool result = false;
 
-    if(birth.isEmpty) {
-      myRef.read(myProfileBirthInputStatusCodeProvider.notifier)
-           .set(ProjectConstant.INPUT_ERR_EMPTY);
-    } else if(birth.length != 10) {
-      myRef.read(myProfileBirthInputStatusCodeProvider.notifier)
-           .set(ProjectConstant.INPUT_ERR_LENGTH);
-    }
-
-    if(birth != '' && birth.length == 10) {
-      myRef.read(myProfileBirthInputStatusCodeProvider.notifier)
-           .set(ProjectConstant.INPUT_SUCCESS);
-
-      result = true;
-    }
+    if(feedId != -1) result = true;
 
     return result;
   }
 
-  bool fnCheckPetFeedAmount(String petFeedAmount) {
+  bool fnCheckPetFeedTime(List<String> feedTime) {
     bool result = false;
 
-    if(petFeedAmount.isNotEmpty) result = true;
+    if(feedTime.isNotEmpty) result = true;
+
+    return result;
+  }
+
+  bool fnCheckPetFeedAmount(String feedAmount) {
+    bool result = false;
+
+    if(feedAmount.isNotEmpty) result = true;
+
+    return result;
+  }
+
+  bool fnCheckPetBirth(String birth) {
+    bool result = false;
+
+    if(birth.isEmpty) {
+      myRef.read(myPetAddBirthInputStatusCodeProvider.notifier)
+           .set(ProjectConstant.INPUT_ERR_EMPTY);
+    } else if(birth.length != 10) {
+      myRef.read(myPetAddBirthInputStatusCodeProvider.notifier)
+           .set(ProjectConstant.INPUT_ERR_LENGTH);
+    }
+
+    if(birth != '' && birth.length == 10) {
+      myRef.read(myPetAddBirthInputStatusCodeProvider.notifier)
+           .set(ProjectConstant.INPUT_SUCCESS);
+
+      result = true;
+    }
 
     return result;
   }
@@ -616,10 +659,10 @@ mixin class MyController {
       return;
     }
 
-    if(!fnCheckPetNeuter(neuterYn)) {
+    if(!fnCheckPetType(petType)) {
       showAlertDialog(
         context: myContext, 
-        middleText: Sentence.PET_NEUTER_ERR_EMPTY,
+        middleText: Sentence.PET_TYPE_ERR_EMPTY,
       );
       return;
     }
@@ -631,6 +674,39 @@ mixin class MyController {
       );
       return;
     }
+
+    if(!fnCheckPetNeuter(neuterYn)) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.PET_NEUTER_ERR_EMPTY,
+      );
+      return;
+    }
+
+    if(!fnCheckPetFeed(feedId)) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.PET_FEED_ERR_EMPTY,
+      );
+      return;
+    }
+
+    if(!fnCheckPetFeedTime(feedTime)) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.PET_FEED_TIME_ERR_EMPTY,
+      );
+      return;
+    }
+
+    // TODO : 사료 급여 남은 양 변수
+    // if(!fnCheckPetFeedAmount('')) {
+    //   showAlertDialog(
+    //     context: myContext, 
+    //     middleText: Sentence.PET_FEED_AMOUNT_ERR_EMPTY,
+    //   );
+    //   return;
+    // }
 
     if(!fnCheckPetBirth(petBirth)) {
       if(petBirth.isEmpty) {
@@ -668,9 +744,11 @@ mixin class MyController {
       );
 
       if(response.response_code == 200) {
-        ResponseUsersModel responseUsersModel = ResponseUsersModel.fromJson(response.data);
+        // ResponseUsersModel responseUsersModel = ResponseUsersModel.fromJson(response.data);
 
-        await ControllerUtils.fnGetUserMypage(myRef);
+        // await ControllerUtils.fnGetUserMypage(myRef);
+
+        debugPrint(response.data.toString());
         
         if(!myContext.mounted) return;
         // 로딩 끝
