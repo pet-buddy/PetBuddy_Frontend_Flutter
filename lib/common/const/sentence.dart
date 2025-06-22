@@ -16,9 +16,13 @@ class Sentence {
   static const String PET_NAME_ERR_EMPTY = '반려동물 이름을 입력해주세요.';
   static const String PET_SIZE_ERR_EMPTY = '사이즈를 선택해주세요.';
   static const String PET_TYPE_ERR_EMPTY = '품종을 선택해주세요.';
-  static const String PET_SEX_ERR_EMPTY = '반려동물 성별을 선택해주세요.';
-
+  static const String PET_GENDER_ERR_EMPTY = '반려동물 성별을 선택해주세요.';
+  static const String PET_NEUTER_ERR_EMPTY = '반려동물 중성화 여부를 선택해주세요.';
+  static const String PET_FEED_ERR_EMPTY = '반려동물 사료를 선택해주세요.';
+  static const String PET_FEED_TIME_ERR_EMPTY = '반려동물 사료 급여 시간을 입력해주세요.';
+  static const String PET_FEED_AMOUNT_ERR_EMPTY = '반려동물 남은 사료 양을 선택해주세요.';
   static const String PET_BIRTH_ERR_EMPTY = '반려동물 생년월일을 입력해주세요.';
+  static const String PET_BIRTH_ERR_LEN = '반려동물 생년월일 길이가 맞지 않습니다.';
 
   static const String SERVER_ERR = "서버와의 통신 중 오류가 발생했습니다.";
 

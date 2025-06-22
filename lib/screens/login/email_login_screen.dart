@@ -18,6 +18,7 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> with LoginCo
   void initState() {
     super.initState();
     fnInitLoginController(ref, context);
+    fnInitEmailLoginState();
   }
 
   @override
