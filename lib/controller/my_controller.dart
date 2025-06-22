@@ -7,6 +7,7 @@ import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller_utils.dart';
 import 'package:petbuddy_frontend_flutter/data/model/model.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
+import 'package:petbuddy_frontend_flutter/data/repository/pet_repository.dart';
 import 'package:petbuddy_frontend_flutter/data/repository/user_repository.dart';
 
 mixin class MyController {
@@ -49,6 +50,9 @@ mixin class MyController {
     myRef.invalidate(myPetAddGenderButtonProvider);
     myRef.invalidate(myPetAddNeuterButtonProvider);
     myRef.invalidate(myPetAddFeedAmountButtonProvider);
+    myRef.invalidate(myPetAddNameInputStatusCodeProvider);
+    myRef.invalidate(myPetAddBirthInputStatusCodeProvider);
+    myRef.invalidate(requestNewDogProvider);
   }
 
   // 마이페이지 - 회사정보섹션 높이 변수
@@ -470,8 +474,18 @@ mixin class MyController {
     myRef.read(myPetAddTypeDropdownProvider.notifier).set(true);
   }
 
+  String fnGetCodeFromBreed(String selectedBreed) {
+    final match = totalPetTypes.firstWhere(
+      (e) => e.breed == selectedBreed,
+      orElse: () => MyBreedModel(code: '', breed: ''),
+    );
+    return match.code.isEmpty ? '' : match.code;
+  }
+
   void fnSelectPetTypeItems(String selected) {
     petTypeInputController.text = selected;
+
+    myRef.read(requestNewDogProvider.notifier).setDivision2Code(fnGetCodeFromBreed(selected));
 
     myRef.read(myPetAddTypeDropdownProvider.notifier).set(false);
   }
@@ -499,6 +513,208 @@ mixin class MyController {
 
     myRef.read(myPetAddFeedDropdownProvider.notifier).set(false);
   }
+
+  // ########################################
+  // 반려동물 추가
+  // ########################################
+
+  // 반려동물 추가 전 유효성 검사
+  bool fnCheckPetName(String petName) {
+    bool result = false;
+
+    if(petName.isNotEmpty) result = true;
+
+    return result;
+  }
+
+  bool fnCheckPetSize(String petSize) {
+    bool result = false;
+
+    if(petSize.isNotEmpty) result = true;
+
+    return result;
+  }
+
+  bool fnCheckPetGender(String petGender) {
+    bool result = false;
+
+    if(petGender == femaleCode || petGender == maleCode) result = true;
+
+    return result;
+  }
+
+  bool fnCheckPetNeuter(String petNeuter) {
+    bool result = false;
+
+    if(petNeuter.isNotEmpty) result = true;
+
+    return result;
+  }
+
+  bool fnCheckPetBirth(String birth) {
+    bool result = false;
+
+    if(birth.isEmpty) {
+      myRef.read(myProfileBirthInputStatusCodeProvider.notifier)
+           .set(ProjectConstant.INPUT_ERR_EMPTY);
+    } else if(birth.length != 10) {
+      myRef.read(myProfileBirthInputStatusCodeProvider.notifier)
+           .set(ProjectConstant.INPUT_ERR_LENGTH);
+    }
+
+    if(birth != '' && birth.length == 10) {
+      myRef.read(myProfileBirthInputStatusCodeProvider.notifier)
+           .set(ProjectConstant.INPUT_SUCCESS);
+
+      result = true;
+    }
+
+    return result;
+  }
+
+  bool fnCheckPetFeedAmount(String petFeedAmount) {
+    bool result = false;
+
+    if(petFeedAmount.isNotEmpty) result = true;
+
+    return result;
+  }
+
+  Future<void> fnMyPetAddExec() async {
+    final String petName = myRef.read(requestNewDogProvider.notifier).getPetName();
+    final String petSize = myRef.read(requestNewDogProvider.notifier).getPetSize();
+    final String petType = myRef.read(requestNewDogProvider.notifier).getDivision2Code();
+    final String petGender = myRef.read(requestNewDogProvider.notifier).getPetGender();
+    final String neuterYn = myRef.read(requestNewDogProvider.notifier).getNeuterYn();
+    final int feedId = myRef.read(requestNewDogProvider.notifier).getFeedId();
+    final List<String> feedTime = myRef.read(requestNewDogProvider.notifier).getFeedTime();
+    final String petBirth = myRef.read(requestNewDogProvider.notifier).getPetBirth();
+    // TODO : 사료 급여 남은 양 변수
+
+    debugPrint(petName);
+    debugPrint(petSize);
+    debugPrint(petType);
+    debugPrint(petGender);
+    debugPrint(neuterYn);
+    debugPrint(feedId.toString());
+    debugPrint(feedTime.iterator.toString());
+    debugPrint(petBirth);
+
+    if(!fnCheckPetName(petName)) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.PET_NAME_ERR_EMPTY,
+      );
+      return;
+    }
+
+    if(!fnCheckPetSize(petSize)) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.PET_SIZE_ERR_EMPTY,
+      );
+      return;
+    }
+
+    if(!fnCheckPetNeuter(neuterYn)) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.PET_NEUTER_ERR_EMPTY,
+      );
+      return;
+    }
+
+    if(!fnCheckPetGender(petGender)) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.PET_GENDER_ERR_EMPTY,
+      );
+      return;
+    }
+
+    if(!fnCheckPetBirth(petBirth)) {
+      if(petBirth.isEmpty) {
+        showAlertDialog(
+          context: myContext, 
+          middleText: Sentence.PET_BIRTH_ERR_EMPTY,
+        );
+      } else if(petBirth.length != 10) {
+        showAlertDialog(
+          context: myContext, 
+          middleText: Sentence.PET_BIRTH_ERR_LEN,
+        );
+      }
+      return;
+    }
+
+    myRef.read(myPetAddBirthInputStatusCodeProvider.notifier)
+           .set(ProjectConstant.INPUT_SUCCESS);
+
+    // 로딩 시작
+    showLoadingDialog(context: myContext);
+
+    try {
+      final response = await myRef.read(petRepositoryProvider).requestNewDogRepository(
+        RequestNewDogModel(
+          pet_name: petName, 
+          pet_size: petSize, 
+          division2_code: petType, 
+          pet_gender: petGender, 
+          neuter_yn: neuterYn, 
+          feed_id: feedId, 
+          feed_time: feedTime, 
+          pet_birth: petBirth,
+        ),
+      );
+
+      if(response.response_code == 200) {
+        ResponseUsersModel responseUsersModel = ResponseUsersModel.fromJson(response.data);
+
+        await ControllerUtils.fnGetUserMypage(myRef);
+        
+        if(!myContext.mounted) return;
+        // 로딩 끝
+        hideLoadingDialog(myContext);
+        // 성공 알림창
+        showAlertDialog(
+          context: myContext, 
+          middleText: "반려동물 추가가 완료되었습니다.",
+          barrierDismissible: false,
+          onConfirm: () {
+            // 페이지 이동
+            myContext.pop();
+          }
+        );
+      } else {
+        if(!myContext.mounted) return;
+        // 로딩 끝
+        hideLoadingDialog(myContext);
+        // 에러 알림창
+        showAlertDialog(
+          context: myContext, 
+          middleText: "반려동물 추가에 실패했습니다."
+        );
+        return;
+      }
+    } on DioException catch(e) {
+      debugPrint("========== Request NewDog Dio Exception ==========");
+      debugPrint(e.toString());
+
+      // 로딩 끝
+      if(!myContext.mounted) return;
+      hideLoadingDialog(myContext);
+
+      // 에러 알림창
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.SERVER_ERR,
+      );
+    }
+  }
+
+  // ########################################
+  // 기타 설정
+  // ########################################
 
   // 로그아웃
   Future<void> fnLoginOutExec() async {

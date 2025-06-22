@@ -37,7 +37,7 @@ export 'my_pet_add_gender_button_provider.dart';
 export 'my_pet_add_name_input_status_code_provider.dart';
 export 'my_pet_add_neuter_button_provider.dart';
 export 'my_pet_add_size_button_provider.dart';
-export 'my_pet_add_input_provider.dart';
+export 'my_pet_add_button_provider.dart';
 
 export 'response_user_mypage_provider.dart';
 export 'request_new_dog_provider.dart';

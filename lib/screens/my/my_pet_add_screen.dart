@@ -50,6 +50,9 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
     final myPetAddGenderButtonState = ref.watch(myPetAddGenderButtonProvider);
     final myPetAddNeuterButtonState = ref.watch(myPetAddNeuterButtonProvider);
     final myPetAddFeedAmountButtonState = ref.watch(myPetAddFeedAmountButtonProvider);
+    final myPetAddNameInputStatusCodeState = ref.watch(myPetAddNameInputStatusCodeProvider);
+    final myPetAddBirthInputStatusCodeState = ref.watch(myPetAddBirthInputStatusCodeProvider);
+    
     
     return DefaultLayout(
       appBar: DefaultAppBar(
@@ -88,10 +91,37 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                   OutlinedInput(
                     controller: petNameInputController,
                     onChanged: (String petName) {
+                      ref.read(requestNewDogProvider.notifier).setPetName(petName);
 
+                      fnCheckPetName(petName);
                     },
                     keyboardType: TextInputType.text,
                     onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+                    enabledBorder: myPetAddNameInputStatusCodeState != ProjectConstant.INPUT_INIT && 
+                      myPetAddNameInputStatusCodeState != ProjectConstant.INPUT_SUCCESS  ? 
+                      CustomColor.negative :
+                      CustomColor.gray04,
+                    focusedBorder: myPetAddNameInputStatusCodeState != ProjectConstant.INPUT_INIT && 
+                      myPetAddNameInputStatusCodeState != ProjectConstant.INPUT_SUCCESS  ? 
+                      CustomColor.negative :
+                      CustomColor.gray04,
+                  ),
+                  Visibility(
+                    visible: myPetAddNameInputStatusCodeState != ProjectConstant.INPUT_INIT && 
+                             myPetAddNameInputStatusCodeState != ProjectConstant.INPUT_SUCCESS,
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 4,),
+                        Text(
+                          myPetAddNameInputStatusCodeState == ProjectConstant.INPUT_ERR_EMPTY ?
+                            Sentence.PET_NAME_ERR_EMPTY :
+                            "",
+                          style: CustomText.caption3.copyWith(
+                            color: CustomColor.negative,
+                          ),
+                        ),
+                      ],
+                    )
                   ),
                   const SizedBox(height: 16),
                   const Text(
@@ -113,7 +143,8 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                           : CustomColor.white,
                         width: fnGetDeviceWidth(context) * 0.3,
                         onPressed: () {
-                          ref.read(myPetAddSizeButtonProvider.notifier).set(smallSize);
+                          ref.read(myPetAddSizeButtonProvider.notifier).set(smallSize); // 화면 업데이트
+                          ref.read(requestNewDogProvider.notifier).setPetSize(smallSize); // 데이터 저장
                         },
                       ),
                       DefaultTextButton(
@@ -128,6 +159,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         width: fnGetDeviceWidth(context) * 0.3,
                         onPressed: () {
                           ref.read(myPetAddSizeButtonProvider.notifier).set(mediumSize);
+                          ref.read(requestNewDogProvider.notifier).setPetSize(mediumSize); // 데이터 저장
                         },
                       ),
                       DefaultTextButton(
@@ -142,6 +174,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         width: fnGetDeviceWidth(context) * 0.3,
                         onPressed: () {
                           ref.read(myPetAddSizeButtonProvider.notifier).set(largeSize);
+                          ref.read(requestNewDogProvider.notifier).setPetSize(largeSize); // 데이터 저장
                         },
                       ),
                     ],
@@ -221,6 +254,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         width: fnGetDeviceWidth(context) * 0.43,
                         onPressed: () {
                           ref.read(myPetAddGenderButtonProvider.notifier).set(femaleCode);
+                          ref.read(requestNewDogProvider.notifier).setPetGender(femaleCode); // 데이터 저장
                         },
                       ),
                       DefaultTextButton(
@@ -235,6 +269,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         width: fnGetDeviceWidth(context) * 0.43,
                         onPressed: () {
                           ref.read(myPetAddGenderButtonProvider.notifier).set(maleCode);
+                          ref.read(requestNewDogProvider.notifier).setPetGender(maleCode); // 데이터 저장
                         },
                       ),
                     ],
@@ -260,6 +295,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         width: fnGetDeviceWidth(context) * 0.43,
                         onPressed: () {
                           ref.read(myPetAddNeuterButtonProvider.notifier).set(neuterN);
+                          ref.read(requestNewDogProvider.notifier).setNeuterYn(neuterN); // 데이터 저장
                         },
                       ),
                       DefaultTextButton(
@@ -274,6 +310,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         width: fnGetDeviceWidth(context) * 0.43,
                         onPressed: () {
                           ref.read(myPetAddNeuterButtonProvider.notifier).set(neuterY);
+                          ref.read(requestNewDogProvider.notifier).setNeuterYn(neuterY); // 데이터 저장
                         },
                       ),
                     ],
@@ -362,7 +399,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                   const SizedBox(height: 5,),
                   // TODO : 시간 리스트 개수가 없을 때 -> initialTime / 시간 리스트가 있을 때 -> 해당 시간 입력
                   DefaultTextButton(
-                    text: '${initialTime.hour < 12 ? '오전' : '오후'} ${initialTime.hour <= 12 ? initialTime.hour : initialTime.hour - 12} : ${initialTime.minute}', 
+                    text: '${initialTime.hour < 12 ? '오전' : '오후'} ${initialTime.hour < 12 ? initialTime.hour : initialTime.hour - 12} : ${initialTime.minute}', 
                     disabled: false,
                     borderColor: CustomColor.gray04,
                     backgroundColor: CustomColor.white,
@@ -397,6 +434,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         width: fnGetDeviceWidth(context),
                         onPressed: () {
                           ref.read(myPetAddFeedAmountButtonProvider.notifier).set(feedAmount[i]);
+                          // TODO : 사료 급여 시간 입력 프로바이더
                         },
                       ),
                     ),
@@ -408,7 +446,10 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                   const SizedBox(height: 8,),
                   OutlinedInput(
                     controller: petBirthInputController,
-                    onChanged: (String birth) {
+                    onChanged: (String petBirth) {
+                      ref.read(requestNewDogProvider.notifier).setPetBirth(petBirth);
+
+                      fnCheckPetBirth(petBirth);
                     },
                     hintText: 'YYYY-MM-DD',
                     keyboardType: TextInputType.number,
@@ -418,12 +459,39 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                       LengthLimitingTextInputFormatter(8),
                       BirthInputFormatter(),
                     ],
+                    enabledBorder: myPetAddBirthInputStatusCodeState != ProjectConstant.INPUT_INIT && 
+                      myPetAddBirthInputStatusCodeState != ProjectConstant.INPUT_SUCCESS  ? 
+                        CustomColor.negative :
+                        CustomColor.gray04,
+                    focusedBorder: myPetAddBirthInputStatusCodeState != ProjectConstant.INPUT_INIT && 
+                      myPetAddBirthInputStatusCodeState != ProjectConstant.INPUT_SUCCESS  ? 
+                        CustomColor.negative :
+                        CustomColor.gray04,
+                  ),
+                  Visibility(
+                    visible: myPetAddBirthInputStatusCodeState != ProjectConstant.INPUT_INIT && 
+                             myPetAddBirthInputStatusCodeState != ProjectConstant.INPUT_SUCCESS,
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 4,),
+                        Text(
+                          myPetAddBirthInputStatusCodeState == ProjectConstant.INPUT_ERR_EMPTY ?
+                            Sentence.PET_BIRTH_ERR_EMPTY :
+                              myPetAddBirthInputStatusCodeState == ProjectConstant.INPUT_ERR_LENGTH ?
+                                Sentence.PET_BIRTH_ERR_LEN :
+                                  "",
+                          style: CustomText.caption3.copyWith(
+                            color: CustomColor.negative,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 32,),
                   DefaultTextButton(
                     text: '추가하기', 
                     onPressed: () async {
-                      
+                      await fnMyPetAddExec();
                     },
                     disabled: true,
                   ),
