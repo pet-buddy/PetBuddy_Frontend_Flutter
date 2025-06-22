@@ -33,5 +33,5 @@ class MyPetAddButtonState extends StateNotifier<bool> {
   bool get() => state;
 }
 
-final rmyPetAddButtonProvider = 
+final myPetAddButtonProvider = 
     StateNotifierProvider<MyPetAddButtonState, bool>((ref) => MyPetAddButtonState());
