@@ -22,9 +22,9 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
   void initState() {
     super.initState();
     fnInitMyController(ref, context);
-
+    
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      
+      fnInitMyPetAddState();
     });
   }
 
@@ -52,8 +52,11 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
     final myPetAddFeedAmountButtonState = ref.watch(myPetAddFeedAmountButtonProvider);
     final myPetAddNameInputStatusCodeState = ref.watch(myPetAddNameInputStatusCodeProvider);
     final myPetAddBirthInputStatusCodeState = ref.watch(myPetAddBirthInputStatusCodeProvider);
-    // final myPetAddButtonState = ref.watch(myPetAddButtonProvider);
+    final myPetAddButtonState = ref.watch(myPetAddButtonProvider);
     final requestNewDogState = ref.watch(requestNewDogProvider);
+    final myPetAddFeedTimeListState = ref.watch(myPetAddFeedTimeListProvider);
+    final myPetAddFeedTimeDeleteListState = ref.watch(myPetAddFeedTimeDeleteListProvider);
+    final myPetAddFeedTimeSelectModeState = ref.watch(myPetAddFeedTimeSelectModeProvider);
     
     return DefaultLayout(
       appBar: DefaultAppBar(
@@ -413,39 +416,169 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         '사료 급여 시간',
                         style: CustomText.body10,
                       ),
-                      GestureDetector(
-                        onTap: () async {
-                          await showDialog<void>(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return const CustomTimePickerDialog();
-                            },
-                          );
-                        },
-                        child: Text(
-                          '추가 +',
-                          style: CustomText.body10.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                      // GestureDetector(
+                      //   onTap: () async {
+                      //     await showDialog<void>(
+                      //       context: context,
+                      //       builder: (BuildContext context) {
+                      //         return const CustomTimePickerDialog();
+                      //       },
+                      //     );
+                      //   },
+                      //   child: Text(
+                      //     '추가 +',
+                      //     style: CustomText.body10.copyWith(
+                      //       fontWeight: FontWeight.bold,
+                      //     ),
+                      //   ),
+                      // ),
+                      SizedBox(
+                        width: 100,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            GestureDetector(
+                              onTap: () async {
+                                if(myPetAddFeedTimeListState.isEmpty) {
+                                  showAlertDialog(
+                                    context: context, 
+                                    middleText: "선택할 사료 급여 시간이 없습니다.",
+                                  );
+                                  return;
+                                }
+                                if(myPetAddFeedTimeSelectModeState == 'Y') {
+                                  ref.read(myPetAddFeedTimeSelectModeProvider.notifier).set('N');
+                                  // 급여 시간 삭제 리스트 초기화
+                                  ref.read(myPetAddFeedTimeDeleteListProvider.notifier).set([]);
+                                } else {
+                                  ref.read(myPetAddFeedTimeSelectModeProvider.notifier).set('Y');
+                                }
+                              },
+                              child: Text(
+                                '선택',
+                                style: CustomText.body10.copyWith(
+                                  color: myPetAddFeedTimeSelectModeState == 'Y' ?
+                                    CustomColor.black :
+                                    CustomColor.gray03,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            // const SizedBox(width: 8,),
+                            GestureDetector(
+                              onTap: () async {
+                                if(myPetAddFeedTimeSelectModeState != 'Y') {
+                                  showAlertDialog(
+                                    context: context, 
+                                    middleText: "'선택'을 클릭하여 주세요."
+                                  );
+                                  return;
+                                }
+                                if(myPetAddFeedTimeSelectModeState == 'Y' && myPetAddFeedTimeDeleteListState.isEmpty) {
+                                  showAlertDialog(
+                                    context: context, 
+                                    middleText: "삭제할 사료 급여 시간을 선택해주세요.",
+                                  );
+                                  return;
+                                }
+
+                                List<int> indices = [];
+                                // 삭제 리스트에 있는 요소(인덱스)를 변수에 담기
+                                for(int i=0;i<myPetAddFeedTimeDeleteListState.length;i++) {
+                                  indices.add(myPetAddFeedTimeDeleteListState[i]);
+                                }
+                                // 급여 시간 리스트 삭제
+                                ref.read(myPetAddFeedTimeListProvider.notifier).removeMultipleAt(indices);
+                                // 삭제 리스트 초기화
+                                ref.read(myPetAddFeedTimeDeleteListProvider.notifier).set([]);
+                                // 사료 급여 시간 값 세팅
+                                myRef.read(requestNewDogProvider.notifier).setFeedTime(
+                                  myRef.read(myPetAddFeedTimeListProvider.notifier).get(),
+                                );
+                                // 추가하기 버튼 상태 체크
+                                ref.read(myPetAddButtonProvider.notifier)
+                                   .activate(requestNewDogState);
+                              },
+                              child: Text(
+                                '삭제 -',
+                                style: CustomText.body10.copyWith(
+                                  color: myPetAddFeedTimeSelectModeState == 'Y' && myPetAddFeedTimeDeleteListState.isNotEmpty ?
+                                    CustomColor.black :
+                                    CustomColor.gray03,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                   const SizedBox(height: 5,),
-                  // TODO : 시간 리스트 개수가 없을 때 -> initialTime / 시간 리스트가 있을 때 -> 해당 시간 입력
+                  for(int i=0;i<myPetAddFeedTimeListState.length;i++)
+                    Column(
+                      children: [
+                        DefaultTextButton(
+                        text: fnConvertTime24To12(myPetAddFeedTimeListState[i]),
+                        disabled: false,
+                        borderColor: myPetAddFeedTimeSelectModeState == 'Y' && myPetAddFeedTimeDeleteListState.contains(i) ? 
+                                     CustomColor.negative : 
+                                     CustomColor.gray04,
+                        backgroundColor: myPetAddFeedTimeSelectModeState == 'Y' && myPetAddFeedTimeDeleteListState.contains(i) ?
+                                          CustomColor.negative :
+                                             myPetAddFeedTimeSelectModeState == 'Y'  ?
+                                              CustomColor.gray04 : 
+                                              CustomColor.white,
+                        textColor: myPetAddFeedTimeSelectModeState == 'Y' && myPetAddFeedTimeDeleteListState.contains(i) ? 
+                                    CustomColor.white :
+                                    CustomColor.black,
+                        width: fnGetDeviceWidth(context),
+                        onPressed: () async {
+                          if(myPetAddFeedTimeSelectModeState != 'Y') {
+                            await showDialog<void>(
+                              context: context,
+                              barrierDismissible: true,
+                              builder: (BuildContext context) {
+                                return CustomTimePickerDialog(feedTimeIndex: i,);
+                              },
+                            );
+                            return;
+                          }
+                          
+                          if(myPetAddFeedTimeSelectModeState == 'Y') {
+                            if(myPetAddFeedTimeDeleteListState.contains(i)) {
+                              ref.read(myPetAddFeedTimeDeleteListProvider.notifier).remove(i);
+                            } else {
+                              ref.read(myPetAddFeedTimeDeleteListProvider.notifier).add(i);
+                            }
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 5,),
+                      ],
+                    ),
                   DefaultTextButton(
-                    text: '${initialTime.hour < 12 ? '오전' : '오후'} ${initialTime.hour < 12 ? initialTime.hour : initialTime.hour - 12} : ${initialTime.minute}', 
+                    // text: '${initialTime.hour < 12 ? '오전' : '오후'} ${initialTime.hour < 12 ? initialTime.hour : initialTime.hour - 12} : ${initialTime.minute}', 
+                    text: '급여 시간 추가 +',
                     disabled: false,
                     borderColor: CustomColor.gray04,
                     backgroundColor: CustomColor.white,
                     width: fnGetDeviceWidth(context),
                     onPressed: () async {
-                      await showDialog<void>(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return const CustomTimePickerDialog();
-                        },
-                      );
+                      if(myPetAddFeedTimeListState.length >= 3) {
+                        showAlertDialog(
+                          context: context, 
+                          middleText: "사료 급여 시간은\n최대 3개까지만 추가 가능합니다."
+                        );
+                      } else {
+                        await showDialog<void>(
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (BuildContext context) {
+                            return const CustomTimePickerDialog();
+                          },
+                        );
+                      }
                     },
                   ),
                   const SizedBox(height: 16),
@@ -469,7 +602,6 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         width: fnGetDeviceWidth(context),
                         onPressed: () {
                           ref.read(myPetAddFeedAmountButtonProvider.notifier).set(feedAmount[i]);
-                          // TODO : 사료 급여 시간 입력 프로바이더
 
                           ref.read(myPetAddButtonProvider.notifier)
                              .activate(requestNewDogState);
@@ -534,7 +666,13 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                     onPressed: () async {
                       await fnMyPetAddExec();
                     },
-                    disabled: true,
+                    disabled: false,
+                    borderColor: myPetAddButtonState 
+                      ? CustomColor.yellow03 
+                      : CustomColor.gray04,
+                    backgroundColor: myPetAddButtonState
+                      ? CustomColor.yellow03 
+                      : CustomColor.gray04,
                   ),
                   const SizedBox(height: 32,),
                 ],

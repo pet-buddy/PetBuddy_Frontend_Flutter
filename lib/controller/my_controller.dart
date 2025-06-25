@@ -41,6 +41,35 @@ mixin class MyController {
     myRef.invalidate(myProfileInputProvider);
   }
 
+  void fnInitMyPetAddState() {
+    myRef.read(myPetAddTypeFilterProvider.notifier).set([]);
+    myRef.read(myPetAddTypeDropdownProvider.notifier).set(false);
+    myRef.read(myPetAddFeedFilterProvider.notifier).set([]);
+    myRef.read(myPetAddFeedDropdownProvider.notifier).set(false);
+    myRef.read(myPetAddSizeButtonProvider.notifier).set("");
+    myRef.read(myPetAddGenderButtonProvider.notifier).set("");
+    myRef.read(myPetAddNeuterButtonProvider.notifier).set("");
+    myRef.read(myPetAddFeedAmountButtonProvider.notifier).set("");
+    myRef.read(myPetAddNameInputStatusCodeProvider.notifier).set(ProjectConstant.INPUT_INIT);
+    myRef.read(myPetAddBirthInputStatusCodeProvider.notifier).set(ProjectConstant.INPUT_INIT);
+    myRef.read(requestNewDogProvider.notifier).set(
+      RequestNewDogModel(
+        pet_name: '',
+        pet_size: '',
+        division2_code: '',
+        pet_gender: '',
+        neuter_yn: '',
+        feed_id: -1,
+        feed_time: [],
+        pet_birth: '',
+      ),
+    );
+    myRef.read(myPetAddFeedTimeListProvider.notifier).set([]);
+    myRef.read(myPetAddFeedTimeDeleteListProvider.notifier).set([]);
+    myRef.read(myPetAddFeedTimeMeridiemButtonProvider.notifier).set("");
+    myRef.read(myPetAddFeedTimeSelectModeProvider.notifier).set("");
+  }
+
   void fnInvalidateMyPetAddState() {
     myRef.invalidate(myPetAddTypeFilterProvider);
     myRef.invalidate(myPetAddTypeDropdownProvider);
@@ -53,6 +82,14 @@ mixin class MyController {
     myRef.invalidate(myPetAddNameInputStatusCodeProvider);
     myRef.invalidate(myPetAddBirthInputStatusCodeProvider);
     myRef.invalidate(requestNewDogProvider);
+    myRef.invalidate(myPetAddFeedTimeListProvider);
+    myRef.invalidate(myPetAddFeedTimeDeleteListProvider);
+    myRef.invalidate(myPetAddFeedTimeMeridiemButtonProvider);
+    myRef.invalidate(myPetAddFeedTimeSelectModeProvider);
+  }
+
+  void fnInvalidateCustomTimePickerDialogState() {
+    myRef.invalidate(myPetAddFeedTimeMeridiemButtonProvider);
   }
 
   // 마이페이지 - 회사정보섹션 높이 변수
@@ -68,8 +105,6 @@ mixin class MyController {
 
   final String neuterY = 'Y';
   final String neuterN = 'N';
-
-  final List<String> feedAmount = ['50%', '11~50%', '10%'];
 
   // 계정정보수정 화면에서 사용할 입력 컨트롤러
   TextEditingController birthInputController = TextEditingController();
@@ -446,7 +481,8 @@ mixin class MyController {
     MyFeedModel(food_id:152, food_name: '파미나 N&D Dog 그레인프리 펌프킨 대구&오렌지 미디움 20kg'),
   ];
 
-  List<String> leftoverFeed = ['50% 이상', '11~50%', '10% 이하'];
+  final List<String> feedAmount = ['70%', '30%', '10%']; // 서버에 보낼 사료 남은 양
+  List<String> leftoverFeed = ['50% 이상', '11~50%', '10% 이하']; // 화면에 표시할 사료 남은 양
 
   TextEditingController petNameInputController = TextEditingController();
   TextEditingController petTypeInputController = TextEditingController();
@@ -523,6 +559,91 @@ mixin class MyController {
     myRef.read(requestNewDogProvider.notifier).setFeedId(fnGetIdFromFeed(selected));
 
     myRef.read(myPetAddFeedDropdownProvider.notifier).set(false);
+  }
+
+  bool fnCheckTimeBeforeConvert(String meridiem, String hour, String minute) {
+    bool result = false;
+
+    if(meridiem.isEmpty) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: '오전/오후를 선택해주세요.',
+      );
+      return result;
+    }
+    if(hour.isEmpty) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: '시간을 입력해주세요.',
+      );
+      return result;
+    }
+    if(minute.isEmpty) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: '분을 입력해주세요.',
+      );
+      return result;
+    }
+
+    int h = int.parse(hour);
+    int m = int.parse(minute);
+
+    if(h < 1 || h > 12) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: '시간은 1 이상, 12 이하로 입력해주세요.',
+      );
+      return result;
+    }
+    if(m > 59) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: '분은 60 미만으로 입력해주세요.',
+      );
+      return result;
+    }
+    
+    result = true;
+    return result;
+  }
+
+  // 12시간제를 24시간제로 변경 (화면에 입력한 급여 시간을 서버에 보낼 수 있는 형식으로 변경)
+  String fnConvertTime12To24(String meridiem, String hour, String minute) {
+    int h = int.parse(hour);
+    int m = int.parse(minute);
+
+    if(h > 12) return '';
+    if(m > 59) return '';
+
+    if(meridiem == 'AM') {
+      if(h == 12) h = 0;
+    }
+    if(meridiem == 'PM') {
+      if(h == 12) h = 12;
+      if(h < 12) h += 12;
+    }
+    
+    return '${h < 10 ? '0' : ''}$h:${m < 10 ? '0' : ''}$m';
+  }
+  // 24시간제를 12시간제로 변경 (서버에서 받아온 값을 화면에 정해진 형식으로 표시 - 오전/오후)
+  String fnConvertTime24To12(String formattedTime) {
+    List<String> time24List = formattedTime.split(":");
+    String meridiem = '';
+    int h = int.parse(time24List[0]);
+    int m = int.parse(time24List[1]);
+
+    if(h < 12) {
+      meridiem = '오전';
+
+      if(h == 0) h = 12;
+    } else {
+      meridiem = '오후';
+
+      if(h > 12) h -= 12;
+    }
+
+    return '$meridiem ${h < 10 ? '0' : ''}$h:${m < 10 ? '0' : ''}$m';
   }
 
   // ########################################
@@ -640,7 +761,7 @@ mixin class MyController {
     debugPrint(petGender);
     debugPrint(neuterYn);
     debugPrint(feedId.toString());
-    debugPrint(feedTime.iterator.toString());
+    debugPrint(feedTime.toString());
     debugPrint(petBirth);
 
     if(!fnCheckPetName(petName)) {
@@ -759,6 +880,8 @@ mixin class MyController {
           middleText: "반려동물 추가가 완료되었습니다.",
           barrierDismissible: false,
           onConfirm: () {
+            // 상태 초기화
+            fnInvalidateMyPetAddState();
             // 페이지 이동
             myContext.pop();
           }
