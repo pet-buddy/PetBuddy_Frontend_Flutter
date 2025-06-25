@@ -7,31 +7,57 @@ import 'package:petbuddy_frontend_flutter/common/const/custom_text.dart';
 import 'package:petbuddy_frontend_flutter/common/utils/fn_get_device_width.dart';
 import 'package:petbuddy_frontend_flutter/common/widget/line/divided_line.dart';
 import 'package:petbuddy_frontend_flutter/controller/my_controller.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/my_pet_add_button_provider.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/my_pet_add_feed_time_list_provider.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/my_pet_add_feed_time_meridiem_button_provider.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/request_new_dog_provider.dart';
 
+// ignore: must_be_immutable
 class CustomTimePickerDialog extends ConsumerStatefulWidget {
   const CustomTimePickerDialog({
     super.key,
+    this.feedTimeIndex = -1,
   });
+
+  final int feedTimeIndex;
 
   @override
   ConsumerState<CustomTimePickerDialog> createState() => _CustomTimePickerDialog();
 }
 
 class _CustomTimePickerDialog extends ConsumerState<CustomTimePickerDialog> with MyController {
+
+  TextEditingController hourController = TextEditingController(text: '');
+  TextEditingController minuteController = TextEditingController(text: '');
+  
   @override
   void initState() {
     super.initState();
+    fnInitMyController(ref, context);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // 현재 시간 세팅
+      // debugPrint(widget.feedTimeIndex.toString());
+      // 수정할 때 시간 세팅
+      if(widget.feedTimeIndex != -1) {
+        String feedTime = fnConvertTime24To12(ref.read(myPetAddFeedTimeListProvider.notifier).get()[widget.feedTimeIndex]);
+
+        // 오전/오후 세팅
+        ref.read(myPetAddFeedTimeMeridiemButtonProvider.notifier).set(
+          feedTime.substring(0,2) == '오전' ? 'AM' : 'PM',
+        );
+
+        // 시간 세팅
+        hourController.text = feedTime.substring(3,5);
+        minuteController.text = feedTime.substring(6,8);
+      }
     });
   }
 
-  TextEditingController hourController = TextEditingController(text: '29');
-  TextEditingController minuteController = TextEditingController(text: '29');
-
   @override
   Widget build(BuildContext context) {
+    // final myPetAddFeedTimeListState = ref.watch(myPetAddFeedTimeListProvider);
+    final myPetAddFeedTimeMeridiemButtonState = ref.watch(myPetAddFeedTimeMeridiemButtonProvider);
+    final requestNewDogState = ref.watch(requestNewDogProvider);
     
     return Dialog(
         shape: RoundedRectangleBorder(
@@ -52,10 +78,10 @@ class _CustomTimePickerDialog extends ConsumerState<CustomTimePickerDialog> with
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
+                          Text(
                             '사료 급여 시간 입력',
                             style: CustomText.body8,
                             textAlign: TextAlign.center,
@@ -68,9 +94,9 @@ class _CustomTimePickerDialog extends ConsumerState<CustomTimePickerDialog> with
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           // 오전, 오후
-                          _periodSelectContainer(ref),
+                          meridiemSelectContainer(ref),
                           // 시간
-                          _timeInputContainer(ref, context, hourController),
+                          timeInputContainer(ref, context, hourController),
                           // :
                           SizedBox(
                             width: 16,
@@ -85,7 +111,7 @@ class _CustomTimePickerDialog extends ConsumerState<CustomTimePickerDialog> with
                             ),
                           ),
                           // 분
-                          _timeInputContainer(ref, context, minuteController),
+                          timeInputContainer(ref, context, minuteController),
                         ],
                       ),
                       const SizedBox(height: 16,),
@@ -104,12 +130,13 @@ class _CustomTimePickerDialog extends ConsumerState<CustomTimePickerDialog> with
                     child: Container(
                       decoration: const BoxDecoration(
                         color: CustomColor.white,
-                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(16)),
+                        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16)),
                       ),
                       height: 50,
                       child: InkWell(
                         borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(16)),
                         onTap: () {
+                          fnInvalidateCustomTimePickerDialogState();
                           context.pop();
                         },
                         child: Row(
@@ -136,6 +163,29 @@ class _CustomTimePickerDialog extends ConsumerState<CustomTimePickerDialog> with
                       child: InkWell(
                         borderRadius: const BorderRadius.only(bottomRight: Radius.circular(16)),
                         onTap: () {
+                          if(!fnCheckTimeBeforeConvert(myPetAddFeedTimeMeridiemButtonState, hourController.text, minuteController.text)) return;
+
+                          if(widget.feedTimeIndex != -1) {
+                            // 급여 시간 수정
+                            ref.read(myPetAddFeedTimeListProvider.notifier).updateAt(
+                              widget.feedTimeIndex, 
+                              fnConvertTime12To24(myPetAddFeedTimeMeridiemButtonState, hourController.text, minuteController.text),
+                            );
+                          } else {
+                            // 급여 시간 추가
+                            ref.read(myPetAddFeedTimeListProvider.notifier).add(
+                              fnConvertTime12To24(myPetAddFeedTimeMeridiemButtonState, hourController.text, minuteController.text)
+                            );
+                            // 사료 급여 시간 값 세팅
+                            myRef.read(requestNewDogProvider.notifier).setFeedTime(
+                              myRef.read(myPetAddFeedTimeListProvider.notifier).get(),
+                            );
+                            // 반려동물 추가하기 화면의 추가하기 버튼 상태 체크
+                            ref.read(myPetAddButtonProvider.notifier)
+                                .activate(requestNewDogState);
+                          }
+
+                          fnInvalidateCustomTimePickerDialogState();
                           context.pop();
                         },
                         child: Row(
@@ -162,7 +212,7 @@ class _CustomTimePickerDialog extends ConsumerState<CustomTimePickerDialog> with
   }
 }
 
-Widget _timeInputContainer(WidgetRef ref, BuildContext context, TextEditingController controller) {
+Widget timeInputContainer(WidgetRef ref, BuildContext context, TextEditingController controller) {
   return Container(
     width: (fnGetDeviceWidth(context) * 0.8 - 144) / 2,
     height: 81,
@@ -173,7 +223,7 @@ Widget _timeInputContainer(WidgetRef ref, BuildContext context, TextEditingContr
     ),
     alignment: Alignment.center,
     child: TextField(
-      // controller: minuteController,
+      controller: controller,
       textAlign: TextAlign.center,
       style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
       keyboardType: TextInputType.number,
@@ -194,7 +244,9 @@ Widget _timeInputContainer(WidgetRef ref, BuildContext context, TextEditingContr
   );
 }
 
-Widget _periodSelectContainer(WidgetRef ref) {
+Widget meridiemSelectContainer(WidgetRef ref) {
+  final myPetAddFeedTimeMeridiemButtonState = ref.watch(myPetAddFeedTimeMeridiemButtonProvider);
+
   return Container(
     width: 60,
     height: 81,
@@ -208,14 +260,16 @@ Widget _periodSelectContainer(WidgetRef ref) {
         Expanded(
           child: GestureDetector(
             onTap: () {
-          
+              ref.read(myPetAddFeedTimeMeridiemButtonProvider.notifier).set('AM');
             },
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8),),
-                color: CustomColor.white,
+                color: myPetAddFeedTimeMeridiemButtonState == 'AM' ? 
+                CustomColor.yellow03 :
+                CustomColor.white,
               ),
-              child: Center(
+              child: const Center(
                 child: Text(
                   '오전',
                   style: CustomText.body10,
@@ -228,14 +282,16 @@ Widget _periodSelectContainer(WidgetRef ref) {
         Expanded(
           child: GestureDetector(
             onTap: () {
-          
+              ref.read(myPetAddFeedTimeMeridiemButtonProvider.notifier).set('PM');
             },
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8),),
-                color: CustomColor.white,
+                color: myPetAddFeedTimeMeridiemButtonState == 'PM' ? 
+                CustomColor.yellow03 :
+                CustomColor.white,
               ),
-              child: Center(
+              child: const Center(
                 child: Text(
                   '오후',
                   style: CustomText.body10,
@@ -244,7 +300,6 @@ Widget _periodSelectContainer(WidgetRef ref) {
             ),
           ),
         ),
-
       ],
     ),
   );

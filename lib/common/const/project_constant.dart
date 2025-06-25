@@ -7,6 +7,8 @@ class ProjectConstant {
 
   static const INQUIRY_URL = 'https://docs.google.com/forms/d/1tpGYMoElm_wv9jgoI78dcwZlCr2sEgGNJ2LT9_mXE-g/edit';
   static const FAQ_URL = 'https://florentine-behavior-ea1.notion.site/FAQ-2170e6fb3b4380be9a49f9f6834d9943';
+  static const PRIVACY_POLICY = 'https://florentine-behavior-ea1.notion.site/2170e6fb3b43802db70ff1d32df0c5f5';
+  static const TERMS_OF_USER = 'https://florentine-behavior-ea1.notion.site/21a0e6fb3b4380b896ddf8aed1f69d19';
 
   // 채널 링크 (퍼피푸)
   static const PUPPYPOO_WEB_URL = "https://puppypoo.framer.ai/";

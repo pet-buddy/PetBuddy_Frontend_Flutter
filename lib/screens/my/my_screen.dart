@@ -179,7 +179,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                
+                                    // 공지사항 화면으로 이동
                                   },
                                   child: const Text(
                                     '공지사항',
@@ -188,7 +188,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                
+                                    launchUrl(Uri.parse(ProjectConstant.TERMS_OF_USER));
                                   },
                                   child: const Text(
                                     '약관 및 정책',
@@ -204,6 +204,15 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                                     style: CustomText.body10
                                   ),
                                 ),
+                                // InkWell(
+                                //   onTap: () {
+                                //     launchUrl(Uri.parse(ProjectConstant.PRIVACY_POLICY));
+                                //   },
+                                //   child: const Text(
+                                //     '개인정보처리방침',
+                                //     style: CustomText.body10
+                                //   ),
+                                // ),
                               ],
                             ),
                             Wrap(
