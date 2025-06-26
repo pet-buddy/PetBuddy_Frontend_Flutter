@@ -30,7 +30,7 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
     final myProfileGenderButtonState = ref.watch(myProfileGenderButtonProvider);
     final myProfileInterestButtonState = ref.watch(myProfileInterestButtonProvider);
     final myProfileUpdateButtonState = ref.watch(myProfileUpdateButtonProvider);
-    final myProfileInputState = ref.watch(myProfileInputProvider);
+    final requestUsersState = ref.watch(requestUsersProvider);
     final myProfileBirthInputStatusCodeState = ref.watch(myProfileBirthInputStatusCodeProvider);
     final myProfilePhoneNumberInputStatusCodeState = ref.watch(myProfilePhoneNumberInputStatusCodeProvider);
 
@@ -85,11 +85,11 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                         onPressed: () {
                           ref.read(myProfileGenderButtonProvider.notifier).set(femaleCode);
 
-                          ref.read(myProfileInputProvider.notifier)
+                          ref.read(requestUsersProvider.notifier)
                               .setGender(femaleCode);
 
                           ref.read(myProfileUpdateButtonProvider.notifier)
-                             .activate(myProfileInputState);
+                             .activate(requestUsersState);
                         },
                       ),
                       // const Spacer(),
@@ -106,11 +106,11 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                         onPressed: () {
                           ref.read(myProfileGenderButtonProvider.notifier).set(maleCode);
 
-                          ref.read(myProfileInputProvider.notifier)
+                          ref.read(requestUsersProvider.notifier)
                               .setGender(maleCode);
 
                           ref.read(myProfileUpdateButtonProvider.notifier)
-                             .activate(myProfileInputState);
+                             .activate(requestUsersState);
                         },
                       ),
                     ],
@@ -124,13 +124,13 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                   OutlinedInput(
                     controller: birthInputController,
                     onChanged: (String birth) {
-                      ref.read(myProfileInputProvider.notifier)
+                      ref.read(requestUsersProvider.notifier)
                          .setBirth(birthInputController.text);
 
                       fnCheckBirth(birth);
 
                       ref.read(myProfileUpdateButtonProvider.notifier)
-                         .activate(myProfileInputState);
+                         .activate(requestUsersState);
                     },
                     hintText: 'YYYY-MM-DD',
                     keyboardType: TextInputType.number,
@@ -194,11 +194,11 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                             onPressed: () {
                               ref.read(myProfileInterestButtonProvider.notifier).set(i);
 
-                              ref.read(myProfileInputProvider.notifier)
+                              ref.read(requestUsersProvider.notifier)
                                  .setInterest(interestCode[i]);
 
                               ref.read(myProfileUpdateButtonProvider.notifier)
-                                 .activate(myProfileInputState);
+                                 .activate(requestUsersState);
                             },
                           ),
                         ),
@@ -213,13 +213,13 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                   OutlinedInput(
                     controller: phoneInputController,
                     onChanged: (String phone) {
-                      ref.read(myProfileInputProvider.notifier)
+                      ref.read(requestUsersProvider.notifier)
                          .setPhoneNumber(phoneInputController.text);
 
                       fnCheckPhoneNumber(phone);
 
                       ref.read(myProfileUpdateButtonProvider.notifier)
-                         .activate(myProfileInputState);
+                         .activate(requestUsersState);
                     },
                     hintText: '010-1234-5678',
                     keyboardType: TextInputType.number,

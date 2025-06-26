@@ -20,7 +20,7 @@ export 'home_activated_pet_nav_provider.dart';
 
 // 마이페이지 관련 Provider
 export 'my_profile_interest_button_provider.dart';
-export 'my_profile_input_provider.dart';
+export 'request_users_provider.dart';
 export 'my_profile_update_button_provider.dart';
 export 'my_profile_gender_button_provider.dart';
 export 'my_profile_birth_input_status_code_provider.dart';
@@ -44,6 +44,7 @@ export 'my_pet_add_feed_time_meridiem_button_provider.dart';
 
 export 'response_user_mypage_provider.dart';
 export 'request_new_dog_provider.dart';
+export 'response_dogs_provider.dart';
 
 // 카메라 관련 Provider
 export 'camera_image_picker_provider.dart';

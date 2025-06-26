@@ -32,6 +32,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       try {
         if(accessToken != null) {
           final response = await ref.read(userRepositoryProvider).requestUserMypageRepository();
+
           if(response.response_code == 200) {
             ResponseUserMypageModel responseUserMypageModel = ResponseUserMypageModel.fromJson(response.data);
             // 사용자 정보 세팅

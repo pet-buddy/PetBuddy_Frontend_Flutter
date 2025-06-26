@@ -10,7 +10,12 @@ import 'package:petbuddy_frontend_flutter/data/data.dart';
 import 'package:petbuddy_frontend_flutter/screens/my/widget/custom_time_picker_dialog.dart';
 
 class MyPetAddScreen extends ConsumerStatefulWidget {
-  const MyPetAddScreen({super.key});
+  const MyPetAddScreen({
+    super.key,
+    this.pet_id = -1,
+  });
+
+  final int pet_id;
 
   @override
   ConsumerState<MyPetAddScreen> createState() => MyPetAddScreenState();
@@ -60,7 +65,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
     
     return DefaultLayout(
       appBar: DefaultAppBar(
-        title: '반려동물 추가하기',
+        title: widget.pet_id != -1 ?  '반려동물 추가하기' : '반려동물 수정하기',
         leadingOnPressed: () {
           if(!context.mounted) return;
           fnInvalidateMyPetAddState();
@@ -593,15 +598,17 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                       child: DefaultTextButton(
                         text: '현재 ${leftoverFeed[i]} 남았어요', 
                         disabled: false,
-                        borderColor: myPetAddFeedAmountButtonState == feedAmount[i] 
+                        borderColor: myPetAddFeedAmountButtonState == foodRemainGradeCode[i] 
                           ? CustomColor.yellow03 
                           : CustomColor.gray04,
-                        backgroundColor: myPetAddFeedAmountButtonState == feedAmount[i]
+                        backgroundColor: myPetAddFeedAmountButtonState == foodRemainGradeCode[i]
                           ? CustomColor.yellow03 
                           : CustomColor.white,
                         width: fnGetDeviceWidth(context),
                         onPressed: () {
-                          ref.read(myPetAddFeedAmountButtonProvider.notifier).set(feedAmount[i]);
+                          ref.read(myPetAddFeedAmountButtonProvider.notifier).set(foodRemainGradeCode[i]);
+
+                          ref.read(requestNewDogProvider.notifier).setPetBirth(foodRemainGradeCode[i]);
 
                           ref.read(myPetAddButtonProvider.notifier)
                              .activate(requestNewDogState);
@@ -675,6 +682,28 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                       : CustomColor.gray04,
                   ),
                   const SizedBox(height: 32,),
+                  if(widget.pet_id != -1)
+                    Column(
+                      children: [
+                        DefaultTextButton(
+                          text: '삭제하기', 
+                          onPressed: () async {
+                            showConfirmDialog(
+                              context: context, 
+                              middleText: "반려동물을 정말 삭제하시겠습니까?", 
+                              onConfirm: () async {
+                                await fnMyPetDeleteExec(widget.pet_id);
+                              }
+                            );
+                          },
+                          disabled: false,
+                          borderColor: const Color(0xFFE60012),
+                          backgroundColor: const Color(0xFFE60012),
+                          textColor: CustomColor.white,
+                        ),
+                        const SizedBox(height: 64,),
+                      ],
+                    ),
                 ],
               ),
             ),
