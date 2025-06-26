@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/screens/screens.dart';
+import 'package:petbuddy_frontend_flutter/screens/camera/camera_web_screen.dart'; // 모바일, 웹 분기처리
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -79,7 +80,9 @@ final router = GoRouter(
       path: '/camera_web_screen',
       name: 'camera_web_screen',
       pageBuilder: (BuildContext context, GoRouterState state) {
-        return const NoTransitionPage(child: CameraWebScreen());
+        return const NoTransitionPage(
+          child: CameraWebScreen(),
+        );
       },
     ),
     ShellRoute(
@@ -160,7 +163,11 @@ final router = GoRouter(
               path: 'my_pet_add_screen',
               name: 'my_pet_add_screen',
               pageBuilder: (BuildContext context, GoRouterState state) {
-                return const NoTransitionPage(child: MyPetAddScreen());
+                return NoTransitionPage(
+                  child: MyPetAddScreen(
+                    pet_id: int.parse(state.uri.queryParameters['pet_id'] ?? '-1'),
+                  )
+                );
               },
             ),
             GoRoute(

@@ -19,13 +19,13 @@ class _PetRepository implements PetRepository {
   String? baseUrl;
 
   @override
-  Future<CommonResponseListModel> requestDogsRepository() async {
+  Future<CommonResponseMapModel> requestDogsRepository() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CommonResponseListModel>(Options(
+        _setStreamType<CommonResponseMapModel>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -41,7 +41,7 @@ class _PetRepository implements PetRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = CommonResponseListModel.fromJson(_result.data!);
+    final value = CommonResponseMapModel.fromJson(_result.data!);
     return value;
   }
 
@@ -62,6 +62,33 @@ class _PetRepository implements PetRepository {
             .compose(
               _dio.options,
               '/newdog',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = CommonResponseMapModel.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<CommonResponseMapModel> requestDogDeleteRepository(dynamic dog) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'dog': dog.toJson()};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<CommonResponseMapModel>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/{dog}',
               queryParameters: queryParameters,
               data: _data,
             )

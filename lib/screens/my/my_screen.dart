@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/response_dogs_provider.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/response_user_mypage_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -28,7 +29,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
     fnInitMyController(ref, context);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      // TODO : ref로 상태관리
+      
       setState(() {
         companySectionHeight = MediaQuery.of(context).size.height 
                                 - fnGetSize(sectionKey1).height
@@ -39,11 +40,14 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                                 - 50; // 네비게이션바
       });
     });
+
+    fnGetDogsExec();
   }
 
   @override
   Widget build(BuildContext context) {
     final responseUserMypageState = ref.watch(responseUserMypageProvider);
+    final responseDogsState = ref.watch(responseDogsProvider);
 
     return DefaultLayout(
       appBar: DefaultAppBar(
@@ -134,7 +138,25 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                           ),
                         ),
                         const SizedBox(height: 8,),
-                        // TODO : 반려동물 리스트 불러오기
+                        for(int i=0;i<responseDogsState.length;i++) 
+                          Column(
+                            children: [
+                              DefaultTextButton(
+                                text: responseDogsState[i].pet_name,
+                                borderColor: CustomColor.gray04,
+                                backgroundColor: CustomColor.white,
+                                disabled: false,
+                                height: 40,
+                                onPressed: () {
+                                  context.goNamed(
+                                    'my_pet_add_screen',
+                                    queryParameters: {'pet_id': responseDogsState[i].pet_id.toString()},
+                                  );
+                                },
+                              ),
+                              const SizedBox(height: 16,),
+                            ],
+                          ),
                         DefaultTextButton(
                           text: '+',
                           borderColor: CustomColor.gray04,

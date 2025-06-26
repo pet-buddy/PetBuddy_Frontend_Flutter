@@ -82,7 +82,7 @@ class CustomInterceptor extends Interceptor {
         );
 
         CommonResponseMapModel commonResponseMapModel = CommonResponseMapModel.fromJson(resp.data);
-        ResponseRefreshModel responseRefreshModel = ResponseRefreshModel.fromJson(commonResponseMapModel.data);
+        ResponseRefreshModel responseRefreshModel = ResponseRefreshModel.fromJson(commonResponseMapModel.data!);
         
         // 응답으로 받은 토큰 변수에 할당
         accessToken = responseRefreshModel.access_token; // resp.data['accessToken'];

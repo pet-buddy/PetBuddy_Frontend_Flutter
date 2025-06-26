@@ -12,6 +12,7 @@ class RequestNewDogState extends StateNotifier<RequestNewDogModel> {
       feed_id: -1,
       feed_time: [],
       pet_birth: '',
+      food_remain_grade: '',
     ),
   );
 
@@ -33,6 +34,8 @@ class RequestNewDogState extends StateNotifier<RequestNewDogModel> {
 
   void setPetBirth(String petBirth) => state.pet_birth = petBirth;
 
+  void setFoodRemainGrade(String foodRemainGrade) => state.food_remain_grade = foodRemainGrade;
+
   RequestNewDogModel get() => state;
 
   String getPetName() => state.pet_name;
@@ -50,6 +53,8 @@ class RequestNewDogState extends StateNotifier<RequestNewDogModel> {
   List<String> getFeedTime() => state.feed_time;
 
   String getPetBirth() => state.pet_birth;
+
+  String getFoodRemainGrade() => state.food_remain_grade;
 }
 
 final requestNewDogProvider = 

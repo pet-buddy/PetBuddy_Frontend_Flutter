@@ -13,6 +13,7 @@ class RequestNewDogModel {
   int feed_id;
   List<String> feed_time;
   String pet_birth;
+  String food_remain_grade;
 
   RequestNewDogModel({
     required this.pet_name,
@@ -23,6 +24,7 @@ class RequestNewDogModel {
     required this.feed_id,
     required this.feed_time,
     required this.pet_birth,
+    required this.food_remain_grade,
   });
 
   factory RequestNewDogModel.fromJson(Map<String, dynamic> json) => _$RequestNewDogModelFromJson(json);

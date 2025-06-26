@@ -25,20 +25,20 @@ mixin class MyController {
     myRef.read(myProfileInterestButtonProvider.notifier).set(interestCode.indexOf(responseUserMypageState.interest ?? ""));
     birthInputController.text = responseUserMypageState.birth ?? "";
     phoneInputController.text = responseUserMypageState.phone_number ?? "";
-    myRef.read(myProfileInputProvider.notifier).setGender(responseUserMypageState.gender ?? "");
-    myRef.read(myProfileInputProvider.notifier).setBirth(responseUserMypageState.birth ?? "");
-    myRef.read(myProfileInputProvider.notifier).setInterest(responseUserMypageState.interest ?? "");
-    myRef.read(myProfileInputProvider.notifier).setPhoneNumber(responseUserMypageState.phone_number ?? "");
+    myRef.read(requestUsersProvider.notifier).setGender(responseUserMypageState.gender ?? "");
+    myRef.read(requestUsersProvider.notifier).setBirth(responseUserMypageState.birth ?? "");
+    myRef.read(requestUsersProvider.notifier).setInterest(responseUserMypageState.interest ?? "");
+    myRef.read(requestUsersProvider.notifier).setPhoneNumber(responseUserMypageState.phone_number ?? "");
 
     myRef.read(myProfileUpdateButtonProvider.notifier)
-         .activate(myRef.read(myProfileInputProvider.notifier).get());
+         .activate(myRef.read(requestUsersProvider.notifier).get());
   }
 
   void fnInvalidateMyProfileUpdateState() {
     myRef.invalidate(myProfileGenderButtonProvider);
     myRef.invalidate(myProfileInterestButtonProvider);
     myRef.invalidate(myProfileUpdateButtonProvider);
-    myRef.invalidate(myProfileInputProvider);
+    myRef.invalidate(requestUsersProvider);
   }
 
   void fnInitMyPetAddState() {
@@ -62,6 +62,37 @@ mixin class MyController {
         feed_id: -1,
         feed_time: [],
         pet_birth: '',
+        food_remain_grade: '',
+      ),
+    );
+    myRef.read(myPetAddFeedTimeListProvider.notifier).set([]);
+    myRef.read(myPetAddFeedTimeDeleteListProvider.notifier).set([]);
+    myRef.read(myPetAddFeedTimeMeridiemButtonProvider.notifier).set("");
+    myRef.read(myPetAddFeedTimeSelectModeProvider.notifier).set("");
+  }
+  // 반려동물 수정하기
+  void fnInitMyPetModifyState() {
+    myRef.read(myPetAddTypeFilterProvider.notifier).set([]);
+    myRef.read(myPetAddTypeDropdownProvider.notifier).set(false);
+    myRef.read(myPetAddFeedFilterProvider.notifier).set([]);
+    myRef.read(myPetAddFeedDropdownProvider.notifier).set(false);
+    myRef.read(myPetAddSizeButtonProvider.notifier).set("");
+    myRef.read(myPetAddGenderButtonProvider.notifier).set("");
+    myRef.read(myPetAddNeuterButtonProvider.notifier).set("");
+    myRef.read(myPetAddFeedAmountButtonProvider.notifier).set("");
+    myRef.read(myPetAddNameInputStatusCodeProvider.notifier).set(ProjectConstant.INPUT_INIT);
+    myRef.read(myPetAddBirthInputStatusCodeProvider.notifier).set(ProjectConstant.INPUT_INIT);
+    myRef.read(requestNewDogProvider.notifier).set(
+      RequestNewDogModel(
+        pet_name: '',
+        pet_size: '',
+        division2_code: '',
+        pet_gender: '',
+        neuter_yn: '',
+        feed_id: -1,
+        feed_time: [],
+        pet_birth: '',
+        food_remain_grade: '',
       ),
     );
     myRef.read(myPetAddFeedTimeListProvider.notifier).set([]);
@@ -178,10 +209,10 @@ mixin class MyController {
   }
 
   Future<void> fnMyProfileUpdateExec() async {
-    final String gender = myRef.read(myProfileInputProvider.notifier).getGender();
-    final String birth = myRef.read(myProfileInputProvider.notifier).getBirth();
-    final String interest = myRef.read(myProfileInputProvider.notifier).getInterest();
-    final String phone_number = myRef.read(myProfileInputProvider.notifier).getPhoneNumber();
+    final String gender = myRef.read(requestUsersProvider.notifier).getGender();
+    final String birth = myRef.read(requestUsersProvider.notifier).getBirth();
+    final String interest = myRef.read(requestUsersProvider.notifier).getInterest();
+    final String phone_number = myRef.read(requestUsersProvider.notifier).getPhoneNumber();
 
     // debugPrint(gender);
     // debugPrint(birth);
@@ -481,7 +512,7 @@ mixin class MyController {
     MyFeedModel(food_id:152, food_name: '파미나 N&D Dog 그레인프리 펌프킨 대구&오렌지 미디움 20kg'),
   ];
 
-  final List<String> feedAmount = ['70%', '30%', '10%']; // 서버에 보낼 사료 남은 양
+  final List<String> foodRemainGradeCode = ['A', 'B', 'C']; // 서버에 보낼 사료 남은 양 (A:79, B:30, C:10)
   List<String> leftoverFeed = ['50% 이상', '11~50%', '10% 이하']; // 화면에 표시할 사료 남은 양
 
   TextEditingController petNameInputController = TextEditingController();
@@ -715,10 +746,10 @@ mixin class MyController {
     return result;
   }
 
-  bool fnCheckPetFeedAmount(String feedAmount) {
+  bool fnCheckPetFeedRemainGrade(String feedRemainGrade) {
     bool result = false;
 
-    if(feedAmount.isNotEmpty) result = true;
+    if(feedRemainGrade.isNotEmpty) result = true;
 
     return result;
   }
@@ -753,7 +784,7 @@ mixin class MyController {
     final int feedId = myRef.read(requestNewDogProvider.notifier).getFeedId();
     final List<String> feedTime = myRef.read(requestNewDogProvider.notifier).getFeedTime();
     final String petBirth = myRef.read(requestNewDogProvider.notifier).getPetBirth();
-    // TODO : 사료 급여 남은 양 변수
+    final String foodRemainGrade = myRef.read(requestNewDogProvider.notifier).getFoodRemainGrade();
 
     debugPrint(petName);
     debugPrint(petSize);
@@ -763,6 +794,7 @@ mixin class MyController {
     debugPrint(feedId.toString());
     debugPrint(feedTime.toString());
     debugPrint(petBirth);
+    debugPrint(foodRemainGrade);
 
     if(!fnCheckPetName(petName)) {
       showAlertDialog(
@@ -820,14 +852,13 @@ mixin class MyController {
       return;
     }
 
-    // TODO : 사료 급여 남은 양 변수
-    // if(!fnCheckPetFeedAmount('')) {
-    //   showAlertDialog(
-    //     context: myContext, 
-    //     middleText: Sentence.PET_FEED_AMOUNT_ERR_EMPTY,
-    //   );
-    //   return;
-    // }
+    if(!fnCheckPetFeedRemainGrade(foodRemainGrade)) {
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.PET_FEED_AMOUNT_ERR_EMPTY,
+      );
+      return;
+    }
 
     if(!fnCheckPetBirth(petBirth)) {
       if(petBirth.isEmpty) {
@@ -861,6 +892,7 @@ mixin class MyController {
           feed_id: feedId, 
           feed_time: feedTime, 
           pet_birth: petBirth,
+          food_remain_grade: foodRemainGrade,
         ),
       );
 
@@ -879,10 +911,12 @@ mixin class MyController {
           context: myContext, 
           middleText: "반려동물 추가가 완료되었습니다.",
           barrierDismissible: false,
-          onConfirm: () {
+          onConfirm: () async {
+            await fnGetDogsExec();
             // 상태 초기화
             fnInvalidateMyPetAddState();
             // 페이지 이동
+            if(!myContext.mounted) return;
             myContext.pop();
           }
         );
@@ -899,6 +933,96 @@ mixin class MyController {
       }
     } on DioException catch(e) {
       debugPrint("========== Request NewDog Dio Exception ==========");
+      debugPrint(e.toString());
+
+      // 로딩 끝
+      if(!myContext.mounted) return;
+      hideLoadingDialog(myContext);
+
+      // 에러 알림창
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.SERVER_ERR,
+      );
+    }
+  }
+
+  // ########################################
+  // 반려동물 조회
+  // ########################################
+  Future<void> fnGetDogsExec() async {
+    try {
+      final response = await myRef.read(petRepositoryProvider).requestDogsRepository();
+
+      if(response.response_code == 200) {
+        ResponseDogsModel responseDogsModel = ResponseDogsModel.fromJson(response.data);
+
+        myRef.read(responseDogsProvider.notifier).set(
+          responseDogsModel.dogs.map((elem) => ResponseDogsDetailModel.fromJson(elem)).toList(),
+        );
+        
+        if(!myContext.mounted) return;
+        // 로딩 끝
+        hideLoadingDialog(myContext);
+      } else {
+        if(!myContext.mounted) return;
+        // 로딩 끝
+        hideLoadingDialog(myContext);
+        // 에러 알림창
+        showAlertDialog(
+          context: myContext, 
+          middleText: "반려동물 조회에 실패했습니다."
+        );
+        return;
+      }
+    } on DioException catch(e) {
+      debugPrint("========== Request Dogs Exception ==========");
+      debugPrint(e.toString());
+
+      // 로딩 끝
+      if(!myContext.mounted) return;
+      hideLoadingDialog(myContext);
+
+      // 에러 알림창
+      showAlertDialog(
+        context: myContext, 
+        middleText: Sentence.SERVER_ERR,
+      );
+    }
+  }
+
+  Future<void> fnMyPetDeleteExec(int pet_id) async {
+    try {
+      final response = await myRef.read(petRepositoryProvider).requestDogDeleteRepository(pet_id);
+debugPrint(response.response_message);
+      if(response.response_code == 200) {
+        
+        if(!myContext.mounted) return;
+        // 로딩 끝
+        hideLoadingDialog(myContext);
+        // 반려동물 조회
+        await fnGetDogsExec();
+        // 뒤로가기
+        if(!myContext.mounted) return;
+        myContext.pop();
+        // 알림창
+        showAlertDialog(
+          context: myContext, 
+          middleText: "반려동물이 삭제되었습니다."
+        );
+      } else {
+        if(!myContext.mounted) return;
+        // 로딩 끝
+        hideLoadingDialog(myContext);
+        // 에러 알림창
+        showAlertDialog(
+          context: myContext, 
+          middleText: "반려동물 삭제에 실패했습니다."
+        );
+        return;
+      }
+    } on DioException catch(e) {
+      debugPrint("========== Request Delete Exception ==========");
       debugPrint(e.toString());
 
       // 로딩 끝

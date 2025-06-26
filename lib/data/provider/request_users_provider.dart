@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petbuddy_frontend_flutter/data/model/request_users_model.dart';
 
-class MyProfileInputState extends StateNotifier<RequestUsersModel> {
-  MyProfileInputState() : super(
+class RequestUsersState extends StateNotifier<RequestUsersModel> {
+  RequestUsersState() : super(
     RequestUsersModel(
       gender: "", 
       birth: "",
@@ -32,5 +32,5 @@ class MyProfileInputState extends StateNotifier<RequestUsersModel> {
   String getPhoneNumber() => state.phone_number;
 }
 
-final myProfileInputProvider = 
-    StateNotifierProvider<MyProfileInputState, RequestUsersModel>((ref) => MyProfileInputState());
+final requestUsersProvider = 
+    StateNotifierProvider<RequestUsersState, RequestUsersModel>((ref) => RequestUsersState());

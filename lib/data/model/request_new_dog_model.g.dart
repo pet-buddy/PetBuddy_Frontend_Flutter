@@ -17,6 +17,7 @@ RequestNewDogModel _$RequestNewDogModelFromJson(Map<String, dynamic> json) =>
       feed_time:
           (json['feed_time'] as List<dynamic>).map((e) => e as String).toList(),
       pet_birth: json['pet_birth'] as String,
+      food_remain_grade: json['food_remain_grade'] as String,
     );
 
 Map<String, dynamic> _$RequestNewDogModelToJson(RequestNewDogModel instance) =>
@@ -29,4 +30,5 @@ Map<String, dynamic> _$RequestNewDogModelToJson(RequestNewDogModel instance) =>
       'feed_id': instance.feed_id,
       'feed_time': instance.feed_time,
       'pet_birth': instance.pet_birth,
+      'food_remain_grade': instance.food_remain_grade,
     };
