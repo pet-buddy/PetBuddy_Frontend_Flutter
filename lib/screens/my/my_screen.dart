@@ -28,7 +28,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
     super.initState();
     fnInitMyController(ref, context);
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       
       setState(() {
         companySectionHeight = MediaQuery.of(context).size.height 
@@ -39,9 +39,9 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                                 - 50 // 앱바
                                 - 50; // 네비게이션바
       });
-    });
 
-    fnGetDogsExec();
+      await fnGetDogsExec();
+    });
   }
 
   @override
@@ -149,7 +149,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                                 height: 40,
                                 onPressed: () {
                                   context.goNamed(
-                                    'my_pet_add_screen',
+                                    'my_pet_update_screen',
                                     queryParameters: {'pet_id': responseDogsState[i].pet_id.toString()},
                                   );
                                 },
@@ -160,10 +160,17 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                         DefaultTextButton(
                           text: '+',
                           borderColor: CustomColor.gray04,
-                          backgroundColor: CustomColor.white,
+                          backgroundColor: responseDogsState.length >= 3 ? CustomColor.gray04 : CustomColor.white,
                           disabled: false,
                           height: 40,
                           onPressed: () {
+                            if(responseDogsState.length >= 3) {
+                              showAlertDialog(
+                                context: context, 
+                                middleText: "반려동물은 최대 3마리까지 추가할 수 있습니다."
+                              );
+                              return;
+                            }
                             context.goNamed('my_pet_add_screen');
                           },
                         ),

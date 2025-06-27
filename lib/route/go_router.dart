@@ -163,8 +163,18 @@ final router = GoRouter(
               path: 'my_pet_add_screen',
               name: 'my_pet_add_screen',
               pageBuilder: (BuildContext context, GoRouterState state) {
+                return const NoTransitionPage(
+                  child: MyPetAddScreen()
+                );
+              },
+            ),
+            GoRoute(
+              parentNavigatorKey: shellNavigatorKey,
+              path: 'my_pet_update_screen',
+              name: 'my_pet_update_screen',
+              pageBuilder: (BuildContext context, GoRouterState state) {
                 return NoTransitionPage(
-                  child: MyPetAddScreen(
+                  child: MyPetUpdateScreen(
                     pet_id: int.parse(state.uri.queryParameters['pet_id'] ?? '-1'),
                   )
                 );
