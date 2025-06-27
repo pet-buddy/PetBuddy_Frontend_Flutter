@@ -9,14 +9,19 @@ import 'package:petbuddy_frontend_flutter/controller/controller.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
 import 'package:petbuddy_frontend_flutter/screens/my/widget/custom_time_picker_dialog.dart';
 
-class MyPetAddScreen extends ConsumerStatefulWidget {
-  const MyPetAddScreen({super.key,});
+class MyPetUpdateScreen extends ConsumerStatefulWidget {
+  const MyPetUpdateScreen({
+    super.key,
+    this.pet_id = -1,
+  });
+
+  final int pet_id;
 
   @override
-  ConsumerState<MyPetAddScreen> createState() => MyPetAddScreenState();
+  ConsumerState<MyPetUpdateScreen> createState() => MyPetUpdateScreenState();
 }
 
-class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyController {
+class MyPetUpdateScreenState extends ConsumerState<MyPetUpdateScreen> with MyController {
 
   @override
   void initState() {
@@ -24,7 +29,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
     fnInitMyController(ref, context);
     
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      fnInitMyPetAddState();
+      // 반려동물 상태 세팅
     });
   }
 
@@ -60,7 +65,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
     
     return DefaultLayout(
       appBar: DefaultAppBar(
-        title: '반려동물 추가하기',
+        title: '반려동물 수정하기',
         leadingOnPressed: () {
           if(!context.mounted) return;
           fnInvalidateMyPetAddState();
@@ -603,7 +608,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         onPressed: () {
                           ref.read(myPetAddFeedAmountButtonProvider.notifier).set(foodRemainGradeCode[i]);
 
-                          ref.read(requestNewDogProvider.notifier).setFoodRemainGrade(foodRemainGradeCode[i]);
+                          ref.read(requestNewDogProvider.notifier).setPetBirth(foodRemainGradeCode[i]);
 
                           ref.read(myPetAddButtonProvider.notifier)
                              .activate(requestNewDogState);
@@ -664,9 +669,9 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                   ),
                   const SizedBox(height: 32,),
                   DefaultTextButton(
-                    text: '추가하기', 
+                    text: '수정하기', 
                     onPressed: () async {
-                      await fnMyPetAddExec();
+                      // TODO : 수정하기 로직 추가할 것
                     },
                     disabled: false,
                     borderColor: myPetAddButtonState 
@@ -675,6 +680,24 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                     backgroundColor: myPetAddButtonState
                       ? CustomColor.yellow03 
                       : CustomColor.gray04,
+                  ),
+                  const SizedBox(height: 16,),
+                  DefaultTextButton(
+                    text: '삭제하기', 
+                    onPressed: () async {
+                      showConfirmDialog(
+                        context: context, 
+                        middleText: "반려동물을 정말 삭제하시겠습니까?", 
+                        onConfirm: () async {
+                          await fnMyPetDeleteExec(widget.pet_id);
+                        },
+                        confirmBackgroundColor: CustomColor.negative,
+                      );
+                    },
+                    disabled: false,
+                    borderColor: const Color(0xFFE60012),
+                    backgroundColor: const Color(0xFFE60012),
+                    textColor: CustomColor.white,
                   ),
                   const SizedBox(height: 32,),
                 ],

@@ -69,6 +69,7 @@ mixin class MyController {
     myRef.read(myPetAddFeedTimeDeleteListProvider.notifier).set([]);
     myRef.read(myPetAddFeedTimeMeridiemButtonProvider.notifier).set("");
     myRef.read(myPetAddFeedTimeSelectModeProvider.notifier).set("");
+    myRef.read(myPetAddButtonProvider.notifier).set(false);
   }
   // 반려동물 수정하기
   void fnInitMyPetModifyState() {
@@ -952,6 +953,9 @@ mixin class MyController {
   // ########################################
   Future<void> fnGetDogsExec() async {
     try {
+      // 로딩 시작
+      showLoadingDialog(context: myContext);
+
       final response = await myRef.read(petRepositoryProvider).requestDogsRepository();
 
       if(response.response_code == 200) {
@@ -993,22 +997,19 @@ mixin class MyController {
 
   Future<void> fnMyPetDeleteExec(int pet_id) async {
     try {
-      final response = await myRef.read(petRepositoryProvider).requestDogDeleteRepository(pet_id);
-debugPrint(response.response_message);
+      final response = await myRef.read(petRepositoryProvider).requestDogDeleteRepository(pet_id.toString());
+
       if(response.response_code == 200) {
-        
+        // 반려동물 조회
+        await fnGetDogsExec();
+
         if(!myContext.mounted) return;
         // 로딩 끝
         hideLoadingDialog(myContext);
-        // 반려동물 조회
-        await fnGetDogsExec();
-        // 뒤로가기
-        if(!myContext.mounted) return;
-        myContext.pop();
         // 알림창
         showAlertDialog(
           context: myContext, 
-          middleText: "반려동물이 삭제되었습니다."
+          middleText: "반려동물이 삭제되었습니다.",
         );
       } else {
         if(!myContext.mounted) return;
