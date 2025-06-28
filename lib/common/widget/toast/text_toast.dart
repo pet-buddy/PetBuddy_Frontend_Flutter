@@ -8,7 +8,7 @@ void textToast(context, text, {double bottom = 50}) {
   fToast.init(context);
 
   Widget toast = SizedBox(
-    width: MediaQuery.of(context).size.width,
+    width: fnGetDeviceWidth(context),
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Container(
@@ -18,7 +18,7 @@ void textToast(context, text, {double bottom = 50}) {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.0),
-          color: CustomColor.gray03,
+          color: CustomColor.black.withValues(alpha: 0.8),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,

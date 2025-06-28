@@ -34,5 +34,5 @@ class Sentence {
   static const String WEB_CAMERA_ERR_CALL = "웹 브라우저에서는 카메라 기능을 지원하지 않습니다.";
   static const String WEB_FLASH_ERR_CALL = "웹 브라우저에서는 플래시 기능을 지원하지 않습니다.";
 
-  static const String UPDATE_ALERT = "조금만 기다려주세요!\n포프린트 기능 업데이트 예정입니다.";
+  static const String UPDATE_ALERT = "사전예약 페이지를 확인해보세요!";
 }

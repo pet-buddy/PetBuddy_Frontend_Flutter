@@ -127,9 +127,13 @@ mixin class LoginController {
         // 토큰 저장
         await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: responseEmailLoginModel.accessToken);
         await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: responseEmailLoginModel.refreshToken);
+        // 사용자 정보 조회
+        if(!loginContext.mounted) return;
+        await ControllerUtils.fnGetUserMypageExec(loginRef, loginContext);
+        // 반려동물 정보 조회
+        if(!loginContext.mounted) return;
+        await ControllerUtils.fnGetDogsExec(loginRef, loginContext);
 
-        await ControllerUtils.fnGetUserMypage(loginRef);
-        
         if(!loginContext.mounted) return;
         // 로딩 끝
         hideLoadingDialog(loginContext);

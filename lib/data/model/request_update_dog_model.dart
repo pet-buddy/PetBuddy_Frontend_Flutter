@@ -1,10 +1,10 @@
 
 import 'package:json_annotation/json_annotation.dart';
 
-part 'request_new_dog_model.g.dart';
+part 'request_update_dog_model.g.dart';
 
 @JsonSerializable()
-class RequestNewDogModel {
+class RequestUpdateDogModel {
   String pet_name;
   String pet_size;
   String division2_code;
@@ -15,7 +15,7 @@ class RequestNewDogModel {
   String pet_birth;
   String food_remain_grade;
 
-  RequestNewDogModel({
+  RequestUpdateDogModel({
     required this.pet_name,
     required this.pet_size,
     required this.division2_code,
@@ -27,7 +27,7 @@ class RequestNewDogModel {
     required this.food_remain_grade,
   });
 
-  factory RequestNewDogModel.fromJson(Map<String, dynamic> json) => _$RequestNewDogModelFromJson(json);
+  factory RequestUpdateDogModel.fromJson(Map<String, dynamic> json) => _$RequestUpdateDogModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RequestNewDogModelToJson(this);
+  Map<String, dynamic> toJson() => _$RequestUpdateDogModelToJson(this);
 }

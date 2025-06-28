@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 
-void iconToast(context, message, imgPath, {double bottom = 50}) {
+void iconToast(context, message, imgWidget, {double bottom = 50}) {
   FToast fToast = FToast();
   fToast.init(context);
 
   Widget toast = SizedBox(
-    width: MediaQuery.of(context).size.width,
+    width: fnGetDeviceWidth(context),
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Container(
@@ -18,16 +17,15 @@ void iconToast(context, message, imgPath, {double bottom = 50}) {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.0),
-          color: CustomColor.gray03,
+          color: CustomColor.black.withValues(alpha: 0.8),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              imgPath,
-              width: 24,
-              height: 24,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: imgWidget,
             ),
             const SizedBox(width: 12.0,),
             Flexible(

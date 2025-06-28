@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
@@ -66,12 +67,14 @@ mixin class CustomCameraController {
         }
       }
     } catch (e) {
-      debugPrint('Error get image: $e');
+      debugPrint('==================== Error get image ====================');
+      debugPrint('$e');
     }
 
     return cameraRef.read(cameraImagePickerProvider.notifier).get();
   }
 
+  // 'http://59.19.158.107:3025/predict_image',
   Future<void> fnUploadExec() async {
     final XFile? xfile = cameraRef.read(cameraImagePickerProvider.notifier).get();
 
@@ -82,7 +85,26 @@ mixin class CustomCameraController {
       );
     } 
 
+    final dio = Dio();
+
+    dynamic formData =  FormData.fromMap({'arr': 
+      kIsWeb ? MultipartFile.fromBytes(await xfile!.readAsBytes(),) : await MultipartFile.fromFile(xfile!.path), 
+      'annotat': {}
+    });
+
     // TODO : 반려동물 변 사진 업로드
+    final resp = await dio.post(
+      'http://59.19.158.107:3025/predict_image',
+      options: Options(
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+      ),
+      data: formData,
+    );
+
+    debugPrint(resp.data.toString());
   }
 
   Future<void> fnTakePicturesExec() async {
@@ -100,7 +122,7 @@ mixin class CustomCameraController {
       final savedPath = p.join(directory.path, fileName);
 
       // 복사해서 저장
-      // final savedFile = await File(image.path).copy(savedPath);
+      final savedFile = await File(image.path).copy(savedPath);
 
       cameraRef.read(cameraImagePickerProvider.notifier).set(XFile(savedPath));
       cameraRef.read(cameraUploadButtonProvider.notifier).set(true);

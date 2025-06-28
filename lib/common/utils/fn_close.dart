@@ -23,7 +23,11 @@ Future<bool> fnClose(BuildContext context){
     iconToast(
       context, 
       message, 
-      'assets/icons/app_icon.svg', 
+      Image.asset(
+        'assets/icons/logo/app_logo.png',
+        width: 24,
+        height: 24,
+      ),
       bottom: pathName == '/login_screen' ? 50 : 0,
     );
     return Future.value(false);

@@ -62,12 +62,13 @@ class CustomInterceptor extends Interceptor {
     final requestPath = err.requestOptions.path;
 
     // TODO : 요청 URL 합의 필요, 로그인일 경우 TOKEN 재발급 요청없이 return - 401, 402, 403, 500
-    if((statusCode == 401 || statusCode == 402 || statusCode == 403 || statusCode == 500) && requestPath == '/login') {
+    if((statusCode == 401 || statusCode == 402 || statusCode == 403 || statusCode == 500) && 
+       (requestPath == '/ayth/kakao/token' || requestPath == '/ayth/naver/token' || requestPath == '/user/email-login')) {
       return handler.resolve(err.response!);
     }
 
     // TODO : 요청 URL 합의 필요, ACCESS, REFRESH TOKEN 재발급 요청
-    if((statusCode == 401 || statusCode == 402 || statusCode == 403 || statusCode == 500) && requestPath != '/user/refresh') {
+    if((statusCode == 401 || statusCode == 402 || statusCode == 403 || statusCode == 500) && (requestPath != '/user/refresh' || (statusMessage ?? '').contains('expired'))) {
       final dio = Dio();
 
       try {

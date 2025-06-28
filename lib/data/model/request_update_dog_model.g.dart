@@ -1,13 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'request_new_dog_model.dart';
+part of 'request_update_dog_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-RequestNewDogModel _$RequestNewDogModelFromJson(Map<String, dynamic> json) =>
-    RequestNewDogModel(
+RequestUpdateDogModel _$RequestUpdateDogModelFromJson(
+        Map<String, dynamic> json) =>
+    RequestUpdateDogModel(
       pet_name: json['pet_name'] as String,
       pet_size: json['pet_size'] as String,
       division2_code: json['division2_code'] as String,
@@ -20,7 +21,8 @@ RequestNewDogModel _$RequestNewDogModelFromJson(Map<String, dynamic> json) =>
       food_remain_grade: json['food_remain_grade'] as String,
     );
 
-Map<String, dynamic> _$RequestNewDogModelToJson(RequestNewDogModel instance) =>
+Map<String, dynamic> _$RequestUpdateDogModelToJson(
+        RequestUpdateDogModel instance) =>
     <String, dynamic>{
       'pet_name': instance.pet_name,
       'pet_size': instance.pet_size,

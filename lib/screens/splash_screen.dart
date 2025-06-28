@@ -5,9 +5,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
-import 'package:petbuddy_frontend_flutter/data/model/response_user_mypage_model.dart';
-import 'package:petbuddy_frontend_flutter/data/provider/response_user_mypage_provider.dart';
-import 'package:petbuddy_frontend_flutter/data/repository/user_repository.dart';
+import 'package:petbuddy_frontend_flutter/controller/controller_utils.dart';
+// import 'package:petbuddy_frontend_flutter/data/model/response_user_mypage_model.dart';
+// import 'package:petbuddy_frontend_flutter/data/provider/response_user_mypage_provider.dart';
+// import 'package:petbuddy_frontend_flutter/data/repository/user_repository.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -31,15 +32,19 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
       try {
         if(accessToken != null) {
-          final response = await ref.read(userRepositoryProvider).requestUserMypageRepository();
+          // final response = await ref.read(userRepositoryProvider).requestUserMypageRepository();
 
-          if(response.response_code == 200) {
-            ResponseUserMypageModel responseUserMypageModel = ResponseUserMypageModel.fromJson(response.data);
-            // 사용자 정보 세팅
-            ref.read(responseUserMypageProvider.notifier).set(responseUserMypageModel);
-          }
+          // if(response.response_code == 200) {
+          //   ResponseUserMypageModel responseUserMypageModel = ResponseUserMypageModel.fromJson(response.data);
+          //   // 사용자 정보 세팅
+          //   ref.read(responseUserMypageProvider.notifier).set(responseUserMypageModel);
+          // }
 
-          // TODO : 반려동물 정보 세팅
+          // 사용자 정보 세팅
+          await ControllerUtils.fnGetUserMypageExec(ref, context);
+
+          // 반려동물 정보 세팅
+          await ControllerUtils.fnGetDogsExec(ref, context);
 
           // TODO : 홈 화면 정보 세팅
 

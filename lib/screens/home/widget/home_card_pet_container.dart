@@ -6,13 +6,14 @@ import 'package:petbuddy_frontend_flutter/common/utils/fn_get_device_width.dart'
 class HomeCardPetContainer extends StatelessWidget {
   const HomeCardPetContainer({
     super.key,
+    required this.petImg,
     this.petOptions,
     this.onPressed,
   });
 
+  final Widget petImg;
   final List<String>? petOptions;
   final VoidCallback? onPressed;
-  
 
   @override
   Widget build(BuildContext context) {
@@ -35,16 +36,18 @@ class HomeCardPetContainer extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: fnGetDeviceWidth(context) * 0.2,
-              child: SvgPicture.asset(
-                'assets/icons/illustration/puppy_white.svg',
-                width: fnGetDeviceWidth(context) * 0.3,
-                height: fnGetDeviceWidth(context) * 0.35,
-              ),
-            ),
+            // Positioned(
+            //   left: 0,
+            //   right: 0,
+            //   bottom: fnGetDeviceWidth(context) * 0.2,
+            //   child: SvgPicture.asset(
+            //     'assets/icons/illustration/puppy_white.svg',
+            //     width: fnGetDeviceWidth(context) * 0.3,
+            //     height: fnGetDeviceWidth(context) * 0.35,
+            //   ),
+            // ),
+
+            petImg,
           ],
         ),
       ),

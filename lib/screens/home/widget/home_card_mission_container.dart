@@ -7,21 +7,24 @@ class HomeCardMissionContainer extends StatelessWidget {
     required this.imoji,
     required this.title,
     required this.text,
+    this.minWidth,
+    this.maxWidth,
   });
 
   final String imoji;
   final String title;
   final String text;
+  final double? minWidth;
+  final double? maxWidth;
   
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.all(8),
-      constraints: const BoxConstraints(
-        minWidth: 120,
-        maxWidth: 140,
+      constraints: BoxConstraints(
+        minWidth: minWidth ?? 120,
+        maxWidth: maxWidth ?? 140,
         minHeight: 100,
         maxHeight: 120
       ),
@@ -41,20 +44,26 @@ class HomeCardMissionContainer extends StatelessWidget {
             style: CustomText.body8,
           ),
           const SizedBox(width: 8,),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: CustomText.caption3.copyWith(
-                  fontWeight: FontWeight.bold,
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: CustomText.caption3.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
-              ),
-              Text(
-                text,
-                style: CustomText.caption3,
-              ),
-            ],
+                Text(
+                  text,
+                  style: CustomText.caption3,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ],
+            ),
           )
         ],
       )

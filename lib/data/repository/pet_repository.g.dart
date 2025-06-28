@@ -75,6 +75,35 @@ class _PetRepository implements PetRepository {
   }
 
   @override
+  Future<CommonResponseMapModel> requestUpdateDogRepository(
+      RequestUpdateDogModel requestUpdateDogModel) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(requestUpdateDogModel.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<CommonResponseMapModel>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/update',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = CommonResponseMapModel.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<CommonResponseMapNullableModel> requestDogDeleteRepository(
       String dog) async {
     const _extra = <String, dynamic>{};
