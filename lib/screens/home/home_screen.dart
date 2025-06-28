@@ -28,6 +28,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
   @override
   Widget build(BuildContext context) {
     final homeActivatedPetNavState = ref.watch(homeActivatedPetNavProvider);
+    final responseDogsState = ref.watch(responseDogsProvider);
 
     return DefaultLayout(
       child: PopScope(
@@ -62,7 +63,9 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                     children: [
                       const SizedBox(height: 16,),
                       Text(
-                        '탄이, 반가워요!',
+                        responseDogsState.isNotEmpty ? 
+                          '${responseDogsState[homeActivatedPetNavState].pet_name}, 반가워요!' :
+                          '반가워요!',
                         style: CustomText.heading1.copyWith(
                           color: CustomColor.blue03,
                         ),
@@ -92,71 +95,124 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                         ],
                       ),
                       const SizedBox(height: 16,),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: 52,
-                        child: const SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
+                      responseDogsState.isNotEmpty ? 
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 52,
+                          child: const SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                // TODO : loop로 데이터 받아 출력
+                                HomeCardMissionContainer(
+                                  imoji: '🐕',
+                                  title: '산책하기', 
+                                  text: '4시간 뒤 소멸'
+                                ),
+                                HomeCardMissionContainer(
+                                  imoji: '🍖',
+                                  title: '맘마주기', 
+                                  text: '1시간 뒤 소멸'
+                                ),
+                                HomeCardMissionContainer(
+                                  imoji: '💩',
+                                  title: '똥 찍기', 
+                                  text: '2시간 뒤 소멸'
+                                ),
+                                HomeCardMissionContainer(
+                                  imoji: '😴',
+                                  title: '낮잠재우기', 
+                                  text: '2시간 뒤 소멸'
+                                ),
+                              ],
+                            ),
+                          ),
+                        ) :
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 52,
+                          child: const SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                HomeCardMissionContainer(
+                                  imoji: '💤',
+                                  title: '강아지 등록해 잠깨우기', 
+                                  text: '반려동물을 등록해보세요:)',
+                                  maxWidth: 200,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      const SizedBox(height: 16,),
+                      responseDogsState.isEmpty ?
+                        SizedBox(
+                          width: fnGetDeviceWidth(context),
+                          height: fnGetDeviceWidth(context),
+                          child: PageView(
+                            controller: homeScreenPetController,
+                            padEnds: false,
+                            onPageChanged: (index) {
+                              ref.read(homeActivatedPetNavProvider.notifier).set(index);
+                            },
                             children: [
-                              // TODO : loop로 데이터 받아 출력
-                              HomeCardMissionContainer(
-                                imoji: '🐕',
-                                title: '산책하기', 
-                                text: '4시간 뒤 소멸'
-                              ),
-                              HomeCardMissionContainer(
-                                imoji: '🍖',
-                                title: '맘마주기', 
-                                text: '1시간 뒤 소멸'
-                              ),
-                              HomeCardMissionContainer(
-                                imoji: '💩',
-                                title: '똥 찍기', 
-                                text: '2시간 뒤 소멸'
-                              ),
-                              HomeCardMissionContainer(
-                                imoji: '😴',
-                                title: '낮잠재우기', 
-                                text: '2시간 뒤 소멸'
-                              ),
+                              HomeCardPetContainer(
+                                onPressed: () {
+                                  
+                                },
+                                petImg: Positioned(
+                                  left: 0,
+                                  right: 0,
+                                  bottom: fnGetDeviceWidth(context) * 0.1,
+                                  child: Image.asset(
+                                    'assets/icons/illustration/puppy_null.png',
+                                    width: fnGetDeviceWidth(context) * 0.5,
+                                    height: fnGetDeviceWidth(context) * 0.5,
+                                  ),
+                                ),
+                              ), 
+                            ],
+                          ),
+                        ) :
+                        SizedBox(
+                          width: fnGetDeviceWidth(context),
+                          height: fnGetDeviceWidth(context),
+                          child: PageView(
+                            controller: homeScreenPetController,
+                            padEnds: false,
+                            onPageChanged: (index) {
+                              ref.read(homeActivatedPetNavProvider.notifier).set(index);
+                              textToast(
+                                context, 
+                                "${responseDogsState[index].pet_name} 활성화 되었습니다!",
+                                bottom: 0,
+                              );
+                            },
+                            children: [
+                                for(int i=0;i<responseDogsState.length;i++)
+                                  HomeCardPetContainer(
+                                    onPressed: () { 
+                                      
+                                    },
+                                    petImg: Positioned(
+                                      left: 0,
+                                      right: 0,
+                                      bottom: fnGetDeviceWidth(context) * 0.2,
+                                      child: SvgPicture.asset(
+                                        'assets/icons/illustration/puppy_${i == 0 ? 'white' : i == 1 ? 'yellow' : 'black'}.svg',
+                                        width: fnGetDeviceWidth(context) * 0.3,
+                                        height: fnGetDeviceWidth(context) * 0.35,
+                                      ),
+                                    ),
+                                  ),
                             ],
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 16,),
-                      SizedBox(
-                        width: fnGetDeviceWidth(context),
-                        height: fnGetDeviceWidth(context),
-                        child: PageView(
-                          controller: homeScreenPetController,
-                          padEnds: false,
-                          onPageChanged: (index) {
-                            ref.read(homeActivatedPetNavProvider.notifier).set(index);
-                          },
-                          children: [
-                            HomeCardPetContainer(
-                              onPressed: () {
-                                
-                              },
-                            ),
-                            HomeCardPetContainer(
-                              onPressed: () {
-                                
-                              },
-                            ),
-                            HomeCardPetContainer(
-                              onPressed: () {
-                                
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        // TODO : 등록된 반려동물 개수 가져오기
-                        children: List.generate(3, (index) {
+                        // 등록된 반려동물 마리수 가져오기
+                        children: List.generate(responseDogsState.length, (index) {
                           return AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -165,7 +221,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                             decoration: BoxDecoration(
                               shape: BoxShape.rectangle,
                               borderRadius: const BorderRadius.all(Radius.circular(6),),
-                              color: homeActivatedPetNavState == index
+                              color: homeActivatedPetNavState == index || responseDogsState.length <= 1
                                   ? const Color(0xFFF6D72E)
                                   : const Color(0xFFE8E8E8),
                             ),
@@ -285,6 +341,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           HomeCardManageContainer(
+                            disabled: true,
                             thumbnailPicture: SvgPicture.asset(
                               'assets/icons/etc/sleep.svg',
                               width: 24,
@@ -292,6 +349,11 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                             ),
                             title: "수면 효율",
                             onPressed: () {
+                              showAlertDialog(
+                                context: context, 
+                                middleText: Sentence.UPDATE_ALERT,
+                              );
+
                               // TODO : 수면 효율 페이지 이동
                             },
                             child: Row(

@@ -17,9 +17,11 @@ ResponseDogsDetailModel _$ResponseDogsDetailModelFromJson(
       pet_size: json['pet_size'] as String,
       neuter_yn: json['neuter_yn'] as bool,
       division2_code: json['division2_code'] as String,
-      createdAt: json['createdAt'] as String,
-      updatedAt: json['updatedAt'] as String,
-      owner: json['owner'] as Map<String, dynamic>,
+      feed_time: (json['feed_time'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      feed: (json['feed'] as num).toInt(),
+      foodGrade: json['foodGrade'] as String?,
     );
 
 Map<String, dynamic> _$ResponseDogsDetailModelToJson(
@@ -33,7 +35,7 @@ Map<String, dynamic> _$ResponseDogsDetailModelToJson(
       'pet_size': instance.pet_size,
       'neuter_yn': instance.neuter_yn,
       'division2_code': instance.division2_code,
-      'createdAt': instance.createdAt,
-      'updatedAt': instance.updatedAt,
-      'owner': instance.owner,
+      'feed_time': instance.feed_time,
+      'feed': instance.feed,
+      'foodGrade': instance.foodGrade,
     };

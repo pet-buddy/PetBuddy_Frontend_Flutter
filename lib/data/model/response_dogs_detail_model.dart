@@ -13,9 +13,9 @@ class ResponseDogsDetailModel {
   String pet_size;
   bool neuter_yn;
   String division2_code;
-  String createdAt;
-  String updatedAt;
-  Map<String, dynamic> owner;
+  List<String>? feed_time;
+  int feed;
+  String? foodGrade;
 
   ResponseDogsDetailModel({
     required this.pet_id,
@@ -26,9 +26,9 @@ class ResponseDogsDetailModel {
     required this.pet_size,
     required this.neuter_yn,
     required this.division2_code,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.owner,
+    this.feed_time,
+    required this.feed,
+    this.foodGrade,
   });
 
   factory ResponseDogsDetailModel.fromJson(Map<String, dynamic> json) => _$ResponseDogsDetailModelFromJson(json);

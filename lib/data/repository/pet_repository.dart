@@ -28,6 +28,9 @@ abstract class PetRepository {
   @POST('/newdog')
   Future<CommonResponseMapModel> requestNewDogRepository(@Body() RequestNewDogModel requestNewDogModel); 
 
+  @PATCH('/update')
+  Future<CommonResponseMapModel> requestUpdateDogRepository(@Body() RequestUpdateDogModel requestUpdateDogModel); 
+
   @DELETE('/delete')
   Future<CommonResponseMapNullableModel> requestDogDeleteRepository(@Query("dog") String dog);
 } 

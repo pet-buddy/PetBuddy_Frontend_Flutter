@@ -322,7 +322,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         width: fnGetDeviceWidth(context) * 0.43,
                         onPressed: () {
                           ref.read(myPetAddNeuterButtonProvider.notifier).set(neuterN);
-                          ref.read(requestNewDogProvider.notifier).setNeuterYn(neuterN); // 데이터 저장
+                          ref.read(requestNewDogProvider.notifier).setNeuterYn(false); // 데이터 저장
 
                           ref.read(myPetAddButtonProvider.notifier)
                              .activate(requestNewDogState);
@@ -340,7 +340,7 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         width: fnGetDeviceWidth(context) * 0.43,
                         onPressed: () {
                           ref.read(myPetAddNeuterButtonProvider.notifier).set(neuterY);
-                          ref.read(requestNewDogProvider.notifier).setNeuterYn(neuterY); // 데이터 저장
+                          ref.read(requestNewDogProvider.notifier).setNeuterYn(true); // 데이터 저장
 
                           ref.read(myPetAddButtonProvider.notifier)
                              .activate(requestNewDogState);

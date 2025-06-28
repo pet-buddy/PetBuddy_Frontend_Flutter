@@ -177,8 +177,10 @@ mixin class RegisterController {
         // 토큰 저장
         await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: responseEmailLoginModel.accessToken);
         await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: responseEmailLoginModel.refreshToken);
+        
+        if(!registerContext.mounted) return;
         // 사용자 정보 불러오기
-        await ControllerUtils.fnGetUserMypage(registerRef);
+        await ControllerUtils.fnGetUserMypageExec(registerRef, registerContext);
 
         if(!registerContext.mounted) return;
         // 로딩 끝

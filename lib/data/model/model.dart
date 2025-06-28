@@ -17,6 +17,7 @@ export 'request_userinfos_model.dart';
 export 'request_users_model.dart';
 export 'response_users_model.dart';
 export 'request_new_dog_model.dart';
+export 'request_update_dog_model.dart';
 export 'response_dogs_model.dart';
 export 'response_dogs_detail_model.dart';
 

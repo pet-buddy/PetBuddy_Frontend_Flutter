@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:petbuddy_frontend_flutter/data/model/request_new_dog_model.dart';
+import 'package:petbuddy_frontend_flutter/data/model/request_update_dog_model.dart';
 
-class RequestNewDogState extends StateNotifier<RequestNewDogModel> {
-  RequestNewDogState() : super(
-    RequestNewDogModel(
+class RequestUpdateDogState extends StateNotifier<RequestUpdateDogModel> {
+  RequestUpdateDogState() : super(
+    RequestUpdateDogModel(
       pet_name: '',
       pet_size: '',
       division2_code: '',
@@ -16,7 +16,7 @@ class RequestNewDogState extends StateNotifier<RequestNewDogModel> {
     ),
   );
 
-  void set(RequestNewDogModel model) => state = model;
+  void set(RequestUpdateDogModel model) => state = model;
 
   void setPetName(String petName) => state.pet_name = petName;
 
@@ -36,7 +36,7 @@ class RequestNewDogState extends StateNotifier<RequestNewDogModel> {
 
   void setFoodRemainGrade(String foodRemainGrade) => state.food_remain_grade = foodRemainGrade;
 
-  RequestNewDogModel get() => state;
+  RequestUpdateDogModel get() => state;
 
   String getPetName() => state.pet_name;
 
@@ -57,5 +57,5 @@ class RequestNewDogState extends StateNotifier<RequestNewDogModel> {
   String getFoodRemainGrade() => state.food_remain_grade;
 }
 
-final requestNewDogProvider = 
-    StateNotifierProvider<RequestNewDogState, RequestNewDogModel>((ref) => RequestNewDogState());
+final requestUpdateDogProvider = 
+    StateNotifierProvider<RequestUpdateDogState, RequestUpdateDogModel>((ref) => RequestUpdateDogState());

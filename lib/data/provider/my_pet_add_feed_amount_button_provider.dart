@@ -1,14 +1,36 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyPetAddFeedAmountButtonState extends StateNotifier<String> {
-  MyPetAddFeedAmountButtonState() : super("");
+  MyPetAddFeedAmountButtonState() : super("") {
+    _loadPreference();
+  }
 
-  void set(String size) {
-    state = size;
+  static const _preferenceKey = 'myPetAddFeedAmountButton';
+
+  void set(String amount) {
+    state = amount;
+    _savePreference();
   }
 
   String get() {
     return state;
+  }
+
+  Future<void> _loadPreference() async {
+    if(!kIsWeb) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    final saved = prefs.getString(_preferenceKey) ?? '';
+    state = saved;
+  }
+
+  Future<void> _savePreference() async {
+    if(!kIsWeb) return;
+    
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_preferenceKey, state);
   }
 }
 
