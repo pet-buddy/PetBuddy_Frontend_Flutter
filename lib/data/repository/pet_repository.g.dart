@@ -76,9 +76,11 @@ class _PetRepository implements PetRepository {
 
   @override
   Future<CommonResponseMapModel> requestUpdateDogRepository(
-      RequestUpdateDogModel requestUpdateDogModel) async {
+    int pet_id,
+    RequestUpdateDogModel requestUpdateDogModel,
+  ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'pet_id': pet_id};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(requestUpdateDogModel.toJson());

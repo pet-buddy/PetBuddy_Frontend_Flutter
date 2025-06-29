@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
+import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
 import 'package:petbuddy_frontend_flutter/controller/home_controller.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
 import 'package:petbuddy_frontend_flutter/screens/home/widget/widget.dart';
@@ -18,17 +19,27 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
+  bool _isInitialOnPageChanged = true;
 
   @override
   void initState() {
     super.initState();
     fnInitHomeController(ref, context);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // homeScreenPetController = PageController(initialPage: ref.read(homeActivatedPetNavProvider.notifier).get());      
+      
+      if (ref.read(responseDogsProvider.notifier).get().length > 1) {
+        homeScreenPetController.jumpToPage(ref.read(homeActivatedPetNavProvider.notifier).get());
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final homeActivatedPetNavState = ref.watch(homeActivatedPetNavProvider);
     final responseDogsState = ref.watch(responseDogsProvider);
+    final storage = ref.watch(secureStorageProvider);
 
     return DefaultLayout(
       child: PopScope(
@@ -181,13 +192,21 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                           child: PageView(
                             controller: homeScreenPetController,
                             padEnds: false,
-                            onPageChanged: (index) {
+                            onPageChanged: (index) async {
+                              if (_isInitialOnPageChanged) {
+                                _isInitialOnPageChanged = false;
+                                return;
+                              }
+
                               ref.read(homeActivatedPetNavProvider.notifier).set(index);
+                              // 반려동물 활성화 알림 토스트 메시지
                               textToast(
                                 context, 
                                 "${responseDogsState[index].pet_name} 활성화 되었습니다!",
                                 bottom: 0,
                               );
+                              // 로그인 시 반려동물 활성화 인덱스 불러오기 위해 저장
+                              await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: index.toString());
                             },
                             children: [
                                 for(int i=0;i<responseDogsState.length;i++)

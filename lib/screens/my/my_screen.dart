@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/home_activated_pet_nav_provider.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/response_dogs_provider.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/response_user_mypage_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -48,6 +49,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
   Widget build(BuildContext context) {
     final responseUserMypageState = ref.watch(responseUserMypageProvider);
     final responseDogsState = ref.watch(responseDogsProvider);
+    final homeActivatedPetNavState = ref.watch(homeActivatedPetNavProvider);
 
     return DefaultLayout(
       appBar: DefaultAppBar(
@@ -143,8 +145,12 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                             children: [
                               DefaultTextButton(
                                 text: responseDogsState[i].pet_name,
-                                borderColor: CustomColor.gray04,
-                                backgroundColor: CustomColor.white,
+                                borderColor: homeActivatedPetNavState == i ? 
+                                  CustomColor.yellow03 : 
+                                  CustomColor.gray04,
+                                backgroundColor: homeActivatedPetNavState == i ? 
+                                  CustomColor.yellow03 : 
+                                  CustomColor.white,
                                 disabled: false,
                                 height: 40,
                                 onPressed: () {

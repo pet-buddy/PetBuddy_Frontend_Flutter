@@ -134,6 +134,14 @@ mixin class LoginController {
         if(!loginContext.mounted) return;
         await ControllerUtils.fnGetDogsExec(loginRef, loginContext);
 
+        // 활성화된 반려동물 인덱스 불러오기
+          final petActivatedIndex = await storage.read(key: ProjectConstant.PET_ACTIVATED_INDEX);
+          if (petActivatedIndex != null) {
+            loginRef.read(homeActivatedPetNavProvider.notifier).set(
+              int.parse(petActivatedIndex)
+            );
+          }
+
         if(!loginContext.mounted) return;
         // 로딩 끝
         hideLoadingDialog(loginContext);
