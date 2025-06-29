@@ -106,14 +106,13 @@ class _PetRepository implements PetRepository {
   }
 
   @override
-  Future<CommonResponseMapNullableModel> requestDogDeleteRepository(
-      String dog) async {
+  Future<CommonResponseMapModel> requestDogDeleteRepository(String dog) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'dog': dog};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CommonResponseMapNullableModel>(Options(
+        _setStreamType<CommonResponseMapModel>(Options(
       method: 'DELETE',
       headers: _headers,
       extra: _extra,
@@ -129,7 +128,7 @@ class _PetRepository implements PetRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = CommonResponseMapNullableModel.fromJson(_result.data!);
+    final value = CommonResponseMapModel.fromJson(_result.data!);
     return value;
   }
 

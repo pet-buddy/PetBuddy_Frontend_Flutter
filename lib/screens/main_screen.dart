@@ -14,6 +14,20 @@ class MainScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentScreenIndex = ref.watch(bottomNavProvider);
+
+    final location = GoRouter.of(context).routerDelegate.currentConfiguration.uri.toString();
+
+    final currentIndex = () {
+      if (location.startsWith('/home_screen')) return 0;
+      if (location.startsWith('/camera_upload_screen')) return 1;
+      if (location.startsWith('/shop_screen')) return 2;
+      if (location.startsWith('/my_screen')) return 3;
+      return 0;
+    }();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(bottomNavProvider.notifier).set(currentIndex);
+    });
     
     return DefaultLayout(
       bottomNavigationBar: Theme(
@@ -50,7 +64,7 @@ class MainScreen extends ConsumerWidget {
                       context.goNamed('my_screen');
                     }
                     
-                    ref.read(bottomNavProvider.notifier).set(index); // 인덱스 상태 갱신
+                    // ref.read(bottomNavProvider.notifier).set(index); // 인덱스 상태 갱신
                   },
                   items: [
                     BottomNavigationBarItem(

@@ -74,7 +74,6 @@ mixin class CustomCameraController {
     return cameraRef.read(cameraImagePickerProvider.notifier).get();
   }
 
-  // 'http://59.19.158.107:3025/predict_image',
   Future<void> fnUploadExec() async {
     final XFile? xfile = cameraRef.read(cameraImagePickerProvider.notifier).get();
 
@@ -94,7 +93,7 @@ mixin class CustomCameraController {
 
     // TODO : 반려동물 변 사진 업로드
     final resp = await dio.post(
-      'http://59.19.158.107:3025/predict_image',
+      '${ProjectConstant.POO_AI_URL}predict_image',
       options: Options(
         headers: {
           'accept': 'application/json',

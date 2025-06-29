@@ -160,14 +160,14 @@ class _UserRepository implements UserRepository {
   }
 
   @override
-  Future<CommonResponseListModel> requestSignoutRepository() async {
+  Future<CommonResponseMapModel> requestSignoutRepository() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CommonResponseListModel>(Options(
-      method: 'POST',
+        _setStreamType<CommonResponseMapModel>(Options(
+      method: 'DELETE',
       headers: _headers,
       extra: _extra,
     )
@@ -182,7 +182,7 @@ class _UserRepository implements UserRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = CommonResponseListModel.fromJson(_result.data!);
+    final value = CommonResponseMapModel.fromJson(_result.data!);
     return value;
   }
 

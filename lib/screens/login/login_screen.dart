@@ -131,7 +131,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                     textColor: CustomColor.black,
                     backgroundColor: CustomColor.white,
                     onPressed: () {
-                      context.goNamed('email_login_screen');
+                      context.pushNamed('email_login_screen');
                     },
                     disabled: false,
                   ),

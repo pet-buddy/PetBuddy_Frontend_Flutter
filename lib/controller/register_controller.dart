@@ -7,6 +7,7 @@ import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller_utils.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
 import 'package:petbuddy_frontend_flutter/data/repository/auth_repository.dart';
+import 'package:petbuddy_frontend_flutter/route/go_security_provider.dart';
 
 mixin class RegisterController {
   late final WidgetRef registerRef;
@@ -173,7 +174,7 @@ mixin class RegisterController {
       debugPrint(response.toString());
 
       if(response.response_code == 200) {
-        ResponseEmailLoginModel responseEmailLoginModel = ResponseEmailLoginModel.fromJson(response.data);
+        ResponseEmailLoginModel responseEmailLoginModel = ResponseEmailLoginModel.fromJson(response.data!);
         // 토큰 저장
         await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: responseEmailLoginModel.accessToken);
         await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: responseEmailLoginModel.refreshToken);
@@ -181,6 +182,9 @@ mixin class RegisterController {
         if(!registerContext.mounted) return;
         // 사용자 정보 불러오기
         await ControllerUtils.fnGetUserMypageExec(registerRef, registerContext);
+
+        // 라우터 처리를 위한 상태 갱신
+        registerRef.read(goSecurityProvider.notifier).set(true); 
 
         if(!registerContext.mounted) return;
         // 로딩 끝
@@ -196,7 +200,7 @@ mixin class RegisterController {
         // 에러 알림창
         showAlertDialog(
           context: registerContext, 
-          middleText: Sentence.REGISTER_FAILED,
+          middleText: '${Sentence.REGISTER_FAILED}\n${response.response_message}',
         );
         return;
       }
@@ -218,7 +222,7 @@ mixin class RegisterController {
       // 에러 알림창
       showAlertDialog(
         context: registerContext, 
-        middleText: Sentence.SERVER_ERR,
+        middleText: '${Sentence.SERVER_ERR}${e.response != null ? '\n' : ''}${e.response?.statusMessage}',
       );
     }
   }

@@ -6,7 +6,13 @@ import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
 
 final dioProvider = Provider<Dio>((ref) {
-  final dio = Dio();
+  final dio = Dio(
+    BaseOptions(
+      validateStatus: (status) {
+        return status != null && status < 500;
+      },
+    )
+  );
 
   final storage = ref.watch(secureStorageProvider);
 

@@ -193,7 +193,7 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
                   // const SizedBox(height: 32,),
                   // 월별 건강
                   Text(
-                    '$homePoopReportMonthSelectState월 똥 건강 종합진단서',
+                    '$homePoopReportMonthSelectState월 똥 건강 종합보고서',
                     style: CustomText.body7.copyWith(
                       color: const Color(0xFF002C64),
                       fontWeight: FontWeight.w800,

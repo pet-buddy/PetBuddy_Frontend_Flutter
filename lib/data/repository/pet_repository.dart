@@ -32,5 +32,5 @@ abstract class PetRepository {
   Future<CommonResponseMapModel> requestUpdateDogRepository(@Query("pet_id") int pet_id, @Body() RequestUpdateDogModel requestUpdateDogModel); 
 
   @DELETE('/delete')
-  Future<CommonResponseMapNullableModel> requestDogDeleteRepository(@Query("dog") String dog);
+  Future<CommonResponseMapModel> requestDogDeleteRepository(@Query("dog") String dog);
 } 

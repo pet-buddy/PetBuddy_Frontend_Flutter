@@ -6,12 +6,12 @@ part 'common_response_map_model.g.dart';
 class CommonResponseMapModel {
   final int response_code;
   final String response_message;
-  final Map<String, dynamic> data;
+  final Map<String, dynamic>? data;
 
   CommonResponseMapModel({
     required this.response_code,
     required this.response_message,
-    required this.data
+    this.data
   });
 
   factory CommonResponseMapModel.fromJson(Map<String, dynamic> json) => _$CommonResponseMapModelFromJson(json);

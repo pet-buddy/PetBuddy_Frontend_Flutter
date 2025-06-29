@@ -7,6 +7,7 @@ import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller_utils.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
 import 'package:petbuddy_frontend_flutter/data/repository/repository.dart';
+import 'package:petbuddy_frontend_flutter/route/go_security_provider.dart';
 
 mixin class LoginController {
   late final WidgetRef loginRef;
@@ -123,7 +124,7 @@ mixin class LoginController {
       debugPrint(response.toString());
 
       if(response.response_code == 200) {
-        ResponseEmailLoginModel responseEmailLoginModel = ResponseEmailLoginModel.fromJson(response.data);
+        ResponseEmailLoginModel responseEmailLoginModel = ResponseEmailLoginModel.fromJson(response.data!);
         // 토큰 저장
         await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: responseEmailLoginModel.accessToken);
         await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: responseEmailLoginModel.refreshToken);
@@ -135,12 +136,15 @@ mixin class LoginController {
         await ControllerUtils.fnGetDogsExec(loginRef, loginContext);
 
         // 활성화된 반려동물 인덱스 불러오기
-          final petActivatedIndex = await storage.read(key: ProjectConstant.PET_ACTIVATED_INDEX);
-          if (petActivatedIndex != null) {
-            loginRef.read(homeActivatedPetNavProvider.notifier).set(
-              int.parse(petActivatedIndex)
-            );
-          }
+        final petActivatedIndex = await storage.read(key: ProjectConstant.PET_ACTIVATED_INDEX);
+        if (petActivatedIndex != null) {
+          loginRef.read(homeActivatedPetNavProvider.notifier).set(
+            int.parse(petActivatedIndex)
+          );
+        }
+
+        // 라우터 처리를 위한 상태 갱신
+        loginRef.read(goSecurityProvider.notifier).set(true); 
 
         if(!loginContext.mounted) return;
         // 로딩 끝
@@ -156,7 +160,7 @@ mixin class LoginController {
         // 에러 알림창
         showAlertDialog(
           context: loginContext, 
-          middleText: "이메일 또는 비밀번호를 확인해주세요."
+          middleText: "이메일 또는 비밀번호를 확인해주세요.\n${response.response_message}"
         );
         return;
       }

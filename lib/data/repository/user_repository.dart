@@ -37,6 +37,6 @@ abstract class UserRepository {
   @POST('/email-login')
   Future<CommonResponseMapModel> requestEmailLoginRepository(@Body() RequestEmailLoginModel requestEmailLoginModel); 
 
-  @POST('/signout')
-  Future<CommonResponseListModel> requestSignoutRepository(); 
+  @DELETE('/signout')
+  Future<CommonResponseMapModel> requestSignoutRepository(); 
 } 

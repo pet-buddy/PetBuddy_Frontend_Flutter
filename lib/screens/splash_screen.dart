@@ -7,6 +7,7 @@ import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller_utils.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
+import 'package:petbuddy_frontend_flutter/route/go_security_provider.dart';
 // import 'package:petbuddy_frontend_flutter/data/model/response_user_mypage_model.dart';
 // import 'package:petbuddy_frontend_flutter/data/provider/response_user_mypage_provider.dart';
 // import 'package:petbuddy_frontend_flutter/data/repository/user_repository.dart';
@@ -54,6 +55,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
               int.parse(petActivatedIndex)
             );
           }
+
+          // 라우터 처리를 위한 상태 갱신
+          ref.read(goSecurityProvider.notifier).set(true); 
 
           // TODO : 홈 화면 정보 세팅
 

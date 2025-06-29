@@ -1,7 +1,6 @@
 // 공통 응답 모델
 export 'common_response_list_model.dart';
 export 'common_response_map_model.dart';
-export 'common_response_map_nullable_model.dart';
 
 // 회원가입
 export 'request_email_register_model.dart';

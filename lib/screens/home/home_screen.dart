@@ -202,7 +202,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                               // 반려동물 활성화 알림 토스트 메시지
                               textToast(
                                 context, 
-                                "${responseDogsState[index].pet_name} 활성화 되었습니다!",
+                                "${responseDogsState[index].pet_name} 을/를 보고 있어요!",
                                 bottom: 0,
                               );
                               // 로그인 시 반려동물 활성화 인덱스 불러오기 위해 저장
@@ -371,6 +371,10 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                               showAlertDialog(
                                 context: context, 
                                 middleText: Sentence.UPDATE_ALERT,
+                                onConfirm: () {
+                                  // 사전예약 페이지 이도
+                                  context.pushNamed('preorder_screen');
+                                }
                               );
 
                               // TODO : 수면 효율 페이지 이동
