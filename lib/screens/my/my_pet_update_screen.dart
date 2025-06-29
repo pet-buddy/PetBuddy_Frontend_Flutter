@@ -568,6 +568,8 @@ class MyPetUpdateScreenState extends ConsumerState<MyPetUpdateScreen> with MyCon
                           middleText: "사료 급여 시간은\n최대 3개까지만 추가 가능합니다."
                         );
                       } else {
+                        ref.read(myPetAddFeedTimeMeridiemButtonProvider.notifier).set("");
+                        
                         await showDialog<void>(
                           context: context,
                           barrierDismissible: true,
@@ -679,7 +681,7 @@ class MyPetUpdateScreenState extends ConsumerState<MyPetUpdateScreen> with MyCon
                     onPressed: () async {
                       showConfirmDialog(
                         context: context, 
-                        middleText: "반려동물을 정말 삭제하시겠습니까?", 
+                        middleText: "삭제하실 경우 다시는 볼 수 없어요 :(\n그래도 삭제하실건가요? :울다:", 
                         onConfirm: () async {
                           await fnMyPetDeleteExec(widget.pet_id);
                         },

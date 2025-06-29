@@ -11,7 +11,7 @@ CommonResponseMapModel _$CommonResponseMapModelFromJson(
     CommonResponseMapModel(
       response_code: (json['response_code'] as num).toInt(),
       response_message: json['response_message'] as String,
-      data: json['data'] as Map<String, dynamic>,
+      data: json['data'] as Map<String, dynamic>?,
     );
 
 Map<String, dynamic> _$CommonResponseMapModelToJson(

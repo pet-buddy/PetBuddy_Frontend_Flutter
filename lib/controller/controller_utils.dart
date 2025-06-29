@@ -21,7 +21,7 @@ class ControllerUtils {
       debugPrint(response.toString());
 
       if(response.response_code == 200) {
-        ResponseUserMypageModel responseUserMypageModel = ResponseUserMypageModel.fromJson(response.data);
+        ResponseUserMypageModel responseUserMypageModel = ResponseUserMypageModel.fromJson(response.data!);
         // 사용자 정보 세팅
         ref.read(responseUserMypageProvider.notifier).set(responseUserMypageModel);
       } else {
@@ -29,7 +29,7 @@ class ControllerUtils {
         // 에러 알림창
         showAlertDialog(
           context: context, 
-          middleText: "사용자 정보 조회에 실패했습니다."
+          middleText: "사용자 정보 조회에 실패했습니다.\n${response.response_message}"
         );
         return;
       }
@@ -62,7 +62,7 @@ class ControllerUtils {
       final response = await ref.read(petRepositoryProvider).requestDogsRepository();
 
       if(response.response_code == 200) {
-        ResponseDogsModel responseDogsModel = ResponseDogsModel.fromJson(response.data);
+        ResponseDogsModel responseDogsModel = ResponseDogsModel.fromJson(response.data!);
 
         ref.read(responseDogsProvider.notifier).set(
           responseDogsModel.dogs.map((elem) => ResponseDogsDetailModel.fromJson(elem)).toList(),
@@ -78,7 +78,7 @@ class ControllerUtils {
         // 에러 알림창
         showAlertDialog(
           context: context, 
-          middleText: "반려동물 조회에 실패했습니다."
+          middleText: "반려동물 조회에 실패했습니다.\n${response.response_message}"
         );
         return;
       }

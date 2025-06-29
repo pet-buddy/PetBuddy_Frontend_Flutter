@@ -571,6 +571,8 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                           middleText: "사료 급여 시간은\n최대 3개까지만 추가 가능합니다."
                         );
                       } else {
+                        ref.read(myPetAddFeedTimeMeridiemButtonProvider.notifier).set("");
+
                         await showDialog<void>(
                           context: context,
                           barrierDismissible: true,

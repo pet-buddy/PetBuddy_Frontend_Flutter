@@ -377,8 +377,16 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
                         width: 1,
-                        color: CustomColor.gray04,
+                        color: CustomColor.gray03,
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: CustomColor.gray04..withValues(alpha: 0.0),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: const Offset(0, 0),
+                      )
+                    ],
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -386,7 +394,7 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                       Text(
                         '해당 화면은 예시 화면입니다.',
                         style: CustomText.body9.copyWith(
-                          color: CustomColor.gray03,
+                          color: CustomColor.gray02,
                         ),
                         textAlign: TextAlign.center,
                       ),

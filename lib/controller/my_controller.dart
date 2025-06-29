@@ -133,8 +133,8 @@ mixin class MyController {
   double companySectionHeight = 0.0;
 
   // 계정정보수정 화면에서 사용하는 변수들
-  final String maleCode = 'male';
-  final String femaleCode = 'female';
+  final String maleCode = 'MALE';
+  final String femaleCode = 'FEMALE';
 
   final String largeSize = 'LARGE';
   final String mediumSize = 'MEDIUM';
@@ -291,7 +291,7 @@ mixin class MyController {
       );
 
       if(response.response_code == 200) {
-        ResponseUsersModel responseUsersModel = ResponseUsersModel.fromJson(response.data);
+        ResponseUsersModel responseUsersModel = ResponseUsersModel.fromJson(response.data!);
 
         if(!myContext.mounted) return;
         await ControllerUtils.fnGetUserMypageExec(myRef, myContext);
@@ -302,7 +302,7 @@ mixin class MyController {
         // 성공 알림창
         showAlertDialog(
           context: myContext, 
-          middleText: "계정 정보 변경이 완료되었습니다.",
+          middleText: "계정 정보가 수정되었습니다.",
           barrierDismissible: false,
           onConfirm: () {
             // 페이지 이동
@@ -316,7 +316,7 @@ mixin class MyController {
         // 에러 알림창
         showAlertDialog(
           context: myContext, 
-          middleText: "계정 정보 수정에 실패했습니다."
+          middleText: "계정 정보 수정이 실패했습니다.\n${response.response_message}"
         );
         return;
       }
@@ -980,7 +980,7 @@ mixin class MyController {
     myRef.read(myPetAddFeedFilterProvider.notifier).set([]);
     myRef.read(myPetAddFeedDropdownProvider.notifier).set(false);
     myRef.read(myPetAddSizeButtonProvider.notifier).set(responseDogsDetailModel.pet_size);
-    myRef.read(myPetAddGenderButtonProvider.notifier).set(responseDogsDetailModel.pet_gender);
+    myRef.read(myPetAddGenderButtonProvider.notifier).set(responseDogsDetailModel.pet_gender.toUpperCase());
     myRef.read(myPetAddNeuterButtonProvider.notifier).set(responseDogsDetailModel.neuter_yn ? 'Y' : 'N');
     myRef.read(myPetAddFeedAmountButtonProvider.notifier).set(responseDogsDetailModel.foodGrade!);
     myRef.read(myPetAddNameInputStatusCodeProvider.notifier).set(ProjectConstant.INPUT_SUCCESS);

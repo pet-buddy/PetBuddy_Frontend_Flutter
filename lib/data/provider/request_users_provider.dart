@@ -25,26 +25,26 @@ class RequestUsersState extends StateNotifier<RequestUsersModel> {
   }
 
   void setGender(String gender) {
-    // state.gender = gender;
-    state = state.copyWith(gender: gender);
+    state.gender = gender;
+    // state = state.copyWith(gender: gender);
     _savePreference();
   }
 
   void setBirth(String birth) {
-    // state.birth = birth;
-    state = state.copyWith(birth: birth);
+    state.birth = birth;
+    // state = state.copyWith(birth: birth);
     _savePreference();
   }
 
   void setInterest(String interest) {
-    // state.interest = interest;
-    state = state.copyWith(interest: interest);
+    state.interest = interest;
+    // state = state.copyWith(interest: interest);
     _savePreference();
   }
 
   void setPhoneNumber(String phone_number) {
-    // state.phone_number = phone_number;
-    state = state.copyWith(phone_number: phone_number);
+    state.phone_number = phone_number;
+    // state = state.copyWith(phone_number: phone_number);
     _savePreference();
   }
 
