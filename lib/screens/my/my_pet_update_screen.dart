@@ -663,7 +663,7 @@ class MyPetUpdateScreenState extends ConsumerState<MyPetUpdateScreen> with MyCon
                   DefaultTextButton(
                     text: '수정하기', 
                     onPressed: () async {
-                      await fnMyPetUpdateExec();
+                      await fnMyPetUpdateExec(widget.pet_id);
                     },
                     disabled: false,
                     borderColor: myPetUpdateButtonState 

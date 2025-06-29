@@ -1,8 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyPetUpdateButtonState extends StateNotifier<bool> {
-  MyPetUpdateButtonState() : super(false);
+  MyPetUpdateButtonState() : super(false) {
+    _loadPreference();
+  }
+
+  static const _preferenceKey = 'myPetUpdateButton';
 
   void activate(RequestUpdateDogModel requestUpdateDogModel) {
     final String petName = requestUpdateDogModel.pet_name;
@@ -13,6 +19,8 @@ class MyPetUpdateButtonState extends StateNotifier<bool> {
     final int feedId = requestUpdateDogModel.feed_id;
     final List<String> feedTime = requestUpdateDogModel.feed_time;
     final String petBirth = requestUpdateDogModel.pet_birth;
+
+    debugPrint(requestUpdateDogModel.toJson().toString());
 
     if(petName.isNotEmpty 
         && petSize.isNotEmpty
@@ -26,11 +34,31 @@ class MyPetUpdateButtonState extends StateNotifier<bool> {
     } else {
       state = false;
     }
+    
+    _savePreference();
   }
 
-  void set(bool btnState) => state = btnState;
+  void set(bool btnState) {
+    state = btnState;
+    _savePreference();
+  }
 
   bool get() => state;
+
+  Future<void> _loadPreference() async {
+    if(!kIsWeb) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    final saved = prefs.getBool(_preferenceKey) ?? false;
+    state = saved;
+  }
+
+  Future<void> _savePreference() async {
+    if(!kIsWeb) return;
+    
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_preferenceKey, state);
+  }
 }
 
 final myPetUpdateButtonProvider = 

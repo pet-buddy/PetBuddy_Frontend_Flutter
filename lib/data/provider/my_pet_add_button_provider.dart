@@ -32,6 +32,7 @@ class MyPetAddButtonState extends StateNotifier<bool> {
     } else {
       state = false;
     }
+    
     _savePreference();
   }
 

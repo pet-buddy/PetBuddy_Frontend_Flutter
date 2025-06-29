@@ -17,6 +17,20 @@ class RequestUsersModel {
     required this.birth,
   });
 
+  RequestUsersModel copyWith({
+    String? gender,
+    String? birth,
+    String? interest,
+    String? phone_number,
+  }) {
+    return RequestUsersModel(
+      gender: gender ?? this.gender,
+      birth: birth ?? this.birth,
+      interest: interest ?? this.interest,
+      phone_number: phone_number ?? this.phone_number,
+    );
+  }
+
   factory RequestUsersModel.fromJson(Map<String, dynamic> json) => _$RequestUsersModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$RequestUsersModelToJson(this);

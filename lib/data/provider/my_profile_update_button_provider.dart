@@ -1,8 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petbuddy_frontend_flutter/data/model/request_users_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyProfileUpdateButtonState extends StateNotifier<bool> {
-  MyProfileUpdateButtonState() : super(false);
+  MyProfileUpdateButtonState() : super(false) {
+    _loadPreference();
+  }
+
+  static const _preferenceKey = 'myProfileUpdateButton';
 
   void activate(RequestUsersModel requestUsersModel) {
     final sex = requestUsersModel.gender; 
@@ -18,6 +24,23 @@ class MyProfileUpdateButtonState extends StateNotifier<bool> {
     } else {
       state = false;
     }
+
+    _savePreference();
+  }
+
+  Future<void> _loadPreference() async {
+    if(!kIsWeb) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    final saved = prefs.getBool(_preferenceKey) ?? false;
+    state = saved;
+  }
+
+  Future<void> _savePreference() async {
+    if(!kIsWeb) return;
+    
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_preferenceKey, state);
   }
 }
 

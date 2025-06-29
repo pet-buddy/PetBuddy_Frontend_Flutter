@@ -23,7 +23,7 @@ class MyPetAddBirthInputStatusCodeState extends StateNotifier<String> {
     if(!kIsWeb) return;
 
     final prefs = await SharedPreferences.getInstance();
-    final saved = prefs.getString(_preferenceKey) ?? '';
+    final saved = prefs.getString(_preferenceKey) ?? ProjectConstant.INPUT_INIT;
     state = saved;
   }
 

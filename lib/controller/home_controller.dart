@@ -19,7 +19,7 @@ mixin class HomeController {
     'Year': 'Y'
   };
 
-  final PageController homeScreenPetController = PageController(initialPage: 0);
+  PageController homeScreenPetController = PageController(initialPage: 0);
 
   void fnInvalidateHomePoopReportState() {
     homeRef.invalidate(homeActivityReportPeriodSelectProvider);

@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller_utils.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
 // import 'package:petbuddy_frontend_flutter/data/model/response_user_mypage_model.dart';
 // import 'package:petbuddy_frontend_flutter/data/provider/response_user_mypage_provider.dart';
 // import 'package:petbuddy_frontend_flutter/data/repository/user_repository.dart';
@@ -45,6 +46,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
           // 반려동물 정보 세팅
           await ControllerUtils.fnGetDogsExec(ref, context);
+
+          // 활성화된 반려동물 인덱스 불러오기
+          final petActivatedIndex = await storage.read(key: ProjectConstant.PET_ACTIVATED_INDEX);
+          if (petActivatedIndex != null) {
+            ref.read(homeActivatedPetNavProvider.notifier).set(
+              int.parse(petActivatedIndex)
+            );
+          }
 
           // TODO : 홈 화면 정보 세팅
 

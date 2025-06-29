@@ -65,6 +65,19 @@ mixin class MyController {
         food_remain_grade: '',
       ),
     );
+    myRef.read(requestUpdateDogProvider.notifier).set(
+      RequestUpdateDogModel(
+        pet_name: '',
+        pet_size: '',
+        division2_code: '',
+        pet_gender: '',
+        neuter_yn: null,
+        feed_id: -1,
+        feed_time: [],
+        pet_birth: '',
+        food_remain_grade: '',
+      ),
+    );
     myRef.read(myPetAddFeedTimeListProvider.notifier).set([]);
     myRef.read(myPetAddFeedTimeDeleteListProvider.notifier).set([]);
     myRef.read(myPetAddFeedTimeMeridiemButtonProvider.notifier).set("");
@@ -88,6 +101,7 @@ mixin class MyController {
     myRef.invalidate(myPetAddFeedTimeMeridiemButtonProvider);
     myRef.invalidate(myPetAddFeedTimeSelectModeProvider);
     myRef.invalidate(requestNewDogProvider); // 반려동물 추가하기 모델
+    myRef.invalidate(requestUpdateDogProvider); // 반려동물 수정하기 모델
     myRef.invalidate(myPetAddButtonProvider); // 반려동물 추가하기 버튼
   }
 
@@ -106,6 +120,7 @@ mixin class MyController {
     myRef.invalidate(myPetAddFeedTimeDeleteListProvider);
     myRef.invalidate(myPetAddFeedTimeMeridiemButtonProvider);
     myRef.invalidate(myPetAddFeedTimeSelectModeProvider);
+    myRef.invalidate(requestNewDogProvider); // 반려동물 추가하기 모델
     myRef.invalidate(requestUpdateDogProvider); // 반려동물 수정하기 모델
     myRef.invalidate(myPetUpdateButtonProvider); // 반려동물 수정하기 버튼
   }
@@ -538,6 +553,7 @@ mixin class MyController {
       (e) => e.breed == selectedBreed,
       orElse: () => MyBreedModel(code: '', breed: ''),
     );
+    debugPrint(match.code.isEmpty ? '' : match.code);
     return match.code.isEmpty ? '' : match.code;
   }
 
@@ -553,6 +569,7 @@ mixin class MyController {
     petTypeInputController.text = selected;
 
     myRef.read(requestNewDogProvider.notifier).setDivision2Code(fnGetCodeFromBreed(selected));
+    myRef.read(requestUpdateDogProvider.notifier).setDivision2Code(fnGetCodeFromBreed(selected));
 
     myRef.read(myPetAddTypeDropdownProvider.notifier).set(false);
   }
@@ -580,7 +597,7 @@ mixin class MyController {
       (e) => e.food_name == selectedFeed,
       orElse: () => MyFeedModel(food_id: -1, food_name: ''),
     );
-
+    debugPrint(match.food_id.toString());
     return match.food_id;
   }
   // 참고 : 사료 데이터 칼럼 명칭이 food_id, food_name으로 되어있음 
@@ -598,6 +615,7 @@ mixin class MyController {
     petFeedInputController.text = selected;
 
     myRef.read(requestNewDogProvider.notifier).setFeedId(fnGetIdFromFeed(selected));
+    myRef.read(requestUpdateDogProvider.notifier).setFeedId(fnGetIdFromFeed(selected));
 
     myRef.read(myPetAddFeedDropdownProvider.notifier).set(false);
   }
@@ -967,6 +985,19 @@ mixin class MyController {
     myRef.read(myPetAddFeedAmountButtonProvider.notifier).set(responseDogsDetailModel.foodGrade!);
     myRef.read(myPetAddNameInputStatusCodeProvider.notifier).set(ProjectConstant.INPUT_SUCCESS);
     myRef.read(myPetAddBirthInputStatusCodeProvider.notifier).set(ProjectConstant.INPUT_SUCCESS);
+    myRef.read(requestNewDogProvider.notifier).set(
+      RequestNewDogModel(
+        pet_name: '',
+        pet_size: '',
+        division2_code: '',
+        pet_gender: '',
+        neuter_yn: null,
+        feed_id: -1,
+        feed_time: [],
+        pet_birth: '',
+        food_remain_grade: '',
+      ),
+    );
     myRef.read(requestUpdateDogProvider.notifier).set(
       RequestUpdateDogModel(
         pet_name: responseDogsDetailModel.pet_name,
@@ -999,7 +1030,7 @@ mixin class MyController {
   // 반려동물 수정
   // 설명 : Model, Dio 요청 Repository은 Update용으로 만듦, 반려동물 추가와 Provider를 같이 사용
   // ########################################
-  Future<void> fnMyPetUpdateExec() async {
+  Future<void> fnMyPetUpdateExec(int pet_id) async {
     final String petName = myRef.read(requestUpdateDogProvider.notifier).getPetName();
     final String petSize = myRef.read(requestUpdateDogProvider.notifier).getPetSize();
     final String petType = myRef.read(requestUpdateDogProvider.notifier).getDivision2Code();
@@ -1010,6 +1041,7 @@ mixin class MyController {
     final String petBirth = myRef.read(requestUpdateDogProvider.notifier).getPetBirth();
     final String foodRemainGrade = myRef.read(requestUpdateDogProvider.notifier).getFoodRemainGrade();
 
+    debugPrint(pet_id.toString());
     debugPrint(petName);
     debugPrint(petSize);
     debugPrint(petType);
@@ -1104,6 +1136,7 @@ mixin class MyController {
 
     try {
       final response = await myRef.read(petRepositoryProvider).requestUpdateDogRepository(
+        pet_id,
         RequestUpdateDogModel(
           pet_name: petName, 
           pet_size: petSize, 
