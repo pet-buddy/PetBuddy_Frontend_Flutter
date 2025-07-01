@@ -17,8 +17,8 @@ class ControllerUtils {
     try {
       final response = await ref.read(userRepositoryProvider).requestUserMypageRepository();
 
-      debugPrint("========== Get User Mypage Response =========");
-      debugPrint(response.toString());
+      // debugPrint("========== Get User Mypage Response =========");
+      // debugPrint(response.toString());
 
       if(response.response_code == 200) {
         ResponseUserMypageModel responseUserMypageModel = ResponseUserMypageModel.fromJson(response.data!);
@@ -34,8 +34,8 @@ class ControllerUtils {
         return;
       }
     } on DioException catch(e) {
-      debugPrint("========== Request User Mypage Exception ==========");
-      debugPrint(e.toString());
+      // debugPrint("========== Request User Mypage Exception ==========");
+      // debugPrint(e.toString());
 
       // 에러 알림창
       if(!context.mounted) return;
@@ -83,8 +83,8 @@ class ControllerUtils {
         return;
       }
     } on DioException catch(e) {
-      debugPrint("========== Request Dogs Exception ==========");
-      debugPrint(e.toString());
+      // debugPrint("========== Request Dogs Exception ==========");
+      // debugPrint(e.toString());
 
       // 로딩 끝
       // if(!context.mounted) return;

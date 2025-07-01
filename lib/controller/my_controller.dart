@@ -175,11 +175,25 @@ mixin class MyController {
            .set(ProjectConstant.INPUT_ERR_LENGTH);
     }
 
-    if(birth != '' && birth.length == 10) {
-      myRef.read(myProfileBirthInputStatusCodeProvider.notifier)
-           .set(ProjectConstant.INPUT_SUCCESS);
+    // if(birth != '' && birth.length == 10) {
+    //   myRef.read(myProfileBirthInputStatusCodeProvider.notifier)
+    //        .set(ProjectConstant.INPUT_SUCCESS);
 
-      result = true;
+    //   result = true;
+    // }
+
+    if(birth.length == 10) {
+      bool formatResult = fnValidateBirthFormat(birth);
+      if(!formatResult) {
+        myRef.read(myProfileBirthInputStatusCodeProvider.notifier)
+             .set(ProjectConstant.INPUT_ERR_FORMAT); 
+        return result;
+      } else {
+        myRef.read(myProfileBirthInputStatusCodeProvider.notifier)
+             .set(ProjectConstant.INPUT_SUCCESS);
+
+        result = true;
+      }
     }
 
     return result;
@@ -242,8 +256,15 @@ mixin class MyController {
       } else if(birth.length != 10) {
         showAlertDialog(
           context: myContext, 
-          middleText: Sentence.BIRTH_ERR_LEN,
+          middleText: Sentence.BIRTH_ERR_LENGTH,
         );
+      } else if(birth.length == 10) {
+        if(!fnValidateBirthFormat(birth)) {
+          showAlertDialog(
+            context: myContext, 
+            middleText: Sentence.BIRTH_ERR_FORMAT,
+          );
+        }
       }
       return;
     }
@@ -321,8 +342,8 @@ mixin class MyController {
         return;
       }
     } on DioException catch(e) {
-      debugPrint("========== Request Users Dio Exception ==========");
-      debugPrint(e.toString());
+      // debugPrint("========== Request Users Dio Exception ==========");
+      // debugPrint(e.toString());
 
       // 로딩 끝
       if(!myContext.mounted) return;
@@ -553,7 +574,7 @@ mixin class MyController {
       (e) => e.breed == selectedBreed,
       orElse: () => MyBreedModel(code: '', breed: ''),
     );
-    debugPrint(match.code.isEmpty ? '' : match.code);
+    // debugPrint(match.code.isEmpty ? '' : match.code);
     return match.code.isEmpty ? '' : match.code;
   }
 
@@ -597,7 +618,7 @@ mixin class MyController {
       (e) => e.food_name == selectedFeed,
       orElse: () => MyFeedModel(food_id: -1, food_name: ''),
     );
-    debugPrint(match.food_id.toString());
+    // debugPrint(match.food_id.toString());
     return match.food_id;
   }
   // 참고 : 사료 데이터 칼럼 명칭이 food_id, food_name으로 되어있음 
@@ -717,6 +738,10 @@ mixin class MyController {
       myRef.read(myPetAddNameInputStatusCodeProvider.notifier)
            .set(ProjectConstant.INPUT_ERR_EMPTY);
       result = false; 
+    } else if(petName.length > 5) {
+      myRef.read(myPetAddNameInputStatusCodeProvider.notifier)
+           .set(ProjectConstant.INPUT_ERR_LENGTH);
+      result = false; 
     } else {
       myRef.read(myPetAddNameInputStatusCodeProvider.notifier)
            .set(ProjectConstant.INPUT_SUCCESS);
@@ -788,16 +813,25 @@ mixin class MyController {
     if(birth.isEmpty) {
       myRef.read(myPetAddBirthInputStatusCodeProvider.notifier)
            .set(ProjectConstant.INPUT_ERR_EMPTY);
+      return result;
     } else if(birth.length != 10) {
       myRef.read(myPetAddBirthInputStatusCodeProvider.notifier)
            .set(ProjectConstant.INPUT_ERR_LENGTH);
-    }
+      return result;
+    } 
+    
+    if(birth.length == 10) {
+      bool formatResult = fnValidateBirthFormat(birth);
+      if(!formatResult) {
+        myRef.read(myPetAddBirthInputStatusCodeProvider.notifier)
+             .set(ProjectConstant.INPUT_ERR_FORMAT); 
+        return result;
+      } else {
+        myRef.read(myPetAddBirthInputStatusCodeProvider.notifier)
+             .set(ProjectConstant.INPUT_SUCCESS);
 
-    if(birth != '' && birth.length == 10) {
-      myRef.read(myPetAddBirthInputStatusCodeProvider.notifier)
-           .set(ProjectConstant.INPUT_SUCCESS);
-
-      result = true;
+        result = true;
+      }
     }
 
     return result;
@@ -814,22 +848,30 @@ mixin class MyController {
     final String petBirth = myRef.read(requestNewDogProvider.notifier).getPetBirth();
     final String foodRemainGrade = myRef.read(requestNewDogProvider.notifier).getFoodRemainGrade();
 
-    debugPrint(petName);
-    debugPrint(petSize);
-    debugPrint(petType);
-    debugPrint(petGender);
-    debugPrint(neuterYn.toString());
-    debugPrint(feedId.toString());
-    debugPrint(feedTime.toString());
-    debugPrint(petBirth);
-    debugPrint(foodRemainGrade);
+    // debugPrint(petName);
+    // debugPrint(petSize);
+    // debugPrint(petType);
+    // debugPrint(petGender);
+    // debugPrint(neuterYn.toString());
+    // debugPrint(feedId.toString());
+    // debugPrint(feedTime.toString());
+    // debugPrint(petBirth);
+    // debugPrint(foodRemainGrade);
 
     if(!fnCheckPetName(petName)) {
-      showAlertDialog(
-        context: myContext, 
-        middleText: Sentence.PET_NAME_ERR_EMPTY,
-      );
-      return;
+      if(petName.isEmpty) {
+        showAlertDialog(
+          context: myContext, 
+          middleText: Sentence.PET_NAME_ERR_EMPTY,
+        );
+        return;
+      } else if(petName.length > 5) {
+        showAlertDialog(
+          context: myContext, 
+          middleText: Sentence.PET_NAME_ERR_LENGTH,
+        );
+        return;
+      }
     }
 
     if(!fnCheckPetSize(petSize)) {
@@ -897,8 +939,15 @@ mixin class MyController {
       } else if(petBirth.length != 10) {
         showAlertDialog(
           context: myContext, 
-          middleText: Sentence.PET_BIRTH_ERR_LEN,
+          middleText: Sentence.PET_BIRTH_ERR_LENGTH,
         );
+      } else if(petBirth.length == 10) {
+        if(!fnValidateBirthFormat(petBirth)) {
+          showAlertDialog(
+            context: myContext, 
+            middleText: Sentence.PET_BIRTH_ERR_FORMAT,
+          );
+        }
       }
       return;
     }
@@ -926,7 +975,7 @@ mixin class MyController {
 
         // await ControllerUtils.fnGetUserMypageExec(myRef);
 
-        debugPrint(response.data.toString());
+        // debugPrint(response.data.toString());
         
         if(!myContext.mounted) return;
         // 로딩 끝
@@ -957,8 +1006,8 @@ mixin class MyController {
         return;
       }
     } on DioException catch(e) {
-      debugPrint("========== Request NewDog Dio Exception ==========");
-      debugPrint(e.toString());
+      // debugPrint("========== Request NewDog Dio Exception ==========");
+      // debugPrint(e.toString());
 
       // 로딩 끝
       if(!myContext.mounted) return;
@@ -1041,16 +1090,16 @@ mixin class MyController {
     final String petBirth = myRef.read(requestUpdateDogProvider.notifier).getPetBirth();
     final String foodRemainGrade = myRef.read(requestUpdateDogProvider.notifier).getFoodRemainGrade();
 
-    debugPrint(pet_id.toString());
-    debugPrint(petName);
-    debugPrint(petSize);
-    debugPrint(petType);
-    debugPrint(petGender);
-    debugPrint(neuterYn.toString());
-    debugPrint(feedId.toString());
-    debugPrint(feedTime.toString());
-    debugPrint(petBirth);
-    debugPrint(foodRemainGrade);
+    // debugPrint(pet_id.toString());
+    // debugPrint(petName);
+    // debugPrint(petSize);
+    // debugPrint(petType);
+    // debugPrint(petGender);
+    // debugPrint(neuterYn.toString());
+    // debugPrint(feedId.toString());
+    // debugPrint(feedTime.toString());
+    // debugPrint(petBirth);
+    // debugPrint(foodRemainGrade);
 
     if(!fnCheckPetName(petName)) {
       showAlertDialog(
@@ -1125,7 +1174,12 @@ mixin class MyController {
       } else if(petBirth.length != 10) {
         showAlertDialog(
           context: myContext, 
-          middleText: Sentence.PET_BIRTH_ERR_LEN,
+          middleText: Sentence.PET_BIRTH_ERR_LENGTH,
+        );
+      } else if(petBirth.length == 10 && !fnValidateBirthFormat(petBirth)) {
+        showAlertDialog(
+          context: myContext, 
+          middleText: Sentence.PET_BIRTH_ERR_FORMAT,
         );
       }
       return;
@@ -1155,7 +1209,7 @@ mixin class MyController {
 
         // await ControllerUtils.fnGetUserMypageExec(myRef);
 
-        debugPrint(response.data.toString());
+        // debugPrint(response.data.toString());
         
         if(!myContext.mounted) return;
         // 로딩 끝
@@ -1186,8 +1240,8 @@ mixin class MyController {
         return;
       }
     } on DioException catch(e) {
-      debugPrint("========== Request Update Dio Exception ==========");
-      debugPrint(e.toString());
+      // debugPrint("========== Request Update Dio Exception ==========");
+      // debugPrint(e.toString());
 
       // 로딩 끝
       if(!myContext.mounted) return;
@@ -1233,8 +1287,8 @@ mixin class MyController {
   //       return;
   //     }
   //   } on DioException catch(e) {
-  //     debugPrint("========== Request Dogs Exception ==========");
-  //     debugPrint(e.toString());
+  //     // debugPrint("========== Request Dogs Exception ==========");
+  //     // debugPrint(e.toString());
 
   //     // 로딩 끝
   //     if(!myContext.mounted) return;
@@ -1276,8 +1330,8 @@ mixin class MyController {
         return;
       }
     } on DioException catch(e) {
-      debugPrint("========== Request Delete Exception ==========");
-      debugPrint(e.toString());
+      // debugPrint("========== Request Delete Exception ==========");
+      // debugPrint(e.toString());
 
       // 로딩 끝
       if(!myContext.mounted) return;
@@ -1337,8 +1391,8 @@ mixin class MyController {
         return;
       }
     } on DioException catch(e) {
-      debugPrint("========== Request Signout Dio Exception ==========");
-      debugPrint(e.toString());
+      // debugPrint("========== Request Signout Dio Exception ==========");
+      // debugPrint(e.toString());
 
       // 로딩 끝
       if(!myContext.mounted) return;

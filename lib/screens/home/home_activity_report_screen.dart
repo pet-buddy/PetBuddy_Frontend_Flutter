@@ -214,7 +214,7 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                   ),
                                   onPressed: () { 
                                     _changeDate(-1);
-                                    debugPrint(selectedDate.toString());
+                                    // debugPrint(selectedDate.toString());
                                   },
                                 ),
                                 Text(
@@ -229,7 +229,7 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                   ),
                                   onPressed: () { 
                                     _changeDate(1);
-                                    debugPrint(selectedDate.toString());
+                                    // debugPrint(selectedDate.toString());
                                   }
                                 ),
                               ],

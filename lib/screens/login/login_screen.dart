@@ -32,7 +32,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
           if (didPop) {
             return;
           }
-          // await fnClose(context);
+          await fnClose(context);
         },
         child: SafeArea(
           child: SingleChildScrollView(

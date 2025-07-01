@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/data/model/request_users_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,7 +18,7 @@ class MyProfileUpdateButtonState extends StateNotifier<bool> {
     final phone_number = requestUsersModel.phone_number;
     
     if(sex.isNotEmpty 
-        && (birth.isNotEmpty && birth.length >= 10)
+        && (birth.isNotEmpty && birth.length >= 10 && fnValidateBirthFormat(birth))
         && interest.isNotEmpty
         && (phone_number.isNotEmpty && phone_number.length >= 13)) {
       state = true;

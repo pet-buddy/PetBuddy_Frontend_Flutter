@@ -19,7 +19,7 @@ class HomeCardPetContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        debugPrint("HomeCardPetContainer tapped");
+        // debugPrint("HomeCardPetContainer tapped");
         onPressed != null ? onPressed!() : null;
       },
       child: Container(

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:petbuddy_frontend_flutter/common/utils/utils.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,7 +28,7 @@ class MyPetAddButtonState extends StateNotifier<bool> {
         && neuterYn != null
         && feedId != -1
         && feedTime.isNotEmpty
-        && (petBirth.isNotEmpty && petBirth.length >= 10)) {
+        && (petBirth.isNotEmpty && petBirth.length >= 10 && fnValidateBirthFormat(petBirth))) {
       state = true;
     } else {
       state = false;

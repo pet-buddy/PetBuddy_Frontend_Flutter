@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/home_activated_pet_nav_provider.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/response_dogs_provider.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/response_user_mypage_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -66,8 +67,11 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
           if (didPop) {
             return;
           }
-          if(!context.mounted) return;
-          context.pop();
+          // if(!context.mounted) return;
+          // await fnClose(context);
+          ref.read(bottomNavProvider.notifier).set(0);
+          context.goNamed('home_screen');
+          return;
         },
         child: SafeArea(
           child: SingleChildScrollView(

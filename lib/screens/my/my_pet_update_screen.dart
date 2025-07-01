@@ -129,7 +129,9 @@ class MyPetUpdateScreenState extends ConsumerState<MyPetUpdateScreen> with MyCon
                         Text(
                           myPetUpdateNameInputStatusCodeState == ProjectConstant.INPUT_ERR_EMPTY ?
                             Sentence.PET_NAME_ERR_EMPTY :
-                            "",
+                              myPetUpdateNameInputStatusCodeState == ProjectConstant.INPUT_ERR_LENGTH ?
+                                Sentence.PET_NAME_ERR_LENGTH :
+                                "",
                           style: CustomText.caption3.copyWith(
                             color: CustomColor.negative,
                           ),
@@ -569,7 +571,7 @@ class MyPetUpdateScreenState extends ConsumerState<MyPetUpdateScreen> with MyCon
                         );
                       } else {
                         ref.read(myPetAddFeedTimeMeridiemButtonProvider.notifier).set("");
-                        
+
                         await showDialog<void>(
                           context: context,
                           barrierDismissible: true,
@@ -652,8 +654,10 @@ class MyPetUpdateScreenState extends ConsumerState<MyPetUpdateScreen> with MyCon
                           myPetUpdateBirthInputStatusCodeState == ProjectConstant.INPUT_ERR_EMPTY ?
                             Sentence.PET_BIRTH_ERR_EMPTY :
                               myPetUpdateBirthInputStatusCodeState == ProjectConstant.INPUT_ERR_LENGTH ?
-                                Sentence.PET_BIRTH_ERR_LEN :
-                                  "",
+                                Sentence.PET_BIRTH_ERR_LENGTH :
+                                  myPetUpdateBirthInputStatusCodeState == ProjectConstant.INPUT_ERR_FORMAT ?
+                                    Sentence.PET_BIRTH_ERR_FORMAT :
+                                      "",
                           style: CustomText.caption3.copyWith(
                             color: CustomColor.negative,
                           ),

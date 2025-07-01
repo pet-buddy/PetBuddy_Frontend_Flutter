@@ -159,8 +159,10 @@ class MyProfileUpdateScreenState extends ConsumerState<MyProfileUpdateScreen> wi
                           myProfileBirthInputStatusCodeState == ProjectConstant.INPUT_ERR_EMPTY ?
                             Sentence.BIRTH_ERR_EMPTY :
                               myProfileBirthInputStatusCodeState == ProjectConstant.INPUT_ERR_LENGTH ?
-                                Sentence.BIRTH_ERR_LEN :
-                                  "",
+                                Sentence.BIRTH_ERR_LENGTH :
+                                  myProfileBirthInputStatusCodeState == ProjectConstant.INPUT_ERR_FORMAT ?
+                                    Sentence.BIRTH_ERR_FORMAT :
+                                      "",
                           style: CustomText.caption3.copyWith(
                             color: CustomColor.negative,
                           ),
