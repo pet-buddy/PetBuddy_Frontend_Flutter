@@ -145,7 +145,7 @@ class CameraWebScreenState extends ConsumerState<CameraWebScreen> with CustomCam
       _capturedImage = dataUrl;
     });
 
-    debugPrint('📸 캡처된 base64 이미지: $dataUrl');
+    // debugPrint('📸 캡처된 base64 이미지: $dataUrl');
     // TODO: 업로드 처리 (예: HTTP post)
   }
 

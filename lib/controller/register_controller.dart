@@ -88,10 +88,10 @@ mixin class RegisterController {
     String password = registerRef.read(requestEmailRegisterProvider.notifier).getPwd();
     String passwordConfirm = registerPasswordConfirmInputController.text;
 
-    debugPrint("========== fnEmailRegisterExec ===========");
-    debugPrint("email : $email");
-    debugPrint("password : $password");
-    debugPrint("passwordConfirm : $passwordConfirm");
+    // debugPrint("========== fnEmailRegisterExec ===========");
+    // debugPrint("email : $email");
+    // debugPrint("password : $password");
+    // debugPrint("passwordConfirm : $passwordConfirm");
 
     if(email.isEmpty) {
       registerRef
@@ -170,8 +170,8 @@ mixin class RegisterController {
           ),
       );
 
-      debugPrint("========== Email Register Response =========");
-      debugPrint(response.toString());
+      // debugPrint("========== Email Register Response =========");
+      // debugPrint(response.toString());
 
       if(response.response_code == 200) {
         ResponseEmailLoginModel responseEmailLoginModel = ResponseEmailLoginModel.fromJson(response.data!);
@@ -205,8 +205,8 @@ mixin class RegisterController {
         return;
       }
     } on DioException catch(e) {
-      debugPrint("========== Email Register Dio Exception ==========");
-      debugPrint(e.toString());
+      // debugPrint("========== Email Register Dio Exception ==========");
+      // debugPrint(e.toString());
 
       // int? errorCode = e.response?.statusCode;
       // debugPrint(errorCode.toString());

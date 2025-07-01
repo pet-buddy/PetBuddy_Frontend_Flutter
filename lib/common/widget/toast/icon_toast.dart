@@ -16,7 +16,7 @@ void iconToast(context, message, imgWidget, {double bottom = 50}) {
         ),
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(16.0),
           color: CustomColor.black.withValues(alpha: 0.8),
         ),
         child: Row(
@@ -24,7 +24,7 @@ void iconToast(context, message, imgWidget, {double bottom = 50}) {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(8),
               child: imgWidget,
             ),
             const SizedBox(width: 12.0,),

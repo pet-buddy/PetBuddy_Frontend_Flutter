@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:petbuddy_frontend_flutter/common/utils/fn_validate_birth_format.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,7 +21,7 @@ class MyPetUpdateButtonState extends StateNotifier<bool> {
     final List<String> feedTime = requestUpdateDogModel.feed_time;
     final String petBirth = requestUpdateDogModel.pet_birth;
 
-    debugPrint(requestUpdateDogModel.toJson().toString());
+    // debugPrint(requestUpdateDogModel.toJson().toString());
 
     if(petName.isNotEmpty 
         && petSize.isNotEmpty
@@ -29,7 +30,7 @@ class MyPetUpdateButtonState extends StateNotifier<bool> {
         && neuterYn != null
         && feedId != -1
         && feedTime.isNotEmpty
-        && (petBirth.isNotEmpty && petBirth.length >= 10)) {
+        && (petBirth.isNotEmpty && petBirth.length >= 10 && fnValidateBirthFormat(petBirth))) {
       state = true;
     } else {
       state = false;

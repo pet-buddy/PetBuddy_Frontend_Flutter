@@ -105,7 +105,7 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
             onTap: () {
               selectedDay[0] = date;
               var e = DateFormat.E("ko_KR").format(selectedDay[0]!);
-              debugPrint(e);
+              // debugPrint(e);
             },
             child: Center(
               child: Column(

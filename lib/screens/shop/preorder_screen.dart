@@ -35,7 +35,8 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
           if (didPop) {
             return;
           }
-          // await fnClose(context);
+          if(!context.mounted) return;
+          context.pop();
         },
         child: SafeArea(
           child: SingleChildScrollView(

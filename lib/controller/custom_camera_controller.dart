@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
@@ -11,6 +12,7 @@ import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:universal_html/html.dart' as html;
+import 'package:http_parser/http_parser.dart';
 
 mixin class CustomCameraController {
   late final WidgetRef cameraRef;
@@ -49,14 +51,14 @@ mixin class CustomCameraController {
 
   Future<XFile?> fnGetImage(ImageSource imageSource, {String? from}) async {
     try {
-      debugPrint("========== fnGetImage ==========");
+      // debugPrint("========== fnGetImage ==========");
       final XFile? pickedFile = await picker.pickImage(source: imageSource);
       
       if (pickedFile != null) {
         /* setState(() {
           _image = XFile(pickedFile.path);
         }); */
-        debugPrint("========== pickedFile is not null ==========");
+        // debugPrint("========== pickedFile is not null ==========");
         cameraRef.read(cameraImagePickerProvider.notifier).set(pickedFile);
         cameraRef.read(cameraUploadButtonProvider.notifier).set(true);
 
@@ -67,11 +69,25 @@ mixin class CustomCameraController {
         }
       }
     } catch (e) {
-      debugPrint('==================== Error get image ====================');
-      debugPrint('$e');
+      // debugPrint('==================== Error get image ====================');
+      // debugPrint('$e');
     }
 
     return cameraRef.read(cameraImagePickerProvider.notifier).get();
+  }
+
+  MediaType fnGetMimeType(String fileName) {
+    final extension = fileName.split('.').last.toLowerCase();
+
+    switch (extension) {
+      case 'jpg':
+      case 'jpeg':
+        return MediaType('image', 'jpeg');
+      case 'png':
+        return MediaType('image', 'png');
+      default:
+        return MediaType('application', 'octet-stream'); // fallback
+    }
   }
 
   Future<void> fnUploadExec() async {
@@ -82,36 +98,67 @@ mixin class CustomCameraController {
         context: cameraContext, 
         middleText: Sentence.UPLOAD_ERR_EMPTY,
       );
+      return;
     } 
 
     final dio = Dio();
 
-    dynamic formData =  FormData.fromMap({'arr': 
-      kIsWeb ? MultipartFile.fromBytes(await xfile!.readAsBytes(),) : await MultipartFile.fromFile(xfile!.path), 
-      'annotat': {}
-    });
+    try {
+      final mimeType = fnGetMimeType(xfile.name);
 
-    // TODO : 반려동물 변 사진 업로드
-    final resp = await dio.post(
-      '${ProjectConstant.POO_AI_URL}predict_image',
-      options: Options(
-        headers: {
-          'accept': 'application/json',
-          'Content-Type': 'multipart/form-data',
-        },
-      ),
-      data: formData,
-    );
+      MultipartFile multipartFile = kIsWeb ? 
+        MultipartFile.fromBytes(
+          await xfile.readAsBytes(),
+          filename: xfile.name,
+          contentType: mimeType,
+        ) :
+        await MultipartFile.fromFile(
+          xfile.path,
+          filename: xfile.name,
+          contentType: mimeType,
+        );
 
-    debugPrint(resp.data.toString());
+        // debugPrint(xfile.path);
+        // debugPrint(xfile.name);
+        // debugPrint(multipartFile.toString());
+
+      // dynamic formData =  FormData.fromMap({'arr': 
+      //   kIsWeb ? MultipartFile.fromBytes(await xfile!.readAsBytes(),) : await MultipartFile.fromFile(xfile!.path), 
+      //   'annotat': {}
+      // });
+
+      FormData formData = FormData.fromMap({
+        'arr':multipartFile,
+        'annotat':jsonEncode({}),
+      });
+
+      // 반려동물 변 사진 업로드
+      final resp = await dio.post(
+        '${ProjectConstant.POO_AI_URL}predict_image',
+        options: Options(
+          headers: {
+            'accept': 'application/json',
+            // 'Content-Type': 'multipart/form-data',
+          },
+          validateStatus: (status) => true,
+        ),
+        data: formData,
+      );
+
+      // debugPrint(resp.data.toString());
+      showAlertDialog(context: cameraContext, middleText: resp.data.toString());
+    } catch(e) {
+      // debugPrint('=================== $e');
+      showAlertDialog(context: cameraContext, middleText: e.toString());
+    }
   }
 
   Future<void> fnTakePicturesExec() async {
     final cameraControllerState = cameraRef.read(cameraControllerProvider);
-    debugPrint("=========== fnTakePicturesExec Start ===========");
+    // debugPrint("=========== fnTakePicturesExec Start ===========");
     
     if (cameraControllerState != null && cameraControllerState.value.isInitialized) {
-      debugPrint("=========== cameraControllerState is not null ===========");
+      // debugPrint("=========== cameraControllerState is not null ===========");
 
       final image = await cameraControllerState.takePicture();
 
@@ -149,7 +196,7 @@ mixin class CustomCameraController {
         reader.onLoadEnd.listen((event) async {
           final imageUrl = reader.result as String;
           
-          debugPrint(imageUrl);
+          // debugPrint(imageUrl);
         });
       }
     });

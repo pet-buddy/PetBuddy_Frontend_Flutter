@@ -8,12 +8,14 @@ class Sentence {
 
   static const String GENDER_ERR_EMPTY = '성별을 선택해주세요.';
   static const String BIRTH_ERR_EMPTY = '생년월일을 입력해주세요.';
-  static const String BIRTH_ERR_LEN = '생년월일 길이가 맞지 않습니다.';
+  static const String BIRTH_ERR_LENGTH = '생년월일 길이가 맞지 않습니다.';
+  static const String BIRTH_ERR_FORMAT = '생년월일을 다시 확인해주세요.';
   static const String INTEREST_ERR_EMPTY = '관심있는 건강정보를 선택해주세요.';
   static const String PHONE_ERR_EMPTY = '휴대전화번호를 입력해주세요.';
   static const String PHONE_ERR_LEN = '휴대전화번호 길이가 맞지 않습니다.';
 
   static const String PET_NAME_ERR_EMPTY = '반려동물 이름을 입력해주세요.';
+  static const String PET_NAME_ERR_LENGTH = '반려동물 이름은 최대 5자까지 입력할 수 있습니다.';
   static const String PET_SIZE_ERR_EMPTY = '사이즈를 선택해주세요.';
   static const String PET_TYPE_ERR_EMPTY = '품종을 선택해주세요.';
   static const String PET_GENDER_ERR_EMPTY = '반려동물 성별을 선택해주세요.';
@@ -22,7 +24,8 @@ class Sentence {
   static const String PET_FEED_TIME_ERR_EMPTY = '반려동물 사료 급여 시간을 입력해주세요.';
   static const String PET_FEED_AMOUNT_ERR_EMPTY = '반려동물 남은 사료 양을 선택해주세요.';
   static const String PET_BIRTH_ERR_EMPTY = '반려동물 생년월일을 입력해주세요.';
-  static const String PET_BIRTH_ERR_LEN = '반려동물 생년월일 길이가 맞지 않습니다.';
+  static const String PET_BIRTH_ERR_LENGTH = '반려동물 생년월일 길이가 맞지 않습니다.';
+  static const String PET_BIRTH_ERR_FORMAT = '반려동물 생년월일을 다시 확인해주세요.';
 
   static const String SERVER_ERR = "서버와의 통신 중 오류가 발생했습니다.";
 

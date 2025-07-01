@@ -120,8 +120,8 @@ mixin class LoginController {
           ),
       );
 
-      debugPrint("========== Email Login Response =========");
-      debugPrint(response.toString());
+      // debugPrint("========== Email Login Response =========");
+      // debugPrint(response.toString());
 
       if(response.response_code == 200) {
         ResponseEmailLoginModel responseEmailLoginModel = ResponseEmailLoginModel.fromJson(response.data!);
@@ -165,8 +165,8 @@ mixin class LoginController {
         return;
       }
     } on DioException catch(e) {
-      debugPrint("========== Email Login Dio Exception ==========");
-      debugPrint(e.toString());
+      // debugPrint("========== Email Login Dio Exception ==========");
+      // debugPrint(e.toString());
       
       // int? errorCode = e.response?.statusCode;
       // debugPrint(errorCode.toString());

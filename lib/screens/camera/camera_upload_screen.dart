@@ -53,7 +53,10 @@ class CameraUploadScreenState extends ConsumerState<CameraUploadScreen> with Cus
             return;
           }
           fnInvalidateCameraState();
-          await fnClose(context);
+          // await fnClose(context);
+          ref.read(bottomNavProvider.notifier).set(0);
+          context.goNamed('home_screen');
+          return;
         },
         child: SafeArea(
           child: SingleChildScrollView(

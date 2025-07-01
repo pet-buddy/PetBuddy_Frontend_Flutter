@@ -122,7 +122,9 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                         Text(
                           myPetAddNameInputStatusCodeState == ProjectConstant.INPUT_ERR_EMPTY ?
                             Sentence.PET_NAME_ERR_EMPTY :
-                            "",
+                              myPetAddNameInputStatusCodeState == ProjectConstant.INPUT_ERR_LENGTH ?
+                                Sentence.PET_NAME_ERR_LENGTH :
+                                "",
                           style: CustomText.caption3.copyWith(
                             color: CustomColor.negative,
                           ),
@@ -655,8 +657,10 @@ class MyPetAddScreenState extends ConsumerState<MyPetAddScreen> with MyControlle
                           myPetAddBirthInputStatusCodeState == ProjectConstant.INPUT_ERR_EMPTY ?
                             Sentence.PET_BIRTH_ERR_EMPTY :
                               myPetAddBirthInputStatusCodeState == ProjectConstant.INPUT_ERR_LENGTH ?
-                                Sentence.PET_BIRTH_ERR_LEN :
-                                  "",
+                                Sentence.PET_BIRTH_ERR_LENGTH :
+                                  myPetAddBirthInputStatusCodeState == ProjectConstant.INPUT_ERR_FORMAT ?
+                                    Sentence.PET_BIRTH_ERR_FORMAT :
+                                      "",
                           style: CustomText.caption3.copyWith(
                             color: CustomColor.negative,
                           ),
