@@ -28,7 +28,9 @@ Future<bool> fnClose(BuildContext context){
         width: 24,
         height: 24,
       ),
-      bottom: pathName == '/login_screen' ? 50 : 0,
+      bottom: pathName == '/login_screen' ? 
+        MediaQuery.of(context).viewPadding.bottom + 50 : 
+        0,
     );
     return Future.value(false);
   }

@@ -113,7 +113,8 @@ class CameraScreenState extends ConsumerState<CameraScreen> with CustomCameraCon
                     ),
                   ),
                   Positioned(
-                    bottom: kIsWeb ? 0 : MediaQuery.of(context).viewPadding.bottom,
+                    // bottom: kIsWeb ? 0 : MediaQuery.of(context).viewPadding.bottom, // One UI 7.0 오류에 대한 조치였으나 개선되어 주석처리함
+                    bottom: 0,
                     child: Container(
                       height: 100,
                       padding: const EdgeInsets.symmetric(vertical: 16),
