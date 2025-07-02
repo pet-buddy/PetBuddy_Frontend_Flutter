@@ -19,19 +19,21 @@ class DefaultLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor ?? Colors.white,
-      appBar: appBar,
-      body: Container(
-        // width: kIsWeb ? ProjectConstant.WEB_MAX_WIDTH : MediaQuery.of(context).size.width,
-        constraints: BoxConstraints(
-          maxWidth: fnGetDeviceWidth(context),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: backgroundColor ?? Colors.white,
+        appBar: appBar,
+        body: Container(
+          // width: kIsWeb ? ProjectConstant.WEB_MAX_WIDTH : MediaQuery.of(context).size.width,
+          constraints: BoxConstraints(
+            maxWidth: fnGetDeviceWidth(context),
+          ),
+          child: child
         ),
-        child: child
+        bottomNavigationBar: bottomNavigationBar ?? const SizedBox(height: 0,),
+        floatingActionButton: floatingActionButton,
+        resizeToAvoidBottomInset: true,
       ),
-      bottomNavigationBar: bottomNavigationBar ?? const SizedBox(height: 0,),
-      floatingActionButton: floatingActionButton,
-      resizeToAvoidBottomInset: true,
     );
   }
 }

@@ -50,7 +50,7 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
           height: 29,
           decoration: BoxDecoration(
             color: CustomColor.yellow03,
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: BorderRadius.circular(16.0),
           ),
           child: RichText(
               text: TextSpan(
@@ -184,13 +184,28 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
                 children: [
                   const SizedBox(height: 16,),
                   // 달력 영역
-                  CalendarDatePicker2WithActionButtons(
-                    value: selectedDay,
-                    config: config,
-                    onDisplayedMonthChanged: (value) async {
-                    },
+                  Container(
+                    width: fnGetDeviceWidth(context),
+                    decoration: BoxDecoration(
+                      color: CustomColor.white,
+                      borderRadius: const BorderRadius.all(Radius.circular(16)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: CustomColor.gray04..withValues(alpha: 0.0),
+                          spreadRadius: 2,
+                          blurRadius: 10,
+                          offset: const Offset(0, 0),
+                        ),
+                      ]
+                    ),
+                    child: CalendarDatePicker2WithActionButtons(
+                      value: selectedDay,
+                      config: config,
+                      onDisplayedMonthChanged: (value) async {
+                      },
+                    ),
                   ),
-                  // const SizedBox(height: 32,),
+                  const SizedBox(height: 32,),
                   // 월별 건강
                   Text(
                     '$homePoopReportMonthSelectState월 똥 건강 종합보고서',

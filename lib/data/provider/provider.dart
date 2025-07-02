@@ -53,3 +53,5 @@ export 'camera_image_picker_provider.dart';
 export 'camera_upload_button_provider.dart';
 export 'camera_controller_provider.dart';
 export 'camera_flash_provider.dart';
+
+export 'response_poop_score_list_provider.dart';

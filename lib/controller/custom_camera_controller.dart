@@ -91,6 +91,17 @@ mixin class CustomCameraController {
   }
 
   Future<void> fnUploadExec() async {
+    // TODO : 반려동물 수 체크 주석해제
+    // int totalPets = cameraRef.read(responseDogsProvider.notifier).get().length;
+
+    // if(totalPets <= 0) {
+    //   showAlertDialog(
+    //     context: cameraContext, 
+    //     middleText: "반려동물을 먼저 등록해주세요!",
+    //   );
+    //   return;
+    // }
+
     final XFile? xfile = cameraRef.read(cameraImagePickerProvider.notifier).get();
 
     if(xfile == null) {
@@ -102,8 +113,11 @@ mixin class CustomCameraController {
     } 
 
     final dio = Dio();
+    // 로딩바 출력 시작
+    showLoadingDialog(context: cameraContext);
 
     try {
+      
       final mimeType = fnGetMimeType(xfile.name);
 
       MultipartFile multipartFile = kIsWeb ? 
@@ -118,9 +132,9 @@ mixin class CustomCameraController {
           contentType: mimeType,
         );
 
-        // debugPrint(xfile.path);
-        // debugPrint(xfile.name);
-        // debugPrint(multipartFile.toString());
+      // debugPrint(xfile.path);
+      // debugPrint(xfile.name);
+      // debugPrint(multipartFile.toString());
 
       // dynamic formData =  FormData.fromMap({'arr': 
       //   kIsWeb ? MultipartFile.fromBytes(await xfile!.readAsBytes(),) : await MultipartFile.fromFile(xfile!.path), 
@@ -146,10 +160,32 @@ mixin class CustomCameraController {
       );
 
       // debugPrint(resp.data.toString());
-      showAlertDialog(context: cameraContext, middleText: resp.data.toString());
+
+      // showAlertDialog(
+      //   context: cameraContext, 
+      //   middleText: resp.data.toString()
+      // );
+
+      // 똥 AI 분석 결과 변수에 저장
+      List<int> poopScores = resp.data[0];
+      // 똥 AI 분석 결과 Provider에 저장
+      cameraRef.refresh(responsePoopScoreListProvider.notifier).set(poopScores);
+      
+      if(!cameraContext.mounted) return;
+      // 로딩바 해제
+      hideLoadingDialog(cameraContext);
+
     } catch(e) {
       // debugPrint('=================== $e');
-      showAlertDialog(context: cameraContext, middleText: e.toString());
+
+      if(!cameraContext.mounted) return;
+      // 로딩바 해제
+      hideLoadingDialog(cameraContext);
+      // 에러 알림창
+      showAlertDialog(
+        context: cameraContext, 
+        middleText: e.toString()
+      );
     }
   }
 
