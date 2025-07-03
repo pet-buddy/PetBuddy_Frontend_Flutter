@@ -174,7 +174,7 @@ class CameraUploadScreenState extends ConsumerState<CameraUploadScreen> with Cus
                   DefaultTextButton(
                     disabled: !cameraUploadButtonState,
                     onPressed: () {
-                      fnUploadExec();
+                      fnPredictImageExec();
                     }, 
                     text: '사진 업로드',
                     height: 42,

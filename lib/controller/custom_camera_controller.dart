@@ -90,7 +90,7 @@ mixin class CustomCameraController {
     }
   }
 
-  Future<void> fnUploadExec() async {
+  Future<void> fnPredictImageExec() async {
     // TODO : 반려동물 수 체크 주석해제
     // int totalPets = cameraRef.read(responseDogsProvider.notifier).get().length;
 
@@ -167,7 +167,7 @@ mixin class CustomCameraController {
       // );
 
       // 똥 AI 분석 결과 변수에 저장
-      List<int> poopScores = resp.data[0];
+      List<double> poopScores = resp.data[0];
       // 똥 AI 분석 결과 Provider에 저장
       cameraRef.refresh(responsePoopScoreListProvider.notifier).set(poopScores);
       
@@ -245,24 +245,110 @@ mixin class CustomCameraController {
 
         // 카메라 화면 이동
         context.pushNamed('camera_screen');
+    } else {
+      final userAgent = html.window.navigator.userAgent;
+      // 모바일 기기의 웹 브라우저 앱에서 호출 시
+      if (userAgent.contains("Android") || 
+          userAgent.contains('iPhone') || 
+          userAgent.contains('iPad')) {
+        context.pushNamed('camera_web_screen');
+        // fnTakePictureWeb();
       } else {
-        final userAgent = html.window.navigator.userAgent;
-        // 모바일 기기의 웹 브라우저 앱에서 호출 시
-        if (userAgent.contains("Android") || 
-            userAgent.contains('iPhone') || 
-            userAgent.contains('iPad')) {
-          context.pushNamed('camera_web_screen');
-          // fnTakePictureWeb();
-        } else {
-          if(mode == 'init') {return;}
-          else {
-            showAlertDialog(
-              context: context, 
-              middleText: Sentence.WEB_CAMERA_ERR_CALL,
-            );
-          }
+        if(mode == 'init') {return;}
+        else {
+          showAlertDialog(
+            context: context, 
+            middleText: Sentence.WEB_CAMERA_ERR_CALL,
+          );
         }
       }
+    }
+  }
+
+  Future<void> fnPoopUploadExec() async {
+    List<double> poopScores = cameraRef.read(responsePoopScoreListProvider.notifier).get();
+
+    final isPoopProb = poopScores[0];
+    final isNotPoopProb = poopScores[1];
+
+    if(isPoopProb - isNotPoopProb <= 0.1) {
+      showAlertDialog(
+        context: cameraContext, 
+        middleText: "반려동물의 변 사진이 맞는지\n다시 확인해 주세요!",
+      );
+      return;
+    }
+
+    final noParasite = poopScores[2];
+    final yesParasite = poopScores[3];
+
+    final isBlack = poopScores[4];
+    final isBlood = poopScores[5];
+    final isColorNormal = poopScores[6]; // (색상) 정상
+
+    final isMoistureNormal = poopScores[7]; // (수분도) 정상
+    final isConstipation = poopScores[8]; // 변비
+    final isDiarrhea = poopScores[9]; // 설사
+
+    final isRealBlack = poopScores[10];
+    final isFakeBlack = poopScores[11];
+
+    final XFile? xfile = cameraRef.read(cameraImagePickerProvider.notifier).get();
+    final dio = Dio();
+
+    int noParasiteScore = (noParasite * 100).round();
+    int isColorNormalScore = (isColorNormal * 100).round();
+    int isMoistureNormalScore = (isMoistureNormal * 100).round();
+    int totalScore = ((noParasiteScore + isColorNormalScore + isMoistureNormalScore)/3).round();
+          
+    final mimeType = fnGetMimeType(xfile!.name);
+
+    MultipartFile multipartFile = kIsWeb ? 
+      MultipartFile.fromBytes(
+        await xfile.readAsBytes(),
+        filename: xfile.name,
+        contentType: mimeType,
+      ) :
+      await MultipartFile.fromFile(
+        xfile.path,
+        filename: xfile.name,
+        contentType: mimeType,
+      );
+
+    FormData formData = FormData.fromMap({
+      'image':multipartFile,
+      'poop_score_total': totalScore,
+      'poop_score_grade':1,
+      'poop_score_moisture': fnGetPoopStatus(isMoistureNormalScore),
+      'poop_score_color': fnGetPoopStatus(isColorNormalScore),
+      'poop_score_parasite': fnGetPoopStatus(noParasiteScore),
+    });
+
+    final resp = await dio.post(
+      '${ProjectConstant.BASE_URL}poo/upload',
+      options: Options(
+        headers: {
+          'accept': 'application/json',
+        },
+        validateStatus: (status) => true,
+      ),
+      data: formData,
+    );
+
+  } 
+
+  String fnGetPoopStatus(int score) {
+    String status = '';
+
+    if(score >= 0 && score < 51) {
+      status = 'C';
+    } else if(score >= 50 && score < 71) {
+      status = 'B';
+    } else {
+      status = 'A';
+    }
+
+    return status;
   }
 }
 

@@ -24,4 +24,13 @@ mixin class HomeController {
   void fnInvalidateHomePoopReportState() {
     homeRef.invalidate(homeActivityReportPeriodSelectProvider);
   }
+
+  // 오늘 날짜와 생년월일 일수차이 
+  int fnGetDaysDiff(String birth) {
+    String convertedBirth = birth.replaceAll('-', '');
+
+    DateTime today = DateTime.now();
+
+    return int.parse(today.difference(DateTime.parse(convertedBirth)).inDays.toString());
+  }
 }

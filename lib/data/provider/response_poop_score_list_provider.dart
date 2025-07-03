@@ -1,14 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ResponsePoopScoreListState extends StateNotifier<List<int>> {
+class ResponsePoopScoreListState extends StateNotifier<List<double>> {
   ResponsePoopScoreListState() : super([]);
 
-  void set(List<int> timeList) {
+  void set(List<double> timeList) {
     state = timeList;
   }
 
-  List<int> get() => state;
+  List<double> get() => state;
 }
 
 final responsePoopScoreListProvider = 
-  StateNotifierProvider<ResponsePoopScoreListState, List<int>>((ref) => ResponsePoopScoreListState());
+  StateNotifierProvider<ResponsePoopScoreListState, List<double>>((ref) => ResponsePoopScoreListState());
