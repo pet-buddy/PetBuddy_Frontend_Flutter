@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -9,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
+import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:universal_html/html.dart' as html;
@@ -91,16 +93,16 @@ mixin class CustomCameraController {
   }
 
   Future<void> fnPredictImageExec() async {
-    // TODO : 반려동물 수 체크 주석해제
-    // int totalPets = cameraRef.read(responseDogsProvider.notifier).get().length;
+    // 반려동물 수 체크 -> 등록된 반려동물이 없을 경우 알림창 호출, 업로드X
+    int totalPets = cameraRef.read(responseDogsProvider.notifier).get().length;
 
-    // if(totalPets <= 0) {
-    //   showAlertDialog(
-    //     context: cameraContext, 
-    //     middleText: "반려동물을 먼저 등록해주세요!",
-    //   );
-    //   return;
-    // }
+    if(totalPets <= 0) {
+      showAlertDialog(
+        context: cameraContext, 
+        middleText: "반려동물을 먼저 등록해주세요!",
+      );
+      return;
+    }
 
     final XFile? xfile = cameraRef.read(cameraImagePickerProvider.notifier).get();
 
@@ -174,6 +176,8 @@ mixin class CustomCameraController {
       if(!cameraContext.mounted) return;
       // 로딩바 해제
       hideLoadingDialog(cameraContext);
+      // 똥 사진 업로드 함수 호출
+      await fnPoopUploadExec();
 
     } catch(e) {
       // debugPrint('=================== $e');
@@ -279,6 +283,9 @@ mixin class CustomCameraController {
       return;
     }
 
+    final storage = cameraRef.watch(secureStorageProvider);
+    final accessToken = await storage.read(key: ProjectConstant.ACCESS_TOKEN);
+
     final noParasite = poopScores[2];
     final yesParasite = poopScores[3];
 
@@ -317,11 +324,15 @@ mixin class CustomCameraController {
 
     FormData formData = FormData.fromMap({
       'image':multipartFile,
+      'pet_id': 1, // TODO : 활성화된 반려동물 아이디 넣기
       'poop_score_total': totalScore,
-      'poop_score_grade':1,
-      'poop_score_moisture': fnGetPoopStatus(isMoistureNormalScore),
-      'poop_score_color': fnGetPoopStatus(isColorNormalScore),
-      'poop_score_parasite': fnGetPoopStatus(noParasiteScore),
+      'poop_grade_total': fnGetPoopIllustrationGrade(poopScores),
+      'poop_score_moisture': isMoistureNormalScore,
+      'poop_grade_moisture': fnGetPoopGrade(isMoistureNormalScore),
+      'poop_score_color': isColorNormalScore,
+      'poop_grade_color': fnGetPoopGrade(isColorNormalScore),
+      'poop_score_parasite': noParasiteScore,
+      'poop_grade_parasite': fnGetPoopGrade(noParasiteScore),
     });
 
     final resp = await dio.post(
@@ -329,6 +340,7 @@ mixin class CustomCameraController {
       options: Options(
         headers: {
           'accept': 'application/json',
+          'Authorization': 'Bearer $accessToken'
         },
         validateStatus: (status) => true,
       ),
@@ -337,7 +349,7 @@ mixin class CustomCameraController {
 
   } 
 
-  String fnGetPoopStatus(int score) {
+  String fnGetPoopGrade(int score) {
     String status = '';
 
     if(score >= 0 && score < 51) {
@@ -349,6 +361,99 @@ mixin class CustomCameraController {
     }
 
     return status;
+  }
+
+  int fnGetPoopIllustrationGrade(List<double> poopScores) {
+    int illustrationGrade = -1;
+
+    final noParasite = poopScores[2];
+    final yesParasite = poopScores[3];
+
+    final isBlack = poopScores[4];
+    final isBlood = poopScores[5];
+    final isColorNormal = poopScores[6]; // (색상) 정상
+
+    final isMoistureNormal = poopScores[7]; // (수분도) 정상
+    final isConstipation = poopScores[8]; // 변비
+    final isDiarrhea = poopScores[9]; // 설사
+
+    final isRealBlack = poopScores[10];
+    final isFakeBlack = poopScores[11];
+
+    // 색상, 수분, 기생충 비교
+    String parasiteYn = ''; // Y, N
+    String colorFlag = '';
+    String moistureFlag = '';
+
+    if(noParasite >= yesParasite) {
+      parasiteYn = 'N';
+    } else {
+      parasiteYn = 'Y';
+    }
+
+    double maxColorScore = max(isBlack, max(isBlood, isColorNormal));
+
+    if(maxColorScore == isBlack) {
+      if(isRealBlack > isFakeBlack) {
+        colorFlag = 'black';
+      } else {
+        colorFlag = 'normal';
+      }
+    } else if(maxColorScore == isBlood) {
+      colorFlag = 'blood';
+    } else {
+      colorFlag = 'normal';
+    }
+
+    double maxMoistureScore = max(isDiarrhea, max(isConstipation, isMoistureNormal));
+
+    if(maxMoistureScore == isDiarrhea) {
+      moistureFlag = 'diarrhea'; // 설사
+    } else if(maxMoistureScore == isBlood) {
+      moistureFlag = 'constipation'; // 변비
+    } else {
+      moistureFlag = 'normal';
+    }
+
+    if(parasiteYn == 'N' && colorFlag == 'normal' && moistureFlag == 'normal') {
+      illustrationGrade = 1; // 정상
+    } else if(parasiteYn == 'N' && colorFlag == 'normal' && moistureFlag == 'constipation') {
+      illustrationGrade = 2; // 변비
+    } else if(parasiteYn == 'N' && colorFlag == 'normal' && moistureFlag == 'diarrhea') {
+      illustrationGrade = 3; // 설사
+    } else if(parasiteYn == 'N' && colorFlag == 'blood' && moistureFlag == 'normal') {
+      illustrationGrade = 4; // 혈변
+    } else if(parasiteYn == 'Y' && colorFlag == 'normal' && moistureFlag == 'normal') {
+      illustrationGrade = 5; // 기생충
+    } else if(parasiteYn == 'N' && colorFlag == 'blood' && moistureFlag == 'constipation') {
+      illustrationGrade = 6; // 혈변 + 변비
+    } else if(parasiteYn == 'N' && colorFlag == 'blood' && moistureFlag == 'diarrhea') {
+      illustrationGrade = 7; // 혈변 + 설사
+    } else if(parasiteYn == 'N' && colorFlag == 'black' && moistureFlag == 'normal') {
+      illustrationGrade = 8; // 흑변
+    } else if(parasiteYn == 'N' && colorFlag == 'black' && moistureFlag == 'diarrhea') {
+      illustrationGrade = 9; // 흑변 + 설사
+    } else if(parasiteYn == 'N' && colorFlag == 'black' && moistureFlag == 'constipation') {
+      illustrationGrade = 10; // 흑변 + 변비
+    } else if(parasiteYn == 'Y' && colorFlag == 'blood' && moistureFlag == 'normal') {
+      illustrationGrade = 11; // 혈변 + 정상수분 + 기생충
+    } else if(parasiteYn == 'Y' && colorFlag == 'black' && moistureFlag == 'normal') {
+      illustrationGrade = 12; // 흑변 + 정상수분 + 기생충
+    } else if(parasiteYn == 'Y' && colorFlag == 'black' && moistureFlag == 'diarrhea') {
+      illustrationGrade = 13; // 흑변 + 설사 + 기생충
+    } else if(parasiteYn == 'Y' && colorFlag == 'normal' && moistureFlag == 'diarrhea') {
+      illustrationGrade = 14; // 정상색 + 설사 + 기생충
+    } else if(parasiteYn == 'Y' && colorFlag == 'blood' && moistureFlag == 'diarrhea') {
+      illustrationGrade = 15; // 혈변 + 설사 + 기생충
+    } else if(parasiteYn == 'Y' && colorFlag == 'blood' && moistureFlag == 'constipation') {
+      illustrationGrade = 16; // 혈변 + 변비 + 기생충
+    } else if(parasiteYn == 'Y' && colorFlag == 'black' && moistureFlag == 'constipation') {
+      illustrationGrade = 17; // 흑변 + 변비 + 기생충
+    } else if(parasiteYn == 'Y' && colorFlag == 'normal' && moistureFlag == 'constipation') {
+      illustrationGrade = 18; // 흑변 + 변비 + 기생충
+    }
+
+    return illustrationGrade;
   }
 }
 
