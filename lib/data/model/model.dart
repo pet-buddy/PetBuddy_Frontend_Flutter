@@ -25,3 +25,7 @@ export 'my_feed_model.dart';
 
 // 홈 관련 모델
 export 'home_card_report_model.dart';
+
+export 'poop_status_model.dart';
+export 'response_poo_daily_status_model.dart';
+export 'response_poo_monthly_mean_model.dart';

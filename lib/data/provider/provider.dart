@@ -16,6 +16,7 @@ export 'email_login_pwd_input_status_code_provider.dart';
 // 홈 관련 Provider
 export 'home_activity_report_period_select_provider.dart';
 export 'home_poop_report_month_select_provider.dart';
+export 'home_poop_report_previous_month_select_provider.dart';
 export 'home_activated_pet_nav_provider.dart';
 
 // 마이페이지 관련 Provider
