@@ -1,5 +1,5 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
-import 'package:fl_chart/fl_chart.dart';
+// import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,7 +7,10 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
-import 'package:petbuddy_frontend_flutter/data/provider/home_poop_report_month_select_provider.dart';
+import 'package:petbuddy_frontend_flutter/data/data.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/response_poo_monthly_mean_provider.dart';
+import 'package:petbuddy_frontend_flutter/screens/home/widget/home_poop_daily_report_dialog.dart';
+import 'package:petbuddy_frontend_flutter/screens/home/widget/inverted_triangle_painter.dart';
 
 class HomePoopReportScreen extends ConsumerStatefulWidget {
   const HomePoopReportScreen({super.key});
@@ -16,12 +19,31 @@ class HomePoopReportScreen extends ConsumerStatefulWidget {
   ConsumerState<HomePoopReportScreen> createState() => HomePoopReportScreenState();
 }
 
-class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with HomeController {
+class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with HomeController, MyController, CustomCameraController {
+  int benchmarkScore = 0;
 
   @override
   void initState() {
     super.initState();
     fnInitHomeController(ref, context);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      
+      final homeActivatedPetNav = ref.read(homeActivatedPetNavProvider.notifier).get();
+      final responseDogs = ref.read(responseDogsProvider.notifier).get();
+      // 벤치마크 반려동물 점수
+      benchmarkScore = (fnGetBenchmarkHealthyScore(
+        responseDogs[homeActivatedPetNav].pet_size, 
+        fnGetDaysDiff(responseDogs[homeActivatedPetNav].pet_birth)
+      ) * 100).toInt();
+
+      // 반려동물 한달평균 건강점수
+      fnPooMonthlyMeanExec(DateFormat("yyyy-MM").format(DateTime.now()), responseDogs[homeActivatedPetNav].pet_id);
+
+      // 해당 월 세팅
+      ref.read(homePoopReportMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
+      ref.read(homePoopReportPreviousMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
+    });
   }
 
   @override
@@ -30,19 +52,32 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
     List<DateTime?> selectedDay = [date];
 
     final homePoopReportMonthSelectState = ref.watch(homePoopReportMonthSelectProvider);
+    // final homePoopReportPreviousMonthSelectState = ref.watch(homePoopReportPreviousMonthSelectProvider);
+    final homeActivatedPetNavState = ref.watch(homeActivatedPetNavProvider);
+    final responseDogsState = ref.watch(responseDogsProvider);
+    final responsePooMonthlyMeanState = ref.watch(responsePooMonthlyMeanProvider);
 
     // 임시 변수
-    final values = [60.0, 75.0, 75.0, 100.0, 58.0, 76.0, 84.0, 80.0, 100.0, 100.0, 0.0, 10.0];
+    // final values = [60.0, 75.0, 75.0, 100.0, 58.0, 76.0, 84.0, 80.0, 100.0, 100.0, 0.0, 10.0];
 
     final config = CalendarDatePicker2WithActionButtonsConfig(
       lastDate: DateTime.now(),
       disableModePicker: true,
       modePickerBuilder: ({isMonthPicker, required monthDate, required viewMode}) {
+        final prevMonth = ref.read(homePoopReportPreviousMonthSelectProvider.notifier).get();
+        final currentMonth = monthDate.month;
 
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          // 활성화된 월 저장
-          ref.read(homePoopReportMonthSelectProvider.notifier).set(monthDate.month);
-        });
+        if (prevMonth != currentMonth) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            ref.read(homePoopReportPreviousMonthSelectProvider.notifier).set(currentMonth);
+            // 활성화된 월 저장
+            ref.read(homePoopReportMonthSelectProvider.notifier).set(currentMonth);
+
+            // print(prevMonth);
+            // print(currentMonth);
+            fnPooMonthlyMeanExec(monthDate.toString().substring(0, 7), responseDogsState[homeActivatedPetNavState].pet_id);
+          });
+        }
 
         var calendarTitle = Container(
           alignment: Alignment.center,
@@ -73,6 +108,9 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
             : calendarTitle,
         );
       },
+      monthBuilder: ({decoration, isCurrentMonth, isDisabled, isSelected, required month, textStyle}) {
+        
+      },
       modePickerTextHandler: ({required monthDate, isMonthPicker}) {
         return '';
       },
@@ -96,6 +134,9 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
       ),
       dayMaxWidth: 60,
       dayBuilder: ({required date, decoration, isDisabled, isSelected, isToday, textStyle}) {
+        final monthlyPoopList = responsePooMonthlyMeanState.monthly_poop_list.map((e) => PoopStatusModel.fromJson(e as Map<String, dynamic>)).toList();
+        final grade = monthlyPoopList.firstWhere((elem) => elem.date == date.toString().substring(0, 10), orElse: () => PoopStatusModel(date: '', grade: '')).grade;
+        
         return SizedBox(
           height: 60,
           child: InkWell(
@@ -120,18 +161,31 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      
+                    onTap: () async {
+                      await showModalBottomSheet<void>(
+                        context: context,
+                        isScrollControlled: true, // 전체 높이 지원
+                        backgroundColor: Colors.white,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(24),
+                          ),
+                        ),
+                        builder: (BuildContext context) {
+                          return HomePoopDailyReportDialog(date: date.toString().substring(0, 10),);
+                        },
+                      );
                     },
                     child: Container(
                       height: 42,
                       alignment: Alignment.bottomCenter,
-                      child: date.month == 6 && date.day < 10 && date.day % 2 == 0 ?
+                      child: grade.isNotEmpty ? 
                         Image.asset(
-                          "assets/icons/etc/poop_status_1.png",
-                          width: 30,
-                          height: 41,
-                        ) : const SizedBox(),
+                          "assets/icons/etc/poop_status_$grade.png",
+                          width: 35,
+                          height: 35,
+                        ) : 
+                        const SizedBox(),
                     ),
                   ),
                 ],
@@ -215,387 +269,421 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
                     ),
                   ),
                   const SizedBox(height: 16,),
-                  Container(
-                    height: 500,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                    decoration: const BoxDecoration(
-                      color: CustomColor.white,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // const SizedBox(height: 8,),
-                        SizedBox(
-                          height: 50,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                  responsePooMonthlyMeanState.monthly_poop_list.isNotEmpty ?
+                    Container(
+                      height: 500,
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                      decoration: const BoxDecoration(
+                        color: CustomColor.white,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // const SizedBox(height: 8,),
+                          SizedBox(
+                            height: 50,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  '${responsePooMonthlyMeanState.poop_score_total}',
+                                  style: CustomText.heading1.copyWith(
+                                    fontSize: 48.0,
+                                    color: const Color(0xFF0092CA),
+                                  ),
+                                ),
+                                const SizedBox(width: 4,),
+                                Text(
+                                  '점',
+                                  style: CustomText.body9.copyWith(
+                                    color: const Color(0xFF00467E),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 8,),
+                          Row(
                             children: [
-                              // TODO : 점수 받아오기
-                              Text(
-                                '70',
-                                style: CustomText.heading1.copyWith(
-                                  fontSize: 48.0,
-                                  color: const Color(0xFF0092CA),
+                              Container(
+                                height: 48,
+                                margin: const EdgeInsets.only(top: 12),
+                                child: Text(
+                                  '종합',
+                                  style: CustomText.body9.copyWith(
+                                    color: const Color(0xFF00467E),
+                                  ),
                                 ),
                               ),
-                              const SizedBox(width: 4,),
-                              Text(
-                                '점',
-                                style: CustomText.body9.copyWith(
-                                  color: const Color(0xFF00467E),
+                              const SizedBox(width: 12),
+                              SizedBox(
+                                width: fnGetDeviceWidth(context) - 128,
+                                height: 48,
+                                child: Stack(
+                                  children: [
+                                    // 상태 가로 막대그래프
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 12),
+                                      child: LayoutBuilder(builder: (context, contraints) {
+                                        return Row(
+                                          children: [
+                                            Column(
+                                              children: [
+                                                Container(
+                                                  width: contraints.maxWidth / 3,
+                                                  height: 10,
+                                                  decoration: const BoxDecoration(
+                                                    color:  Color(0xFFF62548),
+                                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10),),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: const EdgeInsets.only(top: 4),
+                                                  width: contraints.maxWidth / 3,
+                                                  child: Text(
+                                                    '나쁨',
+                                                    style: CustomText.caption3.copyWith(
+                                                      color: const Color(0xFF00467E),
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              children: [
+                                                Container(
+                                                  width: contraints.maxWidth / 3,
+                                                  height: 10,
+                                                  decoration: const BoxDecoration(
+                                                    color:  Color(0xFFF6D72E),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: const EdgeInsets.only(top: 4),
+                                                  width: contraints.maxWidth / 3,
+                                                  child: Text(
+                                                    '보통',
+                                                    style: CustomText.caption3.copyWith(
+                                                      color: const Color(0xFF00467E),
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              children: [
+                                                Container(
+                                                  width: contraints.maxWidth / 3,
+                                                  height: 10,
+                                                  decoration: const BoxDecoration(
+                                                    color:  Color(0xFF63C728),
+                                                    borderRadius: BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10),),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: const EdgeInsets.only(top: 4),
+                                                  width: contraints.maxWidth / 3,
+                                                  child: Text(
+                                                    '건강',
+                                                    style: CustomText.caption3.copyWith(
+                                                      color: const Color(0xFF00467E),
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        );
+                                      }),
+                                    ),
+                                    // 점수를 가리킬 아래 화살표
+                                    Positioned(
+                                      top: 0,
+                                      // 1.5보다 적을 때 1.5로 세팅, 98.5보다 클 때 98.5로 세팅
+                                      left: (fnGetDeviceWidth(context) - 128) * ((responsePooMonthlyMeanState.poop_score_total! < 1.5 ? 1.5 : responsePooMonthlyMeanState.poop_score_total! > 98.5 ? 98.5 : responsePooMonthlyMeanState.poop_score_total!)/100) - 5,
+                                      child: CustomPaint(
+                                        size: const Size(10, 10), // 캔버스 크기
+                                        painter: InvertedTrianglePainter(),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        const SizedBox(height: 8,),
-                        Row(
-                          children: [
-                            Container(
-                              height: 48,
-                              margin: const EdgeInsets.only(top: 12),
-                              child: Text(
-                                '종합',
-                                style: CustomText.body9.copyWith(
-                                  color: const Color(0xFF00467E),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            SizedBox(
-                              width: fnGetDeviceWidth(context) - 128,
-                              height: 48,
-                              child: Stack(
+                          const SizedBox(height: 8,),
+                          // 변 건강 상태 색깔로 출력
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  // 상태 가로 막대그래프
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 12),
-                                    child: LayoutBuilder(builder: (context, contraints) {
-                                      return Row(
-                                        children: [
-                                          Column(
-                                            children: [
-                                              Container(
-                                                width: contraints.maxWidth / 3,
-                                                height: 10,
-                                                decoration: const BoxDecoration(
-                                                  color:  Color(0xFFF62548),
-                                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10),),
-                                                ),
-                                              ),
-                                              Container(
-                                                margin: const EdgeInsets.only(top: 4),
-                                                width: contraints.maxWidth / 3,
-                                                child: Text(
-                                                  '나쁨',
-                                                  style: CustomText.caption3.copyWith(
-                                                    color: const Color(0xFF00467E),
-                                                  ),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            children: [
-                                              Container(
-                                                width: contraints.maxWidth / 3,
-                                                height: 10,
-                                                decoration: const BoxDecoration(
-                                                  color:  Color(0xFFF6D72E),
-                                                ),
-                                              ),
-                                              Container(
-                                                margin: const EdgeInsets.only(top: 4),
-                                                width: contraints.maxWidth / 3,
-                                                child: Text(
-                                                  '보통',
-                                                  style: CustomText.caption3.copyWith(
-                                                    color: const Color(0xFF00467E),
-                                                  ),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            children: [
-                                              Container(
-                                                width: contraints.maxWidth / 3,
-                                                height: 10,
-                                                decoration: const BoxDecoration(
-                                                  color:  Color(0xFF63C728),
-                                                  borderRadius: BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10),),
-                                                ),
-                                              ),
-                                              Container(
-                                                margin: const EdgeInsets.only(top: 4),
-                                                width: contraints.maxWidth / 3,
-                                                child: Text(
-                                                  '건강',
-                                                  style: CustomText.caption3.copyWith(
-                                                    color: const Color(0xFF00467E),
-                                                  ),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      );
-                                    }),
-                                  ),
-                                  // TODO : 점수 받아오기
-                                  // 점수를 가리킬 아래 화살표
-                                  Positioned(
-                                    top: 0,
-                                    // 1.5보다 적을 때 1.5로 세팅, 98.5보다 클 때 98.5로 세팅
-                                    left: (fnGetDeviceWidth(context) - 128) * (98.5/100) - 5,
-                                    child: CustomPaint(
-                                      size: const Size(10, 10), // 캔버스 크기
-                                      painter: InvertedTrianglePainter(),
+                                  Text(
+                                    '색상',
+                                    style: CustomText.caption3.copyWith(
+                                      color: const Color(0xFF00467E),
                                     ),
+                                  ),
+                                  const SizedBox(height: 4,),
+                                  SvgPicture.asset(
+                                    'assets/icons/etc/status_${fnGetPoopStatus(responsePooMonthlyMeanState.poop_score_color!)}.svg',
+                                    width: 35,
+                                    height: 35,
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8,),
-                        // 변 건강 상태 색깔로 출력
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '색상',
-                                  style: CustomText.caption3.copyWith(
-                                    color: const Color(0xFF00467E),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '수분',
+                                    style: CustomText.caption3.copyWith(
+                                      color: const Color(0xFF00467E),
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 4,),
-                                SvgPicture.asset(
-                                  'assets/icons/etc/status_good.svg',
-                                  width: 35,
-                                  height: 35,
-                                ),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '수분',
-                                  style: CustomText.caption3.copyWith(
-                                    color: const Color(0xFF00467E),
+                                  const SizedBox(height: 4,),
+                                  SvgPicture.asset(
+                                    'assets/icons/etc/status_${fnGetPoopStatus(responsePooMonthlyMeanState.poop_score_moisture!)}.svg',
+                                    width: 35,
+                                    height: 35,
                                   ),
-                                ),
-                                const SizedBox(height: 4,),
-                                SvgPicture.asset(
-                                  'assets/icons/etc/status_caution.svg',
-                                  width: 35,
-                                  height: 35,
-                                ),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '기생충 여부',
-                                  style: CustomText.caption3.copyWith(
-                                    color: const Color(0xFF00467E),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '기생충 여부',
+                                    style: CustomText.caption3.copyWith(
+                                      color: const Color(0xFF00467E),
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 4,),
-                                SvgPicture.asset(
-                                  'assets/icons/etc/status_bad.svg',
-                                  width: 35,
-                                  height: 35,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 32,),
-                        // Summary
-                        Text(
-                          '$homePoopReportMonthSelectState월 똥 상태 Summary',
-                          style: CustomText.body8.copyWith(
-                            color:const Color(0xFF0092CA),
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
-                        const SizedBox(height: 8,),
-                        Text(
-                          '현재 건강점수는 70점이에요!',
-                          style: CustomText.body9.copyWith(
-                            color:const Color(0xFF00467E),
-                          ),
-                        ),
-                        Text(
-                          '이대로 관리해주세요! :)',
-                          style: CustomText.body9.copyWith(
-                            color:const Color(0xFF00467E),
-                          ),
-                        ),
-                        const SizedBox(height: 16,),
-                        Text(
-                          '반려동물 이름',
-                          style: CustomText.body11.copyWith(
-                            color:const Color(0xFF0092CA),
-                          ),
-                        ),
-                        const SizedBox(height: 4,),
-                        Container(
-                          width: fnGetDeviceWidth(context) * (70/100),
-                          height: 23,
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          decoration: const BoxDecoration(
-                            color: CustomColor.blue03,
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(20), 
-                              bottomRight: Radius.circular(20),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                '건강점수 70점',
-                                overflow: TextOverflow.ellipsis,
-                                style: CustomText.caption3.copyWith(
-                                  color: CustomColor.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                  const SizedBox(height: 4,),
+                                  SvgPicture.asset(
+                                    'assets/icons/etc/status_${fnGetPoopStatus(responsePooMonthlyMeanState.poop_score_parasite!)}.svg',
+                                    width: 35,
+                                    height: 35,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ),
-                        const SizedBox(height: 16,),
-                        Text(
-                          '중형견 평균 건강점수',
-                          style: CustomText.body11.copyWith(
-                            color: CustomColor.yellow02,
+                          const SizedBox(height: 32,),
+                          // Summary
+                          Text(
+                            '$homePoopReportMonthSelectState월 똥 상태 Summary',
+                            style: CustomText.body8.copyWith(
+                              color:const Color(0xFF0092CA),
+                            ),
+                            textAlign: TextAlign.start,
                           ),
-                        ),
-                        const SizedBox(height: 4,),
-                        Container(
-                          width: fnGetDeviceWidth(context) * (100/100),
-                          height: 23,
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          decoration: const BoxDecoration(
-                            color: CustomColor.yellow03,
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(20), 
-                              bottomRight: Radius.circular(20),
+                          const SizedBox(height: 8,),
+                          Text(
+                            '현재 건강점수는 ${responsePooMonthlyMeanState.poop_score_total}점이에요!',
+                            style: CustomText.body9.copyWith(
+                              color:const Color(0xFF00467E),
                             ),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                '건강점수 100점',
-                                overflow: TextOverflow.ellipsis,
-                                style: CustomText.caption3.copyWith(
-                                  color: CustomColor.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
+                          Text(
+                            fnGetPoopStatus(responsePooMonthlyMeanState.poop_score_total!) == 'bad' ? 
+                              '관리가 시급해요 :(' :
+                                fnGetPoopStatus(responsePooMonthlyMeanState.poop_score_total!) == 'caution' ? 
+                                  '조금 더 주의를 기울여주세요 :|' : 
+                                  '이대로 관리해주세요! :)',
+                            style: CustomText.body9.copyWith(
+                              color:const Color(0xFF00467E),
+                            ),
                           ),
-                        ),
-                        // TODO : 월별 점수 정보 받아오기
-                        // AspectRatio(
-                        //   aspectRatio: 1.8,
-                        //   child: Padding(
-                        //     padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                        //     child: BarChart(
-                        //       BarChartData(
-                        //         alignment: BarChartAlignment.spaceAround,
-                        //         maxY: 110,
-                        //         minY: -5,
-                        //         barTouchData: BarTouchData(enabled: false),
-                        //         titlesData: FlTitlesData(
-                        //           leftTitles: const AxisTitles(
-                        //             sideTitles: SideTitles(showTitles: false),
-                        //           ),
-                        //           topTitles: const AxisTitles(
-                        //             sideTitles: SideTitles(showTitles: false),
-                        //           ),
-                        //           bottomTitles: AxisTitles(
-                        //             sideTitles: SideTitles(
-                        //               showTitles: true,
-                        //               reservedSize: 16,
-                        //               getTitlesWidget: (value, meta) {
-                                        
-                        //                 const style = TextStyle(
-                        //                   color: Color(0xFF0092CA),
-                        //                   fontWeight: FontWeight.w400,
-                        //                   fontSize: 8,
-                        //                 );
+                          const SizedBox(height: 16,),
+                          Text(
+                            responseDogsState[homeActivatedPetNavState].pet_name,
+                            style: CustomText.body11.copyWith(
+                              color:const Color(0xFF0092CA),
+                            ),
+                          ),
+                          const SizedBox(height: 4,),
+                          Container(
+                            width: fnGetDeviceWidth(context) * (responsePooMonthlyMeanState.poop_score_total!/100),
+                            height: 23,
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            decoration: const BoxDecoration(
+                              color: CustomColor.blue03,
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(20), 
+                                bottomRight: Radius.circular(20),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  '건강점수 ${responsePooMonthlyMeanState.poop_score_total}점',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: CustomText.caption3.copyWith(
+                                    color: CustomColor.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 16,),
+                          Text(
+                            '${responseDogsState[homeActivatedPetNavState].pet_size == smallSize ? 
+                                '소형견' : 
+                                  responseDogsState[homeActivatedPetNavState].pet_size == mediumSize ?
+                                    '중형견' :
+                                      '대형견'} 평균 건강점수',
+                            style: CustomText.body11.copyWith(
+                              color: CustomColor.yellow02,
+                            ),
+                          ),
+                          const SizedBox(height: 4,),
+                          Container(
+                            width: fnGetDeviceWidth(context) * (benchmarkScore/100),
+                            height: 23,
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            decoration: const BoxDecoration(
+                              color: CustomColor.yellow03,
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(20), 
+                                bottomRight: Radius.circular(20),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  '건강점수 $benchmarkScore점',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: CustomText.caption3.copyWith(
+                                    color: CustomColor.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          // TODO : 월별 점수 정보 받아오기
+                          // AspectRatio(
+                          //   aspectRatio: 1.8,
+                          //   child: Padding(
+                          //     padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                          //     child: BarChart(
+                          //       BarChartData(
+                          //         alignment: BarChartAlignment.spaceAround,
+                          //         maxY: 110,
+                          //         minY: -5,
+                          //         barTouchData: BarTouchData(enabled: false),
+                          //         titlesData: FlTitlesData(
+                          //           leftTitles: const AxisTitles(
+                          //             sideTitles: SideTitles(showTitles: false),
+                          //           ),
+                          //           topTitles: const AxisTitles(
+                          //             sideTitles: SideTitles(showTitles: false),
+                          //           ),
+                          //           bottomTitles: AxisTitles(
+                          //             sideTitles: SideTitles(
+                          //               showTitles: true,
+                          //               reservedSize: 16,
+                          //               getTitlesWidget: (value, meta) {
+                                          
+                          //                 const style = TextStyle(
+                          //                   color: Color(0xFF0092CA),
+                          //                   fontWeight: FontWeight.w400,
+                          //                   fontSize: 8,
+                          //                 );
 
-                        //                 switch (value.toInt()) {
-                        //                   default:
-                        //                     return Text('${value.toInt()+1}월', style: style);
-                        //                 }
-                        //               },
-                        //             ),
-                        //           ),
-                        //           rightTitles: AxisTitles(
-                        //             sideTitles: SideTitles(
-                        //               showTitles: true,
-                        //               reservedSize: 16,
-                        //               interval: 10,
-                        //               getTitlesWidget: (value, meta) {
-                        //                 return Text(
-                        //                   value.toInt() % 50 == 0 ? value.toInt().toString() : '',
-                        //                   style: const TextStyle(
-                        //                     color: Color(0xFF0092CA),
-                        //                     fontWeight: FontWeight.w400,
-                        //                     fontSize: 8,
-                        //                   ),
-                        //                   textAlign: TextAlign.right,
-                        //                 );
-                        //               },
-                        //             ),
-                        //           ),
-                        //         ),
-                        //         gridData: FlGridData(
-                        //           show: true,
-                        //           drawVerticalLine: false,
-                        //           horizontalInterval: 10,
-                        //           getDrawingHorizontalLine: (value) => FlLine(
-                        //             color: const Color(0xFFB7B5AF).withValues(alpha: 0.4),
-                        //             strokeWidth: 1,
-                        //           ),
-                        //         ),
-                        //         borderData: FlBorderData(
-                        //           show: false
-                        //         ),
-                        //         // TODO : 월별 똥 분석 점수 가져오기
-                        //         barGroups: List.generate(values.length, (index) {
-                        //           return BarChartGroupData(
-                        //             x: index,
-                        //             barRods: [
-                        //               BarChartRodData(
-                        //                 toY: values[index].toDouble(),
-                        //                 width: 8,
-                        //                 color: Colors.lightBlue,
-                        //                 borderRadius: BorderRadius.circular(8),
-                        //               ),
-                        //             ],
-                        //           );
-                        //         }),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                      ],
+                          //                 switch (value.toInt()) {
+                          //                   default:
+                          //                     return Text('${value.toInt()+1}월', style: style);
+                          //                 }
+                          //               },
+                          //             ),
+                          //           ),
+                          //           rightTitles: AxisTitles(
+                          //             sideTitles: SideTitles(
+                          //               showTitles: true,
+                          //               reservedSize: 16,
+                          //               interval: 10,
+                          //               getTitlesWidget: (value, meta) {
+                          //                 return Text(
+                          //                   value.toInt() % 50 == 0 ? value.toInt().toString() : '',
+                          //                   style: const TextStyle(
+                          //                     color: Color(0xFF0092CA),
+                          //                     fontWeight: FontWeight.w400,
+                          //                     fontSize: 8,
+                          //                   ),
+                          //                   textAlign: TextAlign.right,
+                          //                 );
+                          //               },
+                          //             ),
+                          //           ),
+                          //         ),
+                          //         gridData: FlGridData(
+                          //           show: true,
+                          //           drawVerticalLine: false,
+                          //           horizontalInterval: 10,
+                          //           getDrawingHorizontalLine: (value) => FlLine(
+                          //             color: const Color(0xFFB7B5AF).withValues(alpha: 0.4),
+                          //             strokeWidth: 1,
+                          //           ),
+                          //         ),
+                          //         borderData: FlBorderData(
+                          //           show: false
+                          //         ),
+                          //         // TODO : 월별 똥 분석 점수 가져오기
+                          //         barGroups: List.generate(values.length, (index) {
+                          //           return BarChartGroupData(
+                          //             x: index,
+                          //             barRods: [
+                          //               BarChartRodData(
+                          //                 toY: values[index].toDouble(),
+                          //                 width: 8,
+                          //                 color: Colors.lightBlue,
+                          //                 borderRadius: BorderRadius.circular(8),
+                          //               ),
+                          //             ],
+                          //           );
+                          //         }),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                    ) : 
+                    Container(
+                      height: 500,
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                      decoration: const BoxDecoration(
+                        color: CustomColor.white,
+                      ),
+                      child: Center(
+                        child: DefaultIconButton(
+                        disabled: false,
+                        onPressed: () {
+                          fnCallCameraScreen(context, mode: "method_call");
+                        }, 
+                        text: '사진 촬영하기',
+                        height: 42,
+                        borderRadius: 16,
+                        backgroundColor: CustomColor.yellow03,
+                        borderColor: CustomColor.yellow03,
+                        textColor: CustomColor.black,
+                        elevation: 4,
+                        svgPicture: SvgPicture.asset(
+                          'assets/icons/etc/camera_icon_border_black.svg',
+                          width: 24,
+                          height: 24,
+                        ),
+                      ),
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),
@@ -604,45 +692,4 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
       ),
     );
   }
-}
-
-class InvertedTrianglePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = const Color(0xFF99D3EA)
-      ..style = PaintingStyle.fill;
-
-    const radius = 2.0;
-    const vertex1 = Offset(0, 0);
-    final vertex2 = Offset(size.width, 0);
-    final vertex3 = Offset(size.width / 2, size.height);
-
-    final path = Path();
-    path.moveTo(vertex1.dx + radius , vertex1.dy); // 왼쪽 상단
-    path.lineTo(vertex2.dx - radius, vertex2.dy); // 오른쪽 상단
-    path.arcToPoint(
-      Offset(vertex2.dx, vertex2.dy + radius),
-      radius: const Radius.circular(radius),
-      clockwise: true,
-    );
-    path.lineTo(vertex3.dx + radius, vertex3.dy - radius); // 아래 중앙
-    path.arcToPoint(
-      Offset(vertex3.dx - radius, vertex3.dy - radius),
-      radius: const Radius.circular(radius),
-      clockwise: true,
-    );
-    path.lineTo(vertex1.dx, vertex1.dy + radius);
-    path.arcToPoint(
-      Offset(vertex1.dx + radius, vertex1.dy),
-      radius: const Radius.circular(radius),
-      clockwise: true,
-    );
-    path.close();
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

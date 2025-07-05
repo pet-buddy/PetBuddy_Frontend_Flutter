@@ -151,7 +151,7 @@ mixin class CustomCameraController {
 
       // 반려동물 변 사진 업로드
       final resp = await dio.post(
-        '${ProjectConstant.POO_AI_URL}predict_image',
+        '${ProjectConstant.POO_AI_URL}/predict_image',
         options: Options(
           headers: {
             'accept': 'application/json',
@@ -339,36 +339,49 @@ mixin class CustomCameraController {
       'poop_grade_parasite': fnGetPoopGrade(noParasiteScore),
     });
 
-    final resp = await dio.post(
-      '${ProjectConstant.BASE_URL}poo/upload',
-      options: Options(
-        headers: {
-          'accept': 'application/json',
-          'Authorization': 'Bearer $accessToken',
-          'Content-Type': 'multipart/form-data',
-        },
-        validateStatus: (status) => true,
-      ),
-      data: formData,
-    );
+    try {
+      final resp = await dio.post(
+        '${ProjectConstant.BASE_URL}/poo/upload',
+        options: Options(
+          headers: {
+            'accept': 'application/json',
+            'Authorization': 'Bearer $accessToken',
+            'Content-Type': 'multipart/form-data',
+          },
+          validateStatus: (status) => true,
+        ),
+        data: formData,
+      );
 
-    print("#################");
-    print(resp);
-
-    CommonResponseMapModel commonResponseMapModel = CommonResponseMapModel.fromJson(resp.data);
-
-    if(commonResponseMapModel.response_code == 200) {
+      CommonResponseMapModel commonResponseMapModel = CommonResponseMapModel.fromJson(resp.data);
+      
       if(!cameraContext.mounted) return;
+      if(commonResponseMapModel.response_code == 200) {  
+        showAlertDialog(
+          context: cameraContext, 
+          middleText: commonResponseMapModel.response_message,
+          onConfirm: () {
+            cameraRef.read(bottomNavProvider.notifier).set(0);
+            cameraContext.goNamed(
+              'home_screen', 
+              extra: {'should_go': true, 'screen_name': 'home_poop_report_screen'}
+            );
+          }
+        );
+      } else {
+        showAlertDialog(
+          context: cameraContext, 
+          middleText: "사진 업로드에 실패했습니다.\n${commonResponseMapModel.response_message}",
+        );
+      }
+    } on DioException catch(e) {
+      if(!cameraContext.mounted) return;
+      // 에러 알림창
       showAlertDialog(
         context: cameraContext, 
-        middleText: commonResponseMapModel.response_message,
-        onConfirm: () {
-          cameraRef.read(bottomNavProvider.notifier).set(0);
-          cameraContext.goNamed('home_screen', extra: {'should_go': true, 'screen_name': 'home_poop_report_screen'});
-        }
+        middleText: "${Sentence.SERVER_ERR}\n$e",
       );
     }
-
   } 
 
   String fnGetPoopGrade(int score) {

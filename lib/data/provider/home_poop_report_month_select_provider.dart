@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomePoopReportMonthSelectState extends StateNotifier<int> {
-  HomePoopReportMonthSelectState() : super(0);
+  HomePoopReportMonthSelectState() : super(-1);
 
   int get() => state;
 
