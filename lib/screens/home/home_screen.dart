@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
 import 'package:petbuddy_frontend_flutter/controller/home_controller.dart';
+import 'package:petbuddy_frontend_flutter/controller/my_controller.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
 import 'package:petbuddy_frontend_flutter/screens/home/widget/widget.dart';
 
@@ -18,7 +19,7 @@ class HomeScreen extends ConsumerStatefulWidget {
   ConsumerState<HomeScreen> createState() => HomeScreenState();
 }
 
-class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
+class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyController {
   bool _isInitialOnPageChanged = true;
 
   @override
@@ -40,6 +41,16 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
     final homeActivatedPetNavState = ref.watch(homeActivatedPetNavProvider);
     final responseDogsState = ref.watch(responseDogsProvider);
     final storage = ref.watch(secureStorageProvider);
+
+    // 라우터 이동
+    final extra = GoRouter.of(context).routerDelegate.currentConfiguration.extra;
+    final shouldGo = extra is Map && extra['should_go'] == true;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (shouldGo) {
+        context.goNamed(extra['screen_name']);
+      }
+    });
 
     return DefaultLayout(
       child: PopScope(
@@ -218,8 +229,13 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController {
                                       left: 0,
                                       right: 0,
                                       bottom: fnGetDeviceWidth(context) * 0.2,
-                                      child: SvgPicture.asset(
-                                        'assets/icons/illustration/puppy_${i == 0 ? 'white' : i == 1 ? 'yellow' : 'black'}.svg',
+                                      child: SvgPicture.asset( // 강아지 일러스트 변하지 않도록 pet_id 별로 고정된 일러스트 보여줌
+                                        'assets/icons/illustration/puppy_${
+                                          fnGetPetTypesIndexByCode(responseDogsState[i].division2_code) % 3 == 0 ? 
+                                            'white' : 
+                                            fnGetPetTypesIndexByCode(responseDogsState[i].division2_code) % 3 == 1 ? 
+                                              'yellow' : 'black'
+                                        }.svg',
                                         width: fnGetDeviceWidth(context) * 0.3,
                                         height: fnGetDeviceWidth(context) * 0.35,
                                       ),

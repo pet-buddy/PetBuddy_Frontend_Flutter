@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
+import 'package:petbuddy_frontend_flutter/data/model/common_response_map_model.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:universal_html/html.dart' as html;
@@ -169,7 +170,7 @@ mixin class CustomCameraController {
       // );
 
       // 똥 AI 분석 결과 변수에 저장
-      List<double> poopScores = resp.data[0];
+      List<double> poopScores = (resp.data[0] as List).map((e) => (e as num).toDouble()).toList();
       // 똥 AI 분석 결과 Provider에 저장
       cameraRef.refresh(responsePoopScoreListProvider.notifier).set(poopScores);
       
@@ -271,9 +272,9 @@ mixin class CustomCameraController {
 
   Future<void> fnPoopUploadExec() async {
     List<double> poopScores = cameraRef.read(responsePoopScoreListProvider.notifier).get();
-
-    final isPoopProb = poopScores[0];
-    final isNotPoopProb = poopScores[1];
+    
+    final isNotPoopProb = poopScores[0];
+    final isPoopProb = poopScores[1];
 
     if(isPoopProb - isNotPoopProb <= 0.1) {
       showAlertDialog(
@@ -322,9 +323,12 @@ mixin class CustomCameraController {
         contentType: mimeType,
       );
 
+    final responseDogs = cameraRef.read(responseDogsProvider.notifier).get();
+    final homeActivatedPetNav = cameraRef.read(homeActivatedPetNavProvider.notifier).get();
+
     FormData formData = FormData.fromMap({
       'image':multipartFile,
-      'pet_id': 1, // TODO : 활성화된 반려동물 아이디 넣기
+      'pet_id': responseDogs[homeActivatedPetNav].pet_id, // 활성화된 반려동물 아이디
       'poop_score_total': totalScore,
       'poop_grade_total': fnGetPoopIllustrationGrade(poopScores),
       'poop_score_moisture': isMoistureNormalScore,
@@ -340,12 +344,30 @@ mixin class CustomCameraController {
       options: Options(
         headers: {
           'accept': 'application/json',
-          'Authorization': 'Bearer $accessToken'
+          'Authorization': 'Bearer $accessToken',
+          'Content-Type': 'multipart/form-data',
         },
         validateStatus: (status) => true,
       ),
       data: formData,
     );
+
+    print("#################");
+    print(resp);
+
+    CommonResponseMapModel commonResponseMapModel = CommonResponseMapModel.fromJson(resp.data);
+
+    if(commonResponseMapModel.response_code == 200) {
+      if(!cameraContext.mounted) return;
+      showAlertDialog(
+        context: cameraContext, 
+        middleText: commonResponseMapModel.response_message,
+        onConfirm: () {
+          cameraRef.read(bottomNavProvider.notifier).set(0);
+          cameraContext.goNamed('home_screen', extra: {'should_go': true, 'screen_name': 'home_poop_report_screen'});
+        }
+      );
+    }
 
   } 
 

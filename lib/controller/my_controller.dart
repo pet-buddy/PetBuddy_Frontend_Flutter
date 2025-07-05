@@ -551,6 +551,12 @@ mixin class MyController {
   ScrollController petTypeScrollController = ScrollController();
   ScrollController petFeedScrollController = ScrollController();
 
+  int fnGetPetTypesIndexByCode(String code) {
+    int index = totalPetTypes.indexWhere((model) => model.code == code);
+
+    return index != -1 ? index : 0;
+  }
+
   void fnGetFilteredPetTypeItems(String input) {
     myRef.read(myPetAddTypeFilterProvider.notifier).set(
       totalPetTypes
@@ -1307,9 +1313,14 @@ mixin class MyController {
       final response = await myRef.read(petRepositoryProvider).requestDogDeleteRepository(pet_id.toString());
 
       if(response.response_code == 200) {
+        // 활성화된 반려동물 인덱스 조정
+        int homeActivatedPetNav = myRef.read(homeActivatedPetNavProvider.notifier).get();
+        if(homeActivatedPetNav != 0) {myRef.read(homeActivatedPetNavProvider.notifier).set(0);}
+
         if(!myContext.mounted) return;
         // 반려동물 조회
         await ControllerUtils.fnGetDogsExec(myRef, myContext);
+        if(!myContext.mounted) return;
         // 로딩 끝
         hideLoadingDialog(myContext);
         // 알림창
