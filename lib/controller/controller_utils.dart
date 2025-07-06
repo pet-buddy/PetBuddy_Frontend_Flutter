@@ -13,7 +13,9 @@ import 'package:petbuddy_frontend_flutter/data/repository/user_repository.dart';
 
 class ControllerUtils {
   
-  static Future<void> fnGetUserMypageExec(WidgetRef ref, BuildContext context) async {
+  static Future<bool> fnGetUserMypageExec(WidgetRef ref, BuildContext context) async {
+    bool result = false;
+
     try {
       final response = await ref.read(userRepositoryProvider).requestUserMypageRepository();
 
@@ -24,26 +26,30 @@ class ControllerUtils {
         ResponseUserMypageModel responseUserMypageModel = ResponseUserMypageModel.fromJson(response.data!);
         // 사용자 정보 세팅
         ref.read(responseUserMypageProvider.notifier).set(responseUserMypageModel);
+        // 조회 결과 
+        result = true;
       } else {
-        if(!context.mounted) return;
+        if(!context.mounted) return result;
         // 에러 알림창
         showAlertDialog(
           context: context, 
           middleText: "사용자 정보 조회에 실패했습니다.\n${response.response_message}"
         );
-        return;
+        return result;
       }
     } on DioException catch(e) {
       // debugPrint("========== Request User Mypage Exception ==========");
       // debugPrint(e.toString());
 
       // 에러 알림창
-      if(!context.mounted) return;
+      if(!context.mounted) return result;
       showAlertDialog(
         context: context, 
         middleText: '[UserMyPage] ${Sentence.SERVER_ERR}',
       );
     }
+
+    return result;
   }
 
 
@@ -54,7 +60,9 @@ class ControllerUtils {
   // ########################################
   // 반려동물 조회
   // ########################################
-  static Future<void> fnGetDogsExec(WidgetRef ref, BuildContext context) async {
+  static Future<bool> fnGetDogsExec(WidgetRef ref, BuildContext context) async {
+    bool result = false;
+
     try {
       // 로딩 시작
       // showLoadingDialog(context: context);
@@ -67,12 +75,15 @@ class ControllerUtils {
         ref.read(responseDogsProvider.notifier).set(
           responseDogsModel.dogs.map((elem) => ResponseDogsDetailModel.fromJson(elem)).toList(),
         );
+
+        // 조회 결과 
+        result = true;
         
         // if(!context.mounted) return;
         // 로딩 끝
         // hideLoadingDialog(context);
       } else {
-        if(!context.mounted) return;
+        if(!context.mounted) return result;
         // 로딩 끝
         // hideLoadingDialog(context);
         // 에러 알림창
@@ -80,7 +91,7 @@ class ControllerUtils {
           context: context, 
           middleText: "반려동물 조회에 실패했습니다.\n${response.response_message}"
         );
-        return;
+        return result;
       }
     } on DioException catch(e) {
       // debugPrint("========== Request Dogs Exception ==========");
@@ -91,12 +102,13 @@ class ControllerUtils {
       // hideLoadingDialog(context);
 
       // 에러 알림창
-      if(!context.mounted) return;
+      if(!context.mounted) return result;
       showAlertDialog(
         context: context, 
         middleText: '[Dogs] ${Sentence.SERVER_ERR}',
       );
     }
+
+    return result;
   }
-  
 }

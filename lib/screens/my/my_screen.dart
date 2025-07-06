@@ -221,7 +221,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    // 공지사항 화면으로 이동
+                                    launchUrl(Uri.parse(ProjectConstant.NOTICE_URL));
                                   },
                                   child: const Text(
                                     '공지사항',

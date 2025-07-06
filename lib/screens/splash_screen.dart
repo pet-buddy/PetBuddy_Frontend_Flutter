@@ -42,11 +42,21 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           //   ref.read(responseUserMypageProvider.notifier).set(responseUserMypageModel);
           // }
 
-          // 사용자 정보 세팅
-          await ControllerUtils.fnGetUserMypageExec(ref, context);
+          // 사용자 정보 조회
+          final userMyPageResult = await ControllerUtils.fnGetUserMypageExec(ref, context);
 
-          // 반려동물 정보 세팅
-          await ControllerUtils.fnGetDogsExec(ref, context);
+          if(!userMyPageResult) {
+            context.goNamed(entryPoint); // 로그인 화면 이동
+            return;
+          }
+
+          // 반려동물 정보 조회
+          final dogsResult = await ControllerUtils.fnGetDogsExec(ref, context);
+
+          if(!dogsResult) {
+            context.goNamed(entryPoint); // 로그인 화면 이동
+            return;
+          }
 
           // 활성화된 반려동물 인덱스 불러오기
           final petActivatedIndex = await storage.read(key: ProjectConstant.PET_ACTIVATED_INDEX);

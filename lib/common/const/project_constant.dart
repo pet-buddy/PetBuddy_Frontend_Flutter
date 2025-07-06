@@ -11,6 +11,7 @@ class ProjectConstant {
   static const FAQ_URL = 'https://florentine-behavior-ea1.notion.site/FAQ-2170e6fb3b4380be9a49f9f6834d9943';
   static const PRIVACY_POLICY = 'https://florentine-behavior-ea1.notion.site/2170e6fb3b43802db70ff1d32df0c5f5';
   static const TERMS_OF_USER = 'https://florentine-behavior-ea1.notion.site/21a0e6fb3b4380b896ddf8aed1f69d19';
+  static const NOTICE_URL = 'https://florentine-behavior-ea1.notion.site/2280e6fb3b4380689911e613b1b887c9';
 
   // 채널 링크 (퍼피푸)
   static const PUPPYPOO_WEB_URL = "https://puppypoo.framer.ai/";
