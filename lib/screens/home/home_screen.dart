@@ -217,7 +217,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                             controller: homeScreenPetController,
                             padEnds: false,
                             onPageChanged: (index) async {
-                              if (_isInitialOnPageChanged) {
+                              if (_isInitialOnPageChanged && homeActivatedPetNavState == index) {
                                 _isInitialOnPageChanged = false;
                                 return;
                               }
@@ -235,8 +235,8 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                               // 반려동물 해당월 변 데이터 조회
                               fnPooMonthlyMeanExec(DateFormat("yyyy-MM").format(DateTime.now()), responseDogsState[index].pet_id);
                               // 해당 월 세팅
-                              ref.read(homePoopReportMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
-                              ref.read(homePoopReportPreviousMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
+                              // ref.read(homePoopReportMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
+                              // ref.read(homePoopReportPreviousMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
                             },
                             children: [
                                 for(int i=0;i<responseDogsState.length;i++)

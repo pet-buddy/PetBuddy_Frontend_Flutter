@@ -130,10 +130,20 @@ mixin class LoginController {
         await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: responseEmailLoginModel.refreshToken);
         // 사용자 정보 조회
         if(!loginContext.mounted) return;
-        await ControllerUtils.fnGetUserMypageExec(loginRef, loginContext);
+        final userMyPageResult = await ControllerUtils.fnGetUserMypageExec(loginRef, loginContext);
+        if(!loginContext.mounted) return;
+        if(!userMyPageResult) {
+            loginContext.goNamed('login_screen'); // 로그인 화면 이동
+            return;
+          }
         // 반려동물 정보 조회
         if(!loginContext.mounted) return;
-        await ControllerUtils.fnGetDogsExec(loginRef, loginContext);
+        final dogsResult = await ControllerUtils.fnGetDogsExec(loginRef, loginContext);
+        if(!loginContext.mounted) return;
+        if(!dogsResult) {
+            loginContext.goNamed('login_screen'); // 로그인 화면 이동
+            return;
+          }
 
         // 활성화된 반려동물 인덱스 불러오기
         final petActivatedIndex = await storage.read(key: ProjectConstant.PET_ACTIVATED_INDEX);
