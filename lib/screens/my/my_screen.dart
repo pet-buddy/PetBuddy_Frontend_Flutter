@@ -159,7 +159,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                                 height: 40,
                                 onPressed: () {
                                   // 반려동물 수정하기 화면 상태 초기화 - 응답 데이터 세팅
-                                  // fnInitMyPetUpdateState(responseDogsState[i]);
+                                  fnInitMyPetUpdateState(responseDogsState[i]);
                                   // 화면 이동
                                   context.goNamed(
                                     'my_pet_update_screen',
@@ -184,6 +184,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                               );
                               return;
                             }
+                            fnInitMyPetAddState();
                             context.goNamed('my_pet_add_screen');
                           },
                         ),

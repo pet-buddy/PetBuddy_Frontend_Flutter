@@ -1022,7 +1022,7 @@ mixin class MyController {
       // 에러 알림창
       showAlertDialog(
         context: myContext, 
-        middleText: Sentence.SERVER_ERR,
+        middleText: '${Sentence.SERVER_ERR}\n$e',
       );
     }
   }

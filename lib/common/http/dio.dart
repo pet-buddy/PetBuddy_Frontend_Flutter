@@ -92,8 +92,8 @@ class CustomInterceptor extends Interceptor {
         ResponseRefreshModel responseRefreshModel = ResponseRefreshModel.fromJson(commonResponseMapModel.data!);
         
         // 응답으로 받은 토큰 변수에 할당
-        accessToken = responseRefreshModel.access_token; // resp.data['accessToken'];
-        refreshToken = responseRefreshModel.refresh_token; // resp.data['refreshToken'];
+        accessToken = responseRefreshModel.accessToken; // resp.data['accessToken'];
+        refreshToken = responseRefreshModel.refreshToken; // resp.data['refreshToken'];
         // secure storage에 토큰 다시 저장
         await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: accessToken);
         await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: refreshToken);

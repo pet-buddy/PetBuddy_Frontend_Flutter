@@ -166,15 +166,21 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
                           height: 52,
-                          child: const SingleChildScrollView(
+                          child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
-                                HomeCardMissionContainer(
-                                  imoji: '💤',
-                                  title: '강아지 등록해 잠깨우기', 
-                                  text: '반려동물을 등록해보세요:)',
-                                  maxWidth: 200,
+                                GestureDetector(
+                                  onTap: () {
+                                    ref.read(bottomNavProvider.notifier).set(3);
+                                    context.goNamed('my_screen');
+                                  },
+                                  child: const HomeCardMissionContainer(
+                                    imoji: '💤',
+                                    title: '강아지 등록해 잠깨우기', 
+                                    text: '반려동물을 등록해보세요:)',
+                                    maxWidth: 200,
+                                  ),
                                 ),
                               ],
                             ),
@@ -329,6 +335,10 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                                 showAlertDialog(
                                   context: context, 
                                   middleText: "반려동물을 먼저 등록해주세요!",
+                                  onConfirm: () {
+                                    ref.read(bottomNavProvider.notifier).set(3);
+                                    context.goNamed('my_screen');
+                                  }
                                 );
                               } else {
                                 context.goNamed("home_poop_report_screen");

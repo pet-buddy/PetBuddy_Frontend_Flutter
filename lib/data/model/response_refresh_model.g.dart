@@ -9,13 +9,13 @@ part of 'response_refresh_model.dart';
 ResponseRefreshModel _$ResponseRefreshModelFromJson(
         Map<String, dynamic> json) =>
     ResponseRefreshModel(
-      access_token: json['access_token'] as String,
-      refresh_token: json['refresh_token'] as String,
+      accessToken: json['accessToken'] as String,
+      refreshToken: json['refreshToken'] as String,
     );
 
 Map<String, dynamic> _$ResponseRefreshModelToJson(
         ResponseRefreshModel instance) =>
     <String, dynamic>{
-      'access_token': instance.access_token,
-      'refresh_token': instance.refresh_token,
+      'accessToken': instance.accessToken,
+      'refreshToken': instance.refreshToken,
     };
