@@ -61,7 +61,7 @@ class HomePoopDailyReportDialogState extends ConsumerState<HomePoopDailyReportDi
               const SizedBox(height: 8,),
               Container(
                 width: fnGetDeviceWidth(context),
-                height: fnGetDeviceWidth(context) * 1.1,
+                height: fnGetDeviceWidth(context) * 1.2,
                 decoration: BoxDecoration(
                   border: Border.all(
                       width: 1,
@@ -69,9 +69,12 @@ class HomePoopDailyReportDialogState extends ConsumerState<HomePoopDailyReportDi
                   ),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Image.network(
-                  responsePooDailyStatusState.poop_url,
-                  fit: BoxFit.cover,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    responsePooDailyStatusState.poop_url,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               const SizedBox(height: 16,),

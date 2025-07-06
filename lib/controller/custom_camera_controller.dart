@@ -420,7 +420,7 @@ mixin class CustomCameraController {
     String colorFlag = '';
     String moistureFlag = '';
 
-    if(noParasite >= yesParasite) {
+    if(noParasite > yesParasite) {
       parasiteYn = 'N';
     } else {
       parasiteYn = 'Y';
@@ -444,7 +444,7 @@ mixin class CustomCameraController {
 
     if(maxMoistureScore == isDiarrhea) {
       moistureFlag = 'diarrhea'; // 설사
-    } else if(maxMoistureScore == isBlood) {
+    } else if(maxMoistureScore == isConstipation) {
       moistureFlag = 'constipation'; // 변비
     } else {
       moistureFlag = 'normal';
