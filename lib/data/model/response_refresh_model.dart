@@ -5,12 +5,12 @@ part 'response_refresh_model.g.dart';
 
 @JsonSerializable()
 class ResponseRefreshModel {
-  final String access_token;
-  final String refresh_token;
+  final String accessToken;
+  final String refreshToken;
 
   ResponseRefreshModel({
-    required this.access_token,
-    required this.refresh_token,
+    required this.accessToken,
+    required this.refreshToken,
   });
 
   factory ResponseRefreshModel.fromJson(Map<String, dynamic> json) => _$ResponseRefreshModelFromJson(json);

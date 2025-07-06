@@ -685,7 +685,7 @@ class MyPetUpdateScreenState extends ConsumerState<MyPetUpdateScreen> with MyCon
                     onPressed: () async {
                       showConfirmDialog(
                         context: context, 
-                        middleText: "삭제하실 경우 다시는 볼 수 없어요 :(\n그래도 삭제하실건가요? :울다:", 
+                        middleText: "삭제하실 경우 다시는 볼 수 없어요 :(\n그래도 삭제하실건가요?😢", 
                         onConfirm: () async {
                           await fnMyPetDeleteExec(widget.pet_id);
                         },
