@@ -451,41 +451,41 @@ mixin class CustomCameraController {
     }
 
     if(parasiteYn == 'N' && colorFlag == 'normal' && moistureFlag == 'normal') {
-      illustrationGrade = 1; // 정상
+      illustrationGrade = 1; // 기생충X + 정상색 + 정상수분
     } else if(parasiteYn == 'N' && colorFlag == 'normal' && moistureFlag == 'constipation') {
-      illustrationGrade = 2; // 변비
+      illustrationGrade = 2; // 기생충X + 정상색 + 변비
     } else if(parasiteYn == 'N' && colorFlag == 'normal' && moistureFlag == 'diarrhea') {
-      illustrationGrade = 3; // 설사
-    } else if(parasiteYn == 'N' && colorFlag == 'blood' && moistureFlag == 'normal') {
-      illustrationGrade = 4; // 혈변
+      illustrationGrade = 3; // 기생충X + 정상색 + 설사
     } else if(parasiteYn == 'Y' && colorFlag == 'normal' && moistureFlag == 'normal') {
-      illustrationGrade = 5; // 기생충
-    } else if(parasiteYn == 'N' && colorFlag == 'blood' && moistureFlag == 'constipation') {
-      illustrationGrade = 6; // 혈변 + 변비
-    } else if(parasiteYn == 'N' && colorFlag == 'blood' && moistureFlag == 'diarrhea') {
-      illustrationGrade = 7; // 혈변 + 설사
-    } else if(parasiteYn == 'N' && colorFlag == 'black' && moistureFlag == 'normal') {
-      illustrationGrade = 8; // 흑변
-    } else if(parasiteYn == 'N' && colorFlag == 'black' && moistureFlag == 'diarrhea') {
-      illustrationGrade = 9; // 흑변 + 설사
-    } else if(parasiteYn == 'N' && colorFlag == 'black' && moistureFlag == 'constipation') {
-      illustrationGrade = 10; // 흑변 + 변비
-    } else if(parasiteYn == 'Y' && colorFlag == 'blood' && moistureFlag == 'normal') {
-      illustrationGrade = 11; // 혈변 + 정상수분 + 기생충
-    } else if(parasiteYn == 'Y' && colorFlag == 'black' && moistureFlag == 'normal') {
-      illustrationGrade = 12; // 흑변 + 정상수분 + 기생충
-    } else if(parasiteYn == 'Y' && colorFlag == 'black' && moistureFlag == 'diarrhea') {
-      illustrationGrade = 13; // 흑변 + 설사 + 기생충
-    } else if(parasiteYn == 'Y' && colorFlag == 'normal' && moistureFlag == 'diarrhea') {
-      illustrationGrade = 14; // 정상색 + 설사 + 기생충
-    } else if(parasiteYn == 'Y' && colorFlag == 'blood' && moistureFlag == 'diarrhea') {
-      illustrationGrade = 15; // 혈변 + 설사 + 기생충
-    } else if(parasiteYn == 'Y' && colorFlag == 'blood' && moistureFlag == 'constipation') {
-      illustrationGrade = 16; // 혈변 + 변비 + 기생충
-    } else if(parasiteYn == 'Y' && colorFlag == 'black' && moistureFlag == 'constipation') {
-      illustrationGrade = 17; // 흑변 + 변비 + 기생충
+      illustrationGrade = 4; // 기생충O + 정상색 + 정상수분
     } else if(parasiteYn == 'Y' && colorFlag == 'normal' && moistureFlag == 'constipation') {
-      illustrationGrade = 18; // 흑변 + 변비 + 기생충
+      illustrationGrade = 5; // 기생충O + 정상색 + 변비
+    } else if(parasiteYn == 'Y' && colorFlag == 'normal' && moistureFlag == 'diarrhea') {
+      illustrationGrade = 6; // 기생충O + 정상색 + 설사
+    } else if(parasiteYn == 'N' && colorFlag == 'blood' && moistureFlag == 'normal') {
+      illustrationGrade = 7; // 기생충X + 혈변 + 정상수분
+    } else if(parasiteYn == 'N' && colorFlag == 'blood' && moistureFlag == 'constipation') {
+      illustrationGrade = 8; // 기생충X + 혈변 + 변비
+    } else if(parasiteYn == 'N' && colorFlag == 'blood' && moistureFlag == 'diarrhea') {
+      illustrationGrade = 9; // 기생충X + 혈변 + 설사
+    } else if(parasiteYn == 'Y' && colorFlag == 'blood' && moistureFlag == 'normal') {
+      illustrationGrade = 10; // 기생충O + 혈변 + 정상수분
+    } else if(parasiteYn == 'Y' && colorFlag == 'blood' && moistureFlag == 'constipation') {
+      illustrationGrade = 11; // 기생충O + 혈변 + 변비
+    } else if(parasiteYn == 'Y' && colorFlag == 'blood' && moistureFlag == 'diarrhea') {
+      illustrationGrade = 12; // 기생충O + 혈변 + 설사
+    } else if(parasiteYn == 'N' && colorFlag == 'black' && moistureFlag == 'normal') {
+      illustrationGrade = 13; // 기생충X + 흑변 + 정상수분
+    } else if(parasiteYn == 'N' && colorFlag == 'black' && moistureFlag == 'constipation') {
+      illustrationGrade = 14; // 기생충X + 흑변 + 변비
+    } else if(parasiteYn == 'N' && colorFlag == 'black' && moistureFlag == 'diarrhea') {
+      illustrationGrade = 15; // 기생충X + 흑변 + 설사
+    } else if(parasiteYn == 'Y' && colorFlag == 'black' && moistureFlag == 'normal') {
+      illustrationGrade = 16; // 기생충O + 흑변 + 정상수분
+    } else if(parasiteYn == 'Y' && colorFlag == 'black' && moistureFlag == 'constipation') {
+      illustrationGrade = 17; // 기생충O + 흑변 + 변비
+    } else if(parasiteYn == 'Y' && colorFlag == 'black' && moistureFlag == 'diarrhea') {
+      illustrationGrade = 18; // 기생충O + 흑변 + 설사
     }
 
     return illustrationGrade;

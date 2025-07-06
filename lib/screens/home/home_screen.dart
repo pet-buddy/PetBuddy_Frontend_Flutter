@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,6 +8,7 @@ import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
 import 'package:petbuddy_frontend_flutter/controller/home_controller.dart';
 import 'package:petbuddy_frontend_flutter/controller/my_controller.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/response_poo_monthly_mean_provider.dart';
 import 'package:petbuddy_frontend_flutter/screens/home/widget/widget.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -29,9 +28,22 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       // homeScreenPetController = PageController(initialPage: ref.read(homeActivatedPetNavProvider.notifier).get());      
+
+      final homeActivatedPetNav = ref.read(homeActivatedPetNavProvider.notifier).get();
+      final responseDogs = ref.read(responseDogsProvider.notifier).get();
       
-      if (ref.read(responseDogsProvider.notifier).get().length > 1) {
-        homeScreenPetController.jumpToPage(ref.read(homeActivatedPetNavProvider.notifier).get());
+      // if (ref.read(responseDogsProvider.notifier).get().length > 1) {
+      if (responseDogs.length > 1) {
+        // homeScreenPetController.jumpToPage(ref.read(homeActivatedPetNavProvider.notifier).get());
+        homeScreenPetController.jumpToPage(homeActivatedPetNav);
+
+        // ========== 반려동물 조회 ==========
+        // 반려동물 한달평균 건강점수
+        fnPooMonthlyMeanExec(DateFormat("yyyy-MM").format(DateTime.now()), responseDogs[homeActivatedPetNav].pet_id);
+
+        // 해당 월 세팅
+        ref.read(homePoopReportMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
+        ref.read(homePoopReportPreviousMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
       }
     });
   }
@@ -41,6 +53,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
     final homeActivatedPetNavState = ref.watch(homeActivatedPetNavProvider);
     final responseDogsState = ref.watch(responseDogsProvider);
     final storage = ref.watch(secureStorageProvider);
+    final responsePooMonthlyMeanState = ref.watch(responsePooMonthlyMeanProvider);
 
     // 라우터 이동
     final extra = GoRouter.of(context).routerDelegate.currentConfiguration.extra;
@@ -213,11 +226,17 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                               // 반려동물 활성화 알림 토스트 메시지
                               textToast(
                                 context, 
-                                "${responseDogsState[index].pet_name} 을/를 보고 있어요!",
+                                "${responseDogsState[index].pet_name}을(를) 보고 있어요!",
                                 bottom: 0,
                               );
                               // 로그인 시 반려동물 활성화 인덱스 불러오기 위해 저장
                               await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: index.toString());
+                              // 강아지 스와이프 시 해당월 변 데이터 조회
+                              // 반려동물 해당월 변 데이터 조회
+                              fnPooMonthlyMeanExec(DateFormat("yyyy-MM").format(DateTime.now()), responseDogsState[index].pet_id);
+                              // 해당 월 세팅
+                              ref.read(homePoopReportMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
+                              ref.read(homePoopReportPreviousMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
                             },
                             children: [
                                 for(int i=0;i<responseDogsState.length;i++)
@@ -306,7 +325,14 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                               height: 24,
                             ),
                             onPressed: () {
-                              context.goNamed("home_poop_report_screen");
+                              if(responseDogsState.isEmpty) {
+                                showAlertDialog(
+                                  context: context, 
+                                  middleText: "반려동물을 먼저 등록해주세요!",
+                                );
+                              } else {
+                                context.goNamed("home_poop_report_screen");
+                              }
                             },
                             child: Container(
                               height: 45,
@@ -320,9 +346,11 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                                     Container(
                                       width: contraints.maxWidth / 3,
                                       height: contraints.maxHeight,
-                                      decoration: const BoxDecoration(
-                                        color:  CustomColor.yellow03,
-                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(32), bottomLeft: Radius.circular(32),),
+                                      decoration: BoxDecoration(
+                                        color: responseDogsState.isNotEmpty && responsePooMonthlyMeanState.monthly_poop_list.isNotEmpty && (responsePooMonthlyMeanState.poop_score_total ?? 0) < 50 ? 
+                                          CustomColor.yellow03 :
+                                          const Color(0xFFF5F5F5),
+                                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(32), bottomLeft: Radius.circular(32),),
                                       ),
                                       child: Center(
                                         child: Text(
@@ -336,8 +364,10 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                                     Container(
                                       width: contraints.maxWidth / 3,
                                       height: contraints.maxHeight,
-                                      decoration: const BoxDecoration(
-                                        color:  Color(0xFFF5F5F5),
+                                      decoration: BoxDecoration(
+                                        color:  responseDogsState.isNotEmpty && responsePooMonthlyMeanState.monthly_poop_list.isNotEmpty && (responsePooMonthlyMeanState.poop_score_total ?? 0) >= 50 && (responsePooMonthlyMeanState.poop_score_total ?? 0) < 70 ? 
+                                          CustomColor.yellow03 :
+                                          const Color(0xFFF5F5F5),
                                       ),
                                       child: Center(
                                         child: Text(
@@ -351,9 +381,11 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                                     Container(
                                       width: contraints.maxWidth / 3,
                                       height: contraints.maxHeight,
-                                      decoration: const BoxDecoration(
-                                        color:  Color(0xFFF5F5F5),
-                                        borderRadius: BorderRadius.only(topRight: Radius.circular(32), bottomRight: Radius.circular(32),),
+                                      decoration: BoxDecoration(
+                                        color:  responseDogsState.isNotEmpty && responsePooMonthlyMeanState.monthly_poop_list.isNotEmpty && (responsePooMonthlyMeanState.poop_score_total ?? 0) > 70 ? 
+                                          CustomColor.yellow03 :
+                                          const Color(0xFFF5F5F5),
+                                        borderRadius: const BorderRadius.only(topRight: Radius.circular(32), bottomRight: Radius.circular(32),),
                                       ),
                                       child: Center(
                                         child: Text(
@@ -388,7 +420,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                                 context: context, 
                                 middleText: Sentence.UPDATE_ALERT,
                                 onConfirm: () {
-                                  // 사전예약 페이지 이도
+                                  // 사전예약 페이지 이동
                                   context.pushNamed('preorder_screen');
                                 }
                               );

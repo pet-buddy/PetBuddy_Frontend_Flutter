@@ -37,12 +37,13 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
         fnGetDaysDiff(responseDogs[homeActivatedPetNav].pet_birth)
       ) * 100).toInt();
 
+      // TODO : 홈 화면 대시보드 조회 API 생성 시 주석해제
       // 반려동물 한달평균 건강점수
-      fnPooMonthlyMeanExec(DateFormat("yyyy-MM").format(DateTime.now()), responseDogs[homeActivatedPetNav].pet_id);
+      // fnPooMonthlyMeanExec(DateFormat("yyyy-MM").format(DateTime.now()), responseDogs[homeActivatedPetNav].pet_id);
 
       // 해당 월 세팅
-      ref.read(homePoopReportMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
-      ref.read(homePoopReportPreviousMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
+      // ref.read(homePoopReportMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
+      // ref.read(homePoopReportPreviousMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
     });
   }
 
@@ -665,23 +666,23 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
                       ),
                       child: Center(
                         child: DefaultIconButton(
-                        disabled: false,
-                        onPressed: () {
-                          fnCallCameraScreen(context, mode: "method_call");
-                        }, 
-                        text: '사진 촬영하기',
-                        height: 42,
-                        borderRadius: 16,
-                        backgroundColor: CustomColor.yellow03,
-                        borderColor: CustomColor.yellow03,
-                        textColor: CustomColor.black,
-                        elevation: 4,
-                        svgPicture: SvgPicture.asset(
-                          'assets/icons/etc/camera_icon_border_black.svg',
-                          width: 24,
-                          height: 24,
+                          disabled: false,
+                          onPressed: () {
+                            fnCallCameraScreen(context, mode: "method_call");
+                          }, 
+                          text: '사진 촬영하기',
+                          height: 42,
+                          borderRadius: 16,
+                          backgroundColor: CustomColor.yellow03,
+                          borderColor: CustomColor.yellow03,
+                          textColor: const Color.fromARGB(255, 28, 22, 22),
+                          elevation: 4,
+                          svgPicture: SvgPicture.asset(
+                            'assets/icons/etc/camera_icon_border_black.svg',
+                            width: 24,
+                            height: 24,
+                          ),
                         ),
-                      ),
                       ),
                     ),
                 ],
