@@ -42,8 +42,8 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
       // fnPooMonthlyMeanExec(DateFormat("yyyy-MM").format(DateTime.now()), responseDogs[homeActivatedPetNav].pet_id);
 
       // 해당 월 세팅
-      // ref.read(homePoopReportMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
-      // ref.read(homePoopReportPreviousMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
+      ref.read(homePoopReportMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
+      ref.read(homePoopReportPreviousMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
     });
   }
 
