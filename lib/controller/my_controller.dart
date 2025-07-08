@@ -1131,7 +1131,7 @@ mixin class MyController {
       return;
     }
 
-    if(!fnCheckPetGender(petGender)) {
+    if(!fnCheckPetGender(petGender.toUpperCase())) {
       showAlertDialog(
         context: myContext, 
         middleText: Sentence.PET_GENDER_ERR_EMPTY,
@@ -1310,7 +1310,7 @@ mixin class MyController {
 
   Future<void> fnMyPetDeleteExec(int pet_id) async {
     try {
-      final response = await myRef.read(petRepositoryProvider).requestDogDeleteRepository(pet_id.toString());
+      final response = await myRef.read(petRepositoryProvider).requestDogDeleteRepository(pet_id);
 
       if(response.response_code == 200) {
         // 활성화된 반려동물 인덱스 조정

@@ -668,7 +668,9 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
                         child: DefaultIconButton(
                           disabled: false,
                           onPressed: () {
-                            fnCallCameraScreen(context, mode: "method_call");
+                            // fnCallCameraScreen(context, mode: "method_call");
+                            ref.read(bottomNavProvider.notifier).set(1);
+                            context.goNamed('camera_upload_screen');
                           }, 
                           text: '사진 촬영하기',
                           height: 42,

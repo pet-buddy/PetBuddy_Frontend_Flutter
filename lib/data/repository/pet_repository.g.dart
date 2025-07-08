@@ -106,7 +106,7 @@ class _PetRepository implements PetRepository {
   }
 
   @override
-  Future<CommonResponseMapModel> requestDogDeleteRepository(String dog) async {
+  Future<CommonResponseMapModel> requestDogDeleteRepository(int dog) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'dog': dog};
     final _headers = <String, dynamic>{};
