@@ -19,8 +19,6 @@ class EmailLoginScreenState extends ConsumerState<EmailLoginScreen> with LoginCo
     super.initState();
     fnInitLoginController(ref, context);
     fnInitEmailLoginState();
-    // 웹 새로고침 시 경고창 호출
-    fnRegisterBeforeUnloadWarning();
   }
 
   @override

@@ -18,6 +18,9 @@ class RegisterScreenState extends ConsumerState<RegisterScreen> with RegisterCon
   void initState() {
     super.initState();
     fnInitRegisterController(ref, context);
+
+    // 웹 새로고침 시 경고창 호출
+    fnRegisterBeforeUnloadWarning();
   }
 
   @override

@@ -14,7 +14,7 @@ class ResponseDogsDetailModel {
   bool neuter_yn;
   String division2_code;
   List<String>? feed_time;
-  int feed;
+  int? feed;
   String? foodGrade;
 
   ResponseDogsDetailModel({
@@ -27,7 +27,7 @@ class ResponseDogsDetailModel {
     required this.neuter_yn,
     required this.division2_code,
     this.feed_time,
-    required this.feed,
+    this.feed,
     this.foodGrade,
   });
 
