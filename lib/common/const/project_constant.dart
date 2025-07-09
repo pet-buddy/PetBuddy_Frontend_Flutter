@@ -12,6 +12,7 @@ class ProjectConstant {
   static const PRIVACY_POLICY = 'https://florentine-behavior-ea1.notion.site/2170e6fb3b43802db70ff1d32df0c5f5';
   static const TERMS_OF_USER = 'https://florentine-behavior-ea1.notion.site/21a0e6fb3b4380b896ddf8aed1f69d19';
   static const NOTICE_URL = 'https://florentine-behavior-ea1.notion.site/2280e6fb3b4380689911e613b1b887c9';
+  static const RESERVE_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSeeAZkwwraw5p0Z8DyBJTQyjwqtlaD_zD2HHmeX7tB9YjigPA/viewform?usp=dialog';
 
   // 채널 링크 (퍼피푸)
   static const PUPPYPOO_WEB_URL = "https://puppypoo.framer.ai/";

@@ -515,8 +515,7 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                 child: DefaultIconButton(
                   disabled: false,
                   onPressed: () {
-                    // TODO : 사전 예약 링크 이동 - 임시로 문의하기 링크 연동 2025.07.06
-                    launchUrl(Uri.parse(ProjectConstant.INQUIRY_URL));
+                    launchUrl(Uri.parse(ProjectConstant.RESERVE_URL));
                   }, 
                   text: '사전 예약하기',
                   height: 42,

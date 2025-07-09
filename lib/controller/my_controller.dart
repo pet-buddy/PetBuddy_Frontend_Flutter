@@ -1060,7 +1060,7 @@ mixin class MyController {
         division2_code: responseDogsDetailModel.division2_code,
         pet_gender: responseDogsDetailModel.pet_gender,
         neuter_yn: responseDogsDetailModel.neuter_yn,
-        feed_id: responseDogsDetailModel.feed,
+        feed_id: responseDogsDetailModel.feed ?? -1,
         feed_time: responseDogsDetailModel.feed_time ?? [],
         pet_birth: responseDogsDetailModel.pet_birth.substring(0, 10),
         food_remain_grade: responseDogsDetailModel.foodGrade ?? "",
@@ -1073,7 +1073,7 @@ mixin class MyController {
 
     petNameInputController.text = responseDogsDetailModel.pet_name;
     petTypeInputController.text = fnGetBreedFromCode(responseDogsDetailModel.division2_code);
-    petFeedInputController.text = fnGetFeedFromId(responseDogsDetailModel.feed);
+    petFeedInputController.text = fnGetFeedFromId(responseDogsDetailModel.feed ?? -1);
     petBirthInputController.text = responseDogsDetailModel.pet_birth.substring(0, 10);
 
     myRef.read(myPetUpdateButtonProvider.notifier).activate(

@@ -20,7 +20,7 @@ ResponseDogsDetailModel _$ResponseDogsDetailModelFromJson(
       feed_time: (json['feed_time'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      feed: (json['feed'] as num).toInt(),
+      feed: (json['feed'] as num?)?.toInt(),
       foodGrade: json['foodGrade'] as String?,
     );
 
