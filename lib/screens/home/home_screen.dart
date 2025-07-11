@@ -63,6 +63,10 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
       if (shouldGo) {
         context.goNamed(extra['screen_name']);
       }
+
+      // if(responseDogsState.isNotEmpty) {
+      //   homeScreenPetController.jumpToPage(homeActivatedPetNavState);
+      // }
     });
 
     return DefaultLayout(
@@ -236,7 +240,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                                 bottom: 0,
                               );
                               // 로그인 시 반려동물 활성화 인덱스 불러오기 위해 저장
-                              await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: index.toString());
+                              await storage.write(key: ProjectConstant.PET_ACTIVATED_INDEX, value: index.toString());
                               // 강아지 스와이프 시 해당월 변 데이터 조회
                               // 반려동물 해당월 변 데이터 조회
                               fnPooMonthlyMeanExec(DateFormat("yyyy-MM").format(DateTime.now()), responseDogsState[index].pet_id);

@@ -400,35 +400,35 @@ mixin class MyController {
     // MyBreedModel(code: 'A002020', breed: '[고양이] 오리엔탈숏헤어'),
   ];
   List<MyFeedModel> totalPetFeeds = [
-    MyFeedModel(food_id:15, food_name: '오리젠 퍼피 340g'),
-    MyFeedModel(food_id:16, food_name: '오리젠 퍼피 1kg'),
-    MyFeedModel(food_id:17, food_name: '오리젠 퍼피 2kg'),
-    MyFeedModel(food_id:18, food_name: '오리젠 퍼피 6kg'),
-    MyFeedModel(food_id:19, food_name: '오리젠 퍼피 11.4kg'),
-    MyFeedModel(food_id:20, food_name: '오리젠 스몰브리드 독 1.8kg'),
-    MyFeedModel(food_id:21, food_name: '오리젠 스몰브리드 독 4.5kg'),
-    MyFeedModel(food_id:22, food_name: '오리젠 시니어 독 340g'),
-    MyFeedModel(food_id:23, food_name: '오리젠 시니어 독 1kg'),
-    MyFeedModel(food_id:24, food_name: '오리젠 시니어 독 2kg'),
-    MyFeedModel(food_id:25, food_name: '오리젠 시니어 독 6kg'),
-    MyFeedModel(food_id:26, food_name: '오리젠 시니어 독 11.4kg'),
-    MyFeedModel(food_id:27, food_name: '오리젠 툰드라 독 2kg'),
-    MyFeedModel(food_id:28, food_name: '오리젠 툰드라 독 6kg'),
-    MyFeedModel(food_id:29, food_name: '오리젠 툰드라 독 11.4kg'),
-    MyFeedModel(food_id:30, food_name: '오리젠 퍼피 라지 6kg'),
-    MyFeedModel(food_id:31, food_name: '오리젠 퍼피 라지 11.4kg'),
-    MyFeedModel(food_id:32, food_name: '오리젠 오리지널 독 340g'),
-    MyFeedModel(food_id:33, food_name: '오리젠 오리지널 독 1kg'),
-    MyFeedModel(food_id:34, food_name: '오리젠 오리지널 독 2kg'),
-    MyFeedModel(food_id:35, food_name: '오리젠 오리지널 독 6kg'),
-    MyFeedModel(food_id:36, food_name: '오리젠 오리지널 독 11.4kg'),
-    MyFeedModel(food_id:37, food_name: '오리젠 6피쉬 독 340g'),
-    MyFeedModel(food_id:38, food_name: '오리젠 6피쉬 독 1kg'),
-    MyFeedModel(food_id:39, food_name: '오리젠 6피쉬 독 2kg'),
-    MyFeedModel(food_id:40, food_name: '오리젠 6피쉬 독 6kg'),
-    MyFeedModel(food_id:41, food_name: '오리젠 6피쉬 독 11.4kg'),
-    MyFeedModel(food_id:42, food_name: '오리젠 이저날 레드 독 2kg'),
-    MyFeedModel(food_id:43, food_name: '오리젠 이저날 레드 독 6kg'),
+    // MyFeedModel(food_id:15, food_name: '오리젠 퍼피 340g'),
+    // MyFeedModel(food_id:16, food_name: '오리젠 퍼피 1kg'),
+    // MyFeedModel(food_id:17, food_name: '오리젠 퍼피 2kg'),
+    // MyFeedModel(food_id:18, food_name: '오리젠 퍼피 6kg'),
+    // MyFeedModel(food_id:19, food_name: '오리젠 퍼피 11.4kg'),
+    // MyFeedModel(food_id:20, food_name: '오리젠 스몰브리드 독 1.8kg'),
+    // MyFeedModel(food_id:21, food_name: '오리젠 스몰브리드 독 4.5kg'),
+    // MyFeedModel(food_id:22, food_name: '오리젠 시니어 독 340g'),
+    // MyFeedModel(food_id:23, food_name: '오리젠 시니어 독 1kg'),
+    // MyFeedModel(food_id:24, food_name: '오리젠 시니어 독 2kg'),
+    // MyFeedModel(food_id:25, food_name: '오리젠 시니어 독 6kg'),
+    // MyFeedModel(food_id:26, food_name: '오리젠 시니어 독 11.4kg'),
+    // MyFeedModel(food_id:27, food_name: '오리젠 툰드라 독 2kg'),
+    // MyFeedModel(food_id:28, food_name: '오리젠 툰드라 독 6kg'),
+    // MyFeedModel(food_id:29, food_name: '오리젠 툰드라 독 11.4kg'),
+    // MyFeedModel(food_id:30, food_name: '오리젠 퍼피 라지 6kg'),
+    // MyFeedModel(food_id:31, food_name: '오리젠 퍼피 라지 11.4kg'),
+    // MyFeedModel(food_id:32, food_name: '오리젠 오리지널 독 340g'),
+    // MyFeedModel(food_id:33, food_name: '오리젠 오리지널 독 1kg'),
+    // MyFeedModel(food_id:34, food_name: '오리젠 오리지널 독 2kg'),
+    // MyFeedModel(food_id:35, food_name: '오리젠 오리지널 독 6kg'),
+    // MyFeedModel(food_id:36, food_name: '오리젠 오리지널 독 11.4kg'),
+    // MyFeedModel(food_id:37, food_name: '오리젠 6피쉬 독 340g'),
+    // MyFeedModel(food_id:38, food_name: '오리젠 6피쉬 독 1kg'),
+    // MyFeedModel(food_id:39, food_name: '오리젠 6피쉬 독 2kg'),
+    // MyFeedModel(food_id:40, food_name: '오리젠 6피쉬 독 6kg'),
+    // MyFeedModel(food_id:41, food_name: '오리젠 6피쉬 독 11.4kg'),
+    // MyFeedModel(food_id:42, food_name: '오리젠 이저날 레드 독 2kg'),
+    // MyFeedModel(food_id:43, food_name: '오리젠 이저날 레드 독 6kg'),
     MyFeedModel(food_id:44, food_name: '오리젠 퍼피 340g'),
     MyFeedModel(food_id:45, food_name: '오리젠 퍼피 1kg'),
     MyFeedModel(food_id:46, food_name: '오리젠 퍼피 2kg'),
@@ -1311,11 +1311,15 @@ mixin class MyController {
   Future<void> fnMyPetDeleteExec(int pet_id) async {
     try {
       final response = await myRef.read(petRepositoryProvider).requestDogDeleteRepository(pet_id);
+      final storage = myRef.watch(secureStorageProvider);
 
       if(response.response_code == 200) {
         // 활성화된 반려동물 인덱스 조정
         int homeActivatedPetNav = myRef.read(homeActivatedPetNavProvider.notifier).get();
-        if(homeActivatedPetNav != 0) {myRef.read(homeActivatedPetNavProvider.notifier).set(0);}
+        if(homeActivatedPetNav != 0) {
+          myRef.read(homeActivatedPetNavProvider.notifier).set(0);
+          await storage.write(key: ProjectConstant.PET_ACTIVATED_INDEX, value: null);
+        }
 
         if(!myContext.mounted) return;
         // 반려동물 조회

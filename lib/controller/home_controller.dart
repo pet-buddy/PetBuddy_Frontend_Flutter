@@ -34,6 +34,7 @@ mixin class HomeController {
     homeRef.invalidate(homePoopReportMonthSelectProvider);
     // homeRef.invalidate(responsePooMonthlyMeanProvider);
     homeRef.invalidate(responsePooDailyStatusProvider);
+    homeRef.invalidate(homePoopReportBenchmarkScoreProvider);
   }
 
   void fnInvalidateHomeActivityReportState() {
