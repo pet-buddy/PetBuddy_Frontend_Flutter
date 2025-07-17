@@ -378,6 +378,7 @@ mixin class MyController {
     MyBreedModel(code: 'A001018', breed: '[강아지] 아프간하운드'),
     MyBreedModel(code: 'A001019', breed: '[강아지] 달마시안'),
     MyBreedModel(code: 'A001020', breed: '[강아지] 그레이하운드'),
+    MyBreedModel(code: 'A001021', breed: '[강아지] 진돗개'),
     // MyBreedModel(code: 'A002001', breed: '[고양이] 코리안숏헤어'),
     // MyBreedModel(code: 'A002002', breed: '[고양이] 러시안블루'),
     // MyBreedModel(code: 'A002003', breed: '[고양이] 샴'),
@@ -1365,11 +1366,12 @@ mixin class MyController {
   // ########################################
 
   // 로그아웃
-  Future<void> fnLoginOutExec() async {
+  Future<void> fnLogOutExec() async {
     final storage = myRef.watch(secureStorageProvider);
 
     await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: null);
     await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: null);
+    await storage.write(key: ProjectConstant.PET_ACTIVATED_INDEX, value: null);
 
     myRef.invalidate(responseUserMypageProvider);
 
