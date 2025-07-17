@@ -170,7 +170,14 @@ mixin class CustomCameraController {
       // );
 
       // 똥 AI 분석 결과 변수에 저장
-      List<double> poopScores = (resp.data[0] as List).map((e) => (e as num).toDouble()).toList();
+      List<double> poopScores = [];
+
+      if(resp.data[0].runtimeType == String) {
+        poopScores = (jsonDecode(resp.data[0]) as List<dynamic>).map((e) => (e as num).toDouble()).toList();
+      } else {
+        poopScores = (resp.data[0] as List<dynamic>).map((e) => (e as num).toDouble()).toList();
+      }
+      
       // 똥 AI 분석 결과 Provider에 저장
       cameraRef.refresh(responsePoopScoreListProvider.notifier).set(poopScores);
       
@@ -189,7 +196,7 @@ mixin class CustomCameraController {
       // 에러 알림창
       showAlertDialog(
         context: cameraContext, 
-        middleText: e.toString()
+        middleText: '이미지 분석에 실패했습니다.\n${e.toString()}'
       );
     }
   }

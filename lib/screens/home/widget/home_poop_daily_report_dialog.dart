@@ -45,7 +45,7 @@ class HomePoopDailyReportDialogState extends ConsumerState<HomePoopDailyReportDi
       padding: const EdgeInsets.all(16),
       child: Container(
         height: 500,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 0),
         decoration: const BoxDecoration(
           color: CustomColor.white,
         ),

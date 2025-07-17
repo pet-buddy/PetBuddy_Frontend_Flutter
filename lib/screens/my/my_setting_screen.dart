@@ -80,7 +80,7 @@ class MySettingScreenState extends ConsumerState<MySettingScreen> with MyControl
                         context: context, 
                         middleText: "로그아웃 하시겠습니까?", 
                         onConfirm: () async {
-                          await fnLoginOutExec();
+                          await fnLogOutExec();
                         },
                         confirmText: '로그아웃',
                         confirmBackgroundColor: CustomColor.negative,

@@ -105,9 +105,10 @@ mixin class HomeController {
       final response = await homeRef.read(pooRepositoryProvider).requestPooDailyStatusRepository(date, dog_id);
 
       if(response.response_code == 200) {
-        ResponsePooDailyStatusModel responsePooDailyStatusModel = ResponsePooDailyStatusModel.fromJson(response.data![0]);
-
-        homeRef.read(responsePooDailyStatusProvider.notifier).set(responsePooDailyStatusModel);
+        // ResponsePooDailyStatusModel responsePooDailyStatusModel = ResponsePooDailyStatusModel.fromJson(response.data![0]);
+        List<ResponsePooDailyStatusModel> responsePooDailyStatusModelList = (response.data as List<dynamic>).map((elem) => ResponsePooDailyStatusModel.fromJson(elem)).toList();
+        // 맨 마지막 항목을 Provider에 넣기 - 하루에 여러 개의 변 사진을 업로드할 수 있기 때문
+        homeRef.read(responsePooDailyStatusProvider.notifier).set(responsePooDailyStatusModelList[responsePooDailyStatusModelList.length-1]);
       
         if(!homeContext.mounted) return;
         // 로딩 끝
