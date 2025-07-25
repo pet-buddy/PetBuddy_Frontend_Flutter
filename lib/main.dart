@@ -72,7 +72,8 @@ class MyApp extends ConsumerWidget {
       builder: (context, child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
-          child: kIsWeb 
+          // 웹일 경우, 웹이 아니더라도 화면이 큰 경우
+          child: kIsWeb
             ? Stack(
                 children: [
                   Container(

@@ -49,13 +49,13 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                   children: [
                     Container(
                       width: fnGetDeviceWidth(context),
-                      constraints: const BoxConstraints(
-                        maxHeight: 167,
+                      constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.width >= ProjectConstant.WEB_MAX_WIDTH ? 334 : 167,
                       ),
                       child: Stack(
                         children: [
                           AspectRatio(
-                            aspectRatio: 3/1,
+                            aspectRatio: MediaQuery.of(context).size.width >= ProjectConstant.WEB_MAX_WIDTH ? 6/2 : 3/1,
                             child: Image.asset(
                               'assets/icons/preorder/0001/banner01.png',
                               fit: BoxFit.cover,
@@ -138,7 +138,7 @@ class PreorderScreenState extends ConsumerState<PreorderScreen> {
                             child: Container(
                               padding: const EdgeInsets.symmetric(horizontal: 16),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   const SizedBox(height: 32,),

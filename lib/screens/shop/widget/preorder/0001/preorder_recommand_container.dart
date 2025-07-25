@@ -21,7 +21,7 @@ class PreorderRecommandContainer extends StatelessWidget {
           width: 4,
           color: CustomColor.blue04,
         ),
-        borderRadius: const BorderRadius.all(Radius.circular(100)),
+        borderRadius: const BorderRadius.all(Radius.circular(200)),
       ),
       child: Center(
         child: Text(
