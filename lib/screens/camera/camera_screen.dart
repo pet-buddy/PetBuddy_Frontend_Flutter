@@ -1,15 +1,16 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:petbuddy_frontend_flutter/common/const/custom_color.dart';
-import 'package:petbuddy_frontend_flutter/common/const/custom_text.dart';
+import 'package:petbuddy_frontend_flutter/common/const/const.dart';
 import 'package:petbuddy_frontend_flutter/common/layout/default_layout.dart';
+import 'package:petbuddy_frontend_flutter/common/widget/button/default_icon_button.dart';
+import 'package:petbuddy_frontend_flutter/common/widget/dialog/dialog.dart';
 import 'package:petbuddy_frontend_flutter/controller/custom_camera_controller.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class CameraScreen extends ConsumerStatefulWidget {
   const CameraScreen({super.key});
@@ -23,7 +24,63 @@ class CameraScreenState extends ConsumerState<CameraScreen> with CustomCameraCon
   void initState() {
     super.initState();
     fnInitCameraController(ref, context);
-    ref.read(cameraControllerProvider.notifier).initCamera();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      PermissionStatus cameraPermitted = await Permission.camera.status;
+      PermissionStatus microphonePermitted = await Permission.microphone.status;
+
+      if(cameraPermitted.isPermanentlyDenied || cameraPermitted.isRestricted || cameraPermitted.isDenied) {
+        PermissionStatus request = await Permission.camera.request();
+        if(!(request.isGranted || request.isLimited)) {
+          if(!context.mounted) return;
+            showAlertDialog(
+              context: context, 
+              middleText: "접근 권한이 거부되어 카메라를 사용할 수 없습니다.\n설정에서 권한을 허용해주세요.",
+              onConfirm: () {
+                openAppSettings();
+              },
+              buttonText: "확인",
+            );
+            return;
+        }
+      } 
+
+      // if(cameraPermitted.isDenied) {
+      //   PermissionStatus request = await Permission.camera.request();
+      //   if (request.isDenied) {
+      //     if(!context.mounted) return;
+      //     context.pop();
+      //     return;
+      //   }
+      // } 
+
+      if(microphonePermitted.isPermanentlyDenied || microphonePermitted.isRestricted || microphonePermitted.isDenied) { 
+        PermissionStatus request = await Permission.microphone.request();
+        if(!(request.isGranted || request.isLimited)) {
+          if(!context.mounted) return;
+          showAlertDialog(
+            context: context, 
+            middleText: "접근 권한이 거부되어 마이크를 사용할 수 없습니다.\n설정에서 권한을 허용해주세요.",
+            onConfirm: () {
+              openAppSettings();
+            },
+            buttonText: "확인",
+          );
+          return;
+        }
+      } 
+
+      // if(cameraPermitted.isDenied) {
+      //   PermissionStatus request = await Permission.microphone.request();
+      //   if (request.isDenied) {
+      //     if(!context.mounted) return;
+      //     context.pop();
+      //     return;
+      //   }
+      // }
+      
+      ref.read(cameraControllerProvider.notifier).initCamera();
+    });
   }
 
   @override
@@ -154,7 +211,7 @@ class CameraScreenState extends ConsumerState<CameraScreen> with CustomCameraCon
                             ),
                             onPressed: () {
                               // 플래시 토글
-                              ref.read(cameraControllerProvider.notifier).toggleFlash(cameraRef);
+                              ref.read(cameraControllerProvider.notifier).toggleFlash(cameraRef, cameraContext);
                             },
                           ),
                         ],
@@ -163,10 +220,46 @@ class CameraScreenState extends ConsumerState<CameraScreen> with CustomCameraCon
                   ),
                 ],
               )
-              : const Center(
-                  child: CircularProgressIndicator(
-                    color: CustomColor.blue03,
-                  ),
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width > ProjectConstant.WEB_MAX_WIDTH ? 
+                        ProjectConstant.WEB_MAX_WIDTH :
+                        MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            child: DefaultIconButton(
+                              disabled: false,
+                              onPressed: () {
+                                fnInvalidateCameraState();
+                                context.pop();
+                              }, 
+                              text: '뒤로가기',
+                              height: 42,
+                              borderRadius: 20,
+                              backgroundColor: CustomColor.yellow03,
+                              borderColor: CustomColor.yellow03,
+                              textColor: CustomColor.black,
+                              elevation: 4,
+                              svgPicture: SvgPicture.asset(
+                                'assets/icons/navigation/arrow_back.svg',
+                                width: 24,
+                                height: 24,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16,),
+                          const CircularProgressIndicator(
+                            color: CustomColor.blue03,
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
         ),
       ),

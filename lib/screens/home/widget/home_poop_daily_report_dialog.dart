@@ -44,7 +44,7 @@ class HomePoopDailyReportDialogState extends ConsumerState<HomePoopDailyReportDi
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Container(
-        height: 500,
+        height: MediaQuery.of(context).size.height * 0.8,
         padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 0),
         decoration: const BoxDecoration(
           color: CustomColor.white,
@@ -61,7 +61,7 @@ class HomePoopDailyReportDialogState extends ConsumerState<HomePoopDailyReportDi
               const SizedBox(height: 8,),
               Container(
                 width: fnGetDeviceWidth(context),
-                height: fnGetDeviceWidth(context) * 1.2,
+                height: fnGetDeviceWidth(context) * 1.2 - 32,
                 decoration: BoxDecoration(
                   border: Border.all(
                       width: 1,

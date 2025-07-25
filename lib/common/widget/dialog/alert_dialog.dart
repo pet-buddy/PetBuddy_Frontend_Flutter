@@ -9,6 +9,7 @@ showAlertDialog({
   VoidCallback? onConfirm,
   bool barrierDismissible = true,
   double? height,
+  String? buttonText,
 }) {
   showDialog(
     // useRootNavigator: false,
@@ -76,7 +77,7 @@ showAlertDialog({
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "닫기",
+                        buttonText ?? "닫기",
                         style: CustomText.body11.copyWith(
                           color: CustomColor.white,
                           fontWeight: FontWeight.bold,
