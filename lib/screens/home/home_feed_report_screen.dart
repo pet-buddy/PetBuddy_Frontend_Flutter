@@ -36,7 +36,9 @@ class HomeFeedReportScreenState extends ConsumerState<HomeFeedReportScreen> with
           if (didPop) {
             return;
           }
-          // await fnClose(context);
+          // TODO : 상태 초기화
+
+          context.pop();
         },
         child: SafeArea(
           child: Stack(

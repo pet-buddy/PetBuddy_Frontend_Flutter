@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petbuddy_frontend_flutter/common/const/sentence.dart';
@@ -28,6 +29,40 @@ mixin class HomeController {
     'Year': 'Y'
   };
 
+  // ########## 활동량 분석 - 임시 데이터 시작 ##########
+  final highlightValues = [1000.0, 0.0, 1250.0, 300.0, 2000.0, 400.0, 500.0, 800.0, 
+                    1000.0, 0.0, 5250.0, 300.0, 2000.0, 400.0, 1500.0, 1800.0,
+                    1000.0, 0.0, 1250.0, 3600.0, 5000.0, 400.0, 5200.0, 8100.0];
+
+  
+
+  // 시간별 반려견 활동 데이터 (각 시간대별 Paw 점수)
+  List<FlSpot> petHourlyPaws = [
+    const FlSpot(0, 0),    // 0시: 0걸음
+    const FlSpot(3, 1000), // 3시: 1000걸음
+    const FlSpot(6, 1500), // 6시: 1500걸음
+    const FlSpot(9, 800),  // 9시: 800걸음
+    const FlSpot(12, 500), // 오후 12시: 500걸음
+    const FlSpot(15, 1000), // 오후 3시: 1000걸음
+    const FlSpot(18, 1500), // 오후 6시: 1500걸음
+    const FlSpot(21, 300),  // 오후 9시: 300걸음
+    const FlSpot(24, 0),    // 새벽 12시: 0걸음
+  ];
+  
+  // 시간별 평균 활동 데이터 (각 시간대별 Paw 점수)
+  List<FlSpot> averageHourlyPaws = [
+    const FlSpot(0, 0),    // 0시: 0걸음
+    const FlSpot(3, 1200), // 3시: 1200걸음
+    const FlSpot(6, 1800), // 6시: 1800걸음
+    const FlSpot(9, 1000), // 9시: 1000걸음
+    const FlSpot(12, 800), // 오후 12시: 800걸음
+    const FlSpot(15, 1300), // 오후 3시: 1300걸음
+    const FlSpot(18, 1700), // 오후 6시: 1700걸음
+    const FlSpot(21, 500),  // 오후 9시: 500걸음
+    const FlSpot(24, 0),    // 새벽 12시: 0걸음
+  ];
+  // ########## 활동량 분석 - 임시 데이터 끝 ##########
+
   PageController homeScreenPetController = PageController(initialPage: 0);
 
   void fnInvalidateHomePoopReportState() {
@@ -40,6 +75,21 @@ mixin class HomeController {
   void fnInvalidateHomeActivityReportState() {
     homeRef.invalidate(homeActivityReportPeriodSelectProvider);
   }
+
+  // ########## 반려동물 활동량 분석 ##########
+  List<FlSpot> fnGetCumulativePaws(List<FlSpot> hourlyActivityPaws) {
+    List<FlSpot> cumulativeData = [];
+    double cumulativePaws = 0;
+    
+    for (FlSpot flSpot in hourlyActivityPaws) {
+      cumulativePaws += flSpot.y;
+      cumulativeData.add(FlSpot(flSpot.x, cumulativePaws));
+    }
+    
+    return cumulativeData;
+  }
+
+  // ########## 반려동물 똥 분석 ##########
 
   // 점수별 상태 반환
   String fnGetPoopStatus(int score) {

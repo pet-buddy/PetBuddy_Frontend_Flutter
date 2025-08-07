@@ -54,6 +54,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
     final responseDogsState = ref.watch(responseDogsProvider);
     final storage = ref.watch(secureStorageProvider);
     final responsePooMonthlyMeanState = ref.watch(responsePooMonthlyMeanProvider);
+    final homePoopReportMonthSelectState = ref.watch(homePoopReportMonthSelectProvider);
 
     // 라우터 이동
     final extra = GoRouter.of(context).routerDelegate.currentConfiguration.extra;
@@ -361,7 +362,10 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                                       width: contraints.maxWidth / 3,
                                       height: contraints.maxHeight,
                                       decoration: BoxDecoration(
-                                        color: responseDogsState.isNotEmpty && responsePooMonthlyMeanState.monthly_poop_list.isNotEmpty && (responsePooMonthlyMeanState.poop_score_total ?? 0) < 50 ? 
+                                        color: responseDogsState.isNotEmpty && 
+                                               homePoopReportMonthSelectState == int.parse(DateFormat("MM").format(DateTime.now()).toString()) && // 현재 월에 해당할 경우
+                                               responsePooMonthlyMeanState.monthly_poop_list.isNotEmpty && 
+                                               (responsePooMonthlyMeanState.poop_score_total ?? 0) < 50 ? 
                                           CustomColor.yellow03 :
                                           const Color(0xFFF5F5F5),
                                         borderRadius: const BorderRadius.only(topLeft: Radius.circular(32), bottomLeft: Radius.circular(32),),
@@ -379,7 +383,11 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                                       width: contraints.maxWidth / 3,
                                       height: contraints.maxHeight,
                                       decoration: BoxDecoration(
-                                        color:  responseDogsState.isNotEmpty && responsePooMonthlyMeanState.monthly_poop_list.isNotEmpty && (responsePooMonthlyMeanState.poop_score_total ?? 0) >= 50 && (responsePooMonthlyMeanState.poop_score_total ?? 0) < 70 ? 
+                                        color:  responseDogsState.isNotEmpty && 
+                                                homePoopReportMonthSelectState == int.parse(DateFormat("MM").format(DateTime.now()).toString()) && // 현재 월에 해당할 경우
+                                                responsePooMonthlyMeanState.monthly_poop_list.isNotEmpty && 
+                                                (responsePooMonthlyMeanState.poop_score_total ?? 0) >= 50 && 
+                                                (responsePooMonthlyMeanState.poop_score_total ?? 0) < 70 ? 
                                           CustomColor.yellow03 :
                                           const Color(0xFFF5F5F5),
                                       ),
@@ -396,7 +404,10 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                                       width: contraints.maxWidth / 3,
                                       height: contraints.maxHeight,
                                       decoration: BoxDecoration(
-                                        color:  responseDogsState.isNotEmpty && responsePooMonthlyMeanState.monthly_poop_list.isNotEmpty && (responsePooMonthlyMeanState.poop_score_total ?? 0) > 70 ? 
+                                        color:  responseDogsState.isNotEmpty && 
+                                                homePoopReportMonthSelectState == int.parse(DateFormat("MM").format(DateTime.now()).toString()) && // 현재 월에 해당할 경우
+                                                responsePooMonthlyMeanState.monthly_poop_list.isNotEmpty && 
+                                                (responsePooMonthlyMeanState.poop_score_total ?? 0) > 70 ? 
                                           CustomColor.yellow03 :
                                           const Color(0xFFF5F5F5),
                                         borderRadius: const BorderRadius.only(topRight: Radius.circular(32), bottomRight: Radius.circular(32),),
