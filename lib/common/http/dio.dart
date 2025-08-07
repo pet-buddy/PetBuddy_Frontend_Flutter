@@ -69,7 +69,7 @@ class CustomInterceptor extends Interceptor {
 
     // TODO : 요청 URL 합의 필요, 로그인일 경우 TOKEN 재발급 요청없이 return - 401, 402, 403, 500
     if((statusCode == 401 || statusCode == 402 || statusCode == 403 || statusCode == 500) && 
-       (requestPath == '/ayth/kakao/token' || requestPath == '/ayth/naver/token' || requestPath == '/user/email-login')) {
+       (requestPath == '/auth/kakao/token' || requestPath == '/auth/naver/token' || requestPath == '/user/email-login')) {
       return handler.resolve(err.response!);
     }
 

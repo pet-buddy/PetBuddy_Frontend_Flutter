@@ -42,6 +42,7 @@ class MainScreen extends ConsumerWidget {
                 maxWidth: fnGetDeviceWidth(context),
               ),
               child: BottomNavigationBar( 
+                  key: bottomNavKey,
                   selectedLabelStyle: const TextStyle(fontSize: 12,),
                   unselectedLabelStyle: const TextStyle(fontSize: 12),
                   type: BottomNavigationBarType.fixed,

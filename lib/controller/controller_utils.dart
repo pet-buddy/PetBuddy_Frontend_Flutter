@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:petbuddy_frontend_flutter/common/const/project_constant.dart';
 import 'package:petbuddy_frontend_flutter/common/const/sentence.dart';
+import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
 import 'package:petbuddy_frontend_flutter/common/widget/dialog/alert_dialog.dart';
 // import 'package:petbuddy_frontend_flutter/common/widget/dialog/loading_dialog.dart';
 import 'package:petbuddy_frontend_flutter/data/model/response_dogs_detail_model.dart';
@@ -45,7 +47,7 @@ class ControllerUtils {
       if(!context.mounted) return result;
       showAlertDialog(
         context: context, 
-        middleText: '[UserMyPage] ${Sentence.SERVER_ERR}',
+        middleText: '사용자 정보 요청에 실패했습니다.\n${Sentence.SERVER_ERR}',
       );
     }
 
@@ -105,10 +107,18 @@ class ControllerUtils {
       if(!context.mounted) return result;
       showAlertDialog(
         context: context, 
-        middleText: '[Dogs] ${Sentence.SERVER_ERR}',
+        middleText: '반려동물 조회 요청에 실패했습니다.\n${Sentence.SERVER_ERR}',
       );
     }
 
     return result;
+  }
+
+  static Future<void> fnInitAppState(WidgetRef ref) async {
+    final storage = ref.watch(secureStorageProvider);
+
+    await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: null);
+    await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: null);
+    await storage.write(key: ProjectConstant.PET_ACTIVATED_INDEX, value: '0');
   }
 }

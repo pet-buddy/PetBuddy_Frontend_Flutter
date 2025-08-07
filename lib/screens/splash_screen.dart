@@ -23,7 +23,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
+    
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       // 이동할 화면 변수
       String entryPoint = 'login_screen'; 
@@ -32,54 +32,69 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       // accessToken 
       final accessToken = await storage.read(key: ProjectConstant.ACCESS_TOKEN);
 
-      try {
-        if(accessToken != null) {
-          // final response = await ref.read(userRepositoryProvider).requestUserMypageRepository();
+      
+      if(accessToken != null) {
+        // final response = await ref.read(userRepositoryProvider).requestUserMypageRepository();
 
-          // if(response.response_code == 200) {
-          //   ResponseUserMypageModel responseUserMypageModel = ResponseUserMypageModel.fromJson(response.data);
-          //   // 사용자 정보 세팅
-          //   ref.read(responseUserMypageProvider.notifier).set(responseUserMypageModel);
-          // }
+        // if(response.response_code == 200) {
+        //   ResponseUserMypageModel responseUserMypageModel = ResponseUserMypageModel.fromJson(response.data);
+        //   // 사용자 정보 세팅
+        //   ref.read(responseUserMypageProvider.notifier).set(responseUserMypageModel);
+        // }
 
+        
+        bool userMyPageResult = false; // 사용자 화면 조회 결과 변수 
+        bool dogsResult = false; // 강아지 조회 결과 변수
+        
+        try {
           // 사용자 정보 조회
-          final userMyPageResult = await ControllerUtils.fnGetUserMypageExec(ref, context);
-
-          if(!userMyPageResult) {
-            context.goNamed(entryPoint); // 로그인 화면 이동
-            return;
-          }
-
-          // 반려동물 정보 조회
-          final dogsResult = await ControllerUtils.fnGetDogsExec(ref, context);
-
-          if(!dogsResult) {
-            context.goNamed(entryPoint); // 로그인 화면 이동
-            return;
-          }
-
-          // 활성화된 반려동물 인덱스 불러오기
-          final petActivatedIndex = await storage.read(key: ProjectConstant.PET_ACTIVATED_INDEX);
-          if (petActivatedIndex != null) {
-            ref.read(homeActivatedPetNavProvider.notifier).set(
-              int.parse(petActivatedIndex)
-            );
-          }
-
-          // 라우터 처리를 위한 상태 갱신
-          ref.read(goSecurityProvider.notifier).set(true); 
-
-          // TODO : 홈 화면 정보 세팅
-
-          entryPoint = 'home_screen'; 
+          userMyPageResult = await ControllerUtils.fnGetUserMypageExec(ref, context);
+        } catch (e) {
+          await ControllerUtils.fnInitAppState(ref);
+          context.goNamed(entryPoint); // 로그인 화면 이동
+          return;
         }
-      } catch (e) {
-        if(!context.mounted) return;
-        showAlertDialog(
-          context: context, 
-          middleText: Sentence.SERVER_ERR,
-        );
+        
+        if(!userMyPageResult) {
+          await ControllerUtils.fnInitAppState(ref);
+          context.goNamed(entryPoint); // 로그인 화면 이동
+          return;
+        }
+
+        try {
+          // 반려동물 정보 조회
+          dogsResult = await ControllerUtils.fnGetDogsExec(ref, context);
+        } catch (e) {
+          await ControllerUtils.fnInitAppState(ref);
+          context.goNamed(entryPoint); // 로그인 화면 이동
+          return;
+        }
+
+        if(!dogsResult) {
+          await ControllerUtils.fnInitAppState(ref);
+          context.goNamed(entryPoint); // 로그인 화면 이동
+          return;
+        }
+
+        // 활성화된 반려동물 인덱스 불러오기
+        final petActivatedIndex = await storage.read(key: ProjectConstant.PET_ACTIVATED_INDEX);
+        if (petActivatedIndex != null) {
+          ref.read(homeActivatedPetNavProvider.notifier).set(
+            int.parse(petActivatedIndex)
+          );
+        }
+
+        // 라우터 처리를 위한 상태 갱신
+        ref.read(goSecurityProvider.notifier).set(true); 
+
+        // TODO : 홈 화면 정보 세팅
+
+        entryPoint = 'home_screen'; 
+
+      } else {
+        await ControllerUtils.fnInitAppState(ref);
       }
+      
 
       // 2초 후 화면 이동
       await Future.delayed(const Duration(milliseconds: 2000), () {

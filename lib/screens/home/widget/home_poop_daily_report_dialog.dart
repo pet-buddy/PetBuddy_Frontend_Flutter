@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:petbuddy_frontend_flutter/common/const/custom_color.dart';
 import 'package:petbuddy_frontend_flutter/common/const/custom_text.dart';
+import 'package:petbuddy_frontend_flutter/common/const/global_key.dart';
 import 'package:petbuddy_frontend_flutter/common/utils/fn_get_device_width.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/home_activated_pet_nav_provider.dart';
@@ -40,11 +41,13 @@ class HomePoopDailyReportDialogState extends ConsumerState<HomePoopDailyReportDi
   @override
   Widget build(BuildContext context) {
     final responsePooDailyStatusState = ref.watch(responsePooDailyStatusProvider);
+
+    final renderBox = bottomNavKey.currentContext?.findRenderObject() as RenderBox?; // BottomNavigationBar 높이
     
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 0),
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.8,
+        height: (MediaQuery.of(context).size.height - (renderBox != null ? renderBox.size.height : 56)) * 0.8,
         padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 0),
         decoration: const BoxDecoration(
           color: CustomColor.white,
@@ -74,6 +77,18 @@ class HomePoopDailyReportDialogState extends ConsumerState<HomePoopDailyReportDi
                   child: Image.network(
                     responsePooDailyStatusState.poop_url,
                     fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child; // 로딩 완료됨
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: CustomColor.blue03,
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
