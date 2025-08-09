@@ -433,7 +433,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           HomeCardManageContainer(
-                            disabled: true,
+                            disabled: false,
                             thumbnailPicture: SvgPicture.asset(
                               'assets/icons/etc/sleep.svg',
                               width: 24,
@@ -441,16 +441,17 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                             ),
                             title: "수면 효율",
                             onPressed: () {
-                              showAlertDialog(
-                                context: context, 
-                                middleText: Sentence.UPDATE_ALERT,
-                                onConfirm: () {
-                                  // 사전예약 페이지 이동
-                                  context.pushNamed('preorder_screen');
-                                }
-                              );
-
-                              // TODO : 수면 효율 페이지 이동
+                              // showAlertDialog(
+                              //   context: context, 
+                              //   middleText: Sentence.UPDATE_ALERT,
+                              //   onConfirm: () {
+                              //     // 사전예약 페이지 이동
+                              //     context.pushNamed('preorder_screen');
+                              //   }
+                              // );
+                              
+                              // 수면 효율 페이지 이동
+                              context.goNamed("home_sleep_report_screen");
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,

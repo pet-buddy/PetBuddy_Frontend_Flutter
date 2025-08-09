@@ -40,7 +40,7 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
         actionOnPressed: () {
           showDialog(
             context: context,
-            builder: (BuildContext context) => const HomeActivityReportPawsDialog(),
+            builder: (BuildContext context) => const HomeActivityReportInfoDialog(),
           );
         },
       ),
