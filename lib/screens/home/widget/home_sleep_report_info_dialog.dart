@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/const/custom_color.dart';
 import 'package:petbuddy_frontend_flutter/common/const/custom_text.dart';
 
-class HomeActivityReportPawsDialog extends StatelessWidget {
-  const HomeActivityReportPawsDialog({super.key});
+class HomeSleepReportInfoDialog extends StatelessWidget {
+  const HomeSleepReportInfoDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class HomeActivityReportPawsDialog extends StatelessWidget {
                     children: [
                       const SizedBox(height: 4,),
                       Text(
-                        'Paws란?',
+                        '수면레포트란?',
                         style: CustomText.heading4.copyWith(
                           color: CustomColor.blue03,
                           fontWeight: FontWeight.bold,
@@ -50,7 +50,7 @@ class HomeActivityReportPawsDialog extends StatelessWidget {
                       ),
                       const SizedBox(height: 16,),
                       Text(
-                        'Paws는 반려동물의 활동량을 수치화한 지표입니다.',
+                        '수면 레포트는 반려동물의 수면량을 수치화한 지표입니다.',
                         style: CustomText.body11.copyWith(
                           color: const Color(0xFFEB9824),
                           fontWeight: FontWeight.bold,
@@ -61,22 +61,22 @@ class HomeActivityReportPawsDialog extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
-                            'assets/icons/etc/paw_question.svg',
-                            width: 100,
-                            height: 106,
+                            'assets/icons/etc/sleep_cloud.svg',
+                            width: 120,
+                            height: 87,
                           ),
                         ],
                       ),
                       const SizedBox(height: 24,),
                       Text(
-                        '반려동물은 사람과 달리 걸음 수만으로 건강 상태를 평가하기 어렵습니다.',
+                        '반려동물의 수면 상태도 사람처럼 건강 상태를 나타내는 지표 중 하나입니다.',
                         style: CustomText.body11.copyWith(
                           color: CustomColor.blue03,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        ' 예를 들어, 1km 달리기는 1km 걷기보다 걸음 수는 적지만 더 활동적인 운동이죠. 따라서 걸음 수만으로는 정확한 건강 분석이 불가능합니다.',
+                        ' 수면 패턴과 시간의 변화는 반려동물이 깨어 있는 동안의 경험과 자신의 환경에서 얼마나 편안한 지를 반영할 수 있습니다. 뿐만 아니라 수면 장애는 인지 및 신체 기능, 면역 반응, 통증 감각과 같은 생리 기능에 영향을 미치고 질병 위험을 증가시킵니다.',
                         style: CustomText.body11.copyWith(
                           color: CustomColor.blue03,
                           fontWeight: FontWeight.bold,
@@ -95,38 +95,87 @@ class HomeActivityReportPawsDialog extends StatelessWidget {
                       ),
                       const SizedBox(height: 24,),
                       Text(
-                        '이에 저희는 미국 FitBark사의 연구 기준을 바탕으로 활동량 표준을 도입했습니다.',
+                        '이 때문에 포프린트는 수면 데이터를 수집하여 우리 강아지가 평온하고 행복한 삶을 살 수 있도록 지원해드리려고 해요!',
                         style: CustomText.body11.copyWith(
                           color: const Color(0xFFEB9824),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      Text(
+                        ' 가이드라인에 맞춰 반려동물의 수면 건강을 관리해보세요 🙂',
+                        style: CustomText.body11.copyWith(
+                          color: CustomColor.blue03,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       const SizedBox(height: 24,),
+                      Text(
+                        '[원형그래프 설명]',
+                        style: CustomText.caption3.copyWith(
+                          color: CustomColor.blue03,
+                        ),
+                      ),
+                      const SizedBox(height: 4,),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            'assets/icons/preorder/0001/puppy_tracker.png',
-                            width: 120,
-                            height: 120,
+                          Container(
+                            width: 32,
+                            height: 12,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFF0092CA),
+                              borderRadius: BorderRadius.all(Radius.circular(16)),
+                            ),
+                          ),
+                          const SizedBox(width: 4,),
+                          Text(
+                            '반려동물 실제 수면 시간',
+                            style: CustomText.caption3.copyWith(
+                              color: CustomColor.blue03,
+                            ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 24,),
-                      Text(
-                        'Paws는 목줄 센서의 움직임을 초당 여러 번 측정해 1분 단위로 누적한 점수입니다. 많이 움직일수록 점수가 높고, 쉬는 동안에는 분당 몇 점만 기록됩니다.',
-                        style: CustomText.body11.copyWith(
-                          color: CustomColor.blue03,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      const SizedBox(height: 4,),
+                      Row(
+                        children: [
+                          Container(
+                            width: 32,
+                            height: 12,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFFBBE0C),
+                              borderRadius: BorderRadius.all(Radius.circular(16)),
+                            ),
+                          ),
+                          const SizedBox(width: 4,),
+                          Text(
+                            '반려동물 권장 수면 시간',
+                            style: CustomText.caption3.copyWith(
+                              color: CustomColor.blue03,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        ' 즉, PawPoint는 반려동물이 얼마나 활발하게 움직였는지를 과학적으로 보여주는 활동량 지표입니다.',
-                        style: CustomText.body11.copyWith(
-                          color: CustomColor.blue03,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      const SizedBox(height: 4,),
+                      Row(
+                        children: [
+                          Container(
+                            width: 32,
+                            height: 12,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFF00CBA7),
+                              borderRadius: BorderRadius.all(Radius.circular(16)),
+                            ),
+                          ),
+                          const SizedBox(width: 4,),
+                          Text(
+                            '권장 수면 시간과 실제 수면 시간의 중복 시간',
+                            style: CustomText.caption3.copyWith(
+                              color: CustomColor.blue03,
+                            ),
+                          ),
+                        ],
                       ),
+                      const SizedBox(height: 16,),
                     ],
                   ),
                 ),

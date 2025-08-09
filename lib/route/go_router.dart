@@ -132,6 +132,14 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               ),
               GoRoute(
                 parentNavigatorKey: shellNavigatorKey,
+                path: 'home_sleep_report_screen',
+                name: 'home_sleep_report_screen',
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return const NoTransitionPage(child: HomeSleepReportScreen());
+                },
+              ),
+              GoRoute(
+                parentNavigatorKey: shellNavigatorKey,
                 path: 'home_feed_report_screen',
                 name: 'home_feed_report_screen',
                 pageBuilder: (BuildContext context, GoRouterState state) {
