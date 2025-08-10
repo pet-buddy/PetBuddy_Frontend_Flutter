@@ -52,7 +52,7 @@ class HomeSleepReportInfoDialog extends StatelessWidget {
                       Text(
                         '수면 레포트는 반려동물의 수면량을 수치화한 지표입니다.',
                         style: CustomText.body11.copyWith(
-                          color: const Color(0xFFEB9824),
+                          color: CustomColor.deepYellow,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -97,7 +97,7 @@ class HomeSleepReportInfoDialog extends StatelessWidget {
                       Text(
                         '이 때문에 포프린트는 수면 데이터를 수집하여 우리 강아지가 평온하고 행복한 삶을 살 수 있도록 지원해드리려고 해요!',
                         style: CustomText.body11.copyWith(
-                          color: const Color(0xFFEB9824),
+                          color: CustomColor.deepYellow,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

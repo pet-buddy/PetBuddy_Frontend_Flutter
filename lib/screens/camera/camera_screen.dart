@@ -29,6 +29,7 @@ class CameraScreenState extends ConsumerState<CameraScreen> with CustomCameraCon
       PermissionStatus cameraPermitted = await Permission.camera.status;
       PermissionStatus microphonePermitted = await Permission.microphone.status;
 
+      // TODO : 논의 - iOS / Android 적용 여부
       if(cameraPermitted.isPermanentlyDenied || cameraPermitted.isRestricted || cameraPermitted.isDenied) {
         PermissionStatus request = await Permission.camera.request();
         if(!(request.isGranted || request.isLimited)) {

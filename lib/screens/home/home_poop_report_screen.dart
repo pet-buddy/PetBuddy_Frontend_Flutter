@@ -309,7 +309,7 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
                                 Text(
                                   '점',
                                   style: CustomText.body9.copyWith(
-                                    color: const Color(0xFF00467E),
+                                    color: CustomColor.deepBlue,
                                   ),
                                 ),
                               ],
@@ -324,7 +324,7 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
                                 child: Text(
                                   '종합',
                                   style: CustomText.body9.copyWith(
-                                    color: const Color(0xFF00467E),
+                                    color: CustomColor.deepBlue,
                                   ),
                                 ),
                               ),
@@ -356,7 +356,7 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
                                                   child: Text(
                                                     '나쁨',
                                                     style: CustomText.caption3.copyWith(
-                                                      color: const Color(0xFF00467E),
+                                                      color: CustomColor.deepBlue,
                                                     ),
                                                     textAlign: TextAlign.center,
                                                   ),
@@ -378,7 +378,7 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
                                                   child: Text(
                                                     '보통',
                                                     style: CustomText.caption3.copyWith(
-                                                      color: const Color(0xFF00467E),
+                                                      color: CustomColor.deepBlue,
                                                     ),
                                                     textAlign: TextAlign.center,
                                                   ),
@@ -401,7 +401,7 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
                                                   child: Text(
                                                     '건강',
                                                     style: CustomText.caption3.copyWith(
-                                                      color: const Color(0xFF00467E),
+                                                      color: CustomColor.deepBlue,
                                                     ),
                                                     textAlign: TextAlign.center,
                                                   ),
@@ -438,7 +438,7 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
                                   Text(
                                     '색상',
                                     style: CustomText.caption3.copyWith(
-                                      color: const Color(0xFF00467E),
+                                      color: CustomColor.deepBlue,
                                     ),
                                   ),
                                   const SizedBox(height: 4,),
@@ -455,7 +455,7 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
                                   Text(
                                     '수분',
                                     style: CustomText.caption3.copyWith(
-                                      color: const Color(0xFF00467E),
+                                      color: CustomColor.deepBlue,
                                     ),
                                   ),
                                   const SizedBox(height: 4,),
@@ -472,7 +472,7 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
                                   Text(
                                     '기생충 여부',
                                     style: CustomText.caption3.copyWith(
-                                      color: const Color(0xFF00467E),
+                                      color: CustomColor.deepBlue,
                                     ),
                                   ),
                                   const SizedBox(height: 4,),
@@ -498,7 +498,7 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
                           Text(
                             '현재 건강점수는 ${responsePooMonthlyMeanState.poop_score_total}점이에요!',
                             style: CustomText.body9.copyWith(
-                              color:const Color(0xFF00467E),
+                              color:CustomColor.deepBlue,
                             ),
                           ),
                           Text(
@@ -508,7 +508,7 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
                                   '조금 더 주의를 기울여주세요 :|' : 
                                   '이대로 관리해주세요! :)',
                             style: CustomText.body9.copyWith(
-                              color:const Color(0xFF00467E),
+                              color:CustomColor.deepBlue,
                             ),
                           ),
                           const SizedBox(height: 16,),

@@ -119,7 +119,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             const SizedBox(height: 16,),
             const CircularProgressIndicator(
               color: CustomColor.blue03,
-            )
+            ),
+            // PawLoadingDialog(),
           ],
         ),
       ),

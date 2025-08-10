@@ -2,11 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:petbuddy_frontend_flutter/common/const/sentence.dart';
 import 'package:petbuddy_frontend_flutter/common/widget/dialog/alert_dialog.dart';
 import 'package:petbuddy_frontend_flutter/common/widget/dialog/loading_dialog.dart';
-import 'package:petbuddy_frontend_flutter/data/model/response_poo_daily_status_model.dart';
-import 'package:petbuddy_frontend_flutter/data/model/response_poo_monthly_mean_model.dart';
+import 'package:petbuddy_frontend_flutter/data/model/model.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/response_poo_daily_status_provider.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/response_poo_monthly_mean_provider.dart';
@@ -21,6 +21,112 @@ mixin class HomeController {
     homeContext = context;
   }
 
+  final List<HomeSleepRecommandedAdviceModel> sleepRecommandedAdvice = [
+    // 75% 미만
+    HomeSleepRecommandedAdviceModel(
+      title: '수면 환경 개선',
+      text: '수면 공간을 어둡고 조용하게 만들어주세요',
+      svgPicture: SvgPicture.asset(
+        'assets/icons/etc/sleep_moon.svg',
+        width: 24,
+        height: 24,
+      ),
+    ),
+    HomeSleepRecommandedAdviceModel(
+      title: '안정된 루틴',
+      text: '매일 같은 시간에 산책 및 식사로 생활 리듬을 고정해주세요',
+      svgPicture: SvgPicture.asset(
+        'assets/icons/etc/sleep_clock.svg',
+        width: 24,
+        height: 24,
+      ),
+    ),
+    HomeSleepRecommandedAdviceModel(
+      title: '음식/간식 변경',
+      text: '음식/간식이 맞지 않아 일어나는 현상일 수 있습니다',
+      svgPicture: SvgPicture.asset(
+        'assets/icons/etc/sleep_tableware.svg',
+        width: 24,
+        height: 24,
+      ),
+    ),
+    // 75%이상 ~ 85%미만
+    HomeSleepRecommandedAdviceModel(
+      title: '낮잠 조정',
+      text: '낮잠이 지나치게 길면 밤잠에 영향을 줄 수 있으므로\n낮잠 시간은 2~3시간으로 제한하세요',
+      svgPicture: SvgPicture.asset(
+        'assets/icons/etc/sleep_moon.svg',
+        width: 24,
+        height: 24,
+      ),
+    ),
+    HomeSleepRecommandedAdviceModel(
+      title: '일정 유지',
+      text: '저녁 산책 시간을 일정하게 고정해주세요\n(너무 늦은 산책은 자제)',
+      svgPicture: SvgPicture.asset(
+        'assets/icons/etc/sleep_clock.svg',
+        width: 24,
+        height: 24,
+      ),
+    ),
+    HomeSleepRecommandedAdviceModel(
+      title: '저녁 자극 줄이기',
+      text: '취침 1시간 전에는 강렬한 놀이 대신\n가벼운 마사지나 천천히 걷는 산책이 좋아요',
+      svgPicture: SvgPicture.asset(
+        'assets/icons/etc/sleep_plump_ball.svg',
+        width: 24,
+        height: 24,
+      ),
+    ),
+    HomeSleepRecommandedAdviceModel(
+      title: '밤에 깨는 원인 파악',
+      text: '외부 소음, 급변하는 환경 또는 배뇨 습관을 점검해 보세요',
+      svgPicture: SvgPicture.asset(
+        'assets/icons/etc/sleep_warning.svg',
+        width: 24,
+        height: 24,
+      ),
+    ),
+    // 85%이상
+    HomeSleepRecommandedAdviceModel(
+      title: '긍정 강화',
+      text: '특정 시간대에 조용히 휴식을 취할 경우\n간식이나 칭찬으로 강화해 주세요',
+      svgPicture: SvgPicture.asset(
+        'assets/icons/etc/sleep_heart.svg',
+        width: 24,
+        height: 24,
+      ),
+    ),
+    HomeSleepRecommandedAdviceModel(
+      title: '수면 시간 고정',
+      text: '수면 시간을 특정 시간대로 설정하여 일관된 리듬을 만들어 주세요',
+      svgPicture: SvgPicture.asset(
+        'assets/icons/etc/sleep_clock.svg',
+        width: 24,
+        height: 24,
+      ),
+    ),
+    HomeSleepRecommandedAdviceModel(
+      title: '패턴 유지',
+      text: '현재 습관도 안정적인 상태에요! 지속적으로 관리해주세요 :)',
+      svgPicture: SvgPicture.asset(
+        'assets/icons/etc/sleep_thumb.svg',
+        width: 24,
+        height: 24,
+      ),
+    ),
+    HomeSleepRecommandedAdviceModel(
+      title: '밤에 깨는 원인 파악',
+      text: '외부 소음, 급변하는 환경 또는 배뇨 습관을 점검해 보세요',
+      svgPicture: SvgPicture.asset(
+        'assets/icons/etc/sleep_warning.svg',
+        width: 24,
+        height: 24,
+      ),
+    ),
+  ];
+
+  // 미사용
   final Map<String, String> periodCode = {
     'Day': 'D',
     'Week': 'W',
@@ -64,6 +170,7 @@ mixin class HomeController {
   // ########## 활동량 분석 - 임시 데이터 끝 ##########
 
   PageController homeScreenPetController = PageController(initialPage: 0);
+  PageController homeSleepReportScreenPeriodController = PageController(initialPage: 0);
 
   void fnInvalidateHomePoopReportState() {
     homeRef.invalidate(homePoopReportMonthSelectProvider);
@@ -74,6 +181,10 @@ mixin class HomeController {
 
   void fnInvalidateHomeActivityReportState() {
     homeRef.invalidate(homeActivityReportPeriodSelectProvider);
+  }
+
+  void fnInvalidateHomeSleepReportState() {
+    homeRef.invalidate(homeSleepReportPeriodSelectProvider);
   }
 
   // ########## 반려동물 활동량 분석 ##########

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
+import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
 import 'package:petbuddy_frontend_flutter/screens/home/widget/widget.dart';
 
 class HomeActivityReportScreen extends ConsumerStatefulWidget {
@@ -28,6 +29,8 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
   @override
   Widget build(BuildContext context) {
     // final homeActivityReportPeriodSelectState = ref.watch(homeActivityReportPeriodSelectProvider);
+    final homeActivatedPetNavState = ref.watch(homeActivatedPetNavProvider);
+    final responseDogsState = ref.watch(responseDogsProvider);
 
     return DefaultLayout(
       appBar: DefaultAppBar(
@@ -79,13 +82,13 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                         Text(
                           '혹시 7시에 무슨 일이 있었나요?',
                           style: CustomText.body11.copyWith(
-                            color: const Color(0xFFEB9824),
+                            color: CustomColor.deepYellow,
                           ),
                         ),
                         Text(
                           '반려동물이 흥분을 감추지 못했어요.',
                           style: CustomText.body11.copyWith(
-                            color: const Color(0xFF00467E),
+                            color: CustomColor.deepBlue,
                           ),
                         ),
                         const SizedBox(height: 16,),
@@ -98,7 +101,23 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                 alignment: BarChartAlignment.spaceAround,
                                 maxY: 10001,
                                 minY: -5,
-                                barTouchData: BarTouchData(enabled: false),
+                                barTouchData: BarTouchData(
+                                  enabled: true, // 터치 활성화
+                                  touchTooltipData: BarTouchTooltipData(
+                                    tooltipRoundedRadius: 10,
+                                    tooltipPadding: const EdgeInsets.only(left: 6, right: 6, top: 6, bottom: 2),
+                                    getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                                      final value = rod.toY.toInt();
+                                      return BarTooltipItem(
+                                        '$value Paws',
+                                        CustomText.caption3.copyWith(
+                                          color: CustomColor.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
                                 titlesData: FlTitlesData(
                                   leftTitles: const AxisTitles(
                                     sideTitles: SideTitles(showTitles: false),
@@ -221,14 +240,14 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                         ),
                         const SizedBox(height: 16,),
                         // 오늘의 활동 분석 1 - 누적 꺽은선 그래프
-                        HomeActivityReportContainerLayout(
+                        HomeReportContainerLayout(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 '오늘은 평소보다 점수가 낮아요.',
                                 style: CustomText.body11.copyWith(
-                                  color: const Color(0xFF00467E),
+                                  color: CustomColor.deepBlue,
                                 ),
                               ),
                               const SizedBox(height: 8,),
@@ -315,6 +334,22 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                           );
                                         }).toList();
                                       },
+                                      touchTooltipData: LineTouchTooltipData(
+                                        tooltipRoundedRadius: 10,
+                                        tooltipPadding: const EdgeInsets.all(8),
+                                        getTooltipItems: (List<LineBarSpot> touchedSpots) {
+                                          return touchedSpots.map((spot) {
+                                            final value = spot.y.toInt();
+                                            return LineTooltipItem(
+                                              '${NumberFormat('###,###,###,###').format(value)} Paws',
+                                              CustomText.body11.copyWith(
+                                                color: spot.bar.color,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            );
+                                          }).toList();
+                                        },
+                                      ),
                                     ),
                                     gridData: const FlGridData(show: false),
                                     titlesData: FlTitlesData(
@@ -372,14 +407,14 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                           ),
                         ),
                         const SizedBox(height: 16,),
-                        HomeActivityReportContainerLayout(
+                        HomeReportContainerLayout(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 '탄이보다 보호자님이 더 활동적이었군요!\n탄이가 섭섭하지 않도록 활동량을 늘려주세요 :)',
                                 style: CustomText.body11.copyWith(
-                                  color: const Color(0xFF00467E),
+                                  color: CustomColor.deepBlue,
                                 ),
                               ),
                               const SizedBox(height: 8,),
@@ -413,82 +448,115 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                 ),
                               ),
                               const SizedBox(height: 8,),
-                              RichText(
-                                text: TextSpan(
-                                  text: '탄이',
-                                  style: CustomText.body11.copyWith(
-                                    color: CustomColor.blue03
-                                  ),
-                                  children: <TextSpan>[
-                                    TextSpan(text: NumberFormat(' ###,###,###,###').format(3671),),
-                                    const TextSpan(text: ' Paws'),
-                                  ],
-                                ),
+                              // RichText(
+                              //   text: TextSpan(
+                              //     text: '탄이',
+                              //     style: CustomText.body11.copyWith(
+                              //       color: CustomColor.blue03
+                              //     ),
+                              //     children: <TextSpan>[
+                              //       TextSpan(text: NumberFormat(' ###,###,###,###').format(3671),),
+                              //       const TextSpan(text: ' Paws'),
+                              //     ],
+                              //   ),
+                              // ),
+                              // Container(
+                              //   width: 170,
+                              //   height: 20,
+                              //   margin: const EdgeInsets.only(top: 4),
+                              //   padding: const EdgeInsets.symmetric(horizontal: 8),
+                              //   decoration: const BoxDecoration(
+                              //     color: CustomColor.blue03,
+                              //     borderRadius: BorderRadius.only(
+                              //       topRight: Radius.circular(20), 
+                              //       bottomRight: Radius.circular(20),
+                              //     ),
+                              //   ),
+                              // ),
+                              // const SizedBox(height: 8,),
+                              // RichText(
+                              //   text: TextSpan(
+                              //     text: '보호자님',
+                              //     style: CustomText.body11.copyWith(
+                              //       color: CustomColor.deepYellow,
+                              //     ),
+                              //     children: <TextSpan>[
+                              //       TextSpan(text: NumberFormat(' ###,###,###,###').format(3671),),
+                              //       const TextSpan(text: ' Paws'),
+                              //     ],
+                              //   ),
+                              // ),
+                              // Container(
+                              //   width: 120,
+                              //   height: 20,
+                              //   margin: const EdgeInsets.only(top: 4),
+                              //   padding: const EdgeInsets.symmetric(horizontal: 8),
+                              //   decoration: const BoxDecoration(
+                              //     color: CustomColor.yellow03,
+                              //     borderRadius: BorderRadius.only(
+                              //       topRight: Radius.circular(20), 
+                              //       bottomRight: Radius.circular(20),
+                              //     ),
+                              //   ),
+                              // ),
+                              // const SizedBox(height: 8,),
+                              // RichText(
+                              //   text: TextSpan(
+                              //     text: '동종 평균',
+                              //     style: CustomText.body11.copyWith(
+                              //       color: CustomColor.gray03
+                              //     ),
+                              //     children: <TextSpan>[
+                              //       TextSpan(text: NumberFormat(' ###,###,###,###').format(3671),),
+                              //       const TextSpan(text: ' Paws'),
+                              //     ],
+                              //   ),
+                              // ),
+                              // Container(
+                              //   width: 170,
+                              //   height: 20,
+                              //   margin: const EdgeInsets.only(top: 4),
+                              //   padding: const EdgeInsets.symmetric(horizontal: 8),
+                              //   decoration: const BoxDecoration(
+                              //     color: CustomColor.gray04,
+                              //     borderRadius: BorderRadius.only(
+                              //       topRight: Radius.circular(20), 
+                              //       bottomRight: Radius.circular(20),
+                              //     ),
+                              //   ),
+                              // ),
+                              HomeHorizontalBarChartContainer(
+                                text: responseDogsState.isNotEmpty ? 
+                                  responseDogsState[homeActivatedPetNavState].pet_name :
+                                  '반려동물',
+                                textSpanList: [
+                                  TextSpan(text: NumberFormat(' ###,###,###,###').format(3671),),
+                                  const TextSpan(text: ' Paws'),
+                                ],
+                                score: 3671,
+                                flag: 'activity',
                               ),
-                              Container(
-                                width: 170,
-                                height: 20,
-                                margin: const EdgeInsets.only(top: 4),
-                                padding: const EdgeInsets.symmetric(horizontal: 8),
-                                decoration: const BoxDecoration(
-                                  color: CustomColor.blue03,
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(20), 
-                                    bottomRight: Radius.circular(20),
-                                  ),
-                                ),
+                              HomeHorizontalBarChartContainer(
+                                text: '보호자님',
+                                textSpanList: [
+                                  TextSpan(text: NumberFormat(' ###,###,###,###').format(3671),),
+                                  const TextSpan(text: ' Paws'),
+                                ],
+                                textColor: CustomColor.deepYellow,
+                                barColor: CustomColor.yellow03,
+                                score: 5000,
+                                flag: 'activity',
                               ),
-                              const SizedBox(height: 8,),
-                              RichText(
-                                text: TextSpan(
-                                  text: '보호자님',
-                                  style: CustomText.body11.copyWith(
-                                    color: const Color(0xFFEB9824),
-                                  ),
-                                  children: <TextSpan>[
-                                    TextSpan(text: NumberFormat(' ###,###,###,###').format(3671),),
-                                    const TextSpan(text: ' Paws'),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: 120,
-                                height: 20,
-                                margin: const EdgeInsets.only(top: 4),
-                                padding: const EdgeInsets.symmetric(horizontal: 8),
-                                decoration: const BoxDecoration(
-                                  color: CustomColor.yellow03,
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(20), 
-                                    bottomRight: Radius.circular(20),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 8,),
-                              RichText(
-                                text: TextSpan(
-                                  text: '동종 평균',
-                                  style: CustomText.body11.copyWith(
-                                    color: CustomColor.gray03
-                                  ),
-                                  children: <TextSpan>[
-                                    TextSpan(text: NumberFormat(' ###,###,###,###').format(3671),),
-                                    const TextSpan(text: ' Paws'),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: 170,
-                                height: 20,
-                                margin: const EdgeInsets.only(top: 4),
-                                padding: const EdgeInsets.symmetric(horizontal: 8),
-                                decoration: const BoxDecoration(
-                                  color: CustomColor.gray04,
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(20), 
-                                    bottomRight: Radius.circular(20),
-                                  ),
-                                ),
+                              HomeHorizontalBarChartContainer(
+                                text: '동종 평균',
+                                textSpanList: [
+                                  TextSpan(text: NumberFormat(' ###,###,###,###').format(3671),),
+                                  const TextSpan(text: ' Paws'),
+                                ],
+                                textColor: CustomColor.gray03,
+                                barColor: CustomColor.gray04,
+                                score: 7000,
+                                flag: 'activity',
                               ),
                             ],
                           ),

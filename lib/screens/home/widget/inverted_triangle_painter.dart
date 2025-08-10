@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:petbuddy_frontend_flutter/common/const/custom_color.dart';
 
 class InvertedTrianglePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = const Color(0xFF99D3EA)
+      ..color = CustomColor.blue06
       ..style = PaintingStyle.fill;
 
     const radius = 2.0;

@@ -52,7 +52,7 @@ class HomeActivityReportInfoDialog extends StatelessWidget {
                       Text(
                         'Paws는 반려동물의 활동량을 수치화한 지표입니다.',
                         style: CustomText.body11.copyWith(
-                          color: const Color(0xFFEB9824),
+                          color: CustomColor.deepYellow,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -97,7 +97,7 @@ class HomeActivityReportInfoDialog extends StatelessWidget {
                       Text(
                         '이에 저희는 미국 FitBark사의 연구 기준을 바탕으로 활동량 표준을 도입했습니다.',
                         style: CustomText.body11.copyWith(
-                          color: const Color(0xFFEB9824),
+                          color: CustomColor.deepYellow,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
