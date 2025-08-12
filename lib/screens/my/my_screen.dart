@@ -47,7 +47,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
   // FitBark 연동 함수
   Future<void> launchFitBark() async {
     const fitbarkScheme = 'fitbark://';
-    const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.fitbark.app';
+    const playStoreUrl = 'https://play.google.com/store/apps/details?id=fitbark.com.android';
     const appStoreUrl = 'https://apps.apple.com/us/app/fitbark-gps-for-dogs-cats/id937936853';
 
     final uri = Uri.parse(fitbarkScheme);
