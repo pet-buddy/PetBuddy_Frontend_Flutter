@@ -28,4 +28,8 @@ class ProjectConstant {
   static const String INPUT_ERR_LENGTH = 'input_error_length';
   static const String INPUT_ERR_NOT_MATCHED = 'input_error_not_matched';
   static const String INPUT_SUCCESS = 'input_success';
+
+  static const String FITBARK_SCHEME = 'fitbark://';
+  static const String FITBARK_PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=fitbark.com.android';
+  static const String FITBARK_APP_STORE_URL = 'https://apps.apple.com/app/id937936853';  
 }

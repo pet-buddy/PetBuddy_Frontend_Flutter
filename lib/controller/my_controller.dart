@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +11,7 @@ import 'package:petbuddy_frontend_flutter/data/model/model.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
 import 'package:petbuddy_frontend_flutter/data/repository/pet_repository.dart';
 import 'package:petbuddy_frontend_flutter/data/repository/user_repository.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 mixin class MyController {
   late final WidgetRef myRef;
@@ -1420,6 +1423,29 @@ mixin class MyController {
         context: myContext, 
         middleText: Sentence.SERVER_ERR,
       );
+    }
+  }
+
+  // FitBark 연동 함수
+  Future<void> fnCallFitBark() async {
+
+    final Uri uri = Uri.parse(ProjectConstant.FITBARK_SCHEME);
+    bool opened = await canLaunchUrl(uri);
+
+    if (opened) {
+      await launchUrl(uri);
+    } else {
+      if (Platform.isAndroid) {
+        await launchUrl(
+          Uri.parse(ProjectConstant.FITBARK_PLAY_STORE_URL), 
+          mode: LaunchMode.externalApplication
+        );
+      } else {
+        await launchUrl(
+          Uri.parse(ProjectConstant.FITBARK_APP_STORE_URL), 
+          mode: LaunchMode.externalApplication
+        );
+      }
     }
   }
 }
