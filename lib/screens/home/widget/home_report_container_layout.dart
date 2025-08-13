@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:petbuddy_frontend_flutter/common/const/const.dart';
 
-class HomeActivityReportContainerLayout extends StatelessWidget {
-  const HomeActivityReportContainerLayout({
+class HomeReportContainerLayout extends StatelessWidget {
+  const HomeReportContainerLayout({
     super.key,
     required this.child
   });
 
   final Widget child;
   
-
   @override
   Widget build(BuildContext context) {
     return Container(

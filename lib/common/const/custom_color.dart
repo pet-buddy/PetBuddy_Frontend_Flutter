@@ -29,6 +29,9 @@ class CustomColor {
   static const Color yellow05 = Color(0xFFFAE782);
   static const Color yellow06 = Color(0xFFFBEFAB);
 
+  static const Color deepYellow = Color(0xFFEB9824);
+  static const Color deepBlue = Color(0xFF00467E);
+
   static const Color kakaoYellow = Color(0xFFF7E600);
   static const Color naverGreen = Color(0xFF70C152);
   static const Color appleBlack = Color(0xFF000000);

@@ -5,10 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
-import 'package:petbuddy_frontend_flutter/data/provider/home_activated_pet_nav_provider.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
-import 'package:petbuddy_frontend_flutter/data/provider/response_dogs_provider.dart';
-import 'package:petbuddy_frontend_flutter/data/provider/response_user_mypage_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MyScreen extends ConsumerStatefulWidget {
@@ -23,6 +20,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
   GlobalKey sectionKey1 = GlobalKey();
   GlobalKey sectionKey2 = GlobalKey();
   GlobalKey sectionKey3 = GlobalKey();
+  GlobalKey sectionKey4 = GlobalKey();
 
   double companySectionHeight = 400;  // 초기값 꼭 선언 필요
 
@@ -37,30 +35,12 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
             - fnGetSize(sectionKey1).height
             - fnGetSize(sectionKey2).height
             - fnGetSize(sectionKey3).height
+            - fnGetSize(sectionKey4).height
             - 32 // 중간 공백 등
             - 50 // 앱바
             - 50; // 네비게이션바
       });
     });
-  }
-
-  // FitBark 연동 함수
-  Future<void> launchFitBark() async {
-    const fitbarkScheme = 'fitbark://';
-    const playStoreUrl = 'https://play.google.com/store/apps/details?id=fitbark.com.android';
-    const appStoreUrl = 'https://apps.apple.com/us/app/fitbark-gps-for-dogs-cats/id937936853';
-
-    final uri = Uri.parse(fitbarkScheme);
-
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      if (Theme.of(context).platform == TargetPlatform.android) {
-        await launchUrl(Uri.parse(playStoreUrl), mode: LaunchMode.externalApplication);
-      } else {
-        await launchUrl(Uri.parse(appStoreUrl), mode: LaunchMode.externalApplication);
-      }
-    }
   }
 
   @override
@@ -149,14 +129,14 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 16,),
                         Text(
                           '선택된 반려동물',
                           style: CustomText.body10.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 8,),
                         for (int i = 0; i < responseDogsState.length; i++)
                           Column(
                             children: [
@@ -178,7 +158,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                                   );
                                 },
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: 16,),
                             ],
                           ),
                         DefaultTextButton(
@@ -200,10 +180,11 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                             context.goNamed('my_pet_add_screen');
                           },
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 16,),
                       ],
                     ),
                   ),
+                  // ########## Fitbark 연동하기 ##########
                   Container(
                     height: 8,
                     decoration: const BoxDecoration(color: CustomColor.gray05),
@@ -214,14 +195,59 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 16,),
+                        Text(
+                          'Fitbark GPS 기기 연동하기',
+                          style: CustomText.body10.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8,),
+                        DefaultTextButton(
+                          text: 'FitBark 연동하기',
+                          borderColor: responseDogsState.isEmpty 
+                              ? CustomColor.gray04
+                              : const Color(0xFF009bb3),
+                          backgroundColor: responseDogsState.isEmpty
+                              ? CustomColor.gray04
+                              : const Color(0xFF009bb3),
+                          textColor: responseDogsState.isEmpty
+                              ? CustomColor.gray03
+                              : CustomColor.white,
+                          disabled: false,
+                          onPressed: () async {
+                            if(responseDogsState.isEmpty) {
+                              showAlertDialog(
+                                context: context, 
+                                middleText: '반려동물을 먼저 등록해주세요!'
+                              );
+                            } else {
+                              await fnCallFitBark();
+                            }
+                          },
+                        ),
+                        const SizedBox(height: 16,),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 8,
+                    decoration: const BoxDecoration(color: CustomColor.gray05),
+                  ),
+                  Padding(
+                    key: sectionKey4,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 16,),
                         Text(
                           '고객지원',
                           style: CustomText.body10.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 8,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -257,7 +283,15 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                                     style: CustomText.body10,
                                   ),
                                 ),
-                                // 개인정보처리방침 등 추가 가능
+                                // InkWell(
+                                //   onTap: () {
+                                //     launchUrl(Uri.parse(ProjectConstant.PRIVACY_POLICY));
+                                //   },
+                                //   child: const Text(
+                                //     '개인정보처리방침',
+                                //     style: CustomText.body10
+                                //   ),
+                                // ),
                               ],
                             ),
                             Wrap(
@@ -270,23 +304,6 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                                   },
                                   child: const Text(
                                     '카카오채널',
-                                    style: CustomText.body10,
-                                  ),
-                                ),
-
-                                const SizedBox(height: 8),
-
-                                ElevatedButton(
-                                  onPressed: launchFitBark,
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: CustomColor.yellow03,
-                                    minimumSize: const Size(120, 40),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                  child: const Text(
-                                    'FitBark 연동하기',
                                     style: CustomText.body10,
                                   ),
                                 ),
@@ -309,7 +326,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 16,),
                       ],
                     ),
                   ),
@@ -317,42 +334,42 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                     width: kIsWeb ? ProjectConstant.WEB_MAX_WIDTH : MediaQuery.of(context).size.width,
                     height: companySectionHeight > 400 ? companySectionHeight : 400,
                     decoration: const BoxDecoration(color: CustomColor.gray05),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          SizedBox(height: 16),
+                        children: [
+                          SizedBox(height: 16,),
                           Text(
                             '(주)도터펫',
                             style: CustomText.body10,
                           ),
-                          SizedBox(height: 16),
+                          SizedBox(height: 16,),
                           Text(
                             '대표자 : 강희원',
                             style: CustomText.body10,
                           ),
-                          SizedBox(height: 8),
+                          SizedBox(height: 8,),
                           Text(
                             '주소 : 부산광역시 동구 중앙대로 319 YMCA 9층 L10호',
                             style: CustomText.body10,
                           ),
-                          SizedBox(height: 8),
+                          SizedBox(height: 8,),
                           Text(
                             '사업자번호 : 314-86-68368',
                             style: CustomText.body10,
                           ),
-                          SizedBox(height: 8),
+                          SizedBox(height: 8,),
                           Text(
                             '고객센터 : pupoo2023@gmail.com',
                             style: CustomText.body10,
                           ),
-                          SizedBox(height: 8),
+                          SizedBox(height: 8,),
                           Text(
                             '운영시간 : 평일 오전 9시~오후 5시 (점심시간 오후 1시~2시)',
                             style: CustomText.body10,
                           ),
-                          SizedBox(height: 32),
+                          SizedBox(height: 32,),
                         ],
                       ),
                     ),

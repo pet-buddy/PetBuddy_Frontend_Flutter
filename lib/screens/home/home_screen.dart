@@ -529,7 +529,9 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                           width: 20,
                           height: 20,
                         ),
-                        subTitle: '탄이는 다음 3가지 관리가 필요해요!',
+                        subTitle: responseDogsState.isNotEmpty ? 
+                          '${responseDogsState[homeActivatedPetNavState].pet_name}은(는) 다음 3가지 관리가 필요해요!' :
+                          '반려동물을 등록하여 하루 분석 서비스를 이용해보세요!',
                         reportList: [
                           HomeCardReportModel(
                             title: '#활동량', 

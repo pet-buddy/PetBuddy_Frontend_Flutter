@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
-import 'package:petbuddy_frontend_flutter/common/const/custom_color.dart';
-import 'package:petbuddy_frontend_flutter/common/const/custom_text.dart';
 
 class HomeCardReportFlipContainer extends ConsumerStatefulWidget {
   final String title;

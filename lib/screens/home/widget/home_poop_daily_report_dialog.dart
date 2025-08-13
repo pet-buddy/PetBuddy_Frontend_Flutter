@@ -109,7 +109,7 @@ class HomePoopDailyReportDialogState extends ConsumerState<HomePoopDailyReportDi
                     Text(
                       '점',
                       style: CustomText.body9.copyWith(
-                        color: const Color(0xFF00467E),
+                        color: CustomColor.deepBlue,
                       ),
                     ),
                   ],
@@ -124,7 +124,7 @@ class HomePoopDailyReportDialogState extends ConsumerState<HomePoopDailyReportDi
                     child: Text(
                       '종합',
                       style: CustomText.body9.copyWith(
-                        color: const Color(0xFF00467E),
+                        color: CustomColor.deepBlue,
                       ),
                     ),
                   ),
@@ -156,7 +156,7 @@ class HomePoopDailyReportDialogState extends ConsumerState<HomePoopDailyReportDi
                                       child: Text(
                                         '나쁨',
                                         style: CustomText.caption3.copyWith(
-                                          color: const Color(0xFF00467E),
+                                          color: CustomColor.deepBlue,
                                         ),
                                         textAlign: TextAlign.center,
                                       ),
@@ -178,7 +178,7 @@ class HomePoopDailyReportDialogState extends ConsumerState<HomePoopDailyReportDi
                                       child: Text(
                                         '보통',
                                         style: CustomText.caption3.copyWith(
-                                          color: const Color(0xFF00467E),
+                                          color: CustomColor.deepBlue,
                                         ),
                                         textAlign: TextAlign.center,
                                       ),
@@ -201,7 +201,7 @@ class HomePoopDailyReportDialogState extends ConsumerState<HomePoopDailyReportDi
                                       child: Text(
                                         '건강',
                                         style: CustomText.caption3.copyWith(
-                                          color: const Color(0xFF00467E),
+                                          color: CustomColor.deepBlue,
                                         ),
                                         textAlign: TextAlign.center,
                                       ),
@@ -238,7 +238,7 @@ class HomePoopDailyReportDialogState extends ConsumerState<HomePoopDailyReportDi
                       Text(
                         '색상',
                         style: CustomText.caption3.copyWith(
-                          color: const Color(0xFF00467E),
+                          color: CustomColor.deepBlue,
                         ),
                       ),
                       const SizedBox(height: 4,),
@@ -255,7 +255,7 @@ class HomePoopDailyReportDialogState extends ConsumerState<HomePoopDailyReportDi
                       Text(
                         '수분',
                         style: CustomText.caption3.copyWith(
-                          color: const Color(0xFF00467E),
+                          color: CustomColor.deepBlue,
                         ),
                       ),
                       const SizedBox(height: 4,),
@@ -272,7 +272,7 @@ class HomePoopDailyReportDialogState extends ConsumerState<HomePoopDailyReportDi
                       Text(
                         '기생충 여부',
                         style: CustomText.caption3.copyWith(
-                          color: const Color(0xFF00467E),
+                          color: CustomColor.deepBlue,
                         ),
                       ),
                       const SizedBox(height: 4,),
