@@ -52,6 +52,8 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
   Widget build(BuildContext context) {
     DateTime date = DateTime.now();
     List<DateTime?> selectedDay = [date];
+    //TODO : 비비 추가 =  오늘인지를 나타내는 부울리언  변수
+    bool isToday = false;
 
     final homePoopReportMonthSelectState = ref.watch(homePoopReportMonthSelectProvider);
     // final homePoopReportPreviousMonthSelectState = ref.watch(homePoopReportPreviousMonthSelectProvider);
@@ -146,64 +148,57 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
         color: CustomColor.black
       ),
       dayMaxWidth: 60,
-      dayBuilder: ({required date, decoration, isDisabled, isSelected, isToday, textStyle}) {
-        final monthlyPoopList = responsePooMonthlyMeanState.monthly_poop_list.map((e) => PoopStatusModel.fromJson(e as Map<String, dynamic>)).toList();
-        final grade = monthlyPoopList.firstWhere((elem) => elem.date == date.toString().substring(0, 10), orElse: () => PoopStatusModel(date: '', grade: '')).grade;
-        
-        return SizedBox(
+      dayBuilder: ({
+        required date,
+        decoration,
+        isDisabled,
+        isSelected,
+        isToday,
+        textStyle,
+      }) {
+        // ------------------- 기존 부분 -------------------
+        final monthlyPoopList = responsePooMonthlyMeanState.monthly_poop_list
+            .map((e) => PoopStatusModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+
+        final grade = monthlyPoopList
+            .firstWhere(
+              (elem) => elem.date == date.toString().substring(0, 10),
+          orElse: () => PoopStatusModel(date: '', grade: ''),
+        )
+            .grade;
+
+        // ------------------- 오늘 날짜 체크 -------------------
+        final bool today = date.year == DateTime.now().year &&
+            date.month == DateTime.now().month &&
+            date.day == DateTime.now().day;
+
+        return Container(
           height: 60,
-          child: InkWell(
-            splashColor: Colors.transparent, 
-            highlightColor: Colors.transparent,
-            hoverColor: Colors.transparent,
-            onTap: () {
-              selectedDay[0] = date;
-              var e = DateFormat.E("ko_KR").format(selectedDay[0]!);
-              // debugPrint(e);
-            },
-            child: Center(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 16,
-                    child: Text(
-                      date.day.toString(),
-                      style: CustomText.body10.copyWith(
-                        color: CustomColor.black,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      await showModalBottomSheet<void>(
-                        context: context,
-                        isScrollControlled: true, // 전체 높이 지원
-                        backgroundColor: Colors.white,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(24),
-                          ),
-                        ),
-                        builder: (BuildContext context) {
-                          return HomePoopDailyReportDialog(date: date.toString().substring(0, 10),);
-                        },
-                      );
-                    },
-                    child: Container(
-                      height: 42,
-                      alignment: Alignment.bottomCenter,
-                      child: grade.isNotEmpty ? 
-                        Image.asset(
-                          "assets/icons/etc/poop_status_$grade.png",
-                          width: 35,
-                          height: 35,
-                        ) : 
-                        const SizedBox(),
-                    ),
-                  ),
-                ],
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            // 오늘이면 배경색 강조
+            color: today ? CustomColor.yellow03 : Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
+            // 선택된 날짜 테두리
+            border: isSelected == true ? Border.all(color: Colors.blue, width: 2) : null,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '${date.day}',
+                style: textStyle?.copyWith(
+                  fontWeight: today ? FontWeight.bold : FontWeight.normal,
+                  color: today ? CustomColor.black : Colors.grey[800],
+                ),
               ),
-            ),
+              if (grade.isNotEmpty)
+                Text(
+                  grade,
+                  style: const TextStyle(fontSize: 10, color: Colors.red),
+                ),
+            ],
           ),
         );
       },
