@@ -31,5 +31,6 @@ class ProjectConstant {
 
   static const String FITBARK_SCHEME = 'fitbark://';
   static const String FITBARK_PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=fitbark.com.android';
-  static const String FITBARK_APP_STORE_URL = 'https://apps.apple.com/app/id937936853';  
+  static const String FITBARK_APP_STORE_URL = 'https://apps.apple.com/app/id937936853';
+  static const String FITBARK_DEVICE_STORE_URL = 'https://m.smartstore.naver.com/pawprint/products/12248358438';
 }

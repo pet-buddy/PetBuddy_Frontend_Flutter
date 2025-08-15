@@ -70,8 +70,8 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
       );
     });
 
-    // 임시 변수
-    // final values = [60.0, 75.0, 75.0, 100.0, 58.0, 76.0, 84.0, 80.0, 100.0, 100.0, 0.0, 10.0];
+    final now = DateTime.now(); // 오늘 날짜
+    final nowDate = now.toString().substring(0, 10);
 
     final config = CalendarDatePicker2WithActionButtonsConfig(
       lastDate: DateTime.now(),
@@ -149,60 +149,61 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
       dayBuilder: ({required date, decoration, isDisabled, isSelected, isToday, textStyle}) {
         final monthlyPoopList = responsePooMonthlyMeanState.monthly_poop_list.map((e) => PoopStatusModel.fromJson(e as Map<String, dynamic>)).toList();
         final grade = monthlyPoopList.firstWhere((elem) => elem.date == date.toString().substring(0, 10), orElse: () => PoopStatusModel(date: '', grade: '')).grade;
-        
-        return SizedBox(
+
+        return Container(
           height: 60,
-          child: InkWell(
-            splashColor: Colors.transparent, 
-            highlightColor: Colors.transparent,
-            hoverColor: Colors.transparent,
-            onTap: () {
-              selectedDay[0] = date;
-              var e = DateFormat.E("ko_KR").format(selectedDay[0]!);
-              // debugPrint(e);
-            },
-            child: Center(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 16,
-                    child: Text(
-                      date.day.toString(),
-                      style: CustomText.body10.copyWith(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: nowDate == date.toString().substring(0, 10) ?
+              CustomColor.yellow04 :
+              CustomColor.white,
+          ),
+          child: Center(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 16,
+                  child: Text(
+                    date.day.toString(),
+                    style: nowDate == date.toString().substring(0, 10) ? 
+                      CustomText.body10.copyWith(
+                        color: CustomColor.black,
+                        fontWeight: FontWeight.bold,
+                      ) :
+                      CustomText.body10.copyWith(
                         color: CustomColor.black,
                       ),
-                    ),
                   ),
-                  GestureDetector(
-                    onTap: () async {
-                      await showModalBottomSheet<void>(
-                        context: context,
-                        isScrollControlled: true, // 전체 높이 지원
-                        backgroundColor: Colors.white,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(24),
-                          ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    await showModalBottomSheet<void>(
+                      context: context,
+                      isScrollControlled: true, // 전체 높이 지원
+                      backgroundColor: Colors.white,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(24),
                         ),
-                        builder: (BuildContext context) {
-                          return HomePoopDailyReportDialog(date: date.toString().substring(0, 10),);
-                        },
-                      );
-                    },
-                    child: Container(
-                      height: 42,
-                      alignment: Alignment.bottomCenter,
-                      child: grade.isNotEmpty ? 
-                        Image.asset(
-                          "assets/icons/etc/poop_status_$grade.png",
-                          width: 35,
-                          height: 35,
-                        ) : 
-                        const SizedBox(),
-                    ),
+                      ),
+                      builder: (BuildContext context) {
+                        return HomePoopDailyReportDialog(date: date.toString().substring(0, 10),);
+                      },
+                    );
+                  },
+                  child: Container(
+                    height: 42,
+                    alignment: Alignment.bottomCenter,
+                    child: grade.isNotEmpty ? 
+                      Image.asset(
+                        "assets/icons/etc/poop_status_$grade.png",
+                        width: 35,
+                        height: 35,
+                      ) : 
+                      const SizedBox(),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );
