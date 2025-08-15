@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class MainScreen extends ConsumerWidget {
@@ -59,7 +60,10 @@ class MainScreen extends ConsumerWidget {
                       context.goNamed('camera_upload_screen');
                     } else if (index == 2) {
                       // context.goNamed('shop_screen');
-                      context.pushNamed('preorder_screen');
+                      // context.pushNamed('preorder_screen');
+
+                      // Fitbark 기기 판매 링크
+                      launchUrl(Uri.parse(ProjectConstant.FITBARK_DEVICE_STORE_URL));
                       return; // 임시 : 사전예약 페이지 클릭할 때만 인덱스 상태 갱신 비활성화, shop_screen 이동 시 삭제 예정
                     } else if (index == 3) {
                       context.goNamed('my_screen');
