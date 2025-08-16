@@ -116,6 +116,17 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 parentNavigatorKey: shellNavigatorKey,
+                path: 'home_mission_screen',
+                name: 'home_mission_screen',
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return NoTransitionPage(child: HomeMissionScreen(
+                    missionCont: state.uri.queryParameters['missionCont'] ?? '',
+                    missionGif: state.uri.queryParameters['missionGif'] ?? '',
+                  ));
+                },
+              ),
+              GoRoute(
+                parentNavigatorKey: shellNavigatorKey,
                 path: 'home_activity_report_screen',
                 name: 'home_activity_report_screen',
                 pageBuilder: (BuildContext context, GoRouterState state) {

@@ -139,30 +139,80 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
                           height: 52,
-                          child: const SingleChildScrollView(
+                          child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
                                 // TODO : loop로 데이터 받아 출력
                                 HomeCardMissionContainer(
                                   imoji: '🐕',
+                                  title: '놀아주기', 
+                                  text: '4시간 뒤 소멸',
+                                  onPressed: () {
+                                    context.goNamed(
+                                      'home_mission_screen',
+                                      queryParameters: {
+                                        'missionCont': '놀아주기', 
+                                        'missionGif': 'assets/icons/mission/playing.gif'
+                                      },
+                                    );
+                                  },
+                                ),
+                                HomeCardMissionContainer(
+                                  imoji: '🦮',
                                   title: '산책하기', 
-                                  text: '4시간 뒤 소멸'
+                                  text: '4시간 뒤 소멸',
+                                  onPressed: () {
+                                    context.goNamed(
+                                      'home_mission_screen',
+                                      queryParameters: {
+                                        'missionCont': '산책하기', 
+                                        'missionGif': 'assets/icons/mission/walking.gif'
+                                      },
+                                    );
+                                  },
                                 ),
                                 HomeCardMissionContainer(
                                   imoji: '🍖',
                                   title: '맘마주기', 
-                                  text: '1시간 뒤 소멸'
+                                  text: '1시간 뒤 소멸',
+                                  onPressed: () {
+                                    context.goNamed(
+                                      'home_mission_screen',
+                                      queryParameters: {
+                                        'missionCont': '맘마주기', 
+                                        'missionGif': 'assets/icons/mission/feeding.gif'
+                                      },
+                                    );
+                                  },
                                 ),
                                 HomeCardMissionContainer(
                                   imoji: '💩',
                                   title: '똥 찍기', 
-                                  text: '2시간 뒤 소멸'
+                                  text: '2시간 뒤 소멸',
+                                  onPressed: () {
+                                    context.goNamed(
+                                      'home_mission_screen',
+                                      queryParameters: {
+                                        'missionCont': '똥 찍기', 
+                                        'missionGif': 'assets/icons/mission/taking_pictures_of_poop.gif'
+                                      },
+                                    );
+                                  },
                                 ),
                                 HomeCardMissionContainer(
-                                  imoji: '😴',
-                                  title: '낮잠재우기', 
-                                  text: '2시간 뒤 소멸'
+                                  imoji: '☺️',
+                                  title: '쓰다듬기', 
+                                  text: '2시간 뒤 소멸',
+                                  onPressed: () {
+                                    context.goNamed(
+                                      'home_mission_screen',
+                                      queryParameters: {
+                                        'missionCont': '쓰다듬기', 
+                                        'missionGif': 'assets/icons/mission/stroking.gif'
+                                      },
+                                    );
+                                  },
                                 ),
                               ],
                             ),

@@ -25,7 +25,8 @@ export 'my_feed_model.dart';
 
 // 홈 관련 모델
 export 'home_card_report_model.dart';
-export 'home_sleep_recommended advice_model.dart';
+export 'home_sleep_recommended_advice_model.dart';
+export 'home_sleep_benchmark_sleep_efficiency_model.dart';
 export 'home_sleep_time_range_model.dart';
 
 export 'poop_status_model.dart';

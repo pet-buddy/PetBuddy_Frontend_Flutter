@@ -258,6 +258,39 @@ mixin class HomeController {
     return benchmark;
   }
 
+  HomeSleepBenchmarkSleepEfficiencyModel fnGetBenchmarkSleepEfficiency(String size, int days) {
+    const yearDays = 365;
+    HomeSleepBenchmarkSleepEfficiencyModel benchmarkSleepEfficiencyModel = HomeSleepBenchmarkSleepEfficiencyModel(hour: 0, percent: 0);
+
+    if(size == 'SMALL' && days < yearDays) { // 소형, 유년기 (1년 미만) 
+      benchmarkSleepEfficiencyModel = HomeSleepBenchmarkSleepEfficiencyModel(hour: 19, percent: 94);
+    } else if(size == 'SMALL' && days >= yearDays || days < yearDays*8) { // 소형, 청년기 (1~7세) 
+      benchmarkSleepEfficiencyModel = HomeSleepBenchmarkSleepEfficiencyModel(hour: 13.5, percent: 92);
+    } else if(size == 'SMALL' && days >= yearDays*8 || days < yearDays*12) { // 소형, 성년기 (8~12세) 
+      benchmarkSleepEfficiencyModel = HomeSleepBenchmarkSleepEfficiencyModel(hour: 13, percent: 90);
+    } else if(size == 'SMALL' && days >= yearDays*12) { // 소형, 노년기 (12세 이상) 
+      benchmarkSleepEfficiencyModel = HomeSleepBenchmarkSleepEfficiencyModel(hour: 16, percent: 88);
+    } else if(size == 'MEDIUM' && days < yearDays) { // 중형, 유년기 (1년 미만) 
+      benchmarkSleepEfficiencyModel = HomeSleepBenchmarkSleepEfficiencyModel(hour: 19, percent: 93);
+    } else if(size == 'MEDIUM' && days >= yearDays || days < yearDays*8) { // 중형, 청년기 (1~7세)
+      benchmarkSleepEfficiencyModel = HomeSleepBenchmarkSleepEfficiencyModel(hour: 13, percent: 91);
+    } else if(size == 'MEDIUM' && days >= yearDays*8 || days < yearDays*12) { // 중형, 성년기 (8~12세) 
+      benchmarkSleepEfficiencyModel = HomeSleepBenchmarkSleepEfficiencyModel(hour: 13, percent: 88);
+    } else if(size == 'MEDIUM' && days >= yearDays*12) { // 중형, 노년기 (12세 이상) 
+      benchmarkSleepEfficiencyModel = HomeSleepBenchmarkSleepEfficiencyModel(hour: 16, percent: 86);
+    } else if(size == 'LARGE' && days < yearDays) { // 대형, 유년기 (1년 미만) 
+      benchmarkSleepEfficiencyModel = HomeSleepBenchmarkSleepEfficiencyModel(hour: 20, percent: 91);
+    } else if(size == 'LARGE' && days >= yearDays || days < yearDays*8) { // 대형, 청년기 (1~7세) 
+      benchmarkSleepEfficiencyModel = HomeSleepBenchmarkSleepEfficiencyModel(hour: 13, percent: 89);
+    } else if(size == 'LARGE' && days >= yearDays*8 || days < yearDays*12) { // 대형, 성년기 (8~12세) 
+      benchmarkSleepEfficiencyModel = HomeSleepBenchmarkSleepEfficiencyModel(hour: 13, percent: 87);
+    } else if(size == 'LARGE' && days >= yearDays*12) { // 대형, 노년기 (12세 이상) 
+      benchmarkSleepEfficiencyModel = HomeSleepBenchmarkSleepEfficiencyModel(hour: 17, percent: 83);
+    }
+
+    return benchmarkSleepEfficiencyModel;
+  }
+
   Future<void> fnPooDailyStatusExec(String date, int dog_id) async {
     try {
       // 로딩 시작

@@ -28,6 +28,17 @@ class HomeSleepReportScreenState extends ConsumerState<HomeSleepReportScreen> wi
     final homeActivatedPetNavState = ref.watch(homeActivatedPetNavProvider);
     final responseDogsState = ref.watch(responseDogsProvider);
     final homeSleepReportPeriodSelectState = ref.watch(homeSleepReportPeriodSelectProvider);
+    final homeSleepReportBenchmarkSleepEfficiencyState = ref.watch(homeSleepReportBenchmarkSleepEfficiencyProvider);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // 벤치마크 반려동물 수면효율
+      ref.read(homeSleepReportBenchmarkSleepEfficiencyProvider.notifier).set(
+        fnGetBenchmarkSleepEfficiency(
+          responseDogsState[homeActivatedPetNavState].pet_size, 
+          fnGetDaysDiff(responseDogsState[homeActivatedPetNavState].pet_birth),
+        ).percent,
+      );
+    });
 
     return DefaultLayout(
       appBar: DefaultAppBar(
@@ -245,11 +256,11 @@ class HomeSleepReportScreenState extends ConsumerState<HomeSleepReportScreen> wi
                           score: 50,
                           flag: 'sleep',
                         ),
-                        const HomeHorizontalBarChartContainer(
-                          text: '동종 평균 수면 효율도 70%',
-                          textColor: CustomColor.yellow03,
+                        HomeHorizontalBarChartContainer(
+                          text: '동종 평균 수면 효율도 $homeSleepReportBenchmarkSleepEfficiencyState%',
+                          textColor: CustomColor.deepYellow,
                           barColor: CustomColor.yellow03,
-                          score: 70,
+                          score: homeSleepReportBenchmarkSleepEfficiencyState,
                           flag: 'sleep',
                         ),
                         const SizedBox(height: 16,),
