@@ -120,8 +120,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 name: 'home_mission_screen',
                 pageBuilder: (BuildContext context, GoRouterState state) {
                   return NoTransitionPage(child: HomeMissionScreen(
+                    missionTitle: state.uri.queryParameters['missionTitle'] ?? '',
                     missionCont: state.uri.queryParameters['missionCont'] ?? '',
-                    missionGif: state.uri.queryParameters['missionGif'] ?? '',
                   ));
                 },
               ),
@@ -232,6 +232,26 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                           child: child,
                         ),
                     );
+                },
+              ),
+              GoRoute(
+                parentNavigatorKey: shellNavigatorKey,
+                path: 'my_fitbark_screen',
+                name: 'my_fitbark_screen',
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return const NoTransitionPage(
+                    child: MyFitbarkScreen(),
+                  );
+                },
+              ),
+              GoRoute(
+                parentNavigatorKey: shellNavigatorKey,
+                path: 'my_fitbark_web_screen',
+                name: 'my_fitbark_web_screen',
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return const NoTransitionPage(
+                    child: MyFitbarkWebScreen(),
+                  );
                 },
               ),
             ]

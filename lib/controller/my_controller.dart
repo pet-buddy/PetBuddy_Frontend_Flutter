@@ -1426,8 +1426,8 @@ mixin class MyController {
     }
   }
 
-  // FitBark 연동 함수
-  Future<void> fnCallFitBark() async {
+  // FitBark 앱 호출
+  Future<void> fnCallFitBarkApp() async {
 
     final Uri uri = Uri.parse(ProjectConstant.FITBARK_SCHEME);
     bool opened = await canLaunchUrl(uri);

@@ -152,8 +152,8 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                                     context.goNamed(
                                       'home_mission_screen',
                                       queryParameters: {
-                                        'missionCont': '놀아주기', 
-                                        'missionGif': 'assets/icons/mission/playing.gif'
+                                        'missionTitle': '놀아주기', 
+                                        'missionCont': 'playing'
                                       },
                                     );
                                   },
@@ -166,8 +166,8 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                                     context.goNamed(
                                       'home_mission_screen',
                                       queryParameters: {
-                                        'missionCont': '산책하기', 
-                                        'missionGif': 'assets/icons/mission/walking.gif'
+                                        'missionTitle': '산책하기', 
+                                        'missionCont': 'walking'
                                       },
                                     );
                                   },
@@ -180,8 +180,8 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                                     context.goNamed(
                                       'home_mission_screen',
                                       queryParameters: {
-                                        'missionCont': '맘마주기', 
-                                        'missionGif': 'assets/icons/mission/feeding.gif'
+                                        'missionTitle': '맘마주기', 
+                                        'missionCont': 'feeding'
                                       },
                                     );
                                   },
@@ -194,8 +194,8 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                                     context.goNamed(
                                       'home_mission_screen',
                                       queryParameters: {
-                                        'missionCont': '똥 찍기', 
-                                        'missionGif': 'assets/icons/mission/taking_pictures_of_poop.gif'
+                                        'missionTitle': '똥 찍기', 
+                                        'missionCont': 'taking_pictures_of_poop'
                                       },
                                     );
                                   },
@@ -208,8 +208,8 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                                     context.goNamed(
                                       'home_mission_screen',
                                       queryParameters: {
-                                        'missionCont': '쓰다듬기', 
-                                        'missionGif': 'assets/icons/mission/stroking.gif'
+                                        'missionTitle': '쓰다듬기', 
+                                        'missionCont': 'stroking'
                                       },
                                     );
                                   },

@@ -22,6 +22,9 @@ export 'home_poop_report_benchmark_score_provider.dart';
 export 'home_sleep_report_period_select_provider.dart';
 export 'home_sleep_report_benchmark_sleep_efficiency_provider.dart';
 
+export 'response_poo_daily_status_provider.dart';
+export 'response_poo_monthly_mean_provider.dart';
+
 // 마이페이지 관련 Provider
 export 'my_profile_interest_button_provider.dart';
 export 'request_users_provider.dart';

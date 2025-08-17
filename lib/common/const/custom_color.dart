@@ -8,6 +8,10 @@ class CustomColor {
   static const Color positive = Color(0xFF91D834);
   static const Color negative = Color(0xFFEA6176);
 
+  static const Color negativeTint = Color(0xFFF3C8CE); 
+  static const Color negativeShade = Color(0xFFB51518);
+  static const Color negativeRed = Color(0xFFEA6176);
+
   static const Color gray01 = Color(0xFF161519);
   static const Color gray02 = Color(0xFF5C5B5E);
   static const Color gray03 = Color(0xFF8A8A8C);
