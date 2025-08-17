@@ -40,7 +40,7 @@ class HomeSleepEfficiencyChartContainerState extends ConsumerState<HomeSleepEffi
               width: 16,
               height: 16,
             ),
-            const SizedBox(width: 24,),
+            const SizedBox(width: 16,),
             Text(
               '수면효율도 70% 이하 ',
               style: CustomText.caption3.copyWith(

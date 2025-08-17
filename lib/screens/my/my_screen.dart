@@ -222,7 +222,10 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                                 middleText: '반려동물을 먼저 등록해주세요!'
                               );
                             } else {
-                              await fnCallFitBark();
+                              // await fnCallFitBarkApp();
+                              kIsWeb ?
+                                context.goNamed('my_fitbark_web_screen') :
+                                context.goNamed('my_fitbark_screen');
                             }
                           },
                         ),
