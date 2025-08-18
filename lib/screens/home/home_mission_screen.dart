@@ -85,18 +85,18 @@ class HomeMissionScreenState extends ConsumerState<HomeMissionScreen> with HomeC
                   DefaultTextButton(
                     text: '${widget.missionTitle} 완료하기', 
                     disabled: false,
-                    borderColor: widget.missionCont != 'taking_pictures_of_poop' ? 
-                      CustomColor.yellow03 : 
-                        (widget.missionCont == 'taking_pictures_of_poop' && grade.isNotEmpty) ?
-                          CustomColor.yellow03 : CustomColor.gray04,
-                    backgroundColor: widget.missionCont != 'taking_pictures_of_poop' ? 
-                      CustomColor.yellow03 : 
-                        (widget.missionCont == 'taking_pictures_of_poop' && grade.isNotEmpty) ?
-                          CustomColor.yellow03 : CustomColor.gray04,
-                    textColor: widget.missionCont != 'taking_pictures_of_poop' ? 
-                      CustomColor.black : 
-                        (widget.missionCont == 'taking_pictures_of_poop' && grade.isNotEmpty) ?
-                          CustomColor.black : CustomColor.gray03,
+                    borderColor: widget.missionCont != 'taking_pictures_of_poop' ||
+                                 (widget.missionCont == 'taking_pictures_of_poop' && grade.isNotEmpty) ?
+                                CustomColor.yellow03 : 
+                                CustomColor.gray04,
+                    backgroundColor: widget.missionCont != 'taking_pictures_of_poop' ||
+                                 (widget.missionCont == 'taking_pictures_of_poop' && grade.isNotEmpty) ?
+                                CustomColor.yellow03 : 
+                                CustomColor.gray04,
+                    textColor: widget.missionCont != 'taking_pictures_of_poop' ||
+                                 (widget.missionCont == 'taking_pictures_of_poop' && grade.isNotEmpty) ?
+                                CustomColor.black : 
+                                CustomColor.gray03,
                     width: fnGetDeviceWidth(context),
                     onPressed: () {
                       if(widget.missionCont != 'taking_pictures_of_poop' ||

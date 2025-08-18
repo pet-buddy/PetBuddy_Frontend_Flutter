@@ -6,8 +6,10 @@ import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller_utils.dart';
+import 'package:petbuddy_frontend_flutter/data/model/response_user_mypage_model.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
 import 'package:petbuddy_frontend_flutter/route/go_security_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:petbuddy_frontend_flutter/data/model/response_user_mypage_model.dart';
 // import 'package:petbuddy_frontend_flutter/data/provider/response_user_mypage_provider.dart';
 // import 'package:petbuddy_frontend_flutter/data/repository/user_repository.dart';
@@ -42,9 +44,32 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         //   ref.read(responseUserMypageProvider.notifier).set(responseUserMypageModel);
         // }
 
-        
+        final prefs = await SharedPreferences.getInstance();
+
         bool userMyPageResult = false; // 사용자 화면 조회 결과 변수 
         bool dogsResult = false; // 강아지 조회 결과 변수
+
+        // 웹의 Local storage에 저장된 사용자 정보 삭제
+        await prefs.remove('responseUserMypage');
+        ref.read(responseUserMypageProvider.notifier).set(ResponseUserMypageModel(
+          user_id: -1,
+          user_name: null,
+          email: "",
+          user_password: "",
+          gender: null,
+          interest: null,
+          sign_route: null,
+          address: null,
+          remark: null,
+          birth: null,
+          created_at: "",
+          updated_at: null,
+          createdAt: "",
+          updatedAt: null,
+        ));
+        // 웹의 Local storage에 저장된 반려동물 정보 삭제
+        await prefs.remove('responseDogs');
+        ref.read(responseDogsProvider.notifier).set([]);
         
         try {
           // 사용자 정보 조회

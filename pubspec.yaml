@@ -130,7 +130,10 @@ flutter:
     - assets/icons/system/
     - assets/icons/organization/
     - assets/icons/mission/
-    - assets/html/
+    - assets/web/
+    - assets/web/css/
+    - assets/web/js/
+    - assets/web/image/
 
   fonts:
     - family: NanumSquareRoundR
