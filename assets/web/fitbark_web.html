@@ -9,15 +9,16 @@
   <link rel='stylesheet' id='avia-google-webfont' href='//fonts.googleapis.com/css?family=Open+Sans:400,600' type='text/css' media='all'/>
   <link rel='stylesheet' id='ls-google-fonts-css'  href='//fonts.googleapis.com/css?family=Lato:100,300,regular,700,900|Open+Sans:300|Indie+Flower:regular|Oswald:300,regular,700&#038;subset=latin,latin-ext' type='text/css' media='all' />
   <meta name=viewport content="width=device-width, initial-scale=1">
-  <link href="/stylesheets/style_welcome.css" media="screen" rel="stylesheet" />
-  <script src="/javascripts/jquery.min.js"></script>
-  <script src="/javascripts/welcome.js"></script>
+  <link href="css/style_welcome.css" media="screen" rel="stylesheet" />
+  <script src="js/jquery.min.js"></script>
+  <script src="js/welcome.js"></script>
   <meta content="authenticity_token" name="csrf-param" />
 <meta content="l5wWxd7ceWpzzvYBjcz/zUaOmPobd2kb+X0Y6nl/iEE=" name="csrf-token" />
 </head>
 <body>  
     <div id="container-login" class="vertical-align">
-    <a href="/"><img alt="Fitbark logo full" id="fitbark-logo" src="/images/fitbark_logo_full.png" /></a>
+    <div style="height: 96px;"></div>
+    <a href=""><img alt="Fitbark logo full" id="fitbark-logo" src="image/fitbark_logo_full.png" /></a>
     
     <div class="error"></div>    
 
@@ -36,7 +37,6 @@
       <input id="redirect_uri" name="redirect_uri" type="hidden" value="https://backend.pawprint.ai.kr/bark/redirect" />
       <input id="state" name="state" type="hidden" />
       <input id="scope" name="scope" type="hidden" />
-      <input id="user_id" name="user_id" type="hidden"/>
 </form>
     <form accept-charset="UTF-8" action="https://app.fitbark.com:80/auth/facebook" autocomplete="off" id="form_login_fb" method="post"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="l5wWxd7ceWpzzvYBjcz/zUaOmPobd2kb+X0Y6nl/iEE=" /></div>
 </form>
@@ -66,5 +66,6 @@
   </div>
 
 </div>
+<div style="height: 16px;"></div>
 </body>
 </html>

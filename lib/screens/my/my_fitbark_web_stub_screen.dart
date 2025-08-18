@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
-import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
 
 class MyFitbarkWebScreen extends ConsumerStatefulWidget {
   const MyFitbarkWebScreen({super.key});
@@ -19,8 +18,6 @@ class MyFitbarkWebScreenState extends ConsumerState<MyFitbarkWebScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final responseUserMypageState = ref.watch(responseUserMypageProvider);
-    
     return DefaultLayout(
       backgroundColor: CustomColor.gray05,
       appBar: DefaultAppBar(
