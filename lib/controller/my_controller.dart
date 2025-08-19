@@ -159,6 +159,13 @@ mixin class MyController {
 
   final List<String> interestCode = ['POO', 'ACTIVITY', 'SLEEP', 'DIGITALPET'];
 
+  String fnGetDogSizeKorName(String pet_size) {
+    return pet_size == smallSize ? 
+            '소형견' : 
+            pet_size == mediumSize ?
+              '중형견' : '대형견';
+  }
+
   bool fnCheckGender(String gender) {
     bool result = false;
 

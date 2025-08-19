@@ -8,7 +8,6 @@ import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
 import 'package:petbuddy_frontend_flutter/controller/home_controller.dart';
 import 'package:petbuddy_frontend_flutter/controller/my_controller.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
-import 'package:petbuddy_frontend_flutter/data/provider/response_poo_monthly_mean_provider.dart';
 import 'package:petbuddy_frontend_flutter/screens/home/widget/widget.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {

@@ -15,7 +15,7 @@ class HomeSleepReportScreen extends ConsumerStatefulWidget {
   ConsumerState<HomeSleepReportScreen> createState() => HomeSleepReportScreenState();
 }
 
-class HomeSleepReportScreenState extends ConsumerState<HomeSleepReportScreen> with HomeController {
+class HomeSleepReportScreenState extends ConsumerState<HomeSleepReportScreen> with HomeController, MyController {
 
   @override
   void initState() {
@@ -257,7 +257,7 @@ class HomeSleepReportScreenState extends ConsumerState<HomeSleepReportScreen> wi
                           flag: 'sleep',
                         ),
                         HomeHorizontalBarChartContainer(
-                          text: '동종 평균 수면 효율도 $homeSleepReportBenchmarkSleepEfficiencyState%',
+                          text: '${fnGetDogSizeKorName(responseDogsState[homeActivatedPetNavState].pet_size)} 평균 수면 효율도 $homeSleepReportBenchmarkSleepEfficiencyState%',
                           textColor: CustomColor.deepYellow,
                           barColor: CustomColor.yellow03,
                           score: homeSleepReportBenchmarkSleepEfficiencyState,
