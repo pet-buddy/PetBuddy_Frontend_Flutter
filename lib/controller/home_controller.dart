@@ -3,13 +3,12 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:petbuddy_frontend_flutter/common/const/sentence.dart';
 import 'package:petbuddy_frontend_flutter/common/widget/dialog/alert_dialog.dart';
 import 'package:petbuddy_frontend_flutter/common/widget/dialog/loading_dialog.dart';
 import 'package:petbuddy_frontend_flutter/data/model/model.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
-import 'package:petbuddy_frontend_flutter/data/provider/response_poo_daily_status_provider.dart';
-import 'package:petbuddy_frontend_flutter/data/provider/response_poo_monthly_mean_provider.dart';
 import 'package:petbuddy_frontend_flutter/data/repository/poo_repository.dart';
 
 mixin class HomeController {
@@ -173,7 +172,9 @@ mixin class HomeController {
   PageController homeSleepReportScreenPeriodController = PageController(initialPage: 0);
 
   void fnInvalidateHomePoopReportState() {
-    homeRef.invalidate(homePoopReportMonthSelectProvider);
+    // homeRef.invalidate(homePoopReportMonthSelectProvider);
+    // 현재 월 저장
+    homeRef.read(homePoopReportMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
     // homeRef.invalidate(responsePooMonthlyMeanProvider);
     homeRef.invalidate(responsePooDailyStatusProvider);
     homeRef.invalidate(homePoopReportBenchmarkScoreProvider);
@@ -253,6 +254,38 @@ mixin class HomeController {
       benchmark = 0.8;      
     } else if(size == 'LARGE' && days >= 365*7) {
       benchmark = 0.75;      
+    }
+
+    return benchmark;
+  }
+
+  double fnGetBenchmarkPaws(String size, int days) {
+    double benchmark = 0.0;
+
+    if(size == 'SMALL' && days < 180) { 
+      benchmark = 6494;
+    } else if(size == 'SMALL' && days >= 180 || days < 365) {
+      benchmark = 5714;      
+    } else if(size == 'SMALL' && days >= 365 || days < 365*7) {
+      benchmark = 6015;      
+    } else if(size == 'SMALL' && days >= 365*7) {
+      benchmark = 6723;      
+    } else if(size == 'MEDIUM' && days < 180) {
+      benchmark = 5051;
+    } else if(size == 'MEDIUM' && days >= 180 || days < 365) {
+      benchmark = 4444;      
+    } else if(size == 'MEDIUM' && days >= 365 || days < 365*7) {
+      benchmark = 4678;      
+    } else if(size == 'MEDIUM' && days >= 365*7) {
+      benchmark = 5229;      
+    } else if(size == 'LARGE' && days < 180) {
+      benchmark = 4132;
+    } else if(size == 'LARGE' && days >= 180 || days < 365) {
+      benchmark = 3636;      
+    } else if(size == 'LARGE' && days >= 365 || days < 365*7) {
+      benchmark = 3828;      
+    } else if(size == 'LARGE' && days >= 365*7) {
+      benchmark = 4278;      
     }
 
     return benchmark;

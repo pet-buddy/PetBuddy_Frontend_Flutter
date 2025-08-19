@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
 import 'package:petbuddy_frontend_flutter/data/data.dart';
-import 'package:petbuddy_frontend_flutter/data/provider/response_poo_monthly_mean_provider.dart';
 import 'package:petbuddy_frontend_flutter/screens/home/widget/home_poop_daily_report_dialog.dart';
 import 'package:petbuddy_frontend_flutter/screens/home/widget/inverted_triangle_painter.dart';
 
@@ -547,11 +546,7 @@ class HomePoopReportScreenState extends ConsumerState<HomePoopReportScreen> with
                           ),
                           const SizedBox(height: 16,),
                           Text(
-                            '${responseDogsState[homeActivatedPetNavState].pet_size == smallSize ? 
-                                '소형견' : 
-                                  responseDogsState[homeActivatedPetNavState].pet_size == mediumSize ?
-                                    '중형견' :
-                                      '대형견'} 평균 건강점수',
+                            '${fnGetDogSizeKorName(responseDogsState[homeActivatedPetNavState].pet_size)} 평균 건강점수',
                             style: CustomText.body11.copyWith(
                               color: CustomColor.yellow02,
                             ),

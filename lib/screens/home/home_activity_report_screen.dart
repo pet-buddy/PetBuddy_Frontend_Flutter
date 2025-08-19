@@ -15,7 +15,7 @@ class HomeActivityReportScreen extends ConsumerStatefulWidget {
   ConsumerState<HomeActivityReportScreen> createState() => HomeActivityReportScreenState();
 }
 
-class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScreen> with HomeController {
+class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScreen> with HomeController, MyController {
 
   @override
   void initState() {
@@ -31,6 +31,17 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
     // final homeActivityReportPeriodSelectState = ref.watch(homeActivityReportPeriodSelectProvider);
     final homeActivatedPetNavState = ref.watch(homeActivatedPetNavProvider);
     final responseDogsState = ref.watch(responseDogsProvider);
+    final homeActivityReportBenchmarkPawsState = ref.watch(homeActivityReportBenchmarkPawsProvider);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // 벤치마크 반려동물 Paws (활동량)
+      ref.read(homeActivityReportBenchmarkPawsProvider.notifier).set(
+        fnGetBenchmarkPaws(
+          responseDogsState[homeActivatedPetNavState].pet_size, 
+          fnGetDaysDiff(responseDogsState[homeActivatedPetNavState].pet_birth),
+        ),
+      );
+    });
 
     return DefaultLayout(
       appBar: DefaultAppBar(
@@ -292,7 +303,7 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                     ),
                                     const SizedBox(width: 4,),
                                     Text(
-                                      NumberFormat('###,###,###,###').format(4384),
+                                      NumberFormat('###,###,###,###').format(homeActivityReportBenchmarkPawsState),
                                       style: CustomText.heading4.copyWith(
                                         color: CustomColor.gray03,
                                       ),
@@ -548,14 +559,14 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                 flag: 'activity',
                               ),
                               HomeHorizontalBarChartContainer(
-                                text: '동종 평균',
+                                text: '${fnGetDogSizeKorName(responseDogsState[homeActivatedPetNavState].pet_size)} 평균',
                                 textSpanList: [
-                                  TextSpan(text: NumberFormat(' ###,###,###,###').format(3671),),
+                                  TextSpan(text: NumberFormat(' ###,###,###,###').format(homeActivityReportBenchmarkPawsState),),
                                   const TextSpan(text: ' Paws'),
                                 ],
                                 textColor: CustomColor.gray03,
                                 barColor: CustomColor.gray04,
-                                score: 7000,
+                                score: homeActivityReportBenchmarkPawsState,
                                 flag: 'activity',
                               ),
                             ],
