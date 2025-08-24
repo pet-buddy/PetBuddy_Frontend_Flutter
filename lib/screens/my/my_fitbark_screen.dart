@@ -30,6 +30,8 @@ class MyFitbarkScreenState extends ConsumerState<MyFitbarkScreen> with MyControl
   @override
   Widget build(BuildContext context) {
     final responseUserMypageState = ref.watch(responseUserMypageProvider);
+    final responseDogsState = ref.watch(responseDogsProvider);
+    final homeActivatedPetNavState = ref.watch(homeActivatedPetNavProvider);
     
     return DefaultLayout(
       backgroundColor: CustomColor.gray05,
@@ -67,7 +69,9 @@ class MyFitbarkScreenState extends ConsumerState<MyFitbarkScreen> with MyControl
                   if(!url.toString().contains('https://app.fitbark.com/')) {
                     // user_id 할당
                     await controller.evaluateJavascript(source: """
-                      document.getElementById('state').value = '${responseUserMypageState.user_id}';
+                      document.getElementById('state').value = '${
+                        responseUserMypageState.user_id.toString()},
+                        ${responseDogsState[homeActivatedPetNavState].pet_id}';
                     """);
                   } 
                 },

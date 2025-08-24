@@ -33,7 +33,10 @@ class MyFitbarkWebScreenState extends ConsumerState<MyFitbarkWebScreen> {
           ..style.overflow = 'auto';
 
         iframe.onLoad.listen((event) {
-          final userId = ref.read(responseUserMypageProvider).user_id;
+          // 변수명을 user_id로 하려고 했으나 통일성을 위해 lowerCamelCase로 
+          final userId = ref.read(responseUserMypageProvider.notifier).get().user_id;
+          final dogs = ref.read(responseDogsProvider.notifier).get();
+          final activatedPetNav = ref.read(homeActivatedPetNavProvider.notifier).get();
 
           try {
             final win = iframe.contentWindow;
@@ -43,13 +46,23 @@ class MyFitbarkWebScreenState extends ConsumerState<MyFitbarkWebScreen> {
               final stateInput = doc.getElementById("state") as html.InputElement?;
 
               if (stateInput != null) {
-                stateInput.value = userId.toString();
+                stateInput.value = '${userId.toString()},${dogs[activatedPetNav].pet_id}';
               } else {
-                debugPrint('state 없음');
+                // debugPrint('DOM 요소를 찾을 수 없습니다.');
+
+                showAlertDialog(
+                  context: context, 
+                  middleText: 'DOM 요소를 찾을 수 없습니다.',
+                );
               }
             }
           } catch (e) {
-            debugPrint(e.toString());
+            // debugPrint(e.toString());
+
+            showAlertDialog(
+              context: context, 
+              middleText: 'DOM 요소를 찾을 수 없습니다.\n$e',
+            );
           }
         });
         
