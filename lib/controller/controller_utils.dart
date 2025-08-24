@@ -12,6 +12,7 @@ import 'package:petbuddy_frontend_flutter/data/model/response_user_mypage_model.
 import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
 import 'package:petbuddy_frontend_flutter/data/repository/pet_repository.dart';
 import 'package:petbuddy_frontend_flutter/data/repository/user_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ControllerUtils {
   
@@ -117,8 +118,92 @@ class ControllerUtils {
   static Future<void> fnInitAppState(WidgetRef ref) async {
     final storage = ref.watch(secureStorageProvider);
 
-    await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: null);
-    await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: null);
-    await storage.write(key: ProjectConstant.PET_ACTIVATED_INDEX, value: '0');
+    // await storage.delete(key: ProjectConstant.ACCESS_TOKEN);
+    // await storage.delete(key: ProjectConstant.REFRESH_TOKEN);
+    // await storage.delete(key: ProjectConstant.PET_ACTIVATED_INDEX);
+
+    // await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: null);
+    // await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: null);
+    // await storage.write(key: ProjectConstant.PET_ACTIVATED_INDEX, value: '0');
+
+    await storage.deleteAll();
+  }
+
+  static Future<void> fnInvalidateAllState(WidgetRef ref) async {
+    ref.invalidate(emailLoginEmailInputStatusCodeProvider);
+    ref.invalidate(emailLoginPwdInputStatusCodeProvider);
+    ref.invalidate(emailLoginButtonProvider);
+    ref.invalidate(cameraImagePickerProvider);
+    ref.invalidate(cameraUploadButtonProvider);
+    ref.invalidate(cameraControllerProvider);
+    ref.invalidate(cameraFlashProvider);
+    ref.invalidate(responsePooMonthlyMeanProvider);
+    ref.invalidate(responsePooDailyStatusProvider);
+    ref.invalidate(homePoopReportBenchmarkScoreProvider);
+    ref.invalidate(homeActivityReportPeriodSelectProvider);
+    ref.invalidate(homeSleepReportPeriodSelectProvider);
+    ref.invalidate(myPetAddTypeFilterProvider);
+    ref.invalidate(myPetAddTypeDropdownProvider);
+    ref.invalidate(myPetAddFeedFilterProvider);
+    ref.invalidate(myPetAddFeedDropdownProvider);
+    ref.invalidate(myPetAddSizeButtonProvider);
+    ref.invalidate(myPetAddGenderButtonProvider);
+    ref.invalidate(myPetAddNeuterButtonProvider);
+    ref.invalidate(myPetAddFeedAmountButtonProvider);
+    ref.invalidate(myPetAddNameInputStatusCodeProvider);
+    ref.invalidate(myPetAddBirthInputStatusCodeProvider);
+    ref.invalidate(myPetAddFeedTimeListProvider);
+    ref.invalidate(myPetAddFeedTimeDeleteListProvider);
+    ref.invalidate(myPetAddFeedTimeMeridiemButtonProvider);
+    ref.invalidate(myPetAddFeedTimeSelectModeProvider);
+    ref.invalidate(requestNewDogProvider); // 반려동물 추가하기 모델
+    ref.invalidate(requestUpdateDogProvider); // 반려동물 수정하기 모델
+    ref.invalidate(myPetAddButtonProvider); // 반려동물 추가하기 버튼
+    ref.invalidate(requestNewDogProvider); // 반려동물 추가하기 모델
+    ref.invalidate(requestUpdateDogProvider); // 반려동물 수정하기 모델
+    ref.invalidate(myPetUpdateButtonProvider); // 반려동물 수정하기 버튼
+    ref.invalidate(registerEmailInputStatusCodeProvider);
+    ref.invalidate(registerPwdInputStatusCodeProvider);
+    ref.invalidate(registerPwdConfirmInputStatusCodeProvider);
+    ref.invalidate(requestEmailRegisterProvider);
+    ref.invalidate(registerButtonProvider);
+  }
+
+  static Future<void> fnDeleteLocalStorage() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.remove('bottomNav');
+    await prefs.remove('responseUserMypage');
+    await prefs.remove('responseDogs');
+    await prefs.remove('homeActivatedPetNav');
+    await prefs.remove('homePoopReportBenchmarkScore');
+    await prefs.remove('homeSleepReportBenchmarkSleepEfficiency');
+    await prefs.remove('myPetAddBirthInputStatusCode');
+    await prefs.remove('myPetAddButton');
+    await prefs.remove('myPetAddFeedAmountButton');
+    await prefs.remove('myPetAddFeedDropdown');
+    await prefs.remove('myPetAddFeedFilter');
+    await prefs.remove('myPetAddFeedTimeDeleteList');
+    await prefs.remove('myPetAddFeedTimeMeridiemButton');
+    await prefs.remove('myPetAddFeedTimeSelectMode');
+    await prefs.remove('myPetAddGenderButton');
+    await prefs.remove('myPetAddNameInputStatusCode');
+    await prefs.remove('myPetAddNeuterButton');
+    await prefs.remove('myPetAddSizeButton');
+    await prefs.remove('myPetAddTypeDropdown');
+    await prefs.remove('myPetAddTypeFilter');
+    await prefs.remove('myPetUpdateButton');
+    await prefs.remove('myProfileBirthInputStatusCode');
+    await prefs.remove('myProfileGenderButton');
+    await prefs.remove('myProfileInterestButton');
+    await prefs.remove('myProfilePhoneNumberInputStatusCode');
+    await prefs.remove('myProfileUpdateButton');
+    await prefs.remove('requestNewDog');
+    await prefs.remove('requestUpdateDog');
+    await prefs.remove('requestUsers');
+    await prefs.remove('responseDogs');
+    await prefs.remove('responsePooDailyStatus');
+    await prefs.remove('responsePooMonthlyMean');
+    await prefs.remove('responseUserMypage');
   }
 }
