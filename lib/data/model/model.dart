@@ -18,7 +18,11 @@ export 'response_users_model.dart';
 export 'request_new_dog_model.dart';
 export 'request_update_dog_model.dart';
 export 'response_dogs_model.dart';
+export 'response_v2_dogs_model.dart';
 export 'response_dogs_detail_model.dart';
+export 'response_v2_dogs_detail_model.dart';
+export 'response_user_mypage_model.dart';
+export 'response_v2_user_mypage_model.dart';
 
 export 'my_breed_model.dart';
 export 'my_feed_model.dart';
