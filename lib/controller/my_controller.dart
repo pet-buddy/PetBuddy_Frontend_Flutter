@@ -1379,7 +1379,7 @@ mixin class MyController {
   // 로그아웃
   Future<void> fnLogOutExec() async {
     // 기존 코드 백업
-    // final storage = myRef.watch(secureStorageProvider);
+    final storage = myRef.watch(secureStorageProvider);
 
     // await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: null);
     // await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: null);
@@ -1390,7 +1390,12 @@ mixin class MyController {
     await ControllerUtils.fnInitAppState(myRef); // flutter_secure_storage 삭제
     await ControllerUtils.fnInvalidateAllState(myRef); // provider invalidate
 
-    if(kIsWeb) {await ControllerUtils.fnDeleteLocalStorage();}
+    if(kIsWeb) {
+      await ControllerUtils.fnDeleteLocalStorage();
+      // 활성화 반려동물 인덱스 0으로 세팅
+      await storage.write(key: ProjectConstant.PET_ACTIVATED_INDEX, value: '0');
+      myRef.read(homeActivatedPetNavProvider.notifier).set(0);
+    }
     
     if(!myContext.mounted) return;
     myContext.goNamed('login_screen');

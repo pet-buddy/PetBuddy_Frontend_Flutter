@@ -28,17 +28,20 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       // 이동할 화면 변수
       String entryPoint = 'login_screen';
+      // 기기 임시저장소 Provider 불러오기
+      final storage = ref.watch(secureStorageProvider);
 
       if(kIsWeb) {
         await ControllerUtils.fnInitAppState(ref); // flutter_secure_storage 삭제
         await ControllerUtils.fnInvalidateAllState(ref); // provider invalidate
         // 웹 -> shared_preferences 삭제
         await ControllerUtils.fnDeleteLocalStorage();
+        // 활성화  반려동물 인덱스 0으로 세팅
+        await storage.write(key: ProjectConstant.PET_ACTIVATED_INDEX, value: '0');
+        ref.read(homeActivatedPetNavProvider.notifier).set(0);
       } 
       
       if(!kIsWeb){
-        // 기기 임시저장소 Provider 불러오기
-        final storage = ref.watch(secureStorageProvider);
         // accessToken 
         final accessToken = await storage.read(key: ProjectConstant.ACCESS_TOKEN);
 
@@ -105,9 +108,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       // 활성화된 반려동물 인덱스 불러오기
       final petActivatedIndex = await storage.read(key: ProjectConstant.PET_ACTIVATED_INDEX);
       if (petActivatedIndex != null) {
-        ref.read(homeActivatedPetNavProvider.notifier).set(
-          int.parse(petActivatedIndex)
-        );
+        final dogsCount = ref.read(responseDogsProvider.notifier).get().length;
+        int activatedIndex = int.parse(petActivatedIndex) <= dogsCount ? int.parse(petActivatedIndex) : 0;
+
+        ref.read(homeActivatedPetNavProvider.notifier).set(activatedIndex);
       }
 
       // 라우터 처리를 위한 상태 갱신

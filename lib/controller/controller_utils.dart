@@ -122,10 +122,12 @@ class ControllerUtils {
     // await storage.delete(key: ProjectConstant.REFRESH_TOKEN);
     // await storage.delete(key: ProjectConstant.PET_ACTIVATED_INDEX);
 
+    // 초기값으로 세팅
     // await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: null);
     // await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: null);
     // await storage.write(key: ProjectConstant.PET_ACTIVATED_INDEX, value: '0');
-
+    
+    // flutter_secure_storage 삭제
     await storage.deleteAll();
   }
 
