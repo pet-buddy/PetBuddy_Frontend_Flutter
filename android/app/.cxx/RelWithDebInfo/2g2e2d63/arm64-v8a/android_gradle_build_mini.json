@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/heeseokkwon/fvm/versions/3.29.0/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/heeseokkwon/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/heeseokkwon/Projects/flutter_projects/petbuddy_frontend_flutter/android/app/.cxx/RelWithDebInfo/2g2e2d63/arm64-v8a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/heeseokkwon/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/heeseokkwon/Projects/flutter_projects/petbuddy_frontend_flutter/android/app/.cxx/RelWithDebInfo/2g2e2d63/arm64-v8a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

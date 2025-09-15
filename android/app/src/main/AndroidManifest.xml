@@ -11,7 +11,7 @@
         android:requestLegacyExternalStorage="true"
         android:preserveLegacyExternalStorage="true">
         <activity
-            android:name=".MainActivity"
+            android:name="com.daughterpet.pawprint.MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:taskAffinity=""

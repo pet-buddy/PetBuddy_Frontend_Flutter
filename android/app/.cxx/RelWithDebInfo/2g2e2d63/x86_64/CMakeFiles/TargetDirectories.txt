@@ -1,0 +1,2 @@
+/Users/heeseokkwon/Projects/flutter_projects/petbuddy_frontend_flutter/android/app/.cxx/RelWithDebInfo/2g2e2d63/x86_64/CMakeFiles/edit_cache.dir
+/Users/heeseokkwon/Projects/flutter_projects/petbuddy_frontend_flutter/android/app/.cxx/RelWithDebInfo/2g2e2d63/x86_64/CMakeFiles/rebuild_cache.dir

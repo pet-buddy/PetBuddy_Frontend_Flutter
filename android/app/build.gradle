@@ -1,6 +1,6 @@
 plugins {
     id "com.android.application"
-    id "kotlin-android"
+    id "org.jetbrains.kotlin.android"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
 }
@@ -28,15 +28,21 @@ if (flutterVersionName == null) {
     flutterVersionName = "1.0.0"
 }
 
+def flutterNdkVersion = localProperties.getProperty("flutter.ndkVersion")
+if (flutterNdkVersion == null) {
+    flutterNdkVersion = "28.0.12433566"
+}
+
 android {
     namespace = "com.daughterpet.pawprint"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    compileSdk = 35 // flutter.compileSdkVersion
+    ndkVersion = flutterNdkVersion // flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+    kotlinOptions { jvmTarget = "17" }
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
@@ -70,6 +76,16 @@ android {
     }
 }
 
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.24"
+}
+
 flutter {
     source = "../.."
 }
+
+// tasks.register("printAgp") {
+//     doLast {
+//         println("AGP Version = " + com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION)
+//     }
+// }
