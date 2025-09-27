@@ -15,6 +15,7 @@ ResponseDogsDetailModel _$ResponseDogsDetailModelFromJson(
       pet_birth: json['pet_birth'] as String,
       pet_gender: json['pet_gender'] as String,
       pet_size: json['pet_size'] as String,
+      pet_device_connected: json['pet_device_connected'] as bool,
       neuter_yn: json['neuter_yn'] as bool,
       division2_code: json['division2_code'] as String,
       feed_time: (json['feed_time'] as List<dynamic>?)
@@ -33,6 +34,7 @@ Map<String, dynamic> _$ResponseDogsDetailModelToJson(
       'pet_birth': instance.pet_birth,
       'pet_gender': instance.pet_gender,
       'pet_size': instance.pet_size,
+      'pet_device_connected': instance.pet_device_connected,
       'neuter_yn': instance.neuter_yn,
       'division2_code': instance.division2_code,
       'feed_time': instance.feed_time,

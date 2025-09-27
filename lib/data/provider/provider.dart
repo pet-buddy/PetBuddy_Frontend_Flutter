@@ -52,11 +52,9 @@ export 'my_pet_add_feed_time_meridiem_button_provider.dart';
 export 'my_pet_update_button_provider.dart';
 
 export 'response_user_mypage_provider.dart';
-export 'response_v2_user_mypage_provider.dart';
 export 'request_new_dog_provider.dart';
 export 'request_update_dog_provider.dart';
 export 'response_dogs_provider.dart';
-export 'response_v2_dogs_provider.dart';
 
 // 카메라 관련 Provider
 export 'camera_image_picker_provider.dart';

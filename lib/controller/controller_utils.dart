@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:petbuddy_frontend_flutter/common/const/project_constant.dart';
 import 'package:petbuddy_frontend_flutter/common/const/sentence.dart';
 import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
 import 'package:petbuddy_frontend_flutter/common/widget/dialog/alert_dialog.dart';
@@ -10,8 +9,7 @@ import 'package:petbuddy_frontend_flutter/data/model/response_dogs_detail_model.
 import 'package:petbuddy_frontend_flutter/data/model/response_dogs_model.dart';
 import 'package:petbuddy_frontend_flutter/data/model/response_user_mypage_model.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
-import 'package:petbuddy_frontend_flutter/data/repository/pet_repository.dart';
-import 'package:petbuddy_frontend_flutter/data/repository/user_repository.dart';
+import 'package:petbuddy_frontend_flutter/data/repository/repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ControllerUtils {
@@ -20,7 +18,8 @@ class ControllerUtils {
     bool result = false;
 
     try {
-      final response = await ref.read(userRepositoryProvider).requestUserMypageRepository();
+      // final response = await ref.read(userRepositoryProvider).requestUserMypageRepository();
+      final response = await ref.read(userV2RepositoryProvider).requestUserMypageRepository();
 
       // debugPrint("========== Get User Mypage Response =========");
       // debugPrint(response.toString());
@@ -70,7 +69,8 @@ class ControllerUtils {
       // 로딩 시작
       // showLoadingDialog(context: context);
 
-      final response = await ref.read(petRepositoryProvider).requestDogsRepository();
+      // final response = await ref.read(petRepositoryProvider).requestDogsRepository();
+      final response = await ref.read(petV2RepositoryProvider).requestDogsRepository();
 
       if(response.response_code == 200) {
         ResponseDogsModel responseDogsModel = ResponseDogsModel.fromJson(response.data!);

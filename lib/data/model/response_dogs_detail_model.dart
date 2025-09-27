@@ -11,6 +11,7 @@ class ResponseDogsDetailModel {
   String pet_birth;
   String pet_gender;
   String pet_size;
+  bool pet_device_connected;
   bool neuter_yn;
   String division2_code;
   List<String>? feed_time;
@@ -24,6 +25,7 @@ class ResponseDogsDetailModel {
     required this.pet_birth,
     required this.pet_gender,
     required this.pet_size,
+    required this.pet_device_connected,
     required this.neuter_yn,
     required this.division2_code,
     this.feed_time,
