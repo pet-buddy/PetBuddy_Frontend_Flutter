@@ -221,11 +221,36 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                                 context: context, 
                                 middleText: '반려동물을 먼저 등록해주세요!'
                               );
+                              return;
                             } else {
                               // await fnCallFitBarkApp();
-                              kIsWeb ?
-                                context.goNamed('my_fitbark_web_screen') :
-                                context.goNamed('my_fitbark_screen');
+                              // kIsWeb ?
+                              //   context.goNamed('my_fitbark_web_screen') :
+                              //   context.goNamed('my_fitbark_screen');
+                            }
+
+                            if(kIsWeb) {
+                              showAlertDialog(
+                                context: context, 
+                                middleText: '포프린트 앱에서 Fitbark GPS 기기 연동이 가능합니다.'
+                              );
+                              return;
+                            } 
+
+                            if(responseDogsState[homeActivatedPetNavState].pet_device_connected) {
+                              showAlertDialog(
+                                context: context, 
+                                middleText: '이미 Fitbark GPS 기기 연동이 완료된 반려동물입니다.'
+                              );
+                              return;
+                            } else {
+                              showConfirmDialog(
+                                context: context, 
+                                middleText: "현재 활성화된 반려동물은 ${responseDogsState[homeActivatedPetNavState].pet_name} 입니다.\n기기 연동을 진행하시겠습니까?", 
+                                onConfirm: () {
+                                  context.goNamed('my_fitbark_screen');
+                                }
+                              );
                             }
                           },
                         ),

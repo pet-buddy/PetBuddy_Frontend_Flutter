@@ -354,7 +354,14 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                               height: 24,
                             ),
                             onPressed: () {
-                              context.goNamed("home_activity_report_screen");
+                              // 디바이스 연동 여부에 따라 활동량 페이지 이동 분기 처리
+                              if(responseDogsState.isNotEmpty) {
+                                responseDogsState[homeActivatedPetNavState].pet_device_connected ?
+                                  context.goNamed("home_activity_report_screen") :
+                                  context.goNamed("home_activity_report_example_screen");
+                              } else {
+                                context.goNamed("home_activity_report_example_screen");
+                              }
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -500,7 +507,16 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                               // );
                               
                               // 수면 효율 페이지 이동
-                              context.goNamed("home_sleep_report_screen");
+                              // context.goNamed("home_sleep_report_screen");
+
+                              // 디바이스 연동 여부에 따라 수면 효율 페이지 이동 분기 처리
+                              if(responseDogsState.isNotEmpty) {
+                                  responseDogsState[homeActivatedPetNavState].pet_device_connected ?
+                                    context.goNamed("home_sleep_report_screen") :
+                                    context.goNamed("home_sleep_report_example_screen");
+                                } else {
+                                  context.goNamed("home_sleep_report_example_screen");
+                                }
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,

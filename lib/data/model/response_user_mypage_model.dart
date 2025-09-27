@@ -16,6 +16,7 @@ class ResponseUserMypageModel {
   String? address;
   String? remark;
   String? birth;
+  int? user_steps;
   String created_at;
   String? updated_at;
   String createdAt;
@@ -31,6 +32,7 @@ class ResponseUserMypageModel {
     this.sign_route,
     this.address,
     this.remark,
+    this.user_steps,
     this.birth,
     required this.created_at,
     this.updated_at,

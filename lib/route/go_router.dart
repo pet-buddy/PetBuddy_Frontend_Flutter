@@ -135,6 +135,14 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               ),
               GoRoute(
                 parentNavigatorKey: shellNavigatorKey,
+                path: 'home_activity_report_example_screen',
+                name: 'home_activity_report_examplescreen',
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return const NoTransitionPage(child: HomeActivityReportExampleScreen());
+                },
+              ),
+              GoRoute(
+                parentNavigatorKey: shellNavigatorKey,
                 path: 'home_poop_report_screen',
                 name: 'home_poop_report_screen',
                 pageBuilder: (BuildContext context, GoRouterState state) {
@@ -147,6 +155,14 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 name: 'home_sleep_report_screen',
                 pageBuilder: (BuildContext context, GoRouterState state) {
                   return const NoTransitionPage(child: HomeSleepReportScreen());
+                },
+              ),
+              GoRoute(
+                parentNavigatorKey: shellNavigatorKey,
+                path: 'home_sleep_report_example_screen',
+                name: 'home_sleep_report_example_screen',
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return const NoTransitionPage(child: HomeSleepReportExampleScreen());
                 },
               ),
               GoRoute(

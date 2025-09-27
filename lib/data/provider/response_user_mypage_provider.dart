@@ -17,6 +17,7 @@ class ResponseUserMypageState extends StateNotifier<ResponseUserMypageModel> {
     address: null,
     remark: null,
     birth: null,
+    user_steps: null,
     created_at: "",
     updated_at: null,
     createdAt: "",

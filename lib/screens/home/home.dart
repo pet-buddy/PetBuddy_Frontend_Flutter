@@ -1,6 +1,8 @@
 export 'home_screen.dart';
 export 'home_mission_screen.dart';
 export 'home_activity_report_screen.dart';
+export 'home_activity_report_example_screen.dart';
 export 'home_poop_report_screen.dart';
 export 'home_sleep_report_screen.dart';
+export 'home_sleep_report_example_screen.dart';
 export 'home_feed_report_screen.dart';
