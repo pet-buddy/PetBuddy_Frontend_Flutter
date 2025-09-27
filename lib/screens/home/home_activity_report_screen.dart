@@ -1,8 +1,11 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:health/health.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
@@ -25,6 +28,50 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
 
   // 임시 변수
   DateTime selectedDate = DateTime.now();
+  // 사용자(보호자) 걸음 수 가져오기 위한 패키지
+  final health = Health();
+
+  Future<void> fnGetUserStepData() async {
+    // 웹 브라우저일 경우 실행X
+    if(kIsWeb) return;
+
+    // 가져올 데이터 유형 정의
+    final types = [HealthDataType.STEPS];
+    
+    // 권한 요청
+    final requested = await health.requestAuthorization(types,);
+
+    if (requested) {
+      try {
+        final now = DateTime.now();
+        final midnight = DateTime(now.year, now.month, now.day);
+        
+        int? steps = await health.getTotalStepsInInterval(midnight, now);
+
+        // TODO : 사용자 걸음 수 저장
+
+      } catch (e) {
+        debugPrint("걸음 수를 가져오던 중 오류가 발생했습니다.\n$e");
+
+        if(!context.mounted) return;
+        showAlertDialog(
+          context: context, 
+          middleText: "걸음 수를 가져오던 중 오류가 발생했습니다.",
+          buttonText: "확인",
+        );
+      }
+    } else {
+      if(!context.mounted) return;
+      showAlertDialog(
+        context: context, 
+        middleText: "접근 권한이 거부되어 걸음 수를 가져올 수 없습니다.\n설정에서 권한을 허용해주세요.",
+        onConfirm: () {
+          openAppSettings();
+        },
+        buttonText: "확인",
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

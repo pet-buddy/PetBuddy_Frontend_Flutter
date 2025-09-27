@@ -38,6 +38,14 @@
 	<string>반려동물 대변 사진 업로드, 반려동물 대변 건강 분석 기능 사용을 위해 사진 라이브러리 추가 권한이 필요합니다. 설정에서 이를 변경할 수 있습니다.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>반려동물 대변 사진 업로드, 반려동물 대변 건강 분석 기능 사용을 위해 사진 라이브러리 접근 권한이 필요합니다. 설정에서 이를 변경할 수 있습니다.</string>
+	
+	<key>NSMotionUsageDescription</key>
+	<string>사용자의 활동량 분석 기능 사용을 위해 걸음 수 추적 권한이 필요합니다. </string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>사용자의 활동량 분석 기능 사용을 위해 걸음 수 데이터 접근 권한이 필요합니다.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>사용자의 활동량 분석 기능 사용을 위해 걸음 수 데이터 업데이트 권한이 필요합니다.</string>
+	
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
