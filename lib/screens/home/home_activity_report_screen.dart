@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -24,53 +26,98 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
   void initState() {
     super.initState();
     fnInitHomeController(ref, context);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await fnGetUserStep();
+    });
   }
 
-  // 임시 변수
-  DateTime selectedDate = DateTime.now();
   // 사용자(보호자) 걸음 수 가져오기 위한 패키지
   final health = Health();
 
-  Future<void> fnGetUserStepData() async {
-    // 웹 브라우저일 경우 실행X
-    if(kIsWeb) return;
-
-    // 가져올 데이터 유형 정의
-    final types = [HealthDataType.STEPS];
-    
-    // 권한 요청
-    final requested = await health.requestAuthorization(types,);
-
-    if (requested) {
-      try {
-        final now = DateTime.now();
-        final midnight = DateTime(now.year, now.month, now.day);
-        
-        int? steps = await health.getTotalStepsInInterval(midnight, now);
-
-        // TODO : 사용자 걸음 수 저장
-
-      } catch (e) {
-        debugPrint("걸음 수를 가져오던 중 오류가 발생했습니다.\n$e");
-
-        if(!context.mounted) return;
-        showAlertDialog(
-          context: context, 
-          middleText: "걸음 수를 가져오던 중 오류가 발생했습니다.",
-          buttonText: "확인",
-        );
-      }
-    } else {
-      if(!context.mounted) return;
-      showAlertDialog(
-        context: context, 
-        middleText: "접근 권한이 거부되어 걸음 수를 가져올 수 없습니다.\n설정에서 권한을 허용해주세요.",
-        onConfirm: () {
-          openAppSettings();
-        },
-        buttonText: "확인",
-      );
+  Future<void> fnGetUserStep() async {
+    // 웹 브라우저일 경우 DB에 저장된 사용자 Paws 점수 불러오기
+    if(kIsWeb) {
+      await fnGetUserPawsExec();
+      return;
     }
+
+    await health.configure();
+
+    // 1) 활동 인식(런타임) 권한
+    if (Platform.isAndroid) {
+      final ar = await Permission.activityRecognition.request();
+      // debugPrint('AR permission: ${ar.isGranted}');
+      if (!ar.isGranted) {
+        ref.read(homeActivityReportUserPawsProvider.notifier).set(0);
+        await fnSetUserPawsExec(0);
+        return;
+      }
+    }
+
+    final types = [HealthDataType.STEPS];
+    final perms  = [HealthDataAccess.READ];
+
+    // 2) Health Connect 읽기 권한 보유 여부
+    final has = await health.hasPermissions(types, permissions: perms);
+    // debugPrint('HC hasPermissions(STEPS READ) = $has');
+
+    if (has != true) {
+      final ok = await health.requestAuthorization(types, permissions: perms);
+      // debugPrint('HC requestAuthorization -> $ok');
+      if(!ok) {
+        ref.read(homeActivityReportUserPawsProvider.notifier).set(0);
+        await fnSetUserPawsExec(0);
+        return;
+      }
+    }
+
+    final now = DateTime.now();
+    final start = DateTime(now.year, now.month, now.day);
+
+    // 3) 우선 합계 API 시도
+    final total = await health.getTotalStepsInInterval(start, now);
+    // debugPrint('getTotalStepsInInterval(today) = $total');
+    ref.read(homeActivityReportUserPawsProvider.notifier).set((total ?? 0).toDouble());
+    await fnSetUserPawsExec((total ?? 0));
+
+    // 4) 합계가 0/NULL이면, 원시 레코드 조회해서 직접 합산 (원인 진단에 유용)
+    if ((total ?? 0) == 0) {
+      final points = await health.getHealthDataFromTypes(startTime: start, endTime: now, types: [HealthDataType.STEPS]);
+      // debugPrint('raw step records count = ${points.length}');
+
+      // 원시 레코드 안에 sourceName으로 공급자(Samsung Health/Watch 등)도 확인 가능
+      // 첫 3개만 로그로 찍어보자
+      /* for (final p in points.take(3)) {
+        debugPrint('record: ${p.value} from ${p.sourceName}/(${p.type}) @ ${p.dateFrom}~${p.dateTo}');
+      } */
+
+      // value 합산
+      final sum = points.fold<double>(0.0, (acc, p) {
+        final v = (p.value is num) ? (p.value as num).toDouble() : 0.0;
+        return acc + v;
+      }).toInt();
+
+      debugPrint('manual sum of records = $sum');
+      // return sum;
+      ref.read(homeActivityReportUserPawsProvider.notifier).set(sum.toDouble());
+      await fnSetUserPawsExec(sum);
+    }
+    // 나중에 사용할 다이얼로그
+    /* showAlertDialog(
+      context: context, 
+      middleText: "접근 권한이 거부되어 걸음 수를 가져올 수 없습니다.\n설정에서 권한을 허용해주세요.",
+      onConfirm: () {
+        openAppSettings();
+      },
+      buttonText: "확인",
+    ); */
+
+    /* showAlertDialog(
+      context: context, 
+      middleText: "걸음 수를 가져오던 중 오류가 발생했습니다.",
+      buttonText: "확인",
+    ); */
   }
 
   @override
@@ -78,6 +125,8 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
     // final homeActivityReportPeriodSelectState = ref.watch(homeActivityReportPeriodSelectProvider);
     final homeActivatedPetNavState = ref.watch(homeActivatedPetNavProvider);
     final responseDogsState = ref.watch(responseDogsProvider);
+    final homeActivityReportUserPawsState = ref.watch(homeActivityReportUserPawsProvider);
+    final homeActivityReportPawsState = ref.watch(homeActivityReportPawsProvider);
     final homeActivityReportBenchmarkPawsState = ref.watch(homeActivityReportBenchmarkPawsProvider);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -111,8 +160,8 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
           if (didPop) {
             return;
           }
-          // TODO : 상태 초기화
-          
+          // Provider 초기화
+          fnInvalidateHomeActivityReportState();
           context.pop();
         },
         child: SafeArea(
@@ -484,19 +533,19 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                     centerSpaceRadius: 50,
                                     sections: [
                                       PieChartSectionData(
-                                        value: 2500,
+                                        value: homeActivityReportPawsState,
                                         color: CustomColor.blue03,
                                         title: '',
                                         radius: 45,
                                       ),
                                       PieChartSectionData(
-                                        value: 2000,
+                                        value: homeActivityReportBenchmarkPawsState,
                                         color: CustomColor.gray04,
                                         title: '',
                                         radius: 45,
                                       ),
                                       PieChartSectionData(
-                                        value: 3000,
+                                        value: homeActivityReportUserPawsState,
                                         color: CustomColor.yellow03,
                                         title: '',
                                         radius: 45,
@@ -506,103 +555,26 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                 ),
                               ),
                               const SizedBox(height: 8,),
-                              // RichText(
-                              //   text: TextSpan(
-                              //     text: '탄이',
-                              //     style: CustomText.body11.copyWith(
-                              //       color: CustomColor.blue03
-                              //     ),
-                              //     children: <TextSpan>[
-                              //       TextSpan(text: NumberFormat(' ###,###,###,###').format(3671),),
-                              //       const TextSpan(text: ' Paws'),
-                              //     ],
-                              //   ),
-                              // ),
-                              // Container(
-                              //   width: 170,
-                              //   height: 20,
-                              //   margin: const EdgeInsets.only(top: 4),
-                              //   padding: const EdgeInsets.symmetric(horizontal: 8),
-                              //   decoration: const BoxDecoration(
-                              //     color: CustomColor.blue03,
-                              //     borderRadius: BorderRadius.only(
-                              //       topRight: Radius.circular(20), 
-                              //       bottomRight: Radius.circular(20),
-                              //     ),
-                              //   ),
-                              // ),
-                              // const SizedBox(height: 8,),
-                              // RichText(
-                              //   text: TextSpan(
-                              //     text: '보호자님',
-                              //     style: CustomText.body11.copyWith(
-                              //       color: CustomColor.deepYellow,
-                              //     ),
-                              //     children: <TextSpan>[
-                              //       TextSpan(text: NumberFormat(' ###,###,###,###').format(3671),),
-                              //       const TextSpan(text: ' Paws'),
-                              //     ],
-                              //   ),
-                              // ),
-                              // Container(
-                              //   width: 120,
-                              //   height: 20,
-                              //   margin: const EdgeInsets.only(top: 4),
-                              //   padding: const EdgeInsets.symmetric(horizontal: 8),
-                              //   decoration: const BoxDecoration(
-                              //     color: CustomColor.yellow03,
-                              //     borderRadius: BorderRadius.only(
-                              //       topRight: Radius.circular(20), 
-                              //       bottomRight: Radius.circular(20),
-                              //     ),
-                              //   ),
-                              // ),
-                              // const SizedBox(height: 8,),
-                              // RichText(
-                              //   text: TextSpan(
-                              //     text: '동종 평균',
-                              //     style: CustomText.body11.copyWith(
-                              //       color: CustomColor.gray03
-                              //     ),
-                              //     children: <TextSpan>[
-                              //       TextSpan(text: NumberFormat(' ###,###,###,###').format(3671),),
-                              //       const TextSpan(text: ' Paws'),
-                              //     ],
-                              //   ),
-                              // ),
-                              // Container(
-                              //   width: 170,
-                              //   height: 20,
-                              //   margin: const EdgeInsets.only(top: 4),
-                              //   padding: const EdgeInsets.symmetric(horizontal: 8),
-                              //   decoration: const BoxDecoration(
-                              //     color: CustomColor.gray04,
-                              //     borderRadius: BorderRadius.only(
-                              //       topRight: Radius.circular(20), 
-                              //       bottomRight: Radius.circular(20),
-                              //     ),
-                              //   ),
-                              // ),
                               HomeHorizontalBarChartContainer(
                                 text: responseDogsState.isNotEmpty ? 
                                   responseDogsState[homeActivatedPetNavState].pet_name :
                                   '반려동물',
                                 textSpanList: [
-                                  TextSpan(text: NumberFormat(' ###,###,###,###').format(3671),),
+                                  TextSpan(text: NumberFormat(' ###,###,###,###').format(homeActivityReportPawsState),),
                                   const TextSpan(text: ' Paws'),
                                 ],
-                                score: 3671,
+                                score: homeActivityReportPawsState,
                                 flag: 'activity',
                               ),
                               HomeHorizontalBarChartContainer(
                                 text: '보호자님',
                                 textSpanList: [
-                                  TextSpan(text: NumberFormat(' ###,###,###,###').format(3671),),
+                                  TextSpan(text: NumberFormat(' ###,###,###,###').format(homeActivityReportUserPawsState),),
                                   const TextSpan(text: ' Paws'),
                                 ],
                                 textColor: CustomColor.deepYellow,
                                 barColor: CustomColor.yellow03,
-                                score: 5000,
+                                score: homeActivityReportUserPawsState,
                                 flag: 'activity',
                               ),
                               HomeHorizontalBarChartContainer(

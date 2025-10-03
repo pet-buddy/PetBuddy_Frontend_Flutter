@@ -136,7 +136,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 parentNavigatorKey: shellNavigatorKey,
                 path: 'home_activity_report_example_screen',
-                name: 'home_activity_report_examplescreen',
+                name: 'home_activity_report_example_screen',
                 pageBuilder: (BuildContext context, GoRouterState state) {
                   return const NoTransitionPage(child: HomeActivityReportExampleScreen());
                 },

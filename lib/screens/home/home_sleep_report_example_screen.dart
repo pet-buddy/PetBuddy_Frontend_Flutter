@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -81,6 +79,7 @@ class HomeSleepReportExampleScreenState extends ConsumerState<HomeSleepReportExa
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            const SizedBox(height: 64,), // TODO : 정식 출시 후 삭제
                             Text(
                               '수면 레포트',
                               style: CustomText.heading4.copyWith(

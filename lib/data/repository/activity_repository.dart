@@ -30,4 +30,10 @@ abstract class ActivityRepository {
 
   @GET('/monthly-mean')
   Future<CommonResponseListModel> requestMonthlyMeanRepository(@Query("pet_id") int pet_id);
+
+  @GET('/user-steps')
+  Future<ResponseActivityUserStepModel> requestGetUserStepsRepository();
+
+  @PATCH('/user-steps')
+  Future<ResponseActivityUserStepModel> requestPatchUserStepsRepository(@Body() RequestUserStepModel requestUserStepModel);
 } 
