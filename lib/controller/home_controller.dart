@@ -9,6 +9,7 @@ import 'package:petbuddy_frontend_flutter/common/widget/dialog/alert_dialog.dart
 import 'package:petbuddy_frontend_flutter/common/widget/dialog/loading_dialog.dart';
 import 'package:petbuddy_frontend_flutter/data/model/model.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
+import 'package:petbuddy_frontend_flutter/data/repository/activity_repository.dart';
 import 'package:petbuddy_frontend_flutter/data/repository/poo_repository.dart';
 
 mixin class HomeController {
@@ -182,6 +183,9 @@ mixin class HomeController {
 
   void fnInvalidateHomeActivityReportState() {
     homeRef.invalidate(homeActivityReportPeriodSelectProvider);
+    homeRef.invalidate(homeActivityReportUserPawsProvider);
+    homeRef.invalidate(homeActivityReportPawsProvider);
+    homeRef.invalidate(homeActivityReportBenchmarkPawsProvider);
   }
 
   void fnInvalidateHomeSleepReportState() {
@@ -199,6 +203,81 @@ mixin class HomeController {
     }
     
     return cumulativeData;
+  }
+
+  Future<void> fnGetUserPawsExec() async {
+    try {
+      // 로딩 시작
+      showLoadingDialog(context: homeContext);
+
+      final response = await homeRef.read(activityRepositoryProvider).requestGetUserStepsRepository();
+
+      if(response.response_code == 200) {
+        if(!homeContext.mounted) return;
+        // 로딩 끝
+        hideLoadingDialog(homeContext);
+        // 사용자 걸음수를 사용자 Paws 점수에 저장
+        final userPaws = (response.data ?? 0).toDouble();
+        homeRef.read(homeActivityReportUserPawsProvider.notifier).set(userPaws);
+      } else {
+        if(!homeContext.mounted) return;
+        // 로딩 끝
+        hideLoadingDialog(homeContext);
+        // 에러 알림창
+        showAlertDialog(
+          context: homeContext, 
+          middleText: "사용자 걸음수를 불러오지 못했습니다.\n${response.response_message}",
+        );
+        return;
+      }
+    } on DioException catch(e) {
+      // 로딩 끝
+      if(!homeContext.mounted) return;
+      hideLoadingDialog(homeContext);
+
+      // 에러 알림창
+      if(!homeContext.mounted) return;
+      showAlertDialog(
+        context: homeContext, 
+        middleText: '${Sentence.SERVER_ERR}\n$e',
+      );
+    }
+  }
+
+  Future<void> fnSetUserPawsExec(int userStep) async {
+    try {
+      // 로딩 시작
+      showLoadingDialog(context: homeContext);
+
+      final response = await homeRef.read(activityRepositoryProvider).requestPatchUserStepsRepository(RequestUserStepModel(step: userStep));
+
+      if(response.response_code == 200) {
+        if(!homeContext.mounted) return;
+        // 로딩 끝
+        hideLoadingDialog(homeContext);
+      } else {
+        if(!homeContext.mounted) return;
+        // 로딩 끝
+        hideLoadingDialog(homeContext);
+        // 에러 알림창
+        showAlertDialog(
+          context: homeContext, 
+          middleText: "사용자 걸음수를 저장하지 못했습니다.\n${response.response_message}",
+        );
+        return;
+      }
+    } on DioException catch(e) {
+      // 로딩 끝
+      if(!homeContext.mounted) return;
+      hideLoadingDialog(homeContext);
+
+      // 에러 알림창
+      if(!homeContext.mounted) return;
+      showAlertDialog(
+        context: homeContext, 
+        middleText: '${Sentence.SERVER_ERR}\n$e',
+      );
+    }
   }
 
   // ########## 반려동물 똥 분석 ##########

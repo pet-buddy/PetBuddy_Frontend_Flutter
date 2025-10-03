@@ -1,11 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:health/health.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:petbuddy_frontend_flutter/common/common.dart';
 import 'package:petbuddy_frontend_flutter/controller/controller.dart';
 import 'package:petbuddy_frontend_flutter/data/provider/provider.dart';
@@ -25,9 +22,6 @@ class HomeActivityReportExampleScreenState extends ConsumerState<HomeActivityRep
     super.initState();
     fnInitHomeController(ref, context);
   }
-
-  // 임시 변수
-  DateTime selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +74,7 @@ class HomeActivityReportExampleScreenState extends ConsumerState<HomeActivityRep
                   padding: const EdgeInsets.symmetric(horizontal: 0.0), // 필요할 경우 조정
                   child: Column(
                     children: [
+                      const SizedBox(height: 64,), // TODO : 정식 출시 후 삭제
                       const SizedBox(height: 16,),
                       // 하이라이트 - 그래프
                       Padding(

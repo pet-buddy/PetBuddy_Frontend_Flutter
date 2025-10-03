@@ -33,3 +33,8 @@ export 'home_sleep_time_range_model.dart';
 export 'poop_status_model.dart';
 export 'response_poo_daily_status_model.dart';
 export 'response_poo_monthly_mean_model.dart';
+export 'response_activity_hourly_status_model.dart';
+
+// 사용자 걸음수 관련 모델
+export 'request_user_step_model.dart';
+export 'response_activity_user_step_model.dart';
