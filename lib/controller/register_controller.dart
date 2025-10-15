@@ -174,6 +174,10 @@ mixin class RegisterController {
       // debugPrint(response.toString());
 
       if(response.response_code == 200) {
+        // 같은 기기 혹은 브라우저에서 로그아웃한 후에 재가입을 시도하는 경우를 위해 Provider, LocalStorage 모두 초기화
+        ControllerUtils.fnInvalidateAllState(registerRef);
+        ControllerUtils.fnDeleteLocalStorage();
+
         ResponseEmailLoginModel responseEmailLoginModel = ResponseEmailLoginModel.fromJson(response.data!);
         // 토큰 저장
         await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: responseEmailLoginModel.accessToken);

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petbuddy_frontend_flutter/common/const/sentence.dart';
 import 'package:petbuddy_frontend_flutter/common/http/secure_storage.dart';
 import 'package:petbuddy_frontend_flutter/common/widget/dialog/alert_dialog.dart';
+import 'package:petbuddy_frontend_flutter/data/model/response_activity_hourly_status_model.dart';
 // import 'package:petbuddy_frontend_flutter/common/widget/dialog/loading_dialog.dart';
 import 'package:petbuddy_frontend_flutter/data/model/response_dogs_detail_model.dart';
 import 'package:petbuddy_frontend_flutter/data/model/response_dogs_model.dart';
@@ -54,8 +55,49 @@ class ControllerUtils {
     return result;
   }
 
+  // ########################################
+  // 반려동물 활동량, 수면효율 조회
+  // ########################################
+  static Future<bool> fnGetActivityHourlyStatusExec(WidgetRef ref, BuildContext context) async {
+    bool result = false;
 
-  // TODO : 반려동물 정보 세팅
+    try {
+      final dogs = ref.read(responseDogsProvider.notifier).get();
+      int pet_id = dogs[ref.read(homeActivatedPetNavProvider.notifier).get()].pet_id;
+
+      final response = await ref.read(activityRepositoryProvider).requestHourlyStatusRepository(pet_id);
+
+      if(response.response_code == 200) {
+        List responseActivityHourlyStatusListModel = response.data!;
+
+        ref.read(responseActivityHourlyStatusListProvider.notifier).set(
+          responseActivityHourlyStatusListModel
+              .map((elem) => ResponseActivityHourlyStatusModel.fromJson(elem))
+              .toList()
+        );
+
+        // 조회 결과 
+        result = true;
+      } else {
+        if(!context.mounted) return result;
+        // 에러 알림창
+        showAlertDialog(
+          context: context, 
+          middleText: "활동량 조회에 실패했습니다.\n${response.response_message}"
+        );
+        return result;
+      }
+    } on DioException catch(e) {
+      // 에러 알림창
+      if(!context.mounted) return result;
+      showAlertDialog(
+        context: context, 
+        middleText: '활동량 조회 요청에 실패했습니다.\n${Sentence.SERVER_ERR}',
+      );
+    }
+
+    return result;
+  }
 
   // TODO : 홈 화면 정보 세팅
 

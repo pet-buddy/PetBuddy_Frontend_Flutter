@@ -208,12 +208,12 @@ class HomeActivityReportExampleScreenState extends ConsumerState<HomeActivityRep
                                       show: false
                                     ),
                                     // TODO : 일별 활동량? 가져오기
-                                    barGroups: List.generate(highlightValues.length, (index) {
+                                    barGroups: List.generate(activityHourlyExamlpeValues.length, (index) {
                                       return BarChartGroupData(
                                         x: index,
                                         barRods: [
                                           BarChartRodData(
-                                            toY: highlightValues[index].toDouble(),
+                                            toY: activityHourlyExamlpeValues[index].toDouble(),
                                             width: 8,
                                             color: Colors.lightBlue,
                                             borderRadius: BorderRadius.circular(8),

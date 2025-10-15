@@ -136,7 +136,7 @@ mixin class HomeController {
   };
 
   // ########## 활동량 분석 - 임시 데이터 시작 ##########
-  final highlightValues = [1000.0, 0.0, 1250.0, 300.0, 2000.0, 400.0, 500.0, 800.0, 
+  final activityHourlyExamlpeValues = [1000.0, 0.0, 1250.0, 300.0, 2000.0, 400.0, 500.0, 800.0, 
                     1000.0, 0.0, 5250.0, 300.0, 2000.0, 400.0, 1500.0, 1800.0,
                     1000.0, 0.0, 1250.0, 3600.0, 5000.0, 400.0, 5200.0, 8100.0];
 
@@ -193,6 +193,64 @@ mixin class HomeController {
   }
 
   // ########## 반려동물 활동량 분석 ##########
+  Future<void> fnSetActivityHourlyValues(List<dynamic> hourlyData) async {
+    // 길이 24로 보장
+    final activityHourlyValues = List<double>.filled(24, 0.0); // 0시 ~ 23시
+    // 빈 리스트일 때, [0.0, 0.0, ... , 0.0]; 리턴
+    if(hourlyData.isEmpty) {
+      homeRef.read(homeActivityHourlyValueListProvider.notifier).set(activityHourlyValues);
+      return;
+    }
+
+    for (final raw in hourlyData) {
+      final m = raw as Map<String, dynamic>;
+
+      final dateStr = (m['date'] ?? '').toString();
+      final activity = (m['activity_value'] as num?)?.toDouble() ?? 0.0;
+
+      // "2014-08-15 15:00:00" -> 15
+      final hour = fnExtractHourFromActiviyHourlyData(dateStr);
+
+      // hour -> idx 변수에 할당 (보정 필요없음, 0시 ~ 23시)
+      final idx = hour;
+
+      if (idx >= 0 && idx < activityHourlyValues.length) {
+        activityHourlyValues[idx] = activity;
+      }
+    }
+
+    homeRef.read(homeActivityHourlyValueListProvider.notifier).set(activityHourlyValues);
+  }
+
+  int fnExtractHourFromActiviyHourlyData(String datetime) {
+    // 빠른 경로: 정규식으로 HH:MM:SS 캡처
+    final match = RegExp(r'\b(\d{2}):\d{2}:\d{2}\b').firstMatch(datetime);
+    if (match != null) {
+      return int.parse(match.group(1)!);
+    }
+    // 예외 케이스: DateTime.parse 호환 형태로 변환 시도
+    try {
+      return DateTime.parse(datetime.replaceFirst(' ', 'T')).hour;
+    } catch (_) {
+      return 0;
+    }
+  }
+
+  List<FlSpot> fnGetCumulativeActivityHourlyValues(List<double> activityHourlyValues) {
+    assert(activityHourlyValues.length == 24, 'activityHourlyValues must be length 24');
+
+    final spots = <FlSpot>[];
+    for (int hour = 0; hour <= 21; hour += 3) {
+      final idx = hour;
+      final y = activityHourlyValues[idx];
+      spots.add(FlSpot(hour.toDouble(), y));
+    }
+
+    // 24시는 사실 없는 데이터 -> 23시까지 누적 데이터랑 같을 수 있도록 설정
+    spots.add(const FlSpot(24, 0));
+    return spots;
+  }
+
   List<FlSpot> fnGetCumulativePaws(List<FlSpot> hourlyActivityPaws) {
     List<FlSpot> cumulativeData = [];
     double cumulativePaws = 0;
