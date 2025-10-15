@@ -126,8 +126,10 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
     final homeActivatedPetNavState = ref.watch(homeActivatedPetNavProvider);
     final responseDogsState = ref.watch(responseDogsProvider);
     final homeActivityReportUserPawsState = ref.watch(homeActivityReportUserPawsProvider);
-    final homeActivityReportPawsState = ref.watch(homeActivityReportPawsProvider);
+    // final homeActivityReportPawsState = ref.watch(homeActivityReportPawsProvider); // -> homeActivityHourlyValueSumState으로 대체
     final homeActivityReportBenchmarkPawsState = ref.watch(homeActivityReportBenchmarkPawsProvider);
+    final homeActivityHourlyValueListState = ref.watch(homeActivityHourlyValueListProvider);
+    final homeActivityHourlyValueSumState = ref.watch(homeActivityHourlyValueSumProvider);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       // 벤치마크 반려동물 Paws (활동량)
@@ -303,13 +305,12 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                 borderData: FlBorderData(
                                   show: false
                                 ),
-                                // TODO : 일별 활동량? 가져오기
-                                barGroups: List.generate(highlightValues.length, (index) {
+                                barGroups: List.generate(homeActivityHourlyValueListState.length, (index) {
                                   return BarChartGroupData(
                                     x: index,
                                     barRods: [
                                       BarChartRodData(
-                                        toY: highlightValues[index].toDouble(),
+                                        toY: homeActivityHourlyValueListState[index].toDouble(),
                                         width: 8,
                                         color: Colors.lightBlue,
                                         borderRadius: BorderRadius.circular(8),
@@ -371,7 +372,7 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                     ),
                                     const SizedBox(width: 4,),
                                     Text(
-                                      NumberFormat('###,###,###,###').format(3671),
+                                      NumberFormat('###,###,###,###').format(homeActivityHourlyValueSumState),
                                       style: CustomText.heading1.copyWith(
                                         color: CustomColor.blue03,
                                       ),
@@ -386,33 +387,33 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                 ),
                               ),
                               const SizedBox(height: 4,),
-                              SizedBox(
-                                height: 28,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      '평균',
-                                      style: CustomText.body9.copyWith(
-                                        color: CustomColor.gray03,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 4,),
-                                    Text(
-                                      NumberFormat('###,###,###,###').format(homeActivityReportBenchmarkPawsState),
-                                      style: CustomText.heading4.copyWith(
-                                        color: CustomColor.gray03,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Paws',
-                                      style: CustomText.body9.copyWith(
-                                        color: CustomColor.gray03,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              // SizedBox(
+                              //   height: 28,
+                              //   child: Row(
+                              //     crossAxisAlignment: CrossAxisAlignment.end,
+                              //     children: [
+                              //       Text(
+                              //         '평균',
+                              //         style: CustomText.body9.copyWith(
+                              //           color: CustomColor.gray03,
+                              //         ),
+                              //       ),
+                              //       const SizedBox(width: 4,),
+                              //       Text(
+                              //         NumberFormat('###,###,###,###').format(0.0), // 현재 반려동물의 활동량 평균
+                              //         style: CustomText.heading4.copyWith(
+                              //           color: CustomColor.gray03,
+                              //         ),
+                              //       ),
+                              //       Text(
+                              //         'Paws',
+                              //         style: CustomText.body9.copyWith(
+                              //           color: CustomColor.gray03,
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                               const SizedBox(height: 8,),
                               Container(
                                 height: 200,
@@ -489,7 +490,9 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                     borderData: FlBorderData(show: false),
                                     lineBarsData: [
                                       LineChartBarData(
-                                        spots: fnGetCumulativePaws(petHourlyPaws),
+                                        spots: fnGetCumulativePaws(
+                                          fnGetCumulativeActivityHourlyValues(homeActivityHourlyValueListState),
+                                        ),
                                         isCurved: true,
                                         color: CustomColor.yellow03,
                                         barWidth: 2,
@@ -497,15 +500,15 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                         belowBarData: BarAreaData(show: false),
                                         curveSmoothness: 0.0,
                                       ),
-                                      LineChartBarData(
-                                        spots: fnGetCumulativePaws(averageHourlyPaws),
-                                        isCurved: true,
-                                        color: CustomColor.gray05,
-                                        barWidth: 2,
-                                        dotData: const FlDotData(show: false),
-                                        belowBarData: BarAreaData(show: false),
-                                        curveSmoothness: 0.0,
-                                      ),
+                                      // LineChartBarData(
+                                      //   spots: fnGetCumulativePaws(averageHourlyPaws),
+                                      //   isCurved: true,
+                                      //   color: CustomColor.gray05,
+                                      //   barWidth: 2,
+                                      //   dotData: const FlDotData(show: false),
+                                      //   belowBarData: BarAreaData(show: false),
+                                      //   curveSmoothness: 0.0,
+                                      // ),
                                     ],
                                   ),
                                 ),
@@ -533,7 +536,7 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                     centerSpaceRadius: 50,
                                     sections: [
                                       PieChartSectionData(
-                                        value: homeActivityReportPawsState,
+                                        value: homeActivityHourlyValueSumState,
                                         color: CustomColor.blue03,
                                         title: '',
                                         radius: 45,
@@ -560,10 +563,10 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                                   responseDogsState[homeActivatedPetNavState].pet_name :
                                   '반려동물',
                                 textSpanList: [
-                                  TextSpan(text: NumberFormat(' ###,###,###,###').format(homeActivityReportPawsState),),
+                                  TextSpan(text: NumberFormat(' ###,###,###,###').format(homeActivityHourlyValueSumState),),
                                   const TextSpan(text: ' Paws'),
                                 ],
-                                score: homeActivityReportPawsState,
+                                score: homeActivityHourlyValueSumState,
                                 flag: 'activity',
                               ),
                               HomeHorizontalBarChartContainer(

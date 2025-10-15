@@ -107,12 +107,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
       // 활성화된 반려동물 인덱스 불러오기
       final petActivatedIndex = await storage.read(key: ProjectConstant.PET_ACTIVATED_INDEX);
+      // 활성화된 반려동물 인덱스 Provider에 세팅하기
       if (petActivatedIndex != null) {
         final dogsCount = ref.read(responseDogsProvider.notifier).get().length;
         int activatedIndex = int.parse(petActivatedIndex) <= dogsCount ? int.parse(petActivatedIndex) : 0;
 
         ref.read(homeActivatedPetNavProvider.notifier).set(activatedIndex);
       }
+
+      // 활동량, 수면효율 정보 불러오기
+      bool activiryHourlyStatusResult = await ControllerUtils.fnGetActivityHourlyStatusExec(ref, context);
+      if (!activiryHourlyStatusResult) return false;
 
       // 라우터 처리를 위한 상태 갱신
       ref.read(goSecurityProvider.notifier).set(true);

@@ -44,6 +44,18 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
         ref.read(homePoopReportMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
         ref.read(homePoopReportPreviousMonthSelectProvider.notifier).set(int.parse(DateFormat("MM").format(DateTime.now()).toString()));
       }
+
+      if(responseDogs[homeActivatedPetNav].pet_device_connected) {
+        final responseActivityHourlyStatusList = ref.read(responseActivityHourlyStatusListProvider.notifier).get();
+
+        await fnSetActivityHourlyValues(responseActivityHourlyStatusList,);
+
+        final homeActivityHourlyValueList = ref.read(homeActivityHourlyValueListProvider.notifier).get();
+
+        ref.read(homeActivityHourlyValueSumProvider.notifier).set(
+          homeActivityHourlyValueList.fold<double>(0, (a, b) => a + b)
+        );
+      }
     });
   }
 
@@ -54,6 +66,8 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
     final storage = ref.watch(secureStorageProvider);
     final responsePooMonthlyMeanState = ref.watch(responsePooMonthlyMeanProvider);
     final homePoopReportMonthSelectState = ref.watch(homePoopReportMonthSelectProvider);
+    // final homeActivityHourlyValueListState = ref.watch(homeActivityHourlyValueListProvider);
+    final homeActivityHourlyValueSumState = ref.watch(homeActivityHourlyValueSumProvider);
 
     // 라우터 이동
     final extra = GoRouter.of(context).routerDelegate.currentConfiguration.extra;
@@ -368,7 +382,12 @@ class HomeScreenState extends ConsumerState<HomeScreen> with HomeController, MyC
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  NumberFormat('###,###,###,###').format(23245),
+                                  NumberFormat('###,###,###,###').format(
+                                    responseDogsState[homeActivatedPetNavState].pet_device_connected ?
+                                      // homeActivityHourlyValueListState.fold<double>(0, (a, b) => a + b) :
+                                      homeActivityHourlyValueSumState :
+                                      12345
+                                  ),
                                   style: CustomText.body4.copyWith(
                                     fontWeight: FontWeight.bold,
                                     color: CustomColor.blue03,
