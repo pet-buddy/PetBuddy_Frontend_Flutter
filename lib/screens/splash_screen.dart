@@ -116,8 +116,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       }
 
       // 활동량, 수면효율 정보 불러오기
-      bool activiryHourlyStatusResult = await ControllerUtils.fnGetActivityHourlyStatusExec(ref, context);
-      if (!activiryHourlyStatusResult) return false;
+      // bool activiryHourlyStatusResult = await ControllerUtils.fnGetActivityHourlyStatusExec(ref, context);
+      // if (!activiryHourlyStatusResult) return false;
+      await ControllerUtils.fnGetActivityHourlyStatusExec(ref, context);
 
       // 라우터 처리를 위한 상태 갱신
       ref.read(goSecurityProvider.notifier).set(true);

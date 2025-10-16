@@ -522,7 +522,11 @@ class HomeActivityReportScreenState extends ConsumerState<HomeActivityReportScre
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '탄이보다 보호자님이 더 활동적이었군요!\n탄이가 섭섭하지 않도록 활동량을 늘려주세요 :)',
+                                homeActivityHourlyValueSumState > homeActivityReportUserPawsState ?
+                                  '보호자님보다 ${responseDogsState[homeActivatedPetNavState].pet_name}이/가 더 활발한 하루를 보내고 있네요! 보호자님도 건강을 위해 움직여보심이 어떤가요?' :
+                                      homeActivityHourlyValueSumState < homeActivityReportUserPawsState ? 
+                                        '${responseDogsState[homeActivatedPetNavState].pet_name}보다 보호자님이 더 활동적이었군요!\n탄이가 섭섭하지 않도록 활동량을 늘려주세요 :)' :
+                                          '몸과 마음 전부 강아지와 일치한 하루를 보내시고 계시네요!',
                                 style: CustomText.body11.copyWith(
                                   color: CustomColor.deepBlue,
                                 ),

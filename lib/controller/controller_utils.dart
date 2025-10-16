@@ -63,7 +63,10 @@ class ControllerUtils {
 
     try {
       final dogs = ref.read(responseDogsProvider.notifier).get();
+      bool pet_device_connected = dogs[ref.read(homeActivatedPetNavProvider.notifier).get()].pet_device_connected;
       int pet_id = dogs[ref.read(homeActivatedPetNavProvider.notifier).get()].pet_id;
+
+      if(!pet_device_connected) return false;
 
       final response = await ref.read(activityRepositoryProvider).requestHourlyStatusRepository(pet_id);
 
