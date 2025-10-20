@@ -222,20 +222,7 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                                 middleText: '반려동물을 먼저 등록해주세요!'
                               );
                               return;
-                            } else {
-                              // await fnCallFitBarkApp();
-                              // kIsWeb ?
-                              //   context.goNamed('my_fitbark_web_screen') :
-                              //   context.goNamed('my_fitbark_screen');
                             }
-
-                            if(kIsWeb) {
-                              showAlertDialog(
-                                context: context, 
-                                middleText: '포프린트 앱에서 Fitbark GPS 기기 연동이 가능합니다.'
-                              );
-                              return;
-                            } 
 
                             if(responseDogsState[homeActivatedPetNavState].pet_device_connected) {
                               showAlertDialog(
@@ -244,11 +231,24 @@ class MyScreenState extends ConsumerState<MyScreen> with MyController {
                               );
                               return;
                             } else {
+
+                              // if(kIsWeb) {
+                              //   showAlertDialog(
+                              //     context: context, 
+                              //     middleText: '포프린트 앱에서 Fitbark GPS 기기 연동이 가능합니다.'
+                              //   );
+                              //   return;
+                              // } 
+                              
                               showConfirmDialog(
                                 context: context, 
                                 middleText: "현재 활성화된 반려동물은 ${responseDogsState[homeActivatedPetNavState].pet_name} 입니다.\n기기 연동을 진행하시겠습니까?", 
                                 onConfirm: () {
-                                  context.goNamed('my_fitbark_screen');
+                                  // kIsWeb ?
+                                  //   launchUrl(Uri.parse('${ProjectConstant.FITBARK_CONNECT_URL}&scope=&state=${responseUserMypageState.user_id.toString()},${responseDogsState[homeActivatedPetNavState].pet_id}')) : // 웹일 경우 새로운 탭으로 열기
+                                  //   context.goNamed('my_fitbark_screen'); // 앱일 경우 앱 내 웹뷰로 보여주기
+
+                                  launchUrl(Uri.parse('${ProjectConstant.FITBARK_CONNECT_URL}&scope=&state=${responseUserMypageState.user_id.toString()},${responseDogsState[homeActivatedPetNavState].pet_id}'));
                                 }
                               );
                             }

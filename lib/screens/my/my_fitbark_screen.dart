@@ -59,21 +59,36 @@ class MyFitbarkScreenState extends ConsumerState<MyFitbarkScreen> with MyControl
               width: fnGetDeviceWidth(context),
               height: MediaQuery.of(context).size.height,
               child: InAppWebView(
-                initialFile: 'assets/web/fitbark.html',
-                initialSettings: InAppWebViewSettings(javaScriptEnabled: true),
-                onWebViewCreated: (controller) async {
-                  inAppWebViewController = controller;
-                },
-                onLoadStop: (controller, url) async {
-                  // 계속 호출되는 문제가 있어 로컬 HTML 로드 시 한번만 호출
-                  if(!url.toString().contains('https://app.fitbark.com/')) {
-                    // user_id 할당
-                    await controller.evaluateJavascript(source: """
-                      document.getElementById('state').value = '${
-                        responseUserMypageState.user_id.toString()},
-                        ${responseDogsState[homeActivatedPetNavState].pet_id}';
-                    """);
-                  } 
+                // 기존 코드 주석 - 정적인 html 파일 오류로 인한 주석 처리
+                // initialFile: 'assets/web/fitbark.html',
+                // initialSettings: InAppWebViewSettings(javaScriptEnabled: true),
+                // onWebViewCreated: (controller) async {
+                //   inAppWebViewController = controller;
+                // },
+                // onLoadStop: (controller, url) async {
+                //   // 계속 호출되는 문제가 있어 로컬 HTML 로드 시 한번만 호출
+                //   if(!url.toString().contains('https://app.fitbark.com/')) {
+                //     // user_id 할당
+                //     await controller.evaluateJavascript(source: """
+                //       document.getElementById('state').value = '${
+                //         responseUserMypageState.user_id.toString()},
+                //         ${responseDogsState[homeActivatedPetNavState].pet_id}';
+                //     """);
+                //   } 
+                // },
+
+                initialUrlRequest: URLRequest(
+                  url: WebUri('${ProjectConstant.FITBARK_CONNECT_URL}&scope=&state=${responseUserMypageState.user_id.toString()},${responseDogsState[homeActivatedPetNavState].pet_id}'),
+                ),
+                initialSettings: InAppWebViewSettings(
+                  javaScriptEnabled: true,
+                  useOnDownloadStart: true,
+                  useShouldOverrideUrlLoading: true,
+                  thirdPartyCookiesEnabled: true,
+                  allowsInlineMediaPlayback: true,
+                ),
+                shouldOverrideUrlLoading: (controller, action) async {
+                  return NavigationActionPolicy.ALLOW;
                 },
               ),
             ),

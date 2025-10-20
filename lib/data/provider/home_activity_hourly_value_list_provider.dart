@@ -3,7 +3,32 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeActivityHourlyValueListState extends StateNotifier<List<double>> {
-  HomeActivityHourlyValueListState() : super([]);
+  HomeActivityHourlyValueListState() : super([
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+  ]);
 
   // static const _preferenceKey = 'homeActivityValueList';
 

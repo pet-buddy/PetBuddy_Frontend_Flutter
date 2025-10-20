@@ -33,4 +33,6 @@ class ProjectConstant {
   static const String FITBARK_PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=fitbark.com.android';
   static const String FITBARK_APP_STORE_URL = 'https://apps.apple.com/app/id937936853';
   static const String FITBARK_DEVICE_STORE_URL = 'https://m.smartstore.naver.com/pawprint/products/12248358438';
+
+  static const String FITBARK_CONNECT_URL = 'https://app.fitbark.com/web/login?client_id=60c2bda3f5f3cb18afc9146c200158e8d3e0a15a17252f3a39568fe129700fb4&redirect_uri=https%3A%2F%2Fbackend.pawprint.ai.kr%2Fbark%2Fredirect&response_type=code';
 }
