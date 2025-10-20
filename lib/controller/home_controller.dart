@@ -237,7 +237,7 @@ mixin class HomeController {
   }
 
   List<FlSpot> fnGetCumulativeActivityHourlyValues(List<double> activityHourlyValues) {
-    assert(activityHourlyValues.length == 24, 'activityHourlyValues must be length 24');
+    // assert(activityHourlyValues.length == 24, 'activityHourlyValues must be length 24');
 
     final spots = <FlSpot>[];
     for (int hour = 0; hour <= 21; hour += 3) {
